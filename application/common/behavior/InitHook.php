@@ -51,7 +51,7 @@ class InitHook {
 		foreach ($list as $key => $value) {
 			$route[$value['rule']] = $value['url'];
 		}
-		$list = db('Model')->field("name,id")->select();
+		$list = db('Model')->column('id,name');
 		foreach ($list as $key => $value) {
 			$route["admin/" . $value['name'] . "/index"]  = "admin/content/index?model_id=" . $value['id'];
 			$route["admin/" . $value['name'] . "/add"]    = "admin/content/add?model_id=" . $value['id'];
@@ -67,6 +67,7 @@ class InitHook {
 			$route["user/" . $value['name'] . "/del"]     = "user/content/del?model_id=" . $value['id'];
 			$route["user/" . $value['name'] . "/status"]  = "user/content/status?model_id=" . $value['id'];
 		}
+
 		$route["list/:id"] = "index/content/category";
 		\think\Route::rule($route);
 	}

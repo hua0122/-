@@ -72,7 +72,7 @@ class Hooks extends Base {
 			$this->error = "未实现{$addons_name}插件的入口文件";
 			return false;
 		}
-		$methods = array_diff(get_class_methods($addons_class), get_class_methods('\app\common\controller\Addons'));
+		$methods = $this->getMethods($addons_class);
 		$methods = array_diff($methods, array('install', 'uninstall'));
 		foreach ($methods as $item) {
 			$info = $this->where('name', $item)->find();
@@ -120,5 +120,43 @@ class Hooks extends Base {
 			}
 		}
 		return true;
+	}
+
+	protected function getMethods($classname, $access = null) {
+		$class     = new \ReflectionClass($classname);
+		$methods   = $class->getMethods();
+		$returnArr = array();
+		foreach ($methods as $value) {
+			if ("\\" . $value->class == $classname) {
+				if ($access != null) {
+					$methodAccess = new \ReflectionMethod($classname, $value->name);
+					switch ($access) {
+					case 'public':
+						if ($methodAccess->isPublic()) {
+							array_push($returnArr, $value->name);
+						}
+						break;
+					case 'protected':
+						if ($methodAccess->isProtected()) {
+							array_push($returnArr, $value->name);
+						}
+						break;
+					case 'private':
+						if ($methodAccess->isPrivate()) {
+							array_push($returnArr, $value->name);
+						}
+						break;
+					case 'final':
+						if ($methodAccess->isFinal()) {
+							array_push($returnArr, $value->name);
+						}
+						break;
+					}
+				} else {
+					array_push($returnArr, $value->name);
+				}
+			}
+		}
+		return $returnArr;
 	}
 }

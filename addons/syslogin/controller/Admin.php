@@ -11,8 +11,13 @@ namespace addons\syslogin\controller;
 use app\common\controller\Addons;
 
 class Admin extends Addons{
+
+	public function lists(){
+		
+	}
 	
     public function setting(){
+    	$this->setMeta('第三方登录设置');
 		$this->template('admin/login');
     }
 }

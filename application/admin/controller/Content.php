@@ -69,6 +69,8 @@ class Content extends Admin {
 		if (IS_POST) {
 			$result = $this->model->save($this->param);
 			if ($result) {
+				//记录行为
+				action_log('add_content', 'content', $result, session('auth_user.uid'));
 				return $this->success("添加成功！", url('admin/content/index', array('model_id' => $this->modelInfo['id'])));
 			} else {
 				return $this->error($this->model->getError(), url('admin/content/add', array('model_id' => $this->modelInfo['id'])));
@@ -100,6 +102,8 @@ class Content extends Admin {
 		if (IS_POST) {
 			$result = $this->model->save($this->param, array('id'=> $id));
 			if ($result !== false) {
+				//记录行为
+				action_log('update_content', 'content', $result, session('auth_user.uid'));
 				return $this->success("更新成功！", url('admin/content/index', array('model_id' => $this->modelInfo['id'])));
 			} else {
 				return $this->error($this->model->getError(), url('admin/content/edit', array('model_id' => $this->modelInfo['id'], 'id' => $id)));
@@ -142,6 +146,8 @@ class Content extends Admin {
 		$result    = $this->model->where($map)->delete();
 
 		if (false !== $result) {
+			//记录行为
+			action_log('delete_content', 'content', $result, session('auth_user.uid'));
 			return $this->success("删除成功！");
 		} else {
 			return $this->error("删除失败！");

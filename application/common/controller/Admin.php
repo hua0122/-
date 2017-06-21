@@ -218,8 +218,4 @@ class Admin extends Base {
 			$this->assign('extend_menu', array('管理插件' => $menu));
 		}
 	}
-
-	protected function setMeta($title = '') {
-		$this->assign('meta_title', $title);
-	}
 }

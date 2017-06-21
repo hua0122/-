@@ -38,7 +38,7 @@ class Base extends \think\Controller {
 			$mc = ucfirst(parse_name($mc, 1));
 			$op = parse_name($op, 1);
 		}
-
+		
 		if (!empty($mc) && !empty($op) && !empty($ac)) {
 			$ops    = ucwords($op);
 			$class  = "\\addons\\{$mc}\\controller\\{$ops}";
@@ -135,6 +135,17 @@ class Base extends \think\Controller {
 		} else {
 			return $this->error("验证码为空！", "");
 		}
+	}
+
+	/**
+	 * @title       后台设置title
+	 * @description 设置后台页面的title
+	 * @Author      molong
+	 * @DateTime    2017-06-21
+	 * @param       string        $title 标题名称
+	 */
+	protected function setMeta($title = '') {
+		$this->assign('meta_title', $title);
 	}
 
 	//request信息

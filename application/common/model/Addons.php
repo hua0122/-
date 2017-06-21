@@ -14,7 +14,7 @@ namespace app\common\model;
  * Class AuthGroupModel
  * @author molong <molong@tensent.cn>
  */
-class Addons extends \app\common\model\Base {
+class Addons extends Base {
 
 	protected $auto   = array('status', 'isinstall', 'update_time');
 	protected $insert = array('create_time');
