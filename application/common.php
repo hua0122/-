@@ -900,45 +900,7 @@ function get_attribute_type($type = '') {
 	return $type ? $type_list[$type][0] : $type_list;
 }
 
-/**
- * 获取文档模型信息
- * @param  integer $id    模型ID
- * @param  string  $field 模型字段
- * @return array
- */
-function get_document_model($id = null, $field = null) {
-	static $list;
-
-	/* 非法分类ID */
-	if (!(is_numeric($id) || is_null($id))) {
-		return '';
-	}
-
-	/* 读取缓存数据 */
-	if (empty($list)) {
-		$list = cache('document_model_list');
-	}
-
-	/* 获取模型名称 */
-	if (empty($list)) {
-		$map   = array('status' => 1, 'is_bind_category' => 1);
-		$model = db('Model')->where($map)->field(true)->select();
-		foreach ($model as $value) {
-			$list[$value['id']] = $value;
-		}
-		cache('document_model_list', $list); //更新缓存
-	}
-
-	/* 根据条件返回数据 */
-	if (is_null($id)) {
-		return $list;
-	} elseif (is_null($field)) {
-		return $list[$id];
-	} else {
-		return $list[$id][$field];
-	}
-}
-
+//获得内容状态
 function get_content_status($status) {
 	$text = array(
 		'-1' => '<span class="label label-danger">删除</span>',
