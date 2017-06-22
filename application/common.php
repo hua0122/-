@@ -981,24 +981,21 @@ function get_category_list_tree($model) {
 
 	/* 读取缓存数据 */
 	if (empty($list)) {
-		$list = D('category')->select();
+		$list = db('Category')->select();
 		cache('sys_category_list', $list);
 	}
-	foreach ($list as $key => $value) {
-		if ($model) {
+	if ($model) {
+		foreach ($list as $key => $value) {
 			$models = explode(',', $value['model']);
 			if (in_array($model, $models)) {
 				$res[] = $value;
 			}
-		} else {
-			$res[] = $value;
 		}
+	} else {
+		$res = $list;
 	}
-	$res  = list_unique($res);
+
 	$tree = list_to_tree($res);
-	if ($limit) {
-		$tree = array_slice($tree, 0, $limit);
-	}
 	return $tree;
 }
 
