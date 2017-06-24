@@ -176,7 +176,7 @@ class Group extends Admin {
 
 			//模块
 			$model = db('model')->field('id,title,name')
-				->where(array('status' => array('gt', 0), 'extend' => array('gt', 0)))
+				->where(array('status' => array('gt', 0)))
 				->select();
 			//扩展权限
 			$extend_auth = db('AuthExtend')->where(array('group_id' => $id, 'type' => 2))->column('extend_id');

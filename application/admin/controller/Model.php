@@ -52,10 +52,10 @@ class Model extends Admin {
 				//记录行为
 				action_log('add_model', 'model', $result, session('auth_user.uid'));
 				$this->success('创建成功！', url('admin/model/index'));
-			}else{
+			} else {
 				return $this->error($this->model->getError() ? $this->model->getError() : '模型标识为保留名称！');
 			}
-		}else{
+		} else {
 			$this->setMeta('新增模型');
 			return $this->fetch();
 		}
@@ -67,15 +67,15 @@ class Model extends Admin {
 	 */
 	public function edit(\think\Request $request) {
 		if (IS_POST) {
-			$result = $this->model->validate('Model.edit')->save($request->post(), array('id'=>$request->post('id')));
+			$result = $this->model->validate('Model.edit')->save($request->post(), array('id' => $request->post('id')));
 			if (false !== $result) {
 				//记录行为
 				action_log('update_model', 'model', $request->post('id'), session('auth_user.uid'));
 				$this->success('更新成功！', url('admin/model/index'));
-			}else{
+			} else {
 				return $this->error($this->model->getError());
 			}
-		}else{
+		} else {
 			$info = $this->model->where('id', $request->param('id'))->find();
 
 			$field_group = parse_config_attr($info['attribute_group']);
@@ -87,14 +87,15 @@ class Model extends Admin {
 					$list[$field['group_id']][] = $field;
 				}
 				foreach ($field_group as $key => $value) {
-					$fields[$value] = isset($list[$key]) ? $list[$key] : array();
+					$fields[$key] = isset($list[$key]) ? $list[$key] : array();
 				}
-			}else{
+			} else {
 				$fields = array();
 			}
 			$data = array(
-				'info'   => $info,
-				'fields' => $fields
+				'info'        => $info,
+				'field_group' => $field_group,
+				'fields'      => $fields,
 			);
 			$this->assign($data);
 			$this->setMeta('编辑模型');
@@ -148,7 +149,7 @@ class Model extends Admin {
 		$result = $this->model->where($map)->update($data);
 		if (false !== $result) {
 			return $this->success('状态设置成功！');
-		}else{
+		} else {
 			return $this->error($this->model->getError());
 		}
 	}

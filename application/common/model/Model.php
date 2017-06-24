@@ -38,14 +38,21 @@ class Model extends Base {
 		});
 		self::afterInsert(function($event){
 			$data = $event->toArray();
-			if ($data['is_doc']) {
-				$fields = include(APP_PATH.'admin/fields.php');
-				if (!empty($fields)) {
-					foreach ($fields as $key => $value) {
+			
+			$fields = include(APP_PATH.'admin/fields.php');
+			if (!empty($fields)) {
+				foreach ($fields as $key => $value) {
+					if ($data['is_doc']) {
 						$fields[$key]['model_id'] = $data['id'];
+					}else{
+						if (in_array($key, array('uid', 'status', 'view', 'create_time', 'update_time'))) {
+							$fields[$key]['model_id'] = $data['id'];
+						}else{
+							unset($fields[$key]);
+						}
 					}
-					model('Attribute')->saveAll($fields);
 				}
+				model('Attribute')->saveAll($fields);
 			}
 			return true;
 		});

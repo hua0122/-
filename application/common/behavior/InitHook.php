@@ -53,19 +53,19 @@ class InitHook {
 		}
 		$list = db('Model')->column('id,name', 'id');
 		foreach ($list as $key => $value) {
-			$route["admin/" . $value['name'] . "/index"]  = "admin/content/index?model_id=" . $value['id'];
-			$route["admin/" . $value['name'] . "/add"]    = "admin/content/add?model_id=" . $value['id'];
-			$route["admin/" . $value['name'] . "/edit"]   = "admin/content/edit?model_id=" . $value['id'];
-			$route["admin/" . $value['name'] . "/del"]    = "admin/content/del?model_id=" . $value['id'];
-			$route["admin/" . $value['name'] . "/status"] = "admin/content/status?model_id=" . $value['id'];
-			$route[$value['name'] . "/index"]             = "index/content/index?model=" . $value['name'];
-			$route[$value['name'] . "/list/:id"]          = "index/content/lists?model=" . $value['name'];
-			$route[$value['name'] . "/detail-<id>"]        = "index/content/detail?model_id=" . $value['id'];
-			$route["user/" . $value['name'] . "/index"]   = "user/content/index?model_id=" . $value['id'];
-			$route["user/" . $value['name'] . "/add"]     = "user/content/add?model_id=" . $value['id'];
-			$route["user/" . $value['name'] . "/edit"]    = "user/content/edit?model_id=" . $value['id'];
-			$route["user/" . $value['name'] . "/del"]     = "user/content/del?model_id=" . $value['id'];
-			$route["user/" . $value['name'] . "/status"]  = "user/content/status?model_id=" . $value['id'];
+			$route["admin/" . $value . "/index"]  = "admin/content/index?model_id=" . $key;
+			$route["admin/" . $value . "/add"]    = "admin/content/add?model_id=" . $key;
+			$route["admin/" . $value . "/edit"]   = "admin/content/edit?model_id=" . $key;
+			$route["admin/" . $value . "/del"]    = "admin/content/del?model_id=" . $key;
+			$route["admin/" . $value . "/status"] = "admin/content/status?model_id=" . $key;
+			$route[$value . "/index"]             = "index/content/index?model=" . $value;
+			$route[$value . "/list/:id"]          = "index/content/lists?model=" . $value;
+			$route[$value . "/detail-<id>"]        = "index/content/detail?model_id=" . $key;
+			$route["user/" . $value . "/index"]   = "user/content/index?model_id=" . $key;
+			$route["user/" . $value . "/add"]     = "user/content/add?model_id=" . $key;
+			$route["user/" . $value . "/edit"]    = "user/content/edit?model_id=" . $key;
+			$route["user/" . $value . "/del"]     = "user/content/del?model_id=" . $key;
+			$route["user/" . $value . "/status"]  = "user/content/status?model_id=" . $key;
 		}
 
 		$route["list/:id"] = "index/content/category";
