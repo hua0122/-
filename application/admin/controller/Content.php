@@ -22,7 +22,7 @@ class Content extends Admin {
 			return $this->error("无此模型！");
 		} else {
 			$this->modelInfo = $list[$model_id];
-			$this->model = new \app\common\model\Content($this->modelInfo['name']);
+			$this->model = M($this->modelInfo['name']);
 		}
 
 		$this->assign('model_id', $model_id);

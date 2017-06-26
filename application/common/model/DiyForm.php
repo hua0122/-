@@ -7,13 +7,11 @@
 // | Author: molong <molong@tensent.cn> <http://www.tensent.cn>
 // +----------------------------------------------------------------------
 
-namespace addons\syslogin\controller;
-use app\common\controller\Addons;
+namespace app\common\model;
 
-class Admin extends Addons{
+/**
+ * 自定义表单模型
+ */
+class DiyForm extends BaseModel{
 	
-    public function setting(){
-    	$this->setMeta('第三方登录设置');
-		$this->template('admin/login');
-    }
 }

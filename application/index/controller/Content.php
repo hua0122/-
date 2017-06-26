@@ -164,7 +164,7 @@ class Content extends Fornt {
 			return $this->error("无此模型！");
 		} else {
 			$this->modelInfo = $model_name ? $name_list[$model_name] : $id_list[$model_id];
-			$this->model = new \app\common\model\Content($this->modelInfo['name']);
+			$this->model = new M($this->modelInfo['name']);
 
 			$this->assign('model_id', $this->modelInfo['id']);
 			$this->assign('model_list', $name_list);

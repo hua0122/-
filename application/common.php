@@ -997,6 +997,15 @@ function send_email($to, $subject, $message) {
 	return $email->send();
 }
 
+//实例化模型
+function M($name, $type = 'model'){
+	if ($type == 'model') {
+		return new \app\common\model\Content(strtolower($name));
+	}elseif ($type == 'form'){
+		return new \app\common\model\DiyForm(strtolower($name));
+	}
+}
+
 //php获取中文字符拼音首字母
 function getFirstCharter($s0) {
 	$fchar = ord($s0{0});

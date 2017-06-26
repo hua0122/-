@@ -1,17 +1,17 @@
 <?php
 // +----------------------------------------------------------------------
-// | SentCMS [ WE CAN DO IT JUST THINK IT ]
+// | OneThink [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2013 http://www.tensent.cn All rights reserved.
+// | Copyright (c) 2013 http://www.onethink.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: molong <molong@tensent.cn> <http://www.tensent.cn>
+// | Author: 麦当苗儿 <zuojiazi@vip.qq.com> <http://www.zjzit.cn>
 // +----------------------------------------------------------------------
 
 namespace app\common\model;
 
 /**
- * 设置模型
+ * 表单
  */
-class Content extends BaseModel{
-	
+class Form extends Base{
+
 }
