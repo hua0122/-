@@ -1035,6 +1035,21 @@ CREATE TABLE `sent_file` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `sent_form`
+--
+
+DROP TABLE IF EXISTS `sent_form`;
+CREATE TABLE `sent_form` (
+  `id` int(10) UNSIGNED NOT NULL COMMENT '文件ID',
+  `title` varchar(200) NOT NULL DEFAULT '' COMMENT '表单名称',
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT '表单标识',
+  `create_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='自定义表单';
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `sent_hooks`
 --
 
@@ -1463,6 +1478,12 @@ ALTER TABLE `sent_file`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `sent_form`
+--
+ALTER TABLE `sent_form`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `sent_hooks`
 --
 ALTER TABLE `sent_hooks`
@@ -1606,6 +1627,11 @@ ALTER TABLE `sent_district`
 --
 ALTER TABLE `sent_file`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '文件ID';
+--
+-- 使用表AUTO_INCREMENT `sent_form`
+--
+ALTER TABLE `sent_form`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '标识ID';
 --
 -- 使用表AUTO_INCREMENT `sent_hooks`
 --

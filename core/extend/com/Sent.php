@@ -60,10 +60,10 @@ class Sent extends Taglib{
 		$ids = get_category_child($cid);
 		$ids = implode(',', $ids);
 		$where = "category_id IN ({$ids})";
-		$where .= " and model_id = {$model} and status >= 1";
+		$where .= " and status >= 1";
 
 		$parse  = $parse   = '<?php ';
-		$parse .= '$__LIST__ = model(\'Document\')->where(\''.$where.'\')->field(\''.$field.'\')->limit(\''.$limit.'\')->order(\''.$order.'\')->select();';
+		$parse .= '$__LIST__ = M(\''.$model.'\')->where(\''.$where.'\')->field(\''.$field.'\')->limit(\''.$limit.'\')->order(\''.$order.'\')->select();';
 		$parse .= 'foreach ($__LIST__ as $key => $'.$tag['name'].') {';
 		$parse .= '?>';
 		$parse .= $content;
@@ -94,17 +94,15 @@ class Sent extends Taglib{
 	}
 
 	public function tagrecom($tag, $content){
-		$doc_id     = empty($tag['doc_id']) ? '' : $tag['doc_id'];
+		$model     = empty($tag['model']) ? '' : $tag['model'];
 		$field     = empty($tag['field']) ? '*' : $tag['field'];
 		$limit        = empty($tag['limit']) ? 20 : $tag['limit'];
 		$order        = empty($tag['order']) ? 'id desc' : $tag['order'];
-
-		if (!$doc_id) {
-			return array();
+		if (!$model) {
+			return '';
 		}
-
 		$parse  = $parse   = '<?php ';
-		$parse .= '$__LIST__ = model(\'Document\')->recom('. $doc_id .',\'' .$field. '\',' .$limit. ',\'' .$order. '\');';
+		$parse .= '$__LIST__ = M(\''.$model.'\')->recom(\'' .$field. '\',' .$limit. ',\'' .$order. '\');';
 		$parse .= 'foreach ($__LIST__ as $key => $'.$tag['id'].') {';
 		$parse .= '?>';
 		$parse .= $content;
@@ -140,7 +138,7 @@ class Sent extends Taglib{
 		$model_id     = !empty($tag['model']) ? $tag['model'] : '';
 
 		$parse  = '<?php ';
-		$parse .= '$map = "category_id=" . ' . $cate . ' . " and model_id=" . ' . $model_id . ' . " and id>".' . $id . ';';
+		$parse .= '$map = "category_id=" . ' . $cate . '" and id>".' . $id . ';';
 		$parse .= '$prev = db(\'Document\')->where($map)->order(\'id asc\')->find();if(!empty($prev)){ ?>';
 		$parse .= $content;
 		$parse .= '<?php } ?>';
@@ -150,11 +148,11 @@ class Sent extends Taglib{
 	public function tagnext($tag, $content){
 		$id       = !empty($tag['id']) ? ($tag['id']) : '';
 		$cate     = !empty($tag['cate']) ? $tag['cate'] : '';
-		$model_id = !empty($tag['model']) ? $tag['model'] : '';
+		$model = !empty($tag['model']) ? $tag['model'] : '';
 
 		$parse  = '<?php ';
-		$parse .= '$map = "category_id=" . ' . $cate . ' . " and model_id=" . ' . $model_id . ' . " and id<".' . $id . ';';
-		$parse .= '$next = db(\'Document\')->where($map)->order(\'id desc\')->find();if(!empty($next)){ ?>';
+		$parse .= '$map = "category_id=" . ' . $cate . '" and id<".' . $id . ';';
+		$parse .= '$next = db(\''.$model.'\')->where($map)->order(\'id desc\')->find();if(!empty($next)){ ?>';
 		$parse .= $content;
 		$parse .= '<?php } ?>';
 		return $parse;
