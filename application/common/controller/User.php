@@ -18,9 +18,9 @@ class User extends Fornt {
 			$this->redirect('user/login/index');exit();
 		} elseif (is_login()) {
 			$user = model('User')->getInfo(session('user_auth.uid'));
-			if (!$this->checkProfile($user) && $this->url !== 'user/profile/index') {
-				return $this->error('请补充完个人资料！', url('user/profile/index'));
-			}
+			// if (!$this->checkProfile($user) && $this->url !== 'user/profile/index') {
+			// 	return $this->error('请补充完个人资料！', url('user/profile/index'));
+			// }
 			$this->assign('user', $user);
 
 			//设置会员中心菜单
@@ -55,9 +55,7 @@ class User extends Fornt {
 	protected function getContentMenu() {
 		$list = array();
 		$map  = array(
-			'is_user_show' => 1,
-			'status'       => array('gt', 0),
-			'extend'       => array('gt', 0),
+			'status'       => array('gt', 0)
 		);
 		$list = db('Model')->where($map)->field("name,id,title,icon,'' as 'style'")->select();
 

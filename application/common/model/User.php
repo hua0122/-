@@ -22,7 +22,7 @@ class User extends Base{
 		'uid'  => 'integer',
 		'reg_time' => 'integer'
 	);
-	protected $insert = array('salt', 'password', 'status', 'reg_time');
+	protected $insert = array('status', 'reg_time');
 	protected $update = array();
 
 	public $editfield = array(
