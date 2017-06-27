@@ -25,11 +25,7 @@ class Content extends User {
 			return $this->error("无此模型！");
 		} else {
 			$this->modelInfo = $list[$model_id];
-			if ($this->modelInfo['extend'] > 1) {
-				$this->model = model($this->modelInfo['name']);
-			} else {
-				$this->model = model('Document')->extend($this->modelInfo['name']);
-			}
+			$this->model = M($this->modelInfo['name']);
 		}
 
 		$this->assign('model_id', $model_id);
@@ -44,9 +40,6 @@ class Content extends User {
 		$grid_list  = get_grid_list($this->modelInfo['list_grid']);
 		$order      = "id desc";
 		$map['uid'] = session('user_auth.uid');
-		if ($this->modelInfo['extend'] == 1) {
-			$map['model_id'] = $this->modelInfo['id'];
-		}
 
 		$field = array_filter($grid_list['fields']);
 		$list  = $this->model->where($map)->field($field)->order($order)->paginate(15);

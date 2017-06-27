@@ -1071,16 +1071,7 @@ CREATE TABLE `sent_hooks` (
 INSERT INTO `sent_hooks` (`id`, `name`, `description`, `type`, `update_time`, `addons`, `status`) VALUES
 (1, 'pageHeader', '页面header钩子，一般用于加载插件CSS文件和代码', 1, 0, '', 1),
 (2, 'pageFooter', '页面footer钩子，一般用于加载插件JS文件和JS代码', 1, 0, '', 1),
-(3, 'documentEditForm', '添加编辑表单的 扩展内容钩子', 1, 0, '', 1),
-(4, 'documentDetailAfter', '文档末尾显示', 1, 0, '', 1),
-(5, 'documentDetailBefore', '页面内容前显示用钩子', 1, 0, '', 1),
-(6, 'documentSaveComplete', '保存文档数据后的扩展钩子', 2, 0, '', 1),
-(7, 'documentEditFormContent', '添加编辑表单的内容显示钩子', 1, 0, '', 1),
-(8, 'adminArticleEdit', '后台内容编辑页编辑器', 1, 1378982734, '', 1),
-(13, 'AdminIndex', '首页小格子个性化显示', 1, 1382596073, 'Sitestat,Devteam,Systeminfo', 1),
-(14, 'topicComment', '评论提交方式扩展钩子。', 1, 1380163518, '', 1),
-(16, 'app_begin', '应用开始', 2, 1384481614, '', 1),
-(17, 'J_China_City', '每个系统都需要的一个中国省市区三级联动插件。', 1, 1455877345, '', 1);
+(3, 'AdminIndex', '首页小格子个性化显示', 1, 1382596073, 'Sitestat,Devteam,Systeminfo', 1),
 
 -- --------------------------------------------------------
 
