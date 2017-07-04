@@ -12,13 +12,20 @@ use app\common\controller\Admin;
 
 class Form extends Admin {
 
+	public function _initialize(){
+		parent::_initialize();
+		$this->model = model('Form');
+	}
+
 	//自定义表单
 	public function index(){
-		$list = array();
+		$map = array();
+		$order = "id desc";
+		$list = $this->model->where($map)->order($order)->paginate(25);
 
 		$data = array(
 			'list'   => $list,
-			//'page'   => $list->render()
+			'page'   => $list->render()
 		);
 		$this->setMeta('自定义表单');
 		$this->assign($data);
@@ -58,5 +65,16 @@ class Form extends Admin {
 		}else{
 			return $this->error('删除失败！');
 		}
+	}
+
+	/**
+	 * @title       表单数据
+	 * @description 表单数据
+	 * @Author      molong
+	 * @DateTime    2017-06-30
+	 * @return      html        页面
+	 */
+	public function lists(){
+		return $this->fetch();
 	}
 }

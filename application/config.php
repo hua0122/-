@@ -107,5 +107,9 @@ return array(
 	'view_replace_str'       => array(
 		'__ADDONS__' => BASE_PATH . '/addons',
 		'__PUBLIC__' => BASE_PATH . '/public',
+	),
+	'wxapp' => array(
+		'appid'=>'wx4924a63b43e2fc1a',
+		'appsecret'=>'0821fc43d2305d4b4722a591361df438'
 	)
 );
