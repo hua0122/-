@@ -35,10 +35,20 @@ class Form extends Admin {
 	/**
 	 * 添加表单
 	 */
-	public function add(){
+	public function add(\think\Request $request){
 		if (IS_POST) {
-			# code...
+			$result = $this->model->validate('Form')->save($request->post());
+			if (false !== $result) {
+				return $this->success('添加成功！', url('admin/form/index'));
+			}else{
+				return $this->error($this->model->getError());
+			}
 		}else{
+			$data = array(
+				'keyList'   => $this->model->addField
+			);
+			$this->assign($data);
+			$this->setMeta('添加表单');
 			return $this->fetch('public/edit');
 		}
 	}
@@ -46,10 +56,22 @@ class Form extends Admin {
 	/**
 	 * 编辑表单
 	 */
-	public function edit(){
+	public function edit(\think\Request $request){
 		if (IS_POST) {
-			# code...
+			$result = $this->model->validate('Form')->save($request->post(), array('id'=> $request->post('id')));
+			if (false !== $result) {
+				return $this->success('修改成功！', url('admin/form/index'));
+			}else{
+				return $this->error($this->model->getError());
+			}
 		}else{
+			$info = $this->model->where('id', $request->param('id'))->find();
+			$data = array(
+				'info'      => $info,
+				'keyList'   => $this->model->editField
+			);
+			$this->assign($data);
+			$this->setMeta('编辑表单');
 			return $this->fetch('public/edit');
 		}
 	}
@@ -77,4 +99,6 @@ class Form extends Admin {
 	public function lists(){
 		return $this->fetch();
 	}
+
+	public function attr(){}
 }

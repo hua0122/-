@@ -10,12 +10,12 @@
 namespace app\common\validate;
 
 /**
-* 设置模型
-*/
-class Document extends Base{
-
+ * 设置模型
+ */
+class Form extends Base {
 	protected $rule = array(
 		'title'   => 'require',
+		'name'   => 'require|unique:form|/^[a-zA-Z]\w{0,39}$/',
 	);
 	
 	protected $message = array(

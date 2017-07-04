@@ -22,11 +22,22 @@ class Form extends Base{
 		'update_time'    => 'integer',
 	);
 
+	public $addField = array(
+		array('name'=>'name','title'=>'标识','type'=>'text','help'=>''),
+		array('name'=>'title','title'=>'标题','type'=>'text','help'=>'')
+	);
+
+	public $editField = array(
+		array('name'=>'id','title'=>'ID','type'=>'hidden','help'=>''),
+		array('name'=>'name','title'=>'标识','type'=>'text','help'=>''),
+		array('name'=>'title','title'=>'标题','type'=>'text','help'=>''),
+		array('name' => 'list_grid', 'title'=>'列表定义', 'type' => 'textarea', 'help'=>'')
+	);
 
 	protected static function init(){
 		self::beforeInsert(function($event){
 			$data = $event->toArray();
-			$tablename = strtolower($data['name']);
+			$tablename = 'form_' . strtolower($data['name']);
 			//实例化一个数据库操作类
 			$db = new \com\Datatable();
 			//检查表是否存在并创建
@@ -43,35 +54,40 @@ class Form extends Base{
 			$fields = include(APP_PATH.'admin/fields.php');
 			if (!empty($fields)) {
 				foreach ($fields as $key => $value) {
-					if ($data['is_doc']) {
+					if (in_array($key, array('uid', 'status', 'view', 'create_time', 'update_time'))) {
 						$fields[$key]['form_id'] = $data['id'];
 					}else{
-						if (in_array($key, array('uid', 'status', 'view', 'create_time', 'update_time'))) {
-							$fields[$key]['form_id'] = $data['id'];
-						}else{
-							unset($fields[$key]);
-						}
+						unset($fields[$key]);
 					}
 				}
 				model('FormAttr')->saveAll($fields);
 			}
 			return true;
 		});
-		self::beforeUpdate(function($event){
-			$data = $event->toArray();
-			if (isset($data['attribute_sort']) && $data['attribute_sort']) {
-				$attribute_sort = json_decode($data['attribute_sort'], true);
+		// self::beforeUpdate(function($event){
+		// 	$data = $event->toArray();
+		// 	if (isset($data['attribute_sort']) && $data['attribute_sort']) {
+		// 		$attribute_sort = json_decode($data['attribute_sort'], true);
 			
-				if (!empty($attribute_sort)) {
-					foreach ($attribute_sort as $key => $value) {
-						db('FormAttr')->where('id', 'IN', $value)->setField('group_id', $key);
-						foreach ($value as $k => $v) {
-							db('FormAttr')->where('id', $v)->setField('sort', $k);
-						}
-					}
-				}
-			}
-			return true;
-		});
+		// 		if (!empty($attribute_sort)) {
+		// 			foreach ($attribute_sort as $key => $value) {
+		// 				db('FormAttr')->where('id', 'IN', $value)->setField('group_id', $key);
+		// 				foreach ($value as $k => $v) {
+		// 					db('FormAttr')->where('id', $v)->setField('sort', $k);
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// 	return true;
+		// });
 	}
+
+	public function getStatusTextAttr($value, $data) {
+		$status = array(
+			0 => '禁用',
+			1 => '启用',
+		);
+		return $status[$data['status']];
+	}
+
 }
