@@ -13,7 +13,13 @@
 <link rel="stylesheet" type="text/css" href="__CSS__/style.css"/>
 <script src="__PUBLIC__/js/jquery.js"></script>
 <script type="text/javascript">
-	var BASE_URL = "{:config('base_url')}"; //根目录地址
+var BASE_URL = "{:config('base_url')}"; //根目录地址
+$(function(){
+	var height = $(window).height();
+	if ($('#content-wrapper').height() < height) {
+		$('#content-wrapper').height($(window).height()-100);
+	}
+})
 </script>
 <!--[if lt IE 9]>
 <script src="__PUBLIC__/js/html5shiv.js"></script>

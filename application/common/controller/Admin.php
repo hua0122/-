@@ -131,7 +131,7 @@ class Admin extends Base {
 			// 是否开发者模式
 			$where['is_dev'] = 0;
 		}
-		$row = db('menu')->field('id,title,url,icon,"" as style')->where($where)->select();
+		$row = db('menu')->field('id,title,url,icon,"" as style')->where($where)->order('sort asc')->select();
 		foreach ($row as $key => $value) {
 			//此处用来做权限判断
 			if (!IS_ROOT && !$this->checkRule($value['url'], 2, null)) {
@@ -156,7 +156,7 @@ class Admin extends Base {
 			$map['pid']  = $pid;
 			$map['hide'] = 0;
 			$map['type'] = 'admin';
-			$row         = db('menu')->field('id,title,url,icon,group,pid,"" as style')->where($map)->select();
+			$row         = db('menu')->field('id,title,url,icon,group,pid,"" as style')->where($map)->order('sort asc')->select();
 			foreach ($row as $key => $value) {
 				if (IS_ROOT || $this->checkRule($value['url'], 2, null)) {
 					if ($controller == $value['url']) {

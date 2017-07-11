@@ -17,7 +17,7 @@ class FormAttr extends Base{
 	protected $type = array(
 		'id'  => 'integer',
 	);
-
+	
 	protected static function init(){
 		self::afterInsert(function($data){
 			if ($data['form_id']) {
