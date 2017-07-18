@@ -138,8 +138,8 @@ class Sent extends Taglib{
 		$model_id     = !empty($tag['model']) ? $tag['model'] : '';
 
 		$parse  = '<?php ';
-		$parse .= '$map = "category_id=" . ' . $cate . '" and id>".' . $id . ';';
-		$parse .= '$prev = db(\'Document\')->where($map)->order(\'id asc\')->find();if(!empty($prev)){ ?>';
+		$parse .= '$map = "category_id=" . ' . $cate . ' . " and id>" . ' . $id . ';';
+		$parse .= '$prev = db(\''.$model.'\')->where($map)->order(\'id asc\')->find();if(!empty($prev)){ ?>';
 		$parse .= $content;
 		$parse .= '<?php } ?>';
 		return $parse;
@@ -151,7 +151,7 @@ class Sent extends Taglib{
 		$model = !empty($tag['model']) ? $tag['model'] : '';
 
 		$parse  = '<?php ';
-		$parse .= '$map = "category_id=" . ' . $cate . '" and id<".' . $id . ';';
+		$parse .= '$map = "category_id=" . ' . $cate . ' . " and id<" . ' . $id . ';';
 		$parse .= '$next = db(\''.$model.'\')->where($map)->order(\'id desc\')->find();if(!empty($next)){ ?>';
 		$parse .= $content;
 		$parse .= '<?php } ?>';
