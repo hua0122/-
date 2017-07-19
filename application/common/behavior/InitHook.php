@@ -60,7 +60,7 @@ class InitHook {
 			$route["admin/" . $value . "/status"] = "admin/content/status?model_id=" . $key;
 			$route[$value . "/index"]             = "index/content/index?model=" . $value;
 			$route[$value . "/list/:id"]          = "index/content/lists?model=" . $value;
-			$route[$value . "/detail-<id>"]        = "index/content/detail?model_id=" . $key;
+			$route[$value . "/detail-<id>"]        = "index/content/detail?model=" . $value;
 			$route["user/" . $value . "/index"]   = "user/content/index?model_id=" . $key;
 			$route["user/" . $value . "/add"]     = "user/content/add?model_id=" . $key;
 			$route["user/" . $value . "/edit"]    = "user/content/edit?model_id=" . $key;
