@@ -135,7 +135,7 @@ class Sent extends Taglib{
 	public function tagprev($tag, $content){
 		$id     = !empty($tag['id']) ? $tag['id'] : '';
 		$cate     = !empty($tag['cate']) ? $tag['cate'] : '';
-		$model_id     = !empty($tag['model']) ? $tag['model'] : '';
+		$model     = !empty($tag['model']) ? $tag['model'] : '';
 
 		$parse  = '<?php ';
 		$parse .= '$map = "category_id=" . ' . $cate . ' . " and id>" . ' . $id . ';';
