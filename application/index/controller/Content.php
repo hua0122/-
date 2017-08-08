@@ -24,26 +24,27 @@ class Content extends Fornt {
 			$id = db('Category')->where(array('name' => $name))->getField('id');
 		}
 
-		if (!$id) {
-			return $this->error("无此频道！");
+		if ($id) {
+			$cate = $this->getCategory($id);
+
+			//获得当前栏目的所有子栏目
+			$ids = get_category_child($id);
+		}else{
+			$cate = array();
+			$ids = '';
 		}
-
-		$cate = $this->getCategory($id);
-
-		//获得当前栏目的所有子栏目
-		$ids = get_category_child($id);
 
 		$data = array(
 			'category'   => $cate,
 			'child_cate' => $ids,
 		);
-		if ($cate['template_index']) {
+		if (isset($cate['template_index']) && $cate['template_index']) {
 			$teamplate = 'content/' . $this->modelInfo['name'] . '/' . $cate['template_index'];
 		} else {
 			$teamplate = 'content/' . $this->modelInfo['name'] . '/index';
 		}
 		$this->assign($data);
-		$this->setSeo($cate['name']);
+		$this->setSeo($this->modelInfo['title']);
 		return $this->fetch($teamplate);
 	}
 

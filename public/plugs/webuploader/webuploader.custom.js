@@ -305,11 +305,11 @@
 								} else {
 									self.resetHiddenVal(furl);
 								}
-								$('#' + qfid).remove();
+								$('#'+self.options.listName+' #'+qfid).remove();
 
-								if (qfid.substring(0, 7) == 'WU_FILE') {
-									self.BDUploader.removeFile(qfid, true);
-								}
+								// if (qfid.substring(0, 7) == 'WU_FILE') {
+								// 	self.BDUploader.removeFile(qfid, true);
+								// }
 								self.allowNum++;
 							} else {
 								$.messager.show(json.msg, {
