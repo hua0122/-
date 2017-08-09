@@ -10,6 +10,7 @@
 namespace app\common\model;
 
 use \think\Validate;
+use \think\Loader;
 
 /**
  * @title 基础模型
@@ -38,25 +39,39 @@ class BaseModel {
 	public function save($data, $where = array()) {
 		$this->data = $data;
 		$rule       = $msg       = array();
-		$attr       = db('Attribute')->where('id', $data['model_id'])->select();
+		$attr       = db('Attribute')->where('model_id', $data['model_id'])->select();
 		foreach ($attr as $key => $value) {
 			if ($value['is_must'] == 1) {
 				$rule[$value['name']]             = "require";
 				$msg[$value['name'] . '.require'] = $value['title'] . "不能为空！";
 			}
-		}
-		$validate = new Validate($rule, $msg);
-		$result   = $validate->check($data);
-		if (!$result) {
-			$this->error = $validate->getError();
-			return false;
+			if ($value['name'] == 'uid') {
+				$this->data['uid'] = session('user_auth.uid');
+			}
+			if ($value['is_must'] == 1 && $value['is_show'] == 0) {
+				$this->data[$value['name']] = $value['value'];
+			}
 		}
 		$this->autoCompleteData($this->auto);
 		if (!empty($where)) {
 			$this->autoCompleteData($this->update);
+
+			$validate = new Validate($rule, $msg);
+			$result   = $validate->check($this->data);
+			if (!$result) {
+				$this->error = $validate->getError();
+				return false;
+			}
 			return $this->where($where)->update($this->data);
 		} else {
 			$this->autoCompleteData($this->insert);
+
+			$validate = new Validate($rule, $msg);
+			$result   = $validate->check($this->data);
+			if (!$result) {
+				$this->error = $validate->getError();
+				return false;
+			}
 			return $this->insert($this->data);
 		}
 	}
