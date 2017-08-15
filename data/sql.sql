@@ -335,6 +335,7 @@ CREATE TABLE `sent_category` (
   `name` varchar(30) NOT NULL COMMENT '标志',
   `title` varchar(50) NOT NULL COMMENT '标题',
   `pid` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '上级分类ID',
+  `model_id` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '绑定模型ID',
   `sort` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序（同级有效）',
   `list_row` tinyint(3) UNSIGNED NOT NULL DEFAULT '10' COMMENT '列表每页行数',
   `meta_title` varchar(50) NOT NULL DEFAULT '' COMMENT 'SEO的网页标题',
