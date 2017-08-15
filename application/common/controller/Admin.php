@@ -208,7 +208,7 @@ class Admin extends Base {
 		$menu = array();
 		foreach ($list as $key => $value) {
 			$class = "\\addons\\" . strtolower($value['name']) . "\\controller\\Admin";
-			if (is_file(ROOT_PATH . $class . ".php")) {
+			if (is_file(ROOT_PATH .'/addons/' . strtolower($value['name']) . "/controller/Admin.php")) {
 				$action       = get_class_methods($class);
 				$value['url'] = "admin/addons/execute?mc=" . strtolower($value['name']) . "&ac=" . $action[0];
 				$menu[$key]   = $value;

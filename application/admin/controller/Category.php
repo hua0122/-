@@ -17,16 +17,23 @@ class Category extends Admin {
 		$this->getContentMenu();
 	}
 
-	public function index() {
+	public function index($model_id = '') {
 		$map  = array('status' => array('gt', -1));
+		if ($model_id) {
+			$map['model_id'] = $model_id;
+		}
 		$list = db('Category')->where($map)->order('sort asc,id asc')->column('*', 'id');
 
 		if (!empty($list)) {
 			$tree = new \com\Tree();
 			$list = $tree->toFormatTree($list);
 		}
+		$subsql = db('Attribute')->where('name', 'category_id')->fetchSql(true)->column('model_id');
+		$model_list = model('Model')->where('id IN ('. $subsql.')')->select();
 
 		$this->assign('tree', $list);
+		$this->assign('model_list', $model_list);
+		$this->assign('model_id', $model_id);
 		$this->setMeta('栏目列表');
 		return $this->fetch();
 	}
@@ -61,10 +68,14 @@ class Category extends Admin {
 					return $this->error('指定的上级分类不存在或被禁用！');
 				}
 			}
+			$subsql = db('Attribute')->where('name', 'category_id')->fetchSql(true)->column('model_id');
+			$model_list = model('Model')->where('id IN ('. $subsql.')')->select();
+
 			/* 获取分类信息 */
 			$info = $id ? db('Category')->find($id) : '';
 
 			$this->assign('info', $info);
+			$this->assign('model_list', $model_list);
 			$this->assign('category', $cate);
 			$this->setMeta('编辑分类');
 			return $this->fetch();
@@ -93,8 +104,12 @@ class Category extends Admin {
 					return $this->error('指定的上级分类不存在或被禁用！');
 				}
 			}
+			$subsql = db('Attribute')->where('name', 'category_id')->fetchSql(true)->column('model_id');
+			$model_list = model('Model')->where('id IN ('. $subsql.')')->select();
+			
 			/* 获取分类信息 */
 			$this->assign('info', null);
+			$this->assign('model_list', $model_list);
 			$this->assign('category', $cate);
 			$this->setMeta('新增分类');
 			return $this->fetch('edit');

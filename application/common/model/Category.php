@@ -15,7 +15,7 @@ namespace app\common\model;
 class Category extends Base{
 
 	protected $name = "Category";
-	protected $auto = array('update_time', 'icon'=>1, 'status'=>1);
+	protected $auto = array('update_time', 'status'=>1);
 
 	protected $type = array(
 		'icon'  => 'integer',

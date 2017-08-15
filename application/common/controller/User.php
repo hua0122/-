@@ -15,7 +15,7 @@ class User extends Fornt {
 		parent::_initialize();
 
 		if (!is_login() and !in_array($this->url, array('user/login/index', 'user/index/verify'))) {
-			$this->redirect('user/login/index');exit();
+			return $this->redirect('user/login/index');
 		} elseif (is_login()) {
 			$user = model('User')->getInfo(session('user_auth.uid'));
 			// if (!$this->checkProfile($user) && $this->url !== 'user/profile/index') {
@@ -24,8 +24,17 @@ class User extends Fornt {
 			$this->assign('user', $user);
 
 			//设置会员中心菜单
-			$this->setMenu();
+			//$this->setMenu();
 		}
+
+		if ($this->is_wechat() && !session('wechat_user')) {
+			$user = & load_wechat('User');
+			$wechat_user = $user->getUserInfo($this->wechat_oauth['openid']);
+			//更新用户信息
+			session('wechat_user', $wechat_user);
+		}
+		
+		$this->assign('wechat_user', session('wechat_user'));
 	}
 
 	protected function setMenu() {

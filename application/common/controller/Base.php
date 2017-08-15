@@ -43,7 +43,8 @@ class Base extends \think\Controller {
 			$ops    = ucwords($op);
 			$class  = "\\addons\\{$mc}\\controller\\{$ops}";
 			$addons = new $class;
-			$addons->$ac();
+			
+			return $addons->$ac();
 		} else {
 			$this->error('没有指定插件名称，控制器或操作！');
 		}

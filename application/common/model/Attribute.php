@@ -59,12 +59,12 @@ class Attribute extends Base{
 
 	public function getFieldlist($map,$index='id'){
 		$list = array();
-		$row = db('Attribute')->field('*,remark as help,type,extra as "option"')->where($map)->order('group_id asc, sort asc')->select();
+		$row = db('Attribute')->field('*,remark as help,type,extra as "option",model_id')->where($map)->order('group_id asc, sort asc')->select();
 		foreach ($row as $key => $value) {
 			if (in_array($value['type'],array('checkbox','radio','select','bool'))) {
 				$value['option'] = parse_field_attr($value['extra']);
 			} elseif ($value['type'] == 'bind') {
-				$extra = parse_field_bind($value['extra']);
+				$extra = parse_field_bind($value['extra'], '', $value['model_id']);
 				$option = array();
 				foreach ($extra as $k => $v) {
 					$option[$v['id']] = $v['title_show'];

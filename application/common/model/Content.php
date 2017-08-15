@@ -14,4 +14,8 @@ namespace app\common\model;
  */
 class Content extends BaseModel{
 	
+	protected $type = array(
+		'create_time'   => 'integer',
+		'update_time'   => 'integer',
+	);
 }

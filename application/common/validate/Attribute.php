@@ -18,7 +18,7 @@ class Attribute extends Base {
 		'name'   => 'require|/^[a-zA-Z]\w{0,39}$/',
 		'title'  => 'require',
 		'type'   => 'require',
-		'length' => 'requireIn:type,textarea,editor|integer',
+		'length' => 'requireIn:type,textarea,editor',
 		'remark' => 'require',
 	);
 
