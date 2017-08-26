@@ -116,7 +116,7 @@ class BaseModel {
 	 * @return $this
 	 */
 	public function setAttr($name, $value, $data = []) {
-		if (is_null($value) && $this->autoWriteTimestamp && in_array($name, [$this->createTime, $this->updateTime])) {
+		if ((is_null($value) || !$value) && $this->autoWriteTimestamp && in_array($name, [$this->createTime, $this->updateTime])) {
 			// 自动写入的时间戳字段
 			$value = $this->autoWriteTimestamp($name);
 		} else {
