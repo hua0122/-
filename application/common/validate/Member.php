@@ -15,7 +15,7 @@ namespace app\common\validate;
 class Member extends Base{
 
 	protected $rule = array(
-		'username'   => 'require|unique:member|/^[a-zA-Z]\w{0,39}$/',
+		'username'   => 'require|unique:member',
 		'email'      => 'require|unique:member|email',
 		'mobile'     => 'unique:member',
 		'password'   => 'require',

@@ -129,10 +129,10 @@ class Category extends Admin {
 			return $this->error('请先删除该分类下的子分类');
 		}
 		//判断该分类下有没有内容
-		$document_list = db('Document')->where(array('category_id' => $id))->field('id')->select();
-		if (!empty($document_list)) {
-			return $this->error('请先删除该分类下的文章（包含回收站）');
-		}
+		// $document_list = db('Document')->where(array('category_id' => $id))->field('id')->select();
+		// if (!empty($document_list)) {
+		// 	return $this->error('请先删除该分类下的文章（包含回收站）');
+		// }
 		//删除该分类信息
 		$res = db('Category')->where(array('id' => $id))->delete();
 		if ($res !== false) {

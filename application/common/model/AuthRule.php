@@ -32,7 +32,8 @@ class AuthRule extends Base{
 
 	public function uprule($data, $type){
 		foreach ($data as $value) {
-			$data = array(
+			$id = $this->where(array('name' => $value['url']))->value('id');
+			$save = array(
 				'module' => $type,
 				'type'   => 2,
 				'name'   => $value['url'],
@@ -40,14 +41,11 @@ class AuthRule extends Base{
 				'group'  => $value['group'],
 				'status' => 1,
 			);
-			$id = $this->where(array('name' => $data['name']))->value('id');
 			if ($id) {
-				$data['id'] = $id;
-				$this->save($data, array('id' => $id));
-			} else {
-				self::create($data);
+				$save['id'] = $id;
 			}
+			$list[] = $save;
 		}
-		return true;
+		return $this->saveAll($list);
 	}
 }
