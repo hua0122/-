@@ -71,7 +71,7 @@ class Systeminfo extends Addons {
 
 		$this->assign('addons_config', $config);
 		if ($config['display']) {
-			$this->template('widget');
+			echo $this->fetch('widget');
 		}
 	}
 }
