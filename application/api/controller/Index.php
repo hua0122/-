@@ -20,9 +20,7 @@ class Index extends Api {
 		$appid = $request->post('appid', '');
 		$appsecret = $request->post('appsecret', '');
 
-		$appid = "32432452345324";
-		$appsecret = "a2b1Yubmej8qFLZbijcEenj9CoKWgratNdIpWha8LZ64xVfSt1YM5";
-		//$client = db('Client')->where('appid', $appid)->where('appsecret', $appsecret)->value('id');
+		$client = db('Client')->where('appid', $appid)->where('appsecret', $appsecret)->value('id');
 		$client = 1;
 		if ($client) {
 			$this->data['time'] = time();
