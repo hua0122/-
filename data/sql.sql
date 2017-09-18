@@ -425,7 +425,7 @@ CREATE TABLE `sent_config` (
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态',
   `value` text COMMENT '配置值',
   `sort` smallint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT '配置详情表';
 
 --
 -- 转存表中的数据 `sent_config`
@@ -467,6 +467,22 @@ INSERT INTO `sent_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `rem
 (41, 'pc_themes', 'text', 'PC站模板', 0, '', '', '', 1480043043, 1480043043, 1, 'default', 0),
 (42, 'mobile_themes', 'text', '手机站模板', 0, '', '', '', 1480043066, 1480043066, 1, '', 0),
 (43, 'nav_type_list', 'textarea', '导航分类', 99, '', '', '', 1481539756, 1481539801, 1, '1:顶部\r\n2:底部', 1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `sent_client`
+--
+
+DROP TABLE IF EXISTS `sent_client`;
+CREATE TABLE `sent_client` (
+  `id` int(11) NOT NULL,
+  `title` varchar(100) NOT NULL COMMENT '客户端名称',
+  `appid` varchar(32) NOT NULL COMMENT 'appid',
+  `appsecret` varchar(32) NOT NULL COMMENT 'appsecret',
+  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '更新时间'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT '客户端信息表';
 
 -- --------------------------------------------------------
 
@@ -1253,7 +1269,9 @@ INSERT INTO `sent_menu` (`id`, `title`, `type`, `icon`, `pid`, `sort`, `url`, `h
 (24, '钩子列表', 'admin', 'code', 6, 0, 'admin/addons/hooks', 0, '', '插件管理', 0, 0),
 (25, '自定义表单', 'admin', 'object-group', 5, 0, 'admin/form/index', 0, '', '运营管理', 0, 0),
 (26, '伪静态规则', 'admin', 'magnet', 2, 0, 'admin/seo/rewrite', 0, '', '优化设置', 0, 0),
-(27, '主题管理', 'admin', 'heartbeat', 2, 0, 'admin/config/themes', 0, '', '系统配置', 0, 0);
+(27, '主题管理', 'admin', 'heartbeat', 2, 0, 'admin/config/themes', 0, '', '系统配置', 0, 0),
+(28, '接口', 'admin', 'database', 0, 66, 'admin/client/index', 0, '', '', 0, 0),
+(29, '客户端列表', 'admin', 'inbox', 28, 0, 'admin/client/index', 0, '', '客户端管理', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1456,6 +1474,13 @@ ALTER TABLE `sent_config`
   ADD PRIMARY KEY (`id`),
   ADD KEY `type` (`type`),
   ADD KEY `group` (`group`);
+  
+--
+-- Indexes for table `sent_client`
+--
+ALTER TABLE `sent_client`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
 
 --
 -- Indexes for table `sent_district`
@@ -1609,6 +1634,11 @@ ALTER TABLE `sent_channel`
 --
 ALTER TABLE `sent_config`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '配置ID', AUTO_INCREMENT=44;
+--
+-- 使用表AUTO_INCREMENT `sent_client`
+--
+ALTER TABLE `sent_client`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- 使用表AUTO_INCREMENT `sent_district`
 --

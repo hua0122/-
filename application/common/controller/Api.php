@@ -16,15 +16,31 @@ class Api {
 	public function __construct() {
 		header("Access-Control-Allow-Origin: *");
 		header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
-		header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept , token");
+		header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
+		$header = getallheaders();
 		$this->data = array('code' => 0, 'msg' => '', 'time' => time(), 'data' => '');
-		if (!$this->checkToken()) {
+		$isCheck = $this->checkToken($header);
+		$url = request()->module() . '/' . request()->controller() . '/' . request()->action();
+		if (!$isCheck && 'api/index/gettoken' !== strtolower($url)) {
 			$this->data['code'] = '301';
 			$this->data['data'] = '非法请求！';
+			echo json($this->data);
+			exit();
 		}
 	}
 
-	protected function checkToken(){
-		return true;
+	protected function checkToken($header){return true;
+		if (isset($header['Authorization']) && $header['Authorization']) {
+			$token = authcode($header['Authorization']);
+			list($appid, $appsecret, $currentTime) = explode('|', $token);
+			$client = db('Client')->where('appid', $appid)->where('appsecret', $appsecret)->value('id');
+			if ($client && ($currentTime+86400) < time()) {
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
 	}
 }
