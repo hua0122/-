@@ -22,12 +22,12 @@
 		</div>
 	</div>
 	{prev id="$info['id']" cate="$info['category_id']" model="article"}
-	<a href="{:url('index/content/detail',array('id'=>$prev['id'],'model_id'=>$prev['model_id']))}" class="prev">
+	<a href="{:url('index/content/detail',array('id'=>$prev['id'],'mdoel'=>'article'))}" class="prev">
 		<i class="fa fa-angle-left"></i>
 	</a>
 	{/prev}
 	{next id="$info['id']" cate="$info['category_id']" model="article"}
-	<a href="{:url('index/content/detail',array('id'=>$next['id'],'model_id'=>$next['model_id']))}" class="next">
+	<a href="{:url('index/content/detail',array('id'=>$next['id'],'mdoel'=>'article'))}" class="next">
 		<i class="fa fa-angle-right"></i>
 	</a>
 	{/next}

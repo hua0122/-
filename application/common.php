@@ -998,10 +998,10 @@ function send_email($to, $subject, $message) {
 }
 
 //实例化模型
-function M($name, $type = 'model'){
+function M($name, $type = 'model') {
 	if ($type == 'model') {
 		return new \app\common\model\Content(strtolower($name));
-	}elseif ($type == 'form'){
+	} elseif ($type == 'form') {
 		return new \app\common\model\DiyForm(strtolower($name));
 	}
 }
@@ -1128,4 +1128,34 @@ function PyFirst($zh) {
 		}
 	}
 	return $ret;
+}
+
+/**
+ * 获取微信操作对象（单例模式）
+ * @staticvar array $wechat 静态对象缓存对象
+ * @param type $type 接口名称 ( Card|Custom|Device|Extend|Media|Oauth|Pay|Receive|Script|User )
+ * @return \Wehcat\WechatReceive 返回接口对接
+ */
+function &load_wechat($type = '') {
+	vendor('Wechat.Loader');
+	static $wechat = array();
+	$index         = md5(strtolower($type));
+	if (!isset($wechat[$index])) {
+		$config              = \think\Config::get('wechat');
+		$config['cachepath'] = CACHE_PATH . 'wechat/';
+		$wechat[$index]      = & Wechat\Loader::get($type, $config);
+	}
+	return $wechat[$index];
+}
+
+if (!function_exists('getallheaders')) {
+	function getallheaders() {
+		$headers = [];
+		foreach ($_SERVER as $name => $value) {
+			if (substr($name, 0, 5) == 'HTTP_') {
+				$headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+			}
+		}
+		return $headers;
+	}
 }
