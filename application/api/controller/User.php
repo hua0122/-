@@ -17,7 +17,9 @@ class User extends Api {
 		return $this->data;
 	}
 
-	public function getuser(){
-
+	public function getuser(\think\Request $request){
+		$this->data['code'] = 1;
+		$this->data['data'] = db('Member')->where('uid', $request->param('uid'))->find();
+		return $this->data;
 	}
 }

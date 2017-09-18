@@ -21,7 +21,6 @@ class Index extends Api {
 		$appsecret = $request->post('appsecret', '');
 
 		$client = db('Client')->where('appid', $appid)->where('appsecret', $appsecret)->value('id');
-		$client = 1;
 		if ($client) {
 			$this->data['time'] = time();
 			$tokens = $appid . '|' . $appsecret . '|' . $this->data['time'];
