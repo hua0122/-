@@ -31,6 +31,7 @@ class BaseModel {
 	protected $dateFormat;
 	// 字段类型或者格式转换
 	protected $type = [];
+	protected $attrDb = 'Attribute';
 
 	public function __construct($name) {
 		$this->db = db($name);
@@ -39,7 +40,7 @@ class BaseModel {
 	public function save($data, $where = array()) {
 		$this->data = $data;
 		$rule       = $msg       = array();
-		$attr       = db('Attribute')->where('model_id', $data['model_id'])->select();
+		$attr       = db($this->attrDb)->where('model_id', $data['model_id'])->select();
 		foreach ($attr as $key => $value) {
 			if ($value['is_must'] == 1) {
 				$rule[$value['name']]             = "require";
@@ -116,7 +117,7 @@ class BaseModel {
 	 * @return $this
 	 */
 	public function setAttr($name, $value, $data = []) {
-		if ((is_null($value) || !$value) && $this->autoWriteTimestamp && in_array($name, [$this->createTime, $this->updateTime])) {
+		if ((is_null($value) || !$value || $value != '0') && $this->autoWriteTimestamp && in_array($name, [$this->createTime, $this->updateTime])) {
 			// 自动写入的时间戳字段
 			$value = $this->autoWriteTimestamp($name);
 		} else {
