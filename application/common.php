@@ -534,6 +534,17 @@ function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root 
 }
 
 /**
+ * 获取父树列表
+ * 
+ */
+function get_parent_tree($id = ''){
+	if ($id) {
+		return array();
+	}
+}
+
+
+/**
  * 将list_to_tree的树还原成列表
  * @param  array $tree  原来的树
  * @param  string $child 孩子节点的键

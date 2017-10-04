@@ -1060,12 +1060,44 @@ CREATE TABLE `sent_form` (
   `id` int(10) UNSIGNED NOT NULL COMMENT '文件ID',
   `title` varchar(200) NOT NULL DEFAULT '' COMMENT '表单名称',
   `name` varchar(100) NOT NULL DEFAULT '' COMMENT '表单标识',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
   `create_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='自定义表单';
 
 -- --------------------------------------------------------
+--
+-- 表的结构 `sent_form_attr`
+--
 
+DROP TABLE IF EXISTS `sent_form_attr`;
+CREATE TABLE `sent_form_attr` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(30) NOT NULL DEFAULT '' COMMENT '字段名',
+  `title` varchar(100) NOT NULL DEFAULT '' COMMENT '字段注释',
+  `length` varchar(100) NOT NULL DEFAULT '' COMMENT '字段定义',
+  `type` varchar(20) NOT NULL DEFAULT '' COMMENT '数据类型',
+  `value` varchar(100) NOT NULL DEFAULT '' COMMENT '字段默认值',
+  `remark` varchar(100) NOT NULL DEFAULT '' COMMENT '备注',
+  `extra` varchar(255) NOT NULL DEFAULT '' COMMENT '参数',
+  `form_id` int(11) NOT NULL COMMENT '所属模型',
+  `is_show` int(11) NOT NULL DEFAULT '1' COMMENT '是否显示',
+  `is_must` int(11) NOT NULL DEFAULT '0' COMMENT '是否必填',
+  `group_id` int(11) NOT NULL DEFAULT '1' COMMENT '分组',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
+  `status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态',
+  `update_time` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `create_time` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `validate_rule` varchar(255) NOT NULL DEFAULT '',
+  `validate_time` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `error_info` varchar(100) NOT NULL DEFAULT '',
+  `validate_type` varchar(25) NOT NULL DEFAULT '',
+  `auto_rule` varchar(100) NOT NULL DEFAULT '',
+  `auto_time` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `auto_type` varchar(25) NOT NULL DEFAULT ''
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='模型属性表';
+
+-- --------------------------------------------------------
 --
 -- 表的结构 `sent_hooks`
 --
@@ -1499,6 +1531,11 @@ ALTER TABLE `sent_file`
 --
 ALTER TABLE `sent_form`
   ADD PRIMARY KEY (`id`);
+--
+-- Indexes for table `sent_attribute`
+--
+ALTER TABLE `sent_form_attr`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `sent_hooks`
@@ -1654,6 +1691,11 @@ ALTER TABLE `sent_file`
 --
 ALTER TABLE `sent_form`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '标识ID';
+--
+-- 使用表AUTO_INCREMENT `sent_attribute`
+--
+ALTER TABLE `sent_form_attr`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- 使用表AUTO_INCREMENT `sent_hooks`
 --

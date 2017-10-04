@@ -15,15 +15,26 @@ namespace app\common\validate;
 class Form extends Base {
 	protected $rule = array(
 		'title'   => 'require',
-		'name'   => 'require|unique:form|/^[a-zA-Z]\w{0,39}$/',
+		'name'   => 'require|checkTable|unique:form|/^[a-zA-Z]\w{0,39}$/',
 	);
 	
 	protected $message = array(
 		'title.require'   => '字段标题不能为空！',
+		'name.checkTable' => '数据库中有此表',
 	);
 	
 	protected $scene = array(
-		'add'   => 'title',
+		'add'   => 'title, name',
 		'edit'   => 'title'
 	);
+
+	protected function checkTable($value, $rule, $data){
+		$tablename = 'form_' . strtolower($value);
+		$db = new \com\Datatable();
+		if (!$db->CheckTable($tablename)) {
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
