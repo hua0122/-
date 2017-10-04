@@ -51,6 +51,8 @@ class InitHook {
 		foreach ($list as $key => $value) {
 			$route[$value['rule']] = $value['url'];
 		}
+
+		//模型类路由配置
 		$list = db('Model')->column('id,name', 'id');
 		foreach ($list as $key => $value) {
 			$route["admin/" . $value . "/index"]  = "admin/content/index?model_id=" . $key;
@@ -67,8 +69,15 @@ class InitHook {
 			$route["user/" . $value . "/del"]     = "user/content/del?model_id=" . $key;
 			$route["user/" . $value . "/status"]  = "user/content/status?model_id=" . $key;
 		}
-
 		$route["list/:id"] = "index/content/category";
+
+		//自定义表单路由配置
+		$form = db('Form')->column('id,name', 'id');
+		foreach ($form as $key => $value) {
+			$route["form/".$value."/index"] = "index/form/index?model=" . $value;
+			$route["form/".$value."/list"] = "index/form/lists?model=" . $value;
+			$route["form/".$value."/add"] = "index/form/add?model=" . $value;
+		}
 		\think\Route::rule($route);
 	}
 }
