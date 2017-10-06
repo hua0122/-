@@ -8,8 +8,8 @@
 // +----------------------------------------------------------------------
 
 namespace app\index\controller;
-use app\common\controller\Fornt;
+use app\common\controller\Front;
 
-class Addons extends Fornt {
+class Addons extends Front {
 	
 }

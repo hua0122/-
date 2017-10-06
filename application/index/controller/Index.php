@@ -8,9 +8,9 @@
 // +----------------------------------------------------------------------
 
 namespace app\index\controller;
-use app\common\controller\Fornt;
+use app\common\controller\Front;
 
-class Index extends Fornt {
+class Index extends Front {
 
 	//网站首页
 	public function index() {		//设置SEO

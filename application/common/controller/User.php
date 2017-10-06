@@ -9,7 +9,7 @@
 
 namespace app\common\controller;
 
-class User extends Fornt {
+class User extends Front {
 
 	public function _initialize() {
 		parent::_initialize();

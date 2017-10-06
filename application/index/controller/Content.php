@@ -8,9 +8,9 @@
 // +----------------------------------------------------------------------
 
 namespace app\index\controller;
-use app\common\controller\Fornt;
+use app\common\controller\Front;
 
-class Content extends Fornt {
+class Content extends Front {
 
 	protected $beforeActionList = array(
 		'setModel' => array('except' => 'category'),

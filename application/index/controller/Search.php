@@ -8,9 +8,9 @@
 // +----------------------------------------------------------------------
 
 namespace app\index\controller;
-use app\common\controller\Fornt;
+use app\common\controller\Front;
 
-class Search extends Fornt{
+class Search extends Front{
 
 	//文档搜索结果显示
 	public function index(){

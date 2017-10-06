@@ -8,9 +8,9 @@
 // +----------------------------------------------------------------------
 
 namespace app\index\controller;
-use app\common\controller\Fornt;
+use app\common\controller\Front;
 
-class Form extends Fornt {
+class Form extends Front {
 
 	public function _initialize() {
 		parent::_initialize();
