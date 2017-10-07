@@ -1,3 +1,4 @@
+{if !empty($__MENU__)}
 {volist name="__MENU__" id="submenu"}
 <ul class="left-nav">
 	<h3><i class="fa fa-cube"></i> {$key}</h3>
@@ -6,3 +7,4 @@
 	{/volist}
 </ul>
 {/volist}
+{/if}

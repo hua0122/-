@@ -9,7 +9,7 @@
 
 namespace app\common\controller;
 
-class Fornt extends Base {
+class Front extends Base {
 
 	public $wechat_oauth;
 	public function _initialize() {
