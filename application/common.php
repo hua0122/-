@@ -596,15 +596,11 @@ function parse_field_attr($string) {
 function parse_field_bind($table, $selected = '', $model = 0) {
 	$list = array();
 	if ($table) {
-		$select = db($table);
-		$res    = $select->select();
+		$res    = db($table)->select();
 		foreach ($res as $key => $value) {
-			if ($model && $value['model']) {
-				$models = explode(',', $value['model']);
-				if (in_array($model, $models)) {
-					$list[] = $value;
-				}
-			} else {
+			if (($model && $value['model_id'] && $value['model_id'] == $model) || $value['model_id'] == 0) {
+				$list[] = $value;
+			} elseif(!$model) {
 				$list[] = $value;
 			}
 		}
