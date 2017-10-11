@@ -37,7 +37,7 @@ class FormAttr extends Base{
 				return $db->columField('form_' . strtolower($name), $attr)->query();
 			}
 		});
-		self::beforeUpdate(function($data){
+		self::beforeUpdate(function($data){dump($data);
 			$attr = $data->toArray();
 			$attr['action'] = 'CHANGE';
 			$attr['oldname'] = db('FormAttr')->where('id', $attr['id'])->value('name');
@@ -59,7 +59,7 @@ class FormAttr extends Base{
 
 	public function getFieldlist($map,$index='id'){
 		$list = array();
-		$row = db('Attribute')->field('*,remark as help,type,extra as "option"')->where($map)->order('group_id asc, sort asc')->select();
+		$row = $this->field('*,remark as help,type,extra as "option"')->where($map)->order('group_id asc, sort asc')->select();
 		foreach ($row as $key => $value) {
 			if (in_array($value['type'],array('checkbox','radio','select','bool'))) {
 				$value['option'] = parse_field_attr($value['extra']);

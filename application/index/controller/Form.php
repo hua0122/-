@@ -15,6 +15,7 @@ class Form extends Front {
 	public function _initialize() {
 		parent::_initialize();
 		$model_name = $this->request->param('model');
+		$this->form = db('Form')->where('name', $model_name)->find();
 		$this->model = M($model_name, 'form');
 	}
 
@@ -53,6 +54,13 @@ class Form extends Front {
 				return $this->error('提交失败！');
 			}
 		}else{
+			$map['form_id'] = $this->form['id'];
+			$attr = model('FormAttr')->getFieldlist($map);
+
+			$data = array(
+				'attr'    => $attr
+			);
+			$this->assign($data);
 			return $this->fetch();
 		}
 	}

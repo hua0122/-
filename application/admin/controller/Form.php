@@ -135,7 +135,11 @@ class Form extends Admin {
 				return $this->error($this->Fattr->getError());
 			}
 		}else{
+			$info = array(
+				'form_id'   => $form_id
+			);
 			$data = array(
+				'info'   => $info,
 				'keyList'   => $this->field
 			);
 			$this->assign($data);
