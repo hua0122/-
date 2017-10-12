@@ -37,7 +37,7 @@ class FormAttr extends Base{
 				return $db->columField('form_' . strtolower($name), $attr)->query();
 			}
 		});
-		self::beforeUpdate(function($data){dump($data);
+		self::beforeUpdate(function($data){
 			$attr = $data->toArray();
 			$attr['action'] = 'CHANGE';
 			$attr['oldname'] = db('FormAttr')->where('id', $attr['id'])->value('name');

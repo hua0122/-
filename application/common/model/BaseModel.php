@@ -34,13 +34,21 @@ class BaseModel {
 	protected $attrDb = 'Attribute';
 
 	public function __construct($name) {
-		$this->db = db($name);
+		if ($this->attrDb == 'FormAttr') {
+			$this->db = db('Form'.ucfirst($name));
+		}else{
+			$this->db = db($name);
+		}
 	}
 
 	public function save($data, $where = array()) {
 		$this->data = $data;
 		$rule       = $msg       = array();
-		$attr       = db($this->attrDb)->where('model_id', $data['model_id'])->select();
+		if ($this->attrDb == 'FormAttr') {
+			$attr       = db($this->attrDb)->where('form_id', $data['form_id'])->select();
+		}else{
+			$attr       = db($this->attrDb)->where('model_id', $data['model_id'])->select();
+		}
 		foreach ($attr as $key => $value) {
 			if ($value['is_must'] == 1) {
 				$rule[$value['name']]             = "require";
@@ -249,6 +257,28 @@ class BaseModel {
 		}
 		return $value;
 	}
+
+
+    /**
+     * 获取对象原始数据 如果不存在指定字段返回false
+     * @access public
+     * @param string $name 字段名 留空获取全部
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    public function getData($name = null)
+    {
+        if (is_null($name)) {
+            return $this->data;
+        } elseif (array_key_exists($name, $this->data)) {
+            return $this->data[$name];
+        } elseif (array_key_exists($name, $this->relation)) {
+            return $this->relation[$name];
+        } else {
+            throw new InvalidArgumentException('property not exists:' . $this->class . '->' . $name);
+        }
+    }
+    
 	public function __call($method, $args) {
 		return call_user_func_array([$this->db, $method], $args);
 	}

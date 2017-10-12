@@ -13,5 +13,6 @@ namespace app\common\model;
  * 自定义表单模型
  */
 class DiyForm extends BaseModel{
-	
+
+	protected $attrDb = 'FormAttr';
 }

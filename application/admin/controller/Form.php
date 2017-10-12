@@ -102,8 +102,52 @@ class Form extends Admin {
 	 * @DateTime    2017-06-30
 	 * @return      html        页面
 	 */
-	public function lists() {
-		return $this->fetch();
+	public function lists($form_id = '') {
+		$form = $this->model->where('id', $form_id)->find();
+
+		$list = M($form['name'], 'form')->order('id desc')->paginate(25);
+
+		$data = array(
+			'form_id'  => $form_id,
+			'list'   => $list,
+			'page'   => $list->render()
+		);
+		$this->assign($data);
+		$this->setMeta('数据列表');
+		return $this->fetch('list_'.$form['name']);
+	}
+
+	public function detail($form_id = '', $id = ''){
+		$form = $this->model->where('id', $form_id)->find();
+
+		$info = M($form['name'], 'form')->where('id', $id)->find();
+
+		$data = array(
+			'info'   => $info
+		);
+		$this->assign($data);
+		$this->setMeta('数据详情');
+		return $this->fetch('detail_'.$form['name']);
+	}
+
+	//数据导出
+	public function outxls($form_id = '') {
+		$form = $this->model->where('id', $form_id)->find();
+
+		$attr = $this->Fattr->where('form_id', $form_id)->where('is_show', 1)->select();
+		foreach ($attr as $key => $value) {
+			$title[$value['name']] = $value['title'];
+		}
+
+		$data[] = $title;
+		$res = M($form['name'], 'form')->order('id desc')->select();
+
+		foreach ($res as $key => $value) {
+			$data[] = $value;
+		}
+
+		$out = new \com\Outxls($data, date('Y-m-d'));
+		$out->out();
 	}
 
 	public function attr($form_id = '') {
@@ -186,7 +230,6 @@ class Form extends Admin {
 			return $this->error($this->Fattr->getError());
 		}
 	}
-
 
 	protected function getField(){
 		return  array(
