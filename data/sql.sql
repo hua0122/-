@@ -1165,7 +1165,7 @@ CREATE TABLE `sent_member` (
   `email` varchar(100) DEFAULT NULL COMMENT '邮箱地址',
   `mobile` varchar(20) DEFAULT NULL COMMENT '手机号码',
   `sex` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '性别',
-  `birthday` date NOT NULL DEFAULT '0000-00-00' COMMENT '生日',
+  `birthday` date NOT NULL DEFAULT '1917-01-01' COMMENT '生日',
   `qq` char(10) NOT NULL DEFAULT '' COMMENT 'qq号',
   `score` mediumint(8) NOT NULL DEFAULT '0' COMMENT '用户积分',
   `signature` text COMMENT '用户签名',

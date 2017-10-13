@@ -27,7 +27,7 @@ class Form {
 		$data = array(
 			'type'   => $type,
 			'field'  => isset($field['name']) ? $field['name'] : '',
-			'value'  => isset($info[$field['name']]) ? $info[$field['name']] : $field['value'],
+			'value'  => isset($info[$field['name']]) ? $info[$field['name']] : (isset($field['value']) ? $field['value'] : ''),
 			'size'   => isset($field['size']) ? $field['size'] : 12,
 			'option' => isset($field['option']) ? $field['option'] : '',
 		);

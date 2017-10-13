@@ -30,17 +30,17 @@ class Front extends Base {
 		$this->setThemes();
 		
 		//微信访问时
-		if ($this->isMobile() && $this->is_wechat()) {
-			if (!session('oauth')) {
-				$this->getOpentId();
-			}else{
-				$this->wechat_oauth = session('oauth');
-				$this->assign('oauth', session('oauth'));
-			}
+		// if ($this->isMobile() && $this->is_wechat()) {
+		// 	if (!session('oauth')) {
+		// 		$this->getOpentId();
+		// 	}else{
+		// 		$this->wechat_oauth = session('oauth');
+		// 		$this->assign('oauth', session('oauth'));
+		// 	}
 
-			//微信用户直接使用微信登录
-			$this->WechatUser();
-		}
+		// 	//微信用户直接使用微信登录
+		// 	$this->WechatUser();
+		// }
 	}
 
 	/**
