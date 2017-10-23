@@ -28,7 +28,7 @@ class Index extends Api {
 			$this->data['code'] = 1;
 			return $this->data;
 		}else{
-			$data['msg'] = '未知信息，请联系管理员！';
+			$this->data['msg'] = '未知信息，请联系管理员！';
 			return $this->data;
 		}
 	}
