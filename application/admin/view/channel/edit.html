@@ -46,7 +46,7 @@
 				<div class="col-lg-5">
 					<select name="pid" class="form-control" style="width:auto;">
 						<option value="0">--一级导航--</option>
-						{volist name=":parse_field_bind('Channel',$info['pid'],'')" id="item"}
+						{volist name=":parse_field_bind('Channel',$info['pid'], 0)" id="item"}
 						{if condition="$item['id'] neq $info['id']"}
 						<option value="{$item['id']}" {if condition="$pid eq $item['id']"}selected{/if}>{$item['title_show']}</option>
 						{/if}

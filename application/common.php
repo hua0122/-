@@ -598,7 +598,7 @@ function parse_field_bind($table, $selected = '', $model = 0) {
 	if ($table) {
 		$res    = db($table)->select();
 		foreach ($res as $key => $value) {
-			if (($model && $value['model_id'] && $value['model_id'] == $model) || $value['model_id'] == 0) {
+			if (($model && isset($value['model_id']) && $value['model_id'] == $model) || (isset($value['model_id']) && $value['model_id'] == 0)) {
 				$list[] = $value;
 			} elseif(!$model) {
 				$list[] = $value;
