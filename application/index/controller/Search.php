@@ -13,8 +13,13 @@ use app\common\controller\Front;
 class Search extends Front{
 
 	//文档搜索结果显示
-	public function index(){
-		$content = model('Document');
+	public function index(\think\Request $request){
+		$model = $request->param('model', 'article');
+
+		if (db('Model')->where('name', $model)->value('id')) {
+			return $this->error('无此模型！');
+		}
+		$content = M($model);
 
 		$map = $this->mapBuild();
 		$list = $content->where($map)->order('create_time desc')->paginate(10);
