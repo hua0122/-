@@ -16,13 +16,14 @@ class Search extends Front{
 	public function index(\think\Request $request){
 		$model = $request->param('model', 'article');
 
-		if (db('Model')->where('name', $model)->value('id')) {
+		$model_id = db('Model')->where('name', $model)->value('id');
+
+		if (!$model_id) {
 			return $this->error('无此模型！');
 		}
-		$content = M($model);
 
 		$map = $this->mapBuild();
-		$list = $content->where($map)->order('create_time desc')->paginate(10);
+		$list = M($model)->where($map)->order('create_time desc')->paginate(10);
 		$data = array(
 			'list'   => $list,
 			'page'   => $list->render()
