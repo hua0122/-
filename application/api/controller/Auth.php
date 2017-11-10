@@ -22,7 +22,7 @@ class Auth extends Api {
 			return $this->data;
 		}
 
-		$user = model('User')->feild('uid,username,password,salt')->where('username', $this->request->post('username'))->find();
+		$user = model('User')->field('uid,username,password,salt')->where('username', $this->request->post('username'))->find();
 		if ($user['password'] === md5($this->request->post('password').$user['salt'])) {
 			$this->data['code'] = 1;
 			$user['access_token'] = authcode($user['uid'].'|'.$user['username'].'|'.$user['password'], 'ENCODE');

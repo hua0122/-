@@ -12,7 +12,7 @@ namespace app\common\controller;
 class Api {
 
 	protected $data = array('code' => 0, 'msg' => '', 'time' => 0, 'data' => '');
-	protected $mustToken = false;     //是否检查用户行为
+	public $mustToken = false;     //是否检查用户行为
 	protected $user      = array();    //用户信息
 	protected $client;                //客户端信息
 	protected $request;
@@ -33,8 +33,8 @@ class Api {
 		}
 
 		if ($this->mustToken) {
-			if ($this->checkToken($header)) {
-				$this->data['code'] = '201';
+			if (!$this->checkToken($header)) {
+				$this->data['code'] = '203';
 				$this->data['data'] = '用户登录信息失效，请重登！';
 				echo json_encode($this->data);exit();
 			}

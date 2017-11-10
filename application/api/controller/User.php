@@ -12,6 +12,8 @@ use app\common\controller\Api;
 
 class User extends Api {
 
+	public $mustToken = true;
+
 	public function getuser(){
 		$this->data['code'] = 1;
 		$this->data['data'] = db('Member')->where('uid', $this->request->param('uid'))->find();
