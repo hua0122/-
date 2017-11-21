@@ -248,4 +248,42 @@ class Category extends Admin {
 			return $this->error("设置失败！");
 		}
 	}
+        
+        public function add_channel() {
+                if (IS_POST) {
+                    $Channel = model('Channel');
+                    $data    = $this->request->param();
+                    if ($data) {
+                        $id = $Channel->save($data);
+                        if ($id) {
+                            $map['id'] = array('IN', $data['mid']);
+                            $result  = db('Category')->where($map)->setField('ismenu',$Channel->id);                                      
+                            return $this->success('生成成功',url('index'));
+                            //记录行为
+                            action_log('update_channel', 'channel', $id, session('user_auth.uid'));
+                        } else {
+                            return $this->error('生成失败');
+                        }
+                    } else {
+                        $this->error($Channel->getError());
+                    }
+                } else {
+                    $data    = $this->request->param();
+                    $modelname = db('Model')->where( array('id' => $data['model_id']) )->field('id,name')->find();  
+                    $data['url'] = $modelname['name'].'/list/'.$data['mid'];
+                    $pid = input('pid', 0);
+                    //获取父导航
+                    if (!empty($pid)) {
+                        $parent = db('Channel')->where(array('id' => $pid))->field('title')->find();
+                        $this->assign('parent', $parent);
+                    }
+                    $pnav = db('Channel')->where(array('pid' => '0'))->select();
+                    $this->assign('pnav', $pnav);
+                    $this->assign('pid', $pid);
+                    $this->assign('info', $data);
+                    $this->assign('data',null );
+                    $this->setMeta('生成导航');    
+                    return $this->fetch('edit_channel');
+                }
+        }
 }
