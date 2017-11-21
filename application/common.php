@@ -988,6 +988,44 @@ function get_category_child($id) {
 	return array_unique($ids);
 }
 
+/**
+ * 栏目文章当前位置
+ * @param  integer $id   当前栏目ID
+ * @param  string $ext   文章标题
+ * @return here          当前栏目树
+ * @author K先森 <77413254@qq.com>
+ **/
+function get_category_pos($id,$ext=''){
+        $cat = db('Category');
+        $here = '<a href="/">首页</a>';
+        $uplevels = $cat->field("id,title,pid,model_id")->where("id=$id")->find();
+        if(empty($uplevels)){
+            return '栏目不存在';            
+        }
+        if($uplevels['pid'] != 0)
+        $here .= get_category_uplevels($uplevels['pid']);
+        $modelid = $uplevels['model_id'];
+        $modelname = db('Model')->field("name")->where("id = $modelid")->find();
+        $links = url('index/content/lists?model='.$modelname['name'],array('id'=>$uplevels['id']));        
+        $here .= ' &gt;&gt; <a href="'.$links.'">'.$uplevels['title']."</a>";
+        if($ext != '') $here .= ' &gt;&gt; '.$ext;
+        return $here;
+}
+function get_category_uplevels($id){
+        $cat = db('Category');
+        $here = '';
+        $uplevels = $cat->field("id,title,pid,model_id")->where("id=$id")->find();
+        $modelid = $uplevels['model_id'];
+        $modelname = db('Model')->field("name")->where("id = $modelid")->find();
+        $links = url('index/content/lists?model='.$modelname['name'],array('id'=>$uplevels['id']));
+        $here .= ' &gt;&gt; <a href="'.$links.'">'.$uplevels['title']."</a>";
+        if($uplevels['pid'] != 0){
+            $here = get_category_uplevels($uplevels['pid']).$here;
+        }
+        return $here;
+}
+
+
 function send_email($to, $subject, $message) {
 	$config = array(
 		'protocol'  => 'smtp',

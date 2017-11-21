@@ -337,6 +337,7 @@ CREATE TABLE `sent_category` (
   `pid` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '上级分类ID',
   `model_id` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '绑定模型ID',
   `sort` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序（同级有效）',
+  `ismenu` int(100) UNSIGNED NOT NULL DEFAULT '0' COMMENT '生成导航返回的ID',
   `list_row` tinyint(3) UNSIGNED NOT NULL DEFAULT '10' COMMENT '列表每页行数',
   `meta_title` varchar(50) NOT NULL DEFAULT '' COMMENT 'SEO的网页标题',
   `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT '关键字',
@@ -366,10 +367,10 @@ CREATE TABLE `sent_category` (
 -- 转存表中的数据 `sent_category`
 --
 
-INSERT INTO `sent_category` (`id`, `name`, `title`, `pid`, `sort`, `list_row`, `meta_title`, `keywords`, `description`, `template_index`, `template_lists`, `template_detail`, `template_edit`, `model`, `model_sub`, `type`, `link_id`, `allow_publish`, `display`, `reply`, `check`, `reply_model`, `extend`, `create_time`, `update_time`, `status`, `icon`, `groups`) VALUES
-(1, 'news', '新闻动态', 0, 0, 10, '', '', '', '', '', '', '', '', '2', '2,1', 0, 0, 1, 0, 0, '1', 'null', 1379474947, 1463561497, 1, 0, ''),
-(2, 'company_news', '国内新闻', 1, 1, 10, '', '', '', '', '', '', '', '2,3', '2', '2,1,3', 0, 1, 1, 0, 1, '1', '', 1379475028, 1386839751, 1, 0, ''),
-(3, '', '国外新闻', 1, 2, 10, '', '', '', '', '', '', '', '', '', '', 0, 1, 1, 0, 0, '', '', 0, 0, 1, 0, '');
+INSERT INTO `sent_category` (`id`, `name`, `title`, `pid`, `ismenu`, `sort`, `list_row`, `meta_title`, `keywords`, `description`, `template_index`, `template_lists`, `template_detail`, `template_edit`, `model`, `model_sub`, `type`, `link_id`, `allow_publish`, `display`, `reply`, `check`, `reply_model`, `extend`, `create_time`, `update_time`, `status`, `icon`, `groups`) VALUES
+(1, 'news', '新闻动态', 0, 1, 0, 10, '', '', '', '', '', '', '', '', '2', '2,1', 0, 0, 1, 0, 0, '1', 'null', 1379474947, 1463561497, 1, 0, ''),
+(2, 'company_news', '国内新闻', 1, 0, 1, 10, '', '', '', '', '', '', '', '2,3', '2', '2,1,3', 0, 1, 1, 0, 1, '1', '', 1379475028, 1386839751, 1, 0, ''),
+(3, '', '国外新闻', 1, 0, 2, 10, '', '', '', '', '', '', '', '', '', '', 0, 1, 1, 0, 0, '', '', 0, 0, 1, 0, '');
 
 -- --------------------------------------------------------
 
