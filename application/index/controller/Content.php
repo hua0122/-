@@ -105,7 +105,7 @@ class Content extends Front {
 		);
 
 		$order = "id desc";
-		$list  = model('Document')->where($map)->order($order)->paginate(15);
+		$list  = $this->model->where($map)->order($order)->paginate(15);
 
 		$data = array(
 			'list' => $list,
