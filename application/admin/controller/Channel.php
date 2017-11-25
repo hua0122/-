@@ -140,6 +140,9 @@ class Channel extends Admin {
 
 		$map = array('id' => array('in', $id));
 		if (db('Channel')->where($map)->delete()) {
+                        //删除category中的ismenu字段记录
+                        $map = array('ismenu' => array('in', $id));    
+                        db('Category')->where($map)->setField('ismenu',0);  
 			//记录行为
 			action_log('update_channel', 'channel', $id, session('user_auth.uid'));
 			return $this->success('删除成功');
