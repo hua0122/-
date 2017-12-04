@@ -10,7 +10,7 @@
 namespace app\user\controller;
 use app\common\controller\Fornt;
 
-class Login extends Fornt{
+class Login extends Front{
 
 	public function index($username = '', $password = '', $verify = ''){
 		if (IS_POST) {
