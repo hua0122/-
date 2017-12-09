@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace app\user\controller;
-use app\common\controller\Fornt;
+use app\common\controller\Front;
 
 class Login extends Front{
 
