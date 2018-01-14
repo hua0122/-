@@ -155,7 +155,7 @@ class Database extends Admin {
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function export($tables = null, $id = null, $start = null) {
-		if (IS_POST && !empty($tables) && is_array($tables)) {
+		if ($this->request->isPost() && !empty($tables) && is_array($tables)) {
 			//初始化
 			$path = config('data_backup_path');
 			if (!is_dir($path)) {
@@ -189,7 +189,7 @@ class Database extends Admin {
 			} else {
 				return $this->error('初始化失败，备份文件创建失败！');
 			}
-		} elseif (IS_GET && is_numeric($id) && is_numeric($start)) {
+		} elseif ($this->request->isGet() && is_numeric($id) && is_numeric($start)) {
 			//备份数据
 			$tables = session('backup_tables');
 			//备份指定表

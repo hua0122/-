@@ -47,7 +47,7 @@ class Category extends Admin {
 
 	/* 编辑分类 */
 	public function edit($id = null, $pid = 0) {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$category = model('Category');
 			//提交表单
 			$result = $category->change();
@@ -85,7 +85,7 @@ class Category extends Admin {
 	public function add($pid = 0) {
 		$Category = model('Category');
 
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			//提交表单
 			$id = $Category->change();
 			if (false !== $id) {
@@ -250,7 +250,7 @@ class Category extends Admin {
 	}
         
         public function add_channel() {
-                if (IS_POST) {
+                if ($this->request->isPost()) {
                     $Channel = model('Channel');
                     $data    = $this->request->param();
                     if ($data) {

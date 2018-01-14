@@ -42,7 +42,7 @@ class Form extends Admin {
 	 * 添加表单
 	 */
 	public function add(\think\Request $request) {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $this->model->validate('Form')->save($request->post());
 			if (false !== $result) {
 				return $this->success('添加成功！', url('admin/form/index'));
@@ -63,7 +63,7 @@ class Form extends Admin {
 	 * 编辑表单
 	 */
 	public function edit(\think\Request $request) {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $this->model->validate('Form')->save($request->post(), array('id' => $request->post('id')));
 			if (false !== $result) {
 				return $this->success('修改成功！', url('admin/form/index'));
@@ -170,7 +170,7 @@ class Form extends Admin {
 		if (!$form_id) {
 			return $this->error('非法操作！');
 		}
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$data = $request->post();
 			$result = $this->Fattr->save($data);
 			if (false !== $result) {
@@ -198,7 +198,7 @@ class Form extends Admin {
 		if (!$form_id || !$id) {
 			return $this->error('非法操作！');
 		}
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$data = $request->post();
 			$result = $this->Fattr->save($data, array('id'=>$data['id']));
 			if (false !== $result) {

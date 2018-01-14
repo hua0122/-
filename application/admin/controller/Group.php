@@ -39,7 +39,7 @@ class Group extends Admin {
 
 	//会员分组添加控制器
 	public function add($type = 'admin') {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $this->group->change();
 			if ($result) {
 				return $this->success("添加成功！", url('admin/group/index'));
@@ -62,7 +62,7 @@ class Group extends Admin {
 		if (!$id) {
 			return $this->error("非法操作！");
 		}
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $this->group->change();
 			if ($result) {
 				return $this->success("编辑成功！", url('admin/group/index'));
@@ -138,7 +138,7 @@ class Group extends Admin {
 		if (!$id) {
 			return $this->error("非法操作！");
 		}
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$rule          = $this->request->post('rule/a', array());
 			$extend_rule   = $this->request->post('extend_rule/a', array());
 			$extend_result = $rule_result = false;
@@ -194,7 +194,7 @@ class Group extends Admin {
 	}
 
 	public function addnode($type = 'admin') {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $this->rule->change();
 			if ($result) {
 				return $this->success("创建成功！", url('admin/group/access'));
@@ -213,7 +213,7 @@ class Group extends Admin {
 	}
 
 	public function editnode($id) {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $this->rule->change();
 			if (false !== $result) {
 				return $this->success("更新成功！", url('admin/group/access'));

@@ -46,7 +46,7 @@ class Menu extends Admin {
 	 * @author yangweijie <yangweijiester@gmail.com>
 	 */
 	public function add() {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$Menu = model('Menu');
 			$data = input('post.');
 			$id   = $Menu->save($data);
@@ -80,7 +80,7 @@ class Menu extends Admin {
 	 * @author yangweijie <yangweijiester@gmail.com>
 	 */
 	public function edit($id = 0) {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$Menu = model('Menu');
 			$data = input('post.');
 			if ($Menu->save($data, array('id' => $data['id'])) !== false) {
@@ -176,7 +176,7 @@ class Menu extends Admin {
 	}
 
 	public function import() {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$tree      = input('post.tree');
 			$lists     = explode(PHP_EOL, $tree);
 			$menuModel = db('Menu');
@@ -217,7 +217,7 @@ class Menu extends Admin {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function sort() {
-		if (IS_GET) {
+		if ($this->request->isGet()) {
 			$ids = input('ids');
 			$pid = input('pid');
 
@@ -235,7 +235,7 @@ class Menu extends Admin {
 			$this->assign('list', $list);
 			$this->setMeta('菜单排序');
 			return $this->fetch();
-		} elseif (IS_POST) {
+		} elseif ($this->request->isPost()) {
 			$ids = input('post.ids');
 			$ids = explode(',', $ids);
 			foreach ($ids as $key => $value) {

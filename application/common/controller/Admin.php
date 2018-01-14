@@ -1,26 +1,19 @@
 <?php
-// +----------------------------------------------------------------------
-// | SentCMS [ WE CAN DO IT JUST THINK IT ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2013 http://www.tensent.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Author: molong <molong@tensent.cn> <http://www.tensent.cn>
-// +----------------------------------------------------------------------
-
 namespace app\common\controller;
 use app\common\model\AuthGroup;
 use app\common\model\AuthRule;
 
 class Admin extends Base {
 
+
 	public function _initialize() {
 		parent::_initialize();
 
-		if (!is_login() and !in_array($this->url, array('admin/index/login', 'admin/index/logout', 'admin/index/verify'))) {
+		if (!is_login() and !in_array($this->url_path, array('admin/index/login', 'admin/index/logout', 'admin/index/verify'))) {
 			$this->redirect('admin/index/login');
 		}
 
-		if (!in_array($this->url, array('admin/index/login', 'admin/index/logout', 'admin/index/verify'))) {
+		if (!in_array($this->url_path, array('admin/index/login', 'admin/index/logout', 'admin/index/verify'))) {
 
 			// 是否是超级管理员
 			define('IS_ROOT', is_administrator());
@@ -119,7 +112,7 @@ class Admin extends Base {
 
 	protected function setMenu() {
 		$hover_url  = $this->request->module() . '/' . $this->request->controller();
-		$controller = $this->url;
+		$controller = $this->url_path;
 		$menu       = array(
 			'main'  => array(),
 			'child' => array(),

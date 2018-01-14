@@ -46,7 +46,7 @@ class Model extends Admin {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function add(\think\Request $request) {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $this->model->validate('Model.add')->save($request->post());
 			if (false !== $result) {
 				//记录行为
@@ -66,7 +66,7 @@ class Model extends Admin {
 	 * @author molong <molong@tensent.cn>
 	 */
 	public function edit(\think\Request $request) {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $this->model->validate('Model.edit')->save($request->post(), array('id' => $request->post('id')));
 			if (false !== $result) {
 				//记录行为

@@ -43,7 +43,7 @@ class Addons extends Admin {
 
 	//创建向导首页
 	public function add() {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$data = $this->addons->create();
 			if ($data) {
 				if ($result) {
@@ -150,7 +150,7 @@ class Addons extends Admin {
 	 * 设置插件页面
 	 */
 	public function config() {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			# code...
 		} else {
 			$id = input('id', '', 'trim,intval');
@@ -232,7 +232,7 @@ class Addons extends Admin {
 
 	public function addhook() {
 		$hooks = model('Hooks');
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $hooks->change();
 			if ($result !== false) {
 				return $this->success("修改成功");
@@ -253,7 +253,7 @@ class Addons extends Admin {
 	//钩子出编辑挂载插件页面
 	public function edithook($id) {
 		$hooks = model('Hooks');
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $hooks->change();
 			if ($result !== false) {
 				return $this->success("修改成功");

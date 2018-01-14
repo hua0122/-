@@ -53,7 +53,7 @@ class Channel extends Admin {
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function add() {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$Channel = model('Channel');
 			$data    = $this->request->post();
 			if ($data) {
@@ -89,7 +89,7 @@ class Channel extends Admin {
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function edit($id = 0) {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$Channel = model('Channel');
 			$data    = $this->request->post();
 			if ($data) {
@@ -155,7 +155,7 @@ class Channel extends Admin {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function sort() {
-		if (IS_GET) {
+		if ($this->request->isGet()) {
 			$ids = input('ids');
 			$pid = input('pid');
 			//获取排序的数据
@@ -172,7 +172,7 @@ class Channel extends Admin {
 			$this->assign('list', $list);
 			$this->setMeta('导航排序');
 			return $this->fetch();
-		} elseif (IS_POST) {
+		} elseif ($this->request->isPost()) {
 			$ids = input('post.ids');
 			$ids = explode(',', $ids);
 			foreach ($ids as $key => $value) {

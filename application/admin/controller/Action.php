@@ -40,7 +40,7 @@ class Action extends Admin {
 	 */
 	public function add() {
 		$model = model('Action');
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$data   = input('post.');
 			$result = $model->save($data);
 			if (false != $result) {
@@ -65,7 +65,7 @@ class Action extends Admin {
 	 */
 	public function edit($id = null) {
 		$model = model('Action');
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$data   = input('post.');
 			$result = $model->save($data, array('id' => $data['id']));
 			if ($result !== false) {

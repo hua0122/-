@@ -80,7 +80,7 @@ class Config extends Base{
 	}
 
 	protected function getList($type){
-		$path = ROOT_PATH . 'template/';
+		$path = './template/';
 		$file  = opendir($path);
 		while (false !== ($filename = readdir($file))) {
 			if (!in_array($filename, array('.', '..'))) {

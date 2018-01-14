@@ -30,7 +30,7 @@ class Client extends Admin {
 	}
 	
 	public function add(\think\Request $request){
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$data = $request->param();
 			$result = $this->model->validate(true)->save($data);
 			if (false !== $result) {
@@ -51,7 +51,7 @@ class Client extends Admin {
 	}
 	
 	public function edit(\think\Request $request){
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$data = $request->param();
 			$result = $this->model->validate(true)->save($data, array('id'=>$request->param('id')));
 			if (false !== $result) {

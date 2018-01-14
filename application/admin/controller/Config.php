@@ -52,7 +52,7 @@ class Config extends Admin {
 	}
 
 	public function group($id = 1) {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$config = $this->request->post('config/a');
 			$model  = model('Config');
 			foreach ($config as $key => $value) {
@@ -78,7 +78,7 @@ class Config extends Admin {
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function add() {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$config = model('Config');
 			$data   = $this->request->post();
 			if ($data) {
@@ -106,7 +106,7 @@ class Config extends Admin {
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function edit($id = 0) {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$config = model('Config');
 			$data   = $this->request->post();
 			if ($data) {
@@ -177,7 +177,7 @@ class Config extends Admin {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function sort() {
-		if (IS_GET) {
+		if ($this->request->isGet()) {
 			$ids = input('ids');
 			//获取排序的数据
 			$map = array('status' => array('gt', -1));
@@ -191,7 +191,7 @@ class Config extends Admin {
 			$this->assign('list', $list);
 			$this->setMeta('配置排序');
 			return $this->fetch();
-		} elseif (IS_POST) {
+		} elseif ($this->request->isPost()) {
 			$ids = input('post.ids');
 			$ids = explode(',', $ids);
 			foreach ($ids as $key => $value) {

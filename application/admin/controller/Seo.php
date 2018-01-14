@@ -37,7 +37,7 @@ class Seo extends Admin {
 	}
 
 	public function add() {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$data   = $this->request->post();
 			$result = $this->seo->save($data);
 			if ($result) {
@@ -56,7 +56,7 @@ class Seo extends Admin {
 	}
 
 	public function edit($id = null) {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$data   = $this->request->post();
 			$result = $this->seo->save($data, array('id' => $data['id']));
 			if (false !== $result) {
@@ -103,7 +103,7 @@ class Seo extends Admin {
 	}
 
 	public function addrewrite() {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = model('Rewrite')->change();
 			if (false != $result) {
 				return $this->success("添加成功！", url('admin/seo/rewrite'));
@@ -121,7 +121,7 @@ class Seo extends Admin {
 	}
 
 	public function editrewrite() {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = model('Rewrite')->change();
 			if (false != $result) {
 				return $this->success("更新成功！", url('admin/seo/rewrite'));

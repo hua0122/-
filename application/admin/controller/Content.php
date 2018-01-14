@@ -66,7 +66,7 @@ class Content extends Admin {
 	 * @author molong <ycgpp@126.com>
 	 */
 	public function add() {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $this->model->save($this->param);
 			if ($result) {
 				//记录行为
@@ -99,7 +99,7 @@ class Content extends Admin {
 	 * @author molong <ycgpp@126.com>
 	 */
 	public function edit($id) {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $this->model->save($this->param, array('id'=> $id));
 			if ($result !== false) {
 				//记录行为

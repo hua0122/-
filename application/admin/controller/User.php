@@ -26,7 +26,7 @@ class User extends Admin {
 		}
 
 		$order = "uid desc";
-		$list  = model('User')->where($map)->order($order)->paginate(15);
+		$list  = model('Member')->where($map)->order($order)->paginate(15);
 
 		$data = array(
 			'list' => $list,
@@ -42,8 +42,8 @@ class User extends Admin {
 	 * @author colin <molong@tensent.cn>
 	 */
 	public function add() {
-		$model = \think\Loader::model('User');
-		if (IS_POST) {
+		$model = \think\Loader::model('Member');
+		if ($this->request->isPost()) {
 			$data = $this->request->param();
 			//创建注册用户
 			$result = $model->register($data['username'], $data['password'], $data['repassword'], $data['email'], false);
@@ -67,8 +67,8 @@ class User extends Admin {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function edit() {
-		$model = model('User');
-		if (IS_POST) {
+		$model = model('Member');
+		if ($this->request->isPost()) {
 			$data = $this->request->post();
 
 			$reuslt = $model->editUser($data, true);
@@ -99,14 +99,14 @@ class User extends Admin {
 		$uid = array('IN', is_array($id) ? implode(',', $id) : $id);
 		//获取用户信息
 		$find = $this->getUserinfo($uid);
-		model('User')->where(array('uid' => $uid))->delete();
+		model('Member')->where(array('uid' => $uid))->delete();
 		return $this->success('删除用户成功！');
 	}
 
 	public function auth() {
 		$access = model('AuthGroupAccess');
 		$group  = model('AuthGroup');
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$uid = input('uid', '', 'trim,intval');
 			$access->where(array('uid' => $uid))->delete();
 			$group_type = config('user_group_type');
@@ -152,7 +152,7 @@ class User extends Admin {
 	 * @author colin <colin@tensent.cn>
 	 */
 	private function getUserinfo($uid = null, $pass = null, $errormsg = null) {
-		$user = model('User');
+		$user = model('Member');
 		$uid  = $uid ? $uid : input('id');
 		//如果无UID则修改当前用户
 		$uid        = $uid ? $uid : session('user_auth.uid');
@@ -215,7 +215,7 @@ class User extends Admin {
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function editpwd() {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$user = model('User');
 			$data = $this->request->post();
 

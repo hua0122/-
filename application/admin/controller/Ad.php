@@ -42,7 +42,7 @@ class Ad extends Admin {
 	 */
 	public function add() {
 		$place = model('AdPlace');
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $place->change();
 			if (false !== false) {
 				return $this->success("添加成功！");
@@ -61,7 +61,7 @@ class Ad extends Admin {
 
 	public function edit($id = null) {
 		$place = model('AdPlace');
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $place->change();
 			if ($result) {
 				return $this->success("修改成功！", url('admin/ad/index'));
@@ -115,7 +115,7 @@ class Ad extends Admin {
 
 	public function addad($id) {
 		$ad = model('ad');
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $ad->change();
 			if ($result) {
 				return $this->success("添加成功！", url('admin/ad/lists', array('id' => $this->param['place_id'])));
@@ -136,7 +136,7 @@ class Ad extends Admin {
 
 	public function editad($id = null) {
 		$ad = model('ad');
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$result = $ad->change();
 			if ($result) {
 				return $this->success("修改成功！", url('admin/ad/lists', array('id' => $this->param['place_id'])));

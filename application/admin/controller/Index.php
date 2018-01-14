@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace app\admin\controller;
+
 use app\common\controller\Admin;
 
 class Index extends Admin {
@@ -18,15 +19,17 @@ class Index extends Admin {
 	}
 
 	public function login($username = '', $password = '', $verify = '') {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			if (!$username || !$password) {
 				return $this->error('用户名或者密码不能为空！', '');
 			}
 
 			//验证码验证
-			$this->checkVerify($verify);
+			if(!captcha_check($verify)){
+				return $this->error('验证码错误！', '');
+			}
 
-			$user = model('User');
+			$user = model('Member');
 			$uid  = $user->login($username, $password);
 			if ($uid > 0) {
 				return $this->success('登录成功！', url('admin/index/index'));
@@ -46,14 +49,23 @@ class Index extends Admin {
 		}
 	}
 
+	/**
+	 * title : 后台退出
+	 *  
+	*/
 	public function logout() {
-		$user = model('User');
+		$user = model('Member');
 		$user->logout();
 		$this->redirect('admin/index/login');
 	}
 
+
+	/**
+	 * title : 清除缓存
+	 *  
+	*/
 	public function clear() {
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$clear = input('post.clear/a', array());
 			foreach ($clear as $key => $value) {
 				if ($value == 'cache') {

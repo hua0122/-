@@ -1,44 +1,10 @@
 <?php
-// +----------------------------------------------------------------------
-// | SentCMS [ WE CAN DO IT JUST THINK IT ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2013 http://www.tensent.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Author: molong <molong@tensent.cn> <http://www.tensent.cn>
-// +----------------------------------------------------------------------
+namespace app\api\controller;
 
-namespace app\Api\controller;
-use app\common\controller\Api;
-
-class Index extends Api {
-
-	public function index(){
-		return $this->fetch();
-	}
-
-	public function getToken(\think\Request $request){
-		$appid = $request->post('appid', '');
-		$appsecret = $request->post('appsecret', '');
-
-		$client = db('Client')->where('appid', $appid)->where('appsecret', $appsecret)->value('id');
-		if ($client) {
-			$this->data['time'] = time();
-			$tokens = $appid . '|' . $appsecret . '|' . $this->data['time'];
-			$this->data['token'] = authcode($tokens, 'ENCODE');
-			$this->data['code'] = 1;
-			return $this->data;
-		}else{
-			$this->data['msg'] = '未知信息，请联系管理员！';
-			return $this->data;
-		}
-	}
-
-	public function getOauthUrl(\think\Request $request){
-		$oauth = &load_wechat('Oauth');
-		$url = $request->param('url');
-		$uri = $oauth->getOauthRedirect('http://wx.tensent.cn'  . $url);
-		$this->data['code'] = 1;
-		$this->data['data'] = $uri;
-		return $this->data;
-	}
+class Index
+{
+    public function index()
+    {
+        return '<style type="text/css">*{ padding: 0; margin: 0; } div{ padding: 4px 48px;} a{color:#2E5CD5;cursor: pointer;text-decoration: none} a:hover{text-decoration:underline; } body{ background: #fff; font-family: "Century Gothic","Microsoft yahei"; color: #333;font-size:18px;} h1{ font-size: 100px; font-weight: normal; margin-bottom: 12px; } p{ line-height: 1.6em; font-size: 42px }</style><div style="padding: 24px 48px;"> <h1>:)</h1><p> ThinkPHP V5<br/><span style="font-size:30px">十年磨一剑 - 为API开发设计的高性能框架</span></p><span style="font-size:22px;">[ V5.0 版本由 <a href="http://www.qiniu.com" target="qiniu">七牛云</a> 独家赞助发布 ]</span></div><script type="text/javascript" src="http://tajs.qq.com/stats?sId=9347272" charset="UTF-8"></script><script type="text/javascript" src="http://ad.topthink.com/Public/static/client.js"></script><thinkad id="ad_bd568ce7058a1091"></thinkad>';
+    }
 }

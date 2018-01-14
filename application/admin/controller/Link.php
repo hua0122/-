@@ -30,7 +30,7 @@ class Link extends Admin {
 	//添加
 	public function add() {
 		$link = model('Link');
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$data = input('post.');
 			if ($data) {
 				unset($data['id']);
@@ -57,7 +57,7 @@ class Link extends Admin {
 	public function edit() {
 		$link = model('Link');
 		$id   = input('id', '', 'trim,intval');
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$data = input('post.');
 			if ($data) {
 				$result = $link->save($data, array('id' => $data['id']));
