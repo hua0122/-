@@ -24,7 +24,7 @@
         "topthink/think-helper": "^1.0",
         "overtrue/wechat": "~4.0",
         "overtrue/easy-sms": "^1.0",
-        "riverslei/payment": "*",
+        "riverslei/payment": "*"
     },
     "autoload": {
         "psr-4": {
