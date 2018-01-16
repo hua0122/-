@@ -14,7 +14,7 @@ class User extends Front {
 	public function _initialize() {
 		parent::_initialize();
 
-		if (!is_login() and !in_array($this->url, array('user/login/index', 'user/index/verify'))) {
+		if (!is_login() and !in_array($this->url_path, array('user/login/index', 'user/index/verify'))) {
 			return $this->redirect('user/login/index');
 		} elseif (is_login()) {
 			$user = model('User')->getInfo(session('user_auth.uid'));

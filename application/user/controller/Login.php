@@ -13,7 +13,7 @@ use app\common\controller\Front;
 class Login extends Front{
 
 	public function index($username = '', $password = '', $verify = ''){
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			if (!$username || !$password) {
 				return $this->error('用户名或者密码不能为空！','');
 			}
@@ -48,7 +48,7 @@ class Login extends Front{
 	}
 
 	public function register($username = '', $password = '', $repassword = '', $email = '', $verify = ''){
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$user = model('User');
 			
 			//验证码验证
@@ -72,7 +72,7 @@ class Login extends Front{
 	}
 
 	public function forget($email = '', $verify = ''){
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			//验证码验证
 			$this->checkVerify($verify);
 			if (!$email) {
@@ -100,8 +100,7 @@ class Login extends Front{
 	}
 
 	public function find(){
-		//http://127.0.0.2/user/login/find.html?time=1467174578&token=b561PJhVI2OjWUPNLsAMdeW8AKZLw/RcqyXUHBa1mCiX2OUzvq0D69Rt40F/n7zfJKR05d7qA41G6/33NQ
-		if (IS_POST) {
+		if ($this->request->isPost()) {
 			$data = $this->request->post();
 			//验证码验证
 			$this->checkVerify($data['verify']);
