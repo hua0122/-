@@ -791,9 +791,9 @@ function execute_action($rules = false, $action_id = null, $user_id = null) {
 function avatar($uid, $size = 'middle') {
 	$size = in_array($size, array('big', 'middle', 'small', 'real')) ? $size : 'middle';
 	$dir  = setavatardir($uid);
-	$file = BASE_PATH . '/uploads/avatar/' . $dir . 'avatar_' . $size . '.png';
+	$file = BASE_PATH . '/static/avatar/' . $dir . 'avatar_' . $size . '.png';
 	if (!file_exists('.' . $file)) {
-		$file = BASE_PATH . '/public/images/default_avatar_' . $size . '.jpg';
+		$file = BASE_PATH . '/static/images/default_avatar_' . $size . '.jpg';
 	}
 	return $file;
 }

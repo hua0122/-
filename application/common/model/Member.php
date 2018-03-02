@@ -13,6 +13,46 @@ class Member extends Base {
 		'reg_time' => 'integer'
 	);
 	
+	public $editfield = array(
+		array('name'=>'uid','type'=>'hidden'),
+		array('name'=>'username','title'=>'用户名','type'=>'readonly','help'=>''),
+		array('name'=>'nickname','title'=>'昵称','type'=>'text','help'=>''),
+		array('name'=>'password','title'=>'密码','type'=>'password','help'=>'为空时则不修改'),
+		array('name'=>'sex','title'=>'性别','type'=>'select','option'=>array('0'=>'保密','1'=>'男','2'=>'女'),'help'=>''),
+		array('name'=>'email','title'=>'邮箱','type'=>'text','help'=>'用户邮箱，用于找回密码等安全操作'),
+		array('name'=>'qq','title'=>'QQ','type'=>'text','help'=>''),
+		array('name'=>'score','title'=>'用户积分','type'=>'text','help'=>''),
+		array('name'=>'signature','title'=>'用户签名','type'=>'textarea','help'=>''),
+		array('name'=>'status','title'=>'状态','type'=>'select','option'=>array('0'=>'禁用','1'=>'启用'),'help'=>''),
+	);
+
+	public $addfield = array(
+		array('name'=>'username','title'=>'用户名','type'=>'text','help'=>'用户名会作为默认的昵称'),
+		array('name'=>'password','title'=>'密码','type'=>'password','help'=>'用户密码不能少于6位'),
+		array('name'=>'repassword','title'=>'确认密码','type'=>'password','help'=>'确认密码'),
+		array('name'=>'email','title'=>'邮箱','type'=>'text','help'=>'用户邮箱，用于找回密码等安全操作'),
+	);
+    
+	public $useredit = array(
+		array('name'=>'uid','type'=>'hidden'),
+		array('name'=>'nickname','title'=>'昵称','type'=>'text','help'=>''),
+		array('name'=>'sex','title'=>'性别','type'=>'select','option'=>array('0'=>'保密','1'=>'男','2'=>'女'),'help'=>''),
+		array('name'=>'email','title'=>'邮箱','type'=>'text','help'=>'用户邮箱，用于找回密码等安全操作'),
+		array('name'=>'mobile','title'=>'联系电话','type'=>'text','help'=>''),
+		array('name'=>'qq','title'=>'QQ','type'=>'text','help'=>''),
+		array('name'=>'signature','title'=>'用户签名','type'=>'textarea','help'=>''),
+	);
+
+	public $userextend = array(
+		array('name'=>'company','title'=>'单位名称','type'=>'text','help'=>''),
+		array('name'=>'company_addr','title'=>'单位地址','type'=>'text','help'=>''),
+		array('name'=>'company_contact','title'=>'单位联系人','type'=>'text','help'=>''),
+		array('name'=>'company_zip','title'=>'单位邮编','type'=>'text','help'=>''),
+		array('name'=>'company_depart','title'=>'所属部门','type'=>'text','help'=>''),
+		array('name'=>'company_post','title'=>'所属职务','type'=>'text','help'=>''),
+		array('name'=>'company_type','title'=>'单位类型','type'=>'select', 'option'=>'', 'help'=>''),
+	);
+	
 	protected function getGroupListAttr($value, $data){
 		$sql = db('AuthGroupAccess')->where('uid', $data['uid'])->fetchSql(true)->column('group_id');
 		return db('AuthGroup')->where('id in ('.$sql.')')->column('title', 'id');
