@@ -175,7 +175,7 @@ class Admin extends Base {
 		$models = AuthGroup::getAuthModels(session('user_auth.uid'));
 		foreach ($list as $key => $value) {
 			if (IS_ROOT || in_array($value['id'], $models)) {
-				if ('admin/content/index' == $this->url && input('model_id') == $value['id']) {
+				if ('admin/content/index' == $this->request->path() && input('model_id') == $value['id']) {
 					$value['style'] = "active";
 				}
 				$value['url']   = "admin/content/index?model_id=" . $value['id'];
