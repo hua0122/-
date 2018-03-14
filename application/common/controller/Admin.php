@@ -5,9 +5,12 @@ use app\common\model\AuthRule;
 
 class Admin extends Base {
 
+	protected $param;
 
 	public function _initialize() {
 		parent::_initialize();
+
+		$this->param = $this->request->param();
 
 		if (!is_login() and !in_array($this->url_path, array('admin/index/login', 'admin/index/logout', 'admin/index/verify'))) {
 			$this->redirect('admin/index/login');
@@ -210,5 +213,10 @@ class Admin extends Base {
 		if (!empty($menu)) {
 			$this->assign('extend_menu', array('管理插件' => $menu));
 		}
+	}
+
+	protected function getArrayParam(){
+		$param = $this->request->param();
+		return is_array($param['id']) ? array('IN', $param['id']) : $param['id'];
 	}
 }
