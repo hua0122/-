@@ -41,6 +41,11 @@ class Api {
 		}
 	}
 
+	public function _empty(){
+		$this->data['msg'] = '空操作！';
+		return $this->data;
+	}
+
 	protected function checkAuthor($header){return true;
 		if (isset($header['authorization']) && $header['authorization']) {
 			list($appid, $sign) = explode('{|}', $header['authorization']);
