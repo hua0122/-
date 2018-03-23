@@ -46,7 +46,7 @@ class Api {
 		return $this->data;
 	}
 
-	protected function checkAuthor($header){return true;
+	protected function checkAuthor($header){
 		if (isset($header['authorization']) && $header['authorization']) {
 			list($appid, $sign) = explode('{|}', $header['authorization']);
 			$this->client = db('Client')->where('appid', $appid)->find();
