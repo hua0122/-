@@ -770,7 +770,7 @@ function execute_action($rules = false, $action_id = null, $user_id = null) {
 
 		//检查执行周期
 		$map                = array('action_id' => $action_id, 'user_id' => $user_id);
-		$map['create_time'] = array('gt', NOW_TIME - intval($rule['cycle']) * 3600);
+		$map['create_time'] = array('gt', time() - intval($rule['cycle']) * 3600);
 		$exec_count         = db('ActionLog')->where($map)->count();
 		if ($exec_count > $rule['max']) {
 			continue;
