@@ -249,7 +249,7 @@ function get_nav_url($url) {
  */
 function get_cover($cover_id, $field = null) {
 	if (empty($cover_id)) {
-		return BASE_PATH . '/public/images/default.png';
+		return BASE_PATH . '/static/images/default.png';
 	}
 	$picture = db('Picture')->where(array('status' => 1, 'id' => $cover_id))->find();
 	if ($field == 'path') {
