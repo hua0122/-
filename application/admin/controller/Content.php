@@ -100,7 +100,7 @@ class Content extends Admin {
 	 */
 	public function edit($id) {
 		if ($this->request->isPost()) {
-			$result = $this->model->save($this->param, array('id'=> $id));
+			$result = $this->model->save($this->request->param(), array('id'=> $id));
 			if ($result !== false) {
 				//记录行为
 				action_log('update_content', 'content', $result, session('auth_user.uid'));

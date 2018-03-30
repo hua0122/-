@@ -166,7 +166,7 @@ class Form extends Admin {
 	}
 
 	public function addattr(\think\Request $request){
-		$form_id = isset($this->param['form_id']) ? $this->param['form_id'] : '';
+		$form_id = isset($this->request->param('form_id')) ? $this->request->param('form_id') : '';
 		if (!$form_id) {
 			return $this->error('非法操作！');
 		}
@@ -193,8 +193,8 @@ class Form extends Admin {
 	}
 
 	public function editattr(\think\Request $request){
-		$form_id = isset($this->param['form_id']) ? $this->param['form_id'] : '';
-		$id = isset($this->param['id']) ? $this->param['id'] : '';
+		$form_id = isset($this->request->param('form_id')) ? $this->request->param('form_id') : '';
+		$id = isset($this->request->param('id')) ? $this->request->param('id') : '';
 		if (!$form_id || !$id) {
 			return $this->error('非法操作！');
 		}
@@ -219,7 +219,7 @@ class Form extends Admin {
 	}
 
 	public function delattr(\think\Request $request){
-		$id = isset($this->param['id']) ? $this->param['id'] : 0;
+		$id = isset($this->request->param('id')) ? $this->request->param('id') : 0;
 		if (!$id) {
 			return $this->error('非法操作！');
 		}

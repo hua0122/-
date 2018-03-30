@@ -62,7 +62,7 @@ return [
     'picture_upload'         => [
         'rootPath'   => ROOT_PATH . DS .'/web/uploads/',
         'size'       => '204800',
-        'ext'        => 'jpg,png,gif'
+        'ext'        => 'jpg,jpeg,png,gif'
     ],
 
     'attachment_upload'      => [
@@ -74,6 +74,6 @@ return [
     'picture_upload'         => [
         'rootPath'   => ROOT_PATH . DS .'/web/uploads/',
         'size'       => '204800',
-        'ext'        => 'jpg,png,gif'
+        'ext'        => 'jpg,jpeg,png,gif'
     ],
 ];
