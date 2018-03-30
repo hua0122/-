@@ -12,7 +12,11 @@ class Front extends Base{
 
 
 	public function setThemes(){
-		$theme = 'default';
+		$themes['mobile'] = config('mobile_themes') ? config('mobile_themes') : 'mobile';
+		$themes['pc']     = config('pc_themes') ? config('pc_themes') : 'default';
+		
+		$theme = ($this->isMobile() && config('open_mobile_site') == '1') ? $themes['mobile'] : $themes['pc'];
+		
 		$module = $this->request->module();
 		if ($module == 'index') {
 			$view_path   = '/template/' . $theme . '/' ;
