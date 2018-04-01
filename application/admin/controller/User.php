@@ -17,20 +17,25 @@ class User extends Admin {
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function index() {
-		$nickname      = input('nickname');
+		$param = $this->request->param();
 		$map['status'] = array('egt', 0);
-		if (is_numeric($nickname)) {
-			$map['uid|nickname'] = array(intval($nickname), array('like', '%' . $nickname . '%'), '_multi' => true);
-		} else {
-			$map['nickname'] = array('like', '%' . (string) $nickname . '%');
+		if (isset($param['nickname']) && $param['nickname']) {
+			$map['nickname'] = array('like', '%' . $param['nickname'] . '%');
+		} 
+		if (isset($param['username']) && $param['username']) {
+			$map['username'] = array('like', '%' . (string) $param['nickname'] . '%');
 		}
 
 		$order = "uid desc";
-		$list  = model('Member')->where($map)->order($order)->paginate(15);
+		$list  = model('Member')->where($map)->order($order)
+			->paginate(15, false, array(
+				'param'  => $param
+			));
 
 		$data = array(
 			'list' => $list,
 			'page' => $list->render(),
+			'param' => $param
 		);
 		$this->assign($data);
 		$this->setMeta('用户信息');

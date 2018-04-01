@@ -28,7 +28,9 @@ class Addons extends Admin {
 		if ($refresh) {
 			$this->addons->refresh();
 		}
-		$list = $this->addons->order('id desc')->paginate(25);
+		$list = $this->addons->order('id desc')->paginate(25, false, array(
+				'query'  => $this->request->param()
+			));
 		// 记录当前列表页的cookie
 		Cookie('__forward__', $_SERVER['REQUEST_URI']);
 
@@ -216,7 +218,9 @@ class Addons extends Admin {
 
 		$map   = array();
 		$order = "id desc";
-		$list  = model('Hooks')->where($map)->order($order)->paginate(10);
+		$list  = model('Hooks')->where($map)->order($order)->paginate(10, false, array(
+				'query'  => $this->request->param()
+			));
 
 		// 记录当前列表页的cookie
 		Cookie('__forward__', $_SERVER['REQUEST_URI']);

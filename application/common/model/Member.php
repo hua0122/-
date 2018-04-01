@@ -144,8 +144,8 @@ class Member extends Base {
 	function register($username, $password, $repassword, $email, $isautologin = true, $other = array()){
 		$data['username'] = $username;
 		$data['salt'] = rand_string(6);
-		$data['password'] = $password;
-		$data['repassword'] = $repassword;
+		$data['password'] = md5($password . $data['salt']);
+		$data['repassword'] = md5($repassword . $data['salt']);
 		$data['email'] = $email;
 		if (!empty($other)) {
 			$data = array_merge($data, $other);
@@ -156,7 +156,7 @@ class Member extends Base {
 			if ($isautologin) {
 				$this->autoLogin($this->data);
 			}
-			return $result;
+			return $data;
 		}else{
 			if (!$this->getError()) {
 				$this->error = "注册失败！";

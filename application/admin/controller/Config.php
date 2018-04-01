@@ -34,7 +34,9 @@ class Config extends Admin {
 			$map['name'] = array('like', '%' . $name . '%');
 		}
 
-		$list = $this->model->where($map)->order('id desc')->paginate(25);
+		$list = $this->model->where($map)->order('id desc')->paginate(25, false, array(
+				'query'  => $this->request->param()
+			));
 		// 记录当前列表页的cookie
 		Cookie('__forward__', $_SERVER['REQUEST_URI']);
 

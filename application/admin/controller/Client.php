@@ -19,7 +19,9 @@ class Client extends Admin {
 
 	
 	public function index(){
-		$list = $this->model->paginate(25);
+		$list = $this->model->paginate(25, false, array(
+				'query'  => $this->request->param()
+			));
 		$data = array(
 			'list'   => $list,
 			'page'   => $list->render()

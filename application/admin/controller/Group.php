@@ -25,7 +25,9 @@ class Group extends Admin {
 	public function index($type = 'admin') {
 		$map['module'] = $type;
 
-		$list = db('AuthGroup')->where($map)->order('id desc')->paginate(10);
+		$list = db('AuthGroup')->where($map)->order('id desc')->paginate(10, false, array(
+				'query'  => $this->request->param()
+			));
 
 		$data = array(
 			'list' => $list,
@@ -112,7 +114,9 @@ class Group extends Admin {
 	public function access($type = 'admin') {
 		$map['module'] = $type;
 
-		$list = db('AuthRule')->where($map)->order('id desc')->paginate(15);
+		$list = db('AuthRule')->where($map)->order('id desc')->paginate(15, false, array(
+				'query'  => $this->request->param()
+			));
 
 		$data = array(
 			'list' => $list,

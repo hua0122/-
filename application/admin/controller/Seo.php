@@ -25,7 +25,9 @@ class Seo extends Admin {
 		//读取规则列表
 		$map = array('status' => array('EGT', 0));
 
-		$list = $this->seo->where($map)->order('sort asc')->paginate(10);
+		$list = $this->seo->where($map)->order('sort asc')->paginate(10, false, array(
+				'query'  => $this->request->param()
+			));
 
 		$data = array(
 			'list' => $list,

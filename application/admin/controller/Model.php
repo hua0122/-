@@ -26,7 +26,9 @@ class Model extends Admin {
 		$map = array('status' => array('gt', -1));
 
 		$order = "id desc";
-		$list  = $this->model->where($map)->order($order)->paginate(10);
+		$list  = $this->model->where($map)->order($order)->paginate(10, false, array(
+				'query'  => $this->request->param()
+			));
 
 		$data = array(
 			'list' => $list,

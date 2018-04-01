@@ -21,7 +21,9 @@ class Action extends Admin {
 
 		$order = "id desc";
 		//获取列表数据
-		$list = model('Action')->where($map)->order($order)->paginate(10);
+		$list = model('Action')->where($map)->order($order)->paginate(10, false, array(
+				'query'  => $this->request->param()
+			));
 
 		// 记录当前列表页的cookie
 		Cookie('__forward__', $_SERVER['REQUEST_URI']);

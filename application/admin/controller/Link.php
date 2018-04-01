@@ -16,7 +16,9 @@ class Link extends Admin {
 		$map = array();
 
 		$order = "id desc";
-		$list  = db('Link')->where($map)->order($order)->paginate(10);
+		$list  = db('Link')->where($map)->order($order)->paginate(10, false, array(
+				'query'  => $this->request->param()
+			));
 
 		$data = array(
 			'list' => $list,

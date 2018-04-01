@@ -27,7 +27,9 @@ class Ad extends Admin {
 		$map   = array();
 		$order = "id desc";
 
-		$list = db('AdPlace')->where($map)->order($order)->paginate(10);
+		$list = db('AdPlace')->where($map)->order($order)->paginate(10, false, array(
+				'query'  => $this->request->param()
+			));
 		$data = array(
 			'list' => $list,
 			'page' => $list->render(),
@@ -102,7 +104,9 @@ class Ad extends Admin {
 		$map['place_id'] = $id;
 		$order           = "id desc";
 
-		$list = db('Ad')->where($map)->order($order)->paginate(10);
+		$list = db('Ad')->where($map)->order($order)->paginate(10, false, array(
+				'query'  => $this->request->param()
+			));
 		$data = array(
 			'id'   => $id,
 			'list' => $list,
@@ -118,7 +122,7 @@ class Ad extends Admin {
 		if ($this->request->isPost()) {
 			$result = $ad->change();
 			if ($result) {
-				return $this->success("添加成功！", url('admin/ad/lists', array('id' => $this->request->param('place_id'))));
+				return $this->success("添加成功！", url('admin/ad/lists', array('id' => $this->param['place_id'])));
 			} else {
 				return $this->error($ad->getError());
 			}
@@ -139,7 +143,7 @@ class Ad extends Admin {
 		if ($this->request->isPost()) {
 			$result = $ad->change();
 			if ($result) {
-				return $this->success("修改成功！", url('admin/ad/lists', array('id' => $this->reqeust->param('place_id'))));
+				return $this->success("修改成功！", url('admin/ad/lists', array('id' => $this->param['place_id'])));
 			} else {
 				return $this->error($ad->getError());
 			}

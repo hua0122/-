@@ -44,7 +44,9 @@ class Content extends Admin {
 		$field     = array_filter($grid_list['fields']);
 
 
-		$list = $this->model->where($map)->order($order)->paginate($this->modelInfo['list_row']);
+		$list = $this->model->where($map)->order($order)->paginate($this->modelInfo['list_row'], false, array(
+				'query'  => $this->request->param()
+			));
 
 		$data = array(
 			'grid' => $grid_list,
@@ -67,7 +69,7 @@ class Content extends Admin {
 	 */
 	public function add() {
 		if ($this->request->isPost()) {
-			$result = $this->model->save($this->request->param());
+			$result = $this->model->save($this->param);
 			if ($result) {
 				//记录行为
 				action_log('add_content', 'content', $result, session('auth_user.uid'));
@@ -100,7 +102,7 @@ class Content extends Admin {
 	 */
 	public function edit($id) {
 		if ($this->request->isPost()) {
-			$result = $this->model->save($this->request->param(), array('id'=> $id));
+			$result = $this->model->save($this->param, array('id'=> $id));
 			if ($result !== false) {
 				//记录行为
 				action_log('update_content', 'content', $result, session('auth_user.uid'));
@@ -137,12 +139,12 @@ class Content extends Admin {
 	 * @author molong <ycgpp@126.com>
 	 */
 	public function del() {
-		$param = $this->request->param();
-		if (!$param['id'] || (is_array($param['id']) && empty($param['id']))) {
+		$id = $this->getArrayParam('id');
+		if (empty($id)) {
 			return $this->error("非法操作！");
 		}
 
-		$map['id'] = array('IN', $param['id']);
+		$map['id'] = array('IN', $id);
 		$result    = $this->model->where($map)->delete();
 
 		if (false !== $result) {
