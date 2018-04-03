@@ -167,13 +167,13 @@ class Form extends Admin {
 		return $this->fetch();
 	}
 
-	public function addattr(\think\Request $request){
-		$form_id = isset($this->param['form_id']) ? $this->param['form_id'] : '';
+	public function addattr(){
+		$form_id = $this->request->param('form_id', '');
 		if (!$form_id) {
 			return $this->error('非法操作！');
 		}
 		if ($this->request->isPost()) {
-			$data = $request->post();
+			$data = $this->request->post();
 			$result = $this->Fattr->save($data);
 			if (false !== $result) {
 				return $this->success('添加成功！', url('admin/form/attr?form_id='.$form_id));

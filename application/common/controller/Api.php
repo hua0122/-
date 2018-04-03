@@ -61,10 +61,10 @@ class Api {
 	}
 
 	protected function checkToken($header){
-		if (isset($header['access_token']) && $header['access_token']) {
-			$token = authcode($header['access_token']);
+		if (isset($header['accesstoken']) && $header['accesstoken']) {
+			$token = authcode($header['accesstoken']);
 			list($uid, $username, $password) = explode('|', $token);
-			$this->user = model('User')->where('uid', $uid)->where('username', $username)->find();
+			$this->user = model('Member')->where('uid', $uid)->where('username', $username)->find();
 			if ($this->user && $password === $this->user['password']) {
 				return true;
 			}else{
@@ -79,6 +79,6 @@ class Api {
 	protected function setHeader(){
 		header("Access-Control-Allow-Origin: *");
 		header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-		header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, access_token");
+		header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, accessToken");
 	}
 }

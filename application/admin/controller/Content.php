@@ -69,7 +69,7 @@ class Content extends Admin {
 	 */
 	public function add() {
 		if ($this->request->isPost()) {
-			$result = $this->model->save($this->param);
+			$result = $this->model->save($this->request->param());
 			if ($result) {
 				//记录行为
 				action_log('add_content', 'content', $result, session('auth_user.uid'));

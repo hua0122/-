@@ -61,19 +61,19 @@ return [
 
     'picture_upload'         => [
         'rootPath'   => ROOT_PATH . DS .'/web/uploads/',
-        'size'       => '204800',
+        'size'       => '2',
         'ext'        => 'jpg,jpeg,png,gif'
     ],
 
     'attachment_upload'      => [
         'rootPath'   => ROOT_PATH . DS .'/web/uploads/',
-        'size'       => '204800',
+        'size'       => '2',
         'ext'        => 'doc,docx,xls,xlsx,ppt,pptx,zip,rar'
     ],
 
     'picture_upload'         => [
         'rootPath'   => ROOT_PATH . DS .'/web/uploads/',
-        'size'       => '204800',
+        'size'       => '2',
         'ext'        => 'jpg,jpeg,png,gif'
     ],
 ];

@@ -19,8 +19,9 @@ class Upload {
 		$config      = $this->$upload_type();
 		// 获取表单上传文件 例如上传了001.jpg
 		$file = request()->file('file');
+		$size = $config['size'] * 1024 * 1024;
 		$info = $file->validate(array(
-			'size'     => $config['size'],
+			'size'     => $size,
 			'ext'      => $config['ext'],
 		))->move($config['rootPath'], true, false);
 
