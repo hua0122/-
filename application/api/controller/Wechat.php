@@ -30,19 +30,24 @@ class Wechat extends \app\common\controller\Api{
 
 		$info = $app->auth->session($param['jsCode']);
 
-		//查询用户是否已添加
-		$user = db('Member')->where('openid', $info['openid'])->find();
-		if (!$user) {
-			$other = array(
-				'avatar_url' => $param['avatar'],
-			);
-			$user = model('Member')->register($param['nickname'], $param['openid'], $param['openid'], $param['openid'].'@wx.com', false, $other);
+		if (isset($info['openid']) && $info['openid']) {
+			//查询用户是否已添加
+			$user = db('Member')->where('openid', $info['openid'])->find();
+			if (!$user) {
+				$other = array(
+					'avatar_url' => $param['avatar'],
+				);
+				$user = model('Member')->register($param['nickname'], $param['openid'], $param['openid'], $param['openid'].'@wx.com', false, $other);
+			}
+
+			$info['access_token'] = authcode($user['uid'].'|'.$user['username'].'|'.$user['password'], 'ENCODE');
+			$info['uid'] = $user['uid'];
+
+			$this->data['data'] = $info;
+		}else{
+			$this->data['code'] = 1;
+			$this->data['msg'] = '非法操作！';
 		}
-
-		$info['access_token'] = authcode($user['uid'].'|'.$user['username'].'|'.$user['password'], 'ENCODE');
-		$info['uid'] = $user['uid'];
-
-		$this->data['data'] = $info;
 		
 		return json($this->data);
 	}

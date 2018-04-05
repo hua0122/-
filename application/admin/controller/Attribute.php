@@ -69,7 +69,7 @@ class Attribute extends Admin {
 	 */
 	public function add($model_id = '') {
 		if ($this->request->isPost()) {
-			$result = $this->model->validate('attribute.add')->save($this->param);
+			$result = $this->model->validate('attribute.add')->save($this->request->param());
 			if (false !== $result) {
 				return $this->success("创建成功！", url('Attribute/index', array('model_id' => $model_id)));
 			} else {
@@ -92,7 +92,7 @@ class Attribute extends Admin {
 	 */
 	public function edit($id = '', $model_id = '') {
 		if ($this->request->isPost()) {
-			$result = $this->model->validate('attribute.edit')->save($this->param, array('id'=>$id));
+			$result = $this->model->validate('attribute.edit')->save($this->request->param(), array('id'=>$id));
 			if ($result) {
 				return $this->success("修改成功！", url('Attribute/index', array('model_id' => $model_id)));
 			} else {

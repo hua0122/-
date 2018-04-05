@@ -195,8 +195,10 @@ class Form extends Admin {
 	}
 
 	public function editattr(\think\Request $request){
-		$form_id = isset($this->param['form_id']) ? $this->param['form_id'] : '';
-		$id = isset($this->param['id']) ? $this->param['id'] : '';
+		$param = $this->request->param();
+
+		$form_id = isset($param['form_id']) ? $param['form_id'] : '';
+		$id = isset($param['id']) ? $param['id'] : '';
 		if (!$form_id || !$id) {
 			return $this->error('非法操作！');
 		}
@@ -221,7 +223,7 @@ class Form extends Admin {
 	}
 
 	public function delattr(\think\Request $request){
-		$id = isset($this->param['id']) ? $this->param['id'] : 0;
+		$id = isset($request->param('id')) ? $request->param('id') : 0;
 		if (!$id) {
 			return $this->error('非法操作！');
 		}

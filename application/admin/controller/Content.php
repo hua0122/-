@@ -102,7 +102,7 @@ class Content extends Admin {
 	 */
 	public function edit($id) {
 		if ($this->request->isPost()) {
-			$result = $this->model->save($this->param, array('id'=> $id));
+			$result = $this->model->save($this->request->param(), array('id'=> $id));
 			if ($result !== false) {
 				//记录行为
 				action_log('update_content', 'content', $result, session('auth_user.uid'));
@@ -139,7 +139,8 @@ class Content extends Admin {
 	 * @author molong <ycgpp@126.com>
 	 */
 	public function del() {
-		$id = $this->getArrayParam('id');
+		$param = $this->request->param();
+		$id = $param['id'];
 		if (empty($id)) {
 			return $this->error("非法操作！");
 		}
