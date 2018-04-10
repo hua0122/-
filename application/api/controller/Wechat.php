@@ -36,8 +36,12 @@ class Wechat extends \app\common\controller\Api{
 			if (!$user) {
 				$other = array(
 					'avatar_url' => $param['avatar'],
+					'nickname' => $param['nickname'],
+					'openid' => $info['openid']
 				);
-				$user = model('Member')->register($param['nickname'], $param['openid'], $param['openid'], $param['openid'].'@wx.com', false, $other);
+				$user = model('Member')->register($param['nickname'], $info['openid'], $info['openid'], $info['openid'].'@wxapp.com', false, $other);
+			}else{
+				model('Member')->where('openid', $info['openid'])->setField('avatar_url', $param['avatar']);
 			}
 
 			$info['access_token'] = authcode($user['uid'].'|'.$user['username'].'|'.$user['password'], 'ENCODE');

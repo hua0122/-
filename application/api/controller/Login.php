@@ -21,6 +21,7 @@ class Login extends \app\common\controller\Api{
 				$info['access_token'] = authcode($user['uid'].'|'.$user['username'].'|'.$user['password'], 'ENCODE');
 				$info['uid'] = $user['uid'];
 				$info['username'] = $user['username'];
+				$info['password'] = $user['password'];
 				$info['avatar'] = (isset($user['avatar_url']) && $user['avatar_url']) ? $user['avatar_url'] : avatar($user['uid']);
 
 				$this->data['data'] = $info;

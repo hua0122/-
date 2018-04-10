@@ -122,7 +122,7 @@ class Ad extends Admin {
 		if ($this->request->isPost()) {
 			$result = $ad->change();
 			if ($result) {
-				return $this->success("添加成功！", url('admin/ad/lists', array('id' => $this->request->param('place_id')))));
+				return $this->success("添加成功！", url('admin/ad/lists', array('id' => $this->request->param('place_id'))));
 			} else {
 				return $this->error($ad->getError());
 			}

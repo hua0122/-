@@ -65,6 +65,7 @@ class Api {
 			$token = authcode($header['accesstoken']);
 			list($uid, $username, $password) = explode('|', $token);
 			$this->user = model('Member')->where('uid', $uid)->where('username', $username)->find();
+
 			if ($this->user && $password === $this->user['password']) {
 				return true;
 			}else{

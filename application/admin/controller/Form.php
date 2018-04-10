@@ -223,7 +223,7 @@ class Form extends Admin {
 	}
 
 	public function delattr(\think\Request $request){
-		$id = isset($request->param('id')) ? $request->param('id') : 0;
+		$id = $request->param('id', 0);
 		if (!$id) {
 			return $this->error('非法操作！');
 		}
