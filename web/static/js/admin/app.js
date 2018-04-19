@@ -1,4 +1,5 @@
 $(function($) {
+
 	var storage, fail, uid;
 	try {
 		uid = new Date; (storage = window.localStorage).setItem(uid, uid);
@@ -21,13 +22,13 @@ $(function($) {
 			if ($('#page-wrapper').hasClass('nav-small')) {
 				$('#page-wrapper').removeClass('nav-small');
 			}
+
 			$('.fixed-leftmenu #col-left').nanoScroller({
 				alwaysVisible: true,
 				iOSNativeScrolling: false,
 				preventPageScrolling: true,
 				contentClass: 'col-left-nano-content'
 			});
-
 
 			var boxedLayout = localStorage.getItem('config-boxed-layout');
 			if (boxedLayout == 'boxed-layout') {
@@ -170,12 +171,14 @@ $(function($) {
 			container.removeClass('active');
 		}
 	});
+
 	$('.fixed-leftmenu #col-left').nanoScroller({
 		alwaysVisible: true,
 		iOSNativeScrolling: false,
 		preventPageScrolling: true,
 		contentClass: 'col-left-nano-content'
 	});
+	
 	$("[data-toggle='tooltip']").each(function(index, el) {
 		$(el).tooltip({
 			placement: $(this).data("placement") || 'top'
