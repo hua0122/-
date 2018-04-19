@@ -25,9 +25,9 @@ class Index extends Admin {
 			}
 
 			//验证码验证
-			// if(!captcha_check($verify)){
-			// 	return $this->error('验证码错误！', '');
-			// }
+			if(!captcha_check($verify)){
+				return $this->error('验证码错误！', '');
+			}
 
 			$user = model('Member');
 			$uid  = $user->login($username, $password);
