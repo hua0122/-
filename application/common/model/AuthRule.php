@@ -90,7 +90,7 @@ class AuthRule extends Base{
 	}
 
 	protected function Parser($text){
-		$doc = new \Doc\Doc();
+		$doc = new \doc\Doc();
 		return $doc->parse($text);
 	}
 }
