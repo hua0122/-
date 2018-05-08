@@ -10,6 +10,9 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+/**
+ * @title 配置管理
+ */
 class Config extends Admin {
 
 	public function _initialize() {
@@ -18,7 +21,7 @@ class Config extends Admin {
 	}
 
 	/**
-	 * 配置管理
+	 * @title 配置管理
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function index() {
@@ -53,6 +56,9 @@ class Config extends Admin {
 		return $this->fetch();
 	}
 
+	/**
+	 * @title 信息配置
+	 */
 	public function group($id = 1) {
 		if ($this->request->isPost()) {
 			$config = $this->request->post('config/a');
@@ -76,7 +82,7 @@ class Config extends Admin {
 	}
 
 	/**
-	 * 新增配置
+	 * @title 新增配置
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function add() {
@@ -104,7 +110,7 @@ class Config extends Admin {
 	}
 
 	/**
-	 * 编辑配置
+	 * @title 编辑配置
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function edit($id = 0) {
@@ -138,7 +144,7 @@ class Config extends Admin {
 		}
 	}
 	/**
-	 * 批量保存配置
+	 * @title 批量保存配置
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function save($config) {
@@ -152,8 +158,9 @@ class Config extends Admin {
 		cache('db_config_data', null);
 		return $this->success('保存成功！');
 	}
+
 	/**
-	 * 删除配置
+	 * @title 删除配置
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function del() {
@@ -175,7 +182,7 @@ class Config extends Admin {
 	}
 
 	/**
-	 * 配置排序
+	 * @title 配置排序
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function sort() {
@@ -209,7 +216,9 @@ class Config extends Admin {
 		}
 	}
 
-
+	/**
+	 * @title 主题选择
+	 */
 	public function themes() {
 		$list = $this->model->getThemesList();
 		$pc = config('pc_themes');
@@ -226,7 +235,7 @@ class Config extends Admin {
 	}
 
 	/**
-	 * 设置主题
+	 * @title 设置主题
 	 * @return json
 	 */
 	public function setthemes($name, $id){

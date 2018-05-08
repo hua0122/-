@@ -10,6 +10,10 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+/**
+ * @title 分类管理
+ * @description 分类管理
+ */
 class Category extends Admin {
 
 	public function _initialize() {
@@ -17,6 +21,9 @@ class Category extends Admin {
 		$this->getContentMenu();
 	}
 
+	/**
+	 * @title 分类列表
+	 */
 	public function index($model_id = '') {
 		$map  = array('status' => array('gt', -1));
 		if ($model_id) {
@@ -38,14 +45,18 @@ class Category extends Admin {
 		return $this->fetch();
 	}
 
-	/* 单字段编辑 */
+	/**
+	 * @title 编辑字段
+	 */
 	public function editable($name = null, $value = null, $pk = null) {
 		if ($name && ($value != null || $value != '') && $pk) {
 			db('Category')->where(array('id' => $pk))->setField($name, $value);
 		}
 	}
 
-	/* 编辑分类 */
+	/**
+	 * @title 编辑分类
+	 */
 	public function edit($id = null, $pid = 0) {
 		if ($this->request->isPost()) {
 			$category = model('Category');
@@ -81,7 +92,10 @@ class Category extends Admin {
 			return $this->fetch();
 		}
 	}
-	/* 新增分类 */
+
+	/**
+	 * @title 添加分类
+	 */
 	public function add($pid = 0) {
 		$Category = model('Category');
 
@@ -116,7 +130,7 @@ class Category extends Admin {
 		}
 	}
 	/**
-	 * 删除一个分类
+	 * @title 删除分类
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function remove($id) {
@@ -181,8 +195,9 @@ class Category extends Admin {
 		$this->setMeta($operate . '分类');
 		return $this->fetch();
 	}
+	
 	/**
-	 * 移动分类
+	 * @title 移动分类
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function move() {
@@ -195,8 +210,9 @@ class Category extends Admin {
 			return $this->error('分类移动失败！');
 		}
 	}
+
 	/**
-	 * 合并分类
+	 * @title 合并分类
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function merge() {
@@ -232,6 +248,10 @@ class Category extends Admin {
 		}
 	}
 
+	/**
+	 * @title 修改状态
+	 * @author huajie <banhuajie@163.com>
+	 */
 	public function status() {
 		$id     = $this->getArrayParam('id');
 		$status = input('status', '0', 'trim,intval');
@@ -248,42 +268,46 @@ class Category extends Admin {
 			return $this->error("设置失败！");
 		}
 	}
-        
-        public function add_channel() {
-                if ($this->request->isPost()) {
-                    $Channel = model('Channel');
-                    $data    = $this->request->param();
-                    if ($data) {
-                        $id = $Channel->save($data);
-                        if ($id) {
-                            $map['id'] = array('IN', $data['mid']);
-                            $result  = db('Category')->where($map)->setField('ismenu',$Channel->id);                                      
-                            return $this->success('生成成功',url('index'));
-                            //记录行为
-                            action_log('update_channel', 'channel', $id, session('user_auth.uid'));
-                        } else {
-                            return $this->error('生成失败');
-                        }
-                    } else {
-                        $this->error($Channel->getError());
-                    }
-                } else {
-                    $data    = $this->request->param();
-                    $modelname = db('Model')->where( array('id' => $data['model_id']) )->field('id,name')->find();  
-                    $data['url'] = $modelname['name'].'/list/'.$data['mid'];
-                    $pid = input('pid', 0);
-                    //获取父导航
-                    if (!empty($pid)) {
-                        $parent = db('Channel')->where(array('id' => $pid))->field('title')->find();
-                        $this->assign('parent', $parent);
-                    }
-                    $pnav = db('Channel')->where(array('pid' => '0'))->select();
-                    $this->assign('pnav', $pnav);
-                    $this->assign('pid', $pid);
-                    $this->assign('info', $data);
-                    $this->assign('data',null );
-                    $this->setMeta('生成导航');    
-                    return $this->fetch('edit_channel');
-                }
-        }
+	
+	/**
+	 * @title 生成频道
+	 * @author huajie <banhuajie@163.com>
+	 */
+	public function add_channel() {
+			if ($this->request->isPost()) {
+				$Channel = model('Channel');
+				$data    = $this->request->param();
+				if ($data) {
+					$id = $Channel->save($data);
+					if ($id) {
+						$map['id'] = array('IN', $data['mid']);
+						$result  = db('Category')->where($map)->setField('ismenu',$Channel->id);                                      
+						return $this->success('生成成功',url('index'));
+						//记录行为
+						action_log('update_channel', 'channel', $id, session('user_auth.uid'));
+					} else {
+						return $this->error('生成失败');
+					}
+				} else {
+					$this->error($Channel->getError());
+				}
+			} else {
+				$data    = $this->request->param();
+				$modelname = db('Model')->where( array('id' => $data['model_id']) )->field('id,name')->find();  
+				$data['url'] = $modelname['name'].'/list/'.$data['mid'];
+				$pid = input('pid', 0);
+				//获取父导航
+				if (!empty($pid)) {
+					$parent = db('Channel')->where(array('id' => $pid))->field('title')->find();
+					$this->assign('parent', $parent);
+				}
+				$pnav = db('Channel')->where(array('pid' => '0'))->select();
+				$this->assign('pnav', $pnav);
+				$this->assign('pid', $pid);
+				$this->assign('info', $data);
+				$this->assign('data',null );
+				$this->setMeta('生成导航');    
+				return $this->fetch('edit_channel');
+			}
+	}
 }

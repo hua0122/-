@@ -11,13 +11,29 @@ namespace app\admin\controller;
 
 use app\common\controller\Admin;
 
+/**
+ * @title 首页
+ * @description 后台首页
+ */
 class Index extends Admin {
 
+    /**
+     * @title 后台首页
+     * @return html
+     */
 	public function index() {
+		$methods = model('AuthRule')->updaterule('admin');
+		dump($methods);
+		exit();
+
 		$this->setMeta('后台首页');
 		return $this->fetch();
 	}
 
+    /**
+     * @title 用户登录
+     * @return html
+     */
 	public function login($username = '', $password = '', $verify = '') {
 		if ($this->request->isPost()) {
 			if (!$username || !$password) {
@@ -49,10 +65,10 @@ class Index extends Admin {
 		}
 	}
 
-	/**
-	 * title : 后台退出
-	 *  
-	*/
+    /**
+     * @title 后台退出
+     * @return html
+     */
 	public function logout() {
 		$user = model('Member');
 		$user->logout();
@@ -60,10 +76,10 @@ class Index extends Admin {
 	}
 
 
-	/**
-	 * title : 清除缓存
-	 *  
-	*/
+    /**
+     * @title 清除缓存
+     * @return html
+     */
 	public function clear() {
 		if ($this->request->isPost()) {
 			$clear = input('post.clear/a', array());

@@ -10,6 +10,10 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+/**
+ * @title 字段管理
+ * @description 字段管理
+ */
 class Attribute extends Admin {
 
 	//保存的Model句柄
@@ -42,7 +46,7 @@ class Attribute extends Admin {
 	}
 
 	/**
-	 * index方法
+	 * @title 字段列表
 	 * @author colin <colin@tensent.cn>
 	 */
 	public function index($model_id = null) {
@@ -64,7 +68,7 @@ class Attribute extends Admin {
 	}
 
 	/**
-	 * 创建字段
+	 * @title 创建字段
 	 * @author colin <colin@tensent.cn>
 	 */
 	public function add($model_id = '') {
@@ -87,7 +91,7 @@ class Attribute extends Admin {
 	}
 
 	/**
-	 * 编辑字段方法
+	 * @title 编辑字段
 	 * @author colin <colin@tensent.cn>
 	 */
 	public function edit($id = '', $model_id = '') {
@@ -111,7 +115,7 @@ class Attribute extends Admin {
 	}
 
 	/**
-	 * 删除字段信息
+	 * @title 删除字段
 	 * @var delattr 是否删除字段表里的字段
 	 * @author colin <colin@tensent.cn>
 	 */

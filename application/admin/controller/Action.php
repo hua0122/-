@@ -10,10 +10,14 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+/**
+ * @title 行为管理
+ * @description 行为管理
+ */
 class Action extends Admin {
 
 	/**
-	 * 用户行为列表
+	 * @title 用户行为列表
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function index() {
@@ -37,7 +41,7 @@ class Action extends Admin {
 	}
 
 	/**
-	 * 新建用户行为
+	 * @title 新建用户行为
 	 * @author colin <colin@tensent.cn>
 	 */
 	public function add() {
@@ -62,7 +66,7 @@ class Action extends Admin {
 	}
 
 	/**
-	 * 编辑用户行为
+	 * @title 编辑用户行为
 	 * @author colin <colin@tensent.cn>
 	 */
 	public function edit($id = null) {
@@ -92,7 +96,7 @@ class Action extends Admin {
 	}
 
 	/**
-	 * 删除用户行为状态
+	 * @title 删除用户行为
 	 * @author colin <colin@tensent.cn>
 	 */
 	public function del() {
@@ -111,7 +115,7 @@ class Action extends Admin {
 	}
 
 	/**
-	 * 修改用户行为状态
+	 * @title 修改用户行为状态
 	 * @author colin <colin@tensent.cn>
 	 */
 	public function setstatus() {
@@ -132,7 +136,7 @@ class Action extends Admin {
 	}
 
 	/**
-	 * 行为日志列表
+	 * @title 行为日志列表
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function log() {
@@ -153,7 +157,7 @@ class Action extends Admin {
 		return $this->fetch();
 	}
 	/**
-	 * 查看行为日志
+	 * @title 查看行为日志
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function detail($id = 0) {
@@ -176,8 +180,9 @@ class Action extends Admin {
 		$this->setMeta('查看行为日志');
 		return $this->fetch();
 	}
+
 	/**
-	 * 删除日志
+	 * @title 删除日志
 	 * @param mixed $id
 	 * @author huajie <banhuajie@163.com>
 	 */
@@ -195,8 +200,9 @@ class Action extends Admin {
 			return $this->error('删除失败！');
 		}
 	}
+	
 	/**
-	 * 清空日志
+	 * @title 清空日志
 	 */
 	public function clear($id = '') {
 		$res = db('ActionLog')->where('1=1')->delete();

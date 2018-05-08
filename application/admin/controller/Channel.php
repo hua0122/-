@@ -10,12 +10,19 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+/**
+ * @title 频道管理
+ * @description 频道管理
+ */
 class Channel extends Admin {
 
 	public function _initialize() {
 		parent::_initialize();
 	}
 
+	/**
+	 * @title 频道列表
+	 */
 	public function index($type = 0) {
 		/* 获取频道列表 */
 		//$map  = array('status' => array('gt', -1), 'pid'=>$pid);
@@ -41,7 +48,9 @@ class Channel extends Admin {
 		return $this->fetch();
 	}
 
-	/* 单字段编辑 */
+	/**
+	 * @title 单字段编辑
+	 */
 	public function editable($name = null, $value = null, $pk = null) {
 		if ($name && ($value != null || $value != '') && $pk) {
 			model('Channel')->where(array('id' => $pk))->setField($name, $value);
@@ -49,7 +58,7 @@ class Channel extends Admin {
 	}
 
 	/**
-	 * 添加频道
+	 * @title 添加频道
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function add() {
@@ -85,7 +94,7 @@ class Channel extends Admin {
 		}
 	}
 	/**
-	 * 编辑频道
+	 * @title 编辑频道
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function edit($id = 0) {
@@ -128,7 +137,7 @@ class Channel extends Admin {
 		}
 	}
 	/**
-	 * 删除频道
+	 * @title 删除频道
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function del() {
@@ -151,7 +160,7 @@ class Channel extends Admin {
 		}
 	}
 	/**
-	 * 导航排序
+	 * @title 导航排序
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function sort() {
@@ -188,6 +197,9 @@ class Channel extends Admin {
 		}
 	}
 
+	/**
+	 * @title 设置状态
+	 */
 	public function setStatus() {
 		$id     = array_unique((array) input('ids', 0));
 		$status = input('status', '0', 'trim');

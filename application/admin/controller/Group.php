@@ -130,8 +130,8 @@ class Group extends Admin {
 
 	//根据菜单更新节点
 	public function upnode($type) {
-		$rule = model('Menu')->getAuthNodes($type);
-		$reuslt = $this->rule->uprule($rule, $type);
+		//$rule = model('Menu')->getAuthNodes($type);
+		$reuslt = $this->rule->uprule($type);
 		return $this->success("更新成功！");
 	}
 

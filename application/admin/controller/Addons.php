@@ -10,6 +10,10 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+/**
+ * @title 插件管理
+ * @description 插件管理
+ */
 class Addons extends Admin {
 
 	protected $addons;
@@ -22,7 +26,7 @@ class Addons extends Admin {
 		$this->hooks  = db('Hooks');
 	}
 	/**
-	 * 插件列表
+	 * @title 插件列表
 	 */
 	public function index($refresh = 0) {
 		if ($refresh) {
@@ -43,7 +47,9 @@ class Addons extends Admin {
 		return $this->fetch();
 	}
 
-	//创建向导首页
+	/**
+	 * @title 添加插件
+	 */
 	public function add() {
 		if ($this->request->isPost()) {
 			$data = $this->addons->create();
@@ -72,12 +78,8 @@ class Addons extends Admin {
 		}
 	}
 
-	//预览
-	public function preview($output = true) {
-	}
-
 	/**
-	 * 安装插件
+	 * @title 安装插件
 	 */
 	public function install() {
 		$addon_name = input('addon_name', '', 'trim,ucfirst');
@@ -107,7 +109,7 @@ class Addons extends Admin {
 	}
 
 	/**
-	 * 卸载插件
+	 * @title 卸载插件
 	 */
 	public function uninstall($id) {
 		$result = $this->addons->uninstall($id);
@@ -119,7 +121,7 @@ class Addons extends Admin {
 	}
 
 	/**
-	 * 启用插件
+	 * @title 启用插件
 	 */
 	public function enable() {
 		$id = input('id');
@@ -134,7 +136,7 @@ class Addons extends Admin {
 	}
 
 	/**
-	 * 禁用插件
+	 * @title 禁用插件
 	 */
 	public function disable() {
 		$id = input('id');
@@ -149,7 +151,7 @@ class Addons extends Admin {
 	}
 
 	/**
-	 * 设置插件页面
+	 * @title 设置插件页面
 	 */
 	public function config() {
 		if ($this->request->isPost()) {
@@ -177,6 +179,7 @@ class Addons extends Admin {
 	}
 
 	/**
+	 * @title 检测插件
 	 * 获取插件所需的钩子是否存在，没有则新增
 	 * @param string $str  钩子名称
 	 * @param string $addons  插件名称
@@ -199,7 +202,7 @@ class Addons extends Admin {
 	}
 
 	/**
-	 * 删除钩子
+	 * @title 删除钩子
 	 * @param string $hook  钩子名称
 	 */
 	public function deleteHook($hook) {
@@ -212,7 +215,7 @@ class Addons extends Admin {
 	}
 
 	/**
-	 * 钩子列表
+	 * @title 钩子列表
 	 */
 	public function hooks() {
 
@@ -234,6 +237,9 @@ class Addons extends Admin {
 		return $this->fetch();
 	}
 
+	/**
+	 * @title 添加钩子
+	 */
 	public function addhook() {
 		$hooks = model('Hooks');
 		if ($this->request->isPost()) {
@@ -254,7 +260,9 @@ class Addons extends Admin {
 		}
 	}
 
-	//钩子出编辑挂载插件页面
+	/**
+	 * @title 编辑钩子
+	 */
 	public function edithook($id) {
 		$hooks = model('Hooks');
 		if ($this->request->isPost()) {
@@ -277,7 +285,9 @@ class Addons extends Admin {
 		}
 	}
 
-	//超级管理员删除钩子
+	/**
+	 * @title 删除钩子
+	 */
 	public function delhook() {
 		$id        = $this->getArrayParam('id');
 		$map['id'] = array('IN', $id);
@@ -289,6 +299,9 @@ class Addons extends Admin {
 		}
 	}
 
+	/**
+	 * @title 更新钩子
+	 */
 	public function updateHook() {
 		$hookModel = D('Hooks');
 		$data      = $hookModel->create();

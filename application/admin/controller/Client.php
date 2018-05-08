@@ -10,6 +10,9 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+/**
+ * @title 客户端管理
+ */
 class Client extends Admin {
 
 	public function _initialize() {
@@ -17,7 +20,9 @@ class Client extends Admin {
 		$this->model = model('Client');
 	}
 
-	
+	/**
+	 * @title 客户端列表
+	 */
 	public function index(){
 		$list = $this->model->paginate(25, false, array(
 				'query'  => $this->request->param()
@@ -31,6 +36,9 @@ class Client extends Admin {
 		return $this->fetch();
 	}
 	
+	/**
+	 * @title 添加客户端
+	 */
 	public function add(\think\Request $request){
 		if ($this->request->isPost()) {
 			$data = $request->param();
@@ -52,6 +60,9 @@ class Client extends Admin {
 		}
 	}
 	
+	/**
+	 * @title 编辑客户端
+	 */
 	public function edit(\think\Request $request){
 		if ($this->request->isPost()) {
 			$data = $request->param();
@@ -72,6 +83,9 @@ class Client extends Admin {
 		}
 	}
 	
+	/**
+	 * @title 删除客户端
+	 */
 	public function del(\think\Request $request){
 
 	}

@@ -10,6 +10,10 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+/**
+ * @title 广告管理
+ * @description 广告管理
+ */
 class Ad extends Admin {
 
 	protected $ad;
@@ -20,8 +24,9 @@ class Ad extends Admin {
 		$this->ad      = db('Ad');
 		$this->adplace = db('AdPlace');
 	}
+
 	/**
-	 * 插件列表
+	 * @title 广告位管理
 	 */
 	public function index() {
 		$map   = array();
@@ -40,7 +45,7 @@ class Ad extends Admin {
 	}
 
 	/**
-	 * 广告位添加
+	 * @title 广告位添加
 	 */
 	public function add() {
 		$place = model('AdPlace');
@@ -61,6 +66,9 @@ class Ad extends Admin {
 		}
 	}
 
+	/**
+	 * @title 广告位编辑
+	 */
 	public function edit($id = null) {
 		$place = model('AdPlace');
 		if ($this->request->isPost()) {
@@ -85,6 +93,9 @@ class Ad extends Admin {
 		}
 	}
 
+	/**
+	 * @title 广告位删除
+	 */
 	public function del() {
 		$id = $this->getArrayParam('id');
 
@@ -100,6 +111,9 @@ class Ad extends Admin {
 		}
 	}
 
+	/**
+	 * @title 广告列表
+	 */
 	public function lists($id = null) {
 		$map['place_id'] = $id;
 		$order           = "id desc";
@@ -117,6 +131,9 @@ class Ad extends Admin {
 		return $this->fetch();
 	}
 
+	/**
+	 * @title 添加广告
+	 */
 	public function addad($id) {
 		$ad = model('ad');
 		if ($this->request->isPost()) {
@@ -138,6 +155,9 @@ class Ad extends Admin {
 		}
 	}
 
+	/**
+	 * @title 编辑广告
+	 */
 	public function editad($id = null) {
 		$ad = model('ad');
 		if ($this->request->isPost()) {
@@ -162,6 +182,9 @@ class Ad extends Admin {
 		}
 	}
 
+	/**
+	 * @title 删除广告
+	 */
 	public function delad() {
 		$id = $this->getArrayParam('id');
 
