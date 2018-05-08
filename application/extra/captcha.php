@@ -14,5 +14,5 @@ return [
     'length'      =>    3,   
     // 关闭验证码杂点
     'useNoise'    =>    false,
-    'useZh'       =>    true
+    'useZh'       =>    false
 ];
