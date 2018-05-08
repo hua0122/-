@@ -10,6 +10,9 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+/**
+ * @title SEO管理
+ */
 class Seo extends Admin {
 
 	protected $seo;
@@ -21,6 +24,9 @@ class Seo extends Admin {
 		$this->rewrite = model('Rewrite');
 	}
 
+	/**
+	 * @title SEO列表
+	 */
 	public function index($page = 1, $r = 20) {
 		//读取规则列表
 		$map = array('status' => array('EGT', 0));
@@ -38,6 +44,9 @@ class Seo extends Admin {
 		return $this->fetch();
 	}
 
+	/**
+	 * @title 添加SEO
+	 */
 	public function add() {
 		if ($this->request->isPost()) {
 			$data   = $this->request->post();
@@ -57,6 +66,9 @@ class Seo extends Admin {
 		}
 	}
 
+	/**
+	 * @title 编辑SEO
+	 */
 	public function edit($id = null) {
 		if ($this->request->isPost()) {
 			$data   = $this->request->post();
@@ -79,6 +91,9 @@ class Seo extends Admin {
 		}
 	}
 
+	/**
+	 * @title 删除SEO
+	 */
 	public function del() {
 		$id = $this->getArrayParam('id');
 		if (empty($id)) {
@@ -92,6 +107,9 @@ class Seo extends Admin {
 		}
 	}
 
+	/**
+	 * @title 伪静态列表
+	 */
 	public function rewrite() {
 		$list = db('Rewrite')->paginate(10);
 
@@ -104,6 +122,9 @@ class Seo extends Admin {
 		return $this->fetch();
 	}
 
+	/**
+	 * @title 添加静态规则
+	 */
 	public function addrewrite() {
 		if ($this->request->isPost()) {
 			$result = model('Rewrite')->change();
@@ -122,6 +143,9 @@ class Seo extends Admin {
 		}
 	}
 
+	/**
+	 * @title 编辑静态规则
+	 */
 	public function editrewrite() {
 		if ($this->request->isPost()) {
 			$result = model('Rewrite')->change();
@@ -143,6 +167,9 @@ class Seo extends Admin {
 		}
 	}
 
+	/**
+	 * @title 删除静态规则
+	 */
 	public function delrewrite() {
 		$id = $this->getArrayParam('id');
 		if (empty($id)) {

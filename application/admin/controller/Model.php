@@ -10,6 +10,9 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+/**
+ * @title 模型管理
+ */
 class Model extends Admin {
 
 	public function _initialize() {
@@ -19,7 +22,7 @@ class Model extends Admin {
 	}
 
 	/**
-	 * 模型管理首页
+	 * @title 模型列表
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function index() {
@@ -44,7 +47,7 @@ class Model extends Admin {
 	}
 
 	/**
-	 * 新增页面初始化
+	 * @title 新增模型
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function add(\think\Request $request) {
@@ -64,7 +67,7 @@ class Model extends Admin {
 	}
 
 	/**
-	 * 编辑页面初始化
+	 * @title 编辑模型
 	 * @author molong <molong@tensent.cn>
 	 */
 	public function edit(\think\Request $request) {
@@ -106,7 +109,7 @@ class Model extends Admin {
 	}
 
 	/**
-	 * 删除一条数据
+	 * @title 删除模型
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function del() {
@@ -118,10 +121,6 @@ class Model extends Admin {
 		}
 	}
 
-	/**
-	 * 更新一条数据
-	 * @author huajie <banhuajie@163.com>
-	 */
 	public function update() {
 		$res = \think\Loader::model('Model')->change();
 		if ($res['status']) {
@@ -132,7 +131,7 @@ class Model extends Admin {
 	}
 
 	/**
-	 * 更新数据
+	 * @title 更新数据
 	 * @author colin <colin@tensent.cn>
 	 */
 	public function status(\think\Request $request) {

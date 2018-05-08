@@ -10,12 +10,19 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+
+/**
+ * @title 菜单管理
+ */
 class Menu extends Admin {
 
 	public function _initialize() {
 		parent::_initialize();
 	}
 
+	/**
+	 * @title 菜单列表
+	 */
 	public function index() {
 		$map   = array();
 		$title = trim(input('get.title'));
@@ -34,7 +41,9 @@ class Menu extends Admin {
 		return $this->fetch();
 	}
 
-	/* 单字段编辑 */
+	/**
+	 * @title 编辑菜单字段
+	 */
 	public function editable($name = null, $value = null, $pk = null) {
 		if ($name && ($value != null || $value != '') && $pk) {
 			db('Menu')->where(array('id' => $pk))->setField($name, $value);
@@ -42,7 +51,7 @@ class Menu extends Admin {
 	}
 
 	/**
-	 * 新增菜单
+	 * @title 新增菜单
 	 * @author yangweijie <yangweijiester@gmail.com>
 	 */
 	public function add() {
@@ -76,7 +85,7 @@ class Menu extends Admin {
 	}
 
 	/**
-	 * 编辑配置
+	 * @title 编辑配置
 	 * @author yangweijie <yangweijiester@gmail.com>
 	 */
 	public function edit($id = 0) {
@@ -111,7 +120,7 @@ class Menu extends Admin {
 	}
 
 	/**
-	 * 删除后台菜单
+	 * @title 删除菜单
 	 * @author yangweijie <yangweijiester@gmail.com>
 	 */
 	public function del() {
@@ -213,7 +222,7 @@ class Menu extends Admin {
 	}
 
 	/**
-	 * 菜单排序
+	 * @title 菜单排序
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function sort() {

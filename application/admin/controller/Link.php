@@ -10,8 +10,15 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+/**
+ * @title 友情链接
+ * @description 友情链接
+ */
 class Link extends Admin {
 
+	/**
+	 * @title 链接列表
+	 */
 	public function index() {
 		$map = array();
 
@@ -29,7 +36,9 @@ class Link extends Admin {
 		return $this->fetch();
 	}
 
-	//添加
+	/**
+	 * @title 添加链接
+	 */
 	public function add() {
 		$link = model('Link');
 		if ($this->request->isPost()) {
@@ -55,7 +64,10 @@ class Link extends Admin {
 		}
 	}
 
-	//修改
+
+	/**
+	 * @title 修改链接
+	 */
 	public function edit() {
 		$link = model('Link');
 		$id   = input('id', '', 'trim,intval');
@@ -85,7 +97,9 @@ class Link extends Admin {
 		}
 	}
 
-	//删除
+	/**
+	 * @title 删除链接
+	 */
 	public function delete() {
 		$id = $this->getArrayParam('id');
 		if (empty($id)) {

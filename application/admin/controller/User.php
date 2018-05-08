@@ -10,10 +10,13 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+/**
+ * @title 用户管理
+ */
 class User extends Admin {
 
 	/**
-	 * 用户管理首页
+	 * @title 用户列表
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function index() {
@@ -43,7 +46,7 @@ class User extends Admin {
 	}
 
 	/**
-	 * 添加用户
+	 * @title 添加用户
 	 * @author colin <molong@tensent.cn>
 	 */
 	public function add() {
@@ -68,7 +71,7 @@ class User extends Admin {
 	}
 
 	/**
-	 * 修改昵称初始化
+	 * @title 修改用户
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function edit() {
@@ -97,7 +100,7 @@ class User extends Admin {
 	}
 
 	/**
-	 * del
+	 * @title 删除用户
 	 * @author colin <colin@tensent.cn>
 	 */
 	public function del($id) {
@@ -108,6 +111,11 @@ class User extends Admin {
 		return $this->success('删除用户成功！');
 	}
 
+
+	/**
+	 * @title 用户授权
+	 * @author colin <colin@tensent.cn>
+	 */
 	public function auth() {
 		$access = model('AuthGroupAccess');
 		$group  = model('AuthGroup');
@@ -150,7 +158,7 @@ class User extends Admin {
 	}
 
 	/**
-	 * 获取某个用户的信息
+	 * @title 获取某个用户的信息
 	 * @var uid 针对状态和删除启用
 	 * @var pass 是查询password
 	 * @var errormasg 错误提示
@@ -174,7 +182,7 @@ class User extends Admin {
 	}
 
 	/**
-	 * 修改昵称提交
+	 * @title 修改昵称
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function submitNickname() {
@@ -216,7 +224,7 @@ class User extends Admin {
 	}
 
 	/**
-	 * 修改密码初始化
+	 * @title 修改密码初始化
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function editpwd() {
@@ -237,7 +245,7 @@ class User extends Admin {
 	}
 
 	/**
-	 * 会员状态修改
+	 * @title 会员状态修改
 	 * @author 朱亚杰 <zhuyajie@topthink.net>
 	 */
 	public function changeStatus($method = null) {
