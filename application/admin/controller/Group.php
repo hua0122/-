@@ -10,6 +10,10 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+/**
+ * @title 用户组管理
+ * @description 用户组管理
+ */
 class Group extends Admin {
 
 	protected $model;
@@ -21,7 +25,9 @@ class Group extends Admin {
 		$this->rule  = model('AuthRule');
 	}
 
-	//会员分组首页控制器
+	/**
+	 * @title 用户组列表
+	 */
 	public function index($type = 'admin') {
 		$map['module'] = $type;
 
@@ -39,7 +45,9 @@ class Group extends Admin {
 		return $this->fetch();
 	}
 
-	//会员分组添加控制器
+	/**
+	 * @title 添加用户组
+	 */
 	public function add($type = 'admin') {
 		if ($this->request->isPost()) {
 			$result = $this->group->change();
@@ -59,7 +67,9 @@ class Group extends Admin {
 		}
 	}
 
-	//会员分组编辑控制器
+	/**
+	 * @title 编辑用户组
+	 */
 	public function edit($id) {
 		if (!$id) {
 			return $this->error("非法操作！");
@@ -83,7 +93,10 @@ class Group extends Admin {
 		}
 	}
 
-	//会员分组编辑字段控制器
+
+	/**
+	 * @title 编辑用户组单字段
+	 */
 	public function editable() {
 		$pk     = input('pk', '', 'trim,intval');
 		$name   = input('name', '', 'trim');
@@ -96,7 +109,10 @@ class Group extends Admin {
 		}
 	}
 
-	//会员分组删除控制器
+
+	/**
+	 * @title 删除用户组
+	 */
 	public function del() {
 		$id = $this->getArrayParam('id');
 		if (empty($id)) {
@@ -110,7 +126,10 @@ class Group extends Admin {
 		}
 	}
 
-	//权限节点控制器
+
+	/**
+	 * @title 权限节点
+	 */
 	public function access($type = 'admin') {
 		$map['module'] = $type;
 
@@ -128,7 +147,9 @@ class Group extends Admin {
 		return $this->fetch();
 	}
 
-	//根据菜单更新节点
+	/**
+	 * @title 更新权限
+	 */
 	public function upnode($type) {
 		//$rule = model('Menu')->getAuthNodes($type);
 		$reuslt = $this->rule->uprule($type);
@@ -136,7 +157,7 @@ class Group extends Admin {
 	}
 
 	/**
-	 * 授权
+	 * @title 用户组授权
 	 */
 	public function auth($id) {
 		if (!$id) {
@@ -197,6 +218,9 @@ class Group extends Admin {
 		}
 	}
 
+	/**
+	 * @title 添加节点
+	 */
 	public function addnode($type = 'admin') {
 		if ($this->request->isPost()) {
 			$result = $this->rule->change();
@@ -216,6 +240,9 @@ class Group extends Admin {
 		}
 	}
 
+	/**
+	 * @title 编辑节点
+	 */
 	public function editnode($id) {
 		if ($this->request->isPost()) {
 			$result = $this->rule->change();
@@ -239,6 +266,9 @@ class Group extends Admin {
 		}
 	}
 
+	/**
+	 * @title 删除节点
+	 */
 	public function delnode($id) {
 		if (!$id) {
 			return $this->error("非法操作！");

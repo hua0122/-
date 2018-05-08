@@ -10,6 +10,10 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+
+/**
+ * @title 内容管理
+ */
 class Content extends Admin {
 
 	public function _initialize() {
@@ -30,7 +34,7 @@ class Content extends Admin {
 	}
 
 	/**
-	 * 内容列表
+	 * @title 内容列表
 	 * @return [html] [页面内容]
 	 * @author molong <ycgpp@126.com>
 	 */
@@ -64,7 +68,7 @@ class Content extends Admin {
 	}
 
 	/**
-	 * 内容添加
+	 * @title 内容添加
 	 * @author molong <ycgpp@126.com>
 	 */
 	public function add() {
@@ -97,7 +101,7 @@ class Content extends Admin {
 	}
 
 	/**
-	 * 内容修改
+	 * @title 内容修改
 	 * @author molong <ycgpp@126.com>
 	 */
 	public function edit($id) {
@@ -135,7 +139,7 @@ class Content extends Admin {
 	}
 
 	/**
-	 * 内容删除
+	 * @title 内容删除
 	 * @author molong <ycgpp@126.com>
 	 */
 	public function del() {
@@ -158,7 +162,7 @@ class Content extends Admin {
 	}
 
 	/**
-	 * 设置状态
+	 * @title 设置状态
 	 * @author molong <ycgpp@126.com>
 	 */
 	public function status($id, $status) {
@@ -172,7 +176,7 @@ class Content extends Admin {
 	}
 
 	/**
-	 * 设置置顶
+	 * @title 设置置顶
 	 * @author molong <ycgpp@126.com>
 	 */
 	public function settop($id, $is_top) {
@@ -186,7 +190,7 @@ class Content extends Admin {
 	}
 
 	/**
-	 * 获取字段信息
+	 * @title 获取字段信息
 	 * @return array 字段数组
 	 * @author molong <ycgpp@126.com>
 	 */
@@ -216,7 +220,7 @@ class Content extends Admin {
 	}
 
 	/**
-	 * 创建搜索
+	 * @title 创建搜索
 	 * @return [array] [查询条件]
 	 */
 	protected function buildMap() {

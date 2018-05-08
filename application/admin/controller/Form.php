@@ -10,6 +10,10 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+/**
+ * @title 自定义表单
+ * @description 自定义表单
+ */
 class Form extends Admin {
 
 	public function _initialize() {
@@ -23,7 +27,9 @@ class Form extends Admin {
 		$this->field     = $this->getField();
 	}
 
-	//自定义表单
+	/**
+	 * @title 表单列表
+	 */
 	public function index() {
 		$map   = array();
 		$order = "id desc";
@@ -41,7 +47,7 @@ class Form extends Admin {
 	}
 
 	/**
-	 * 添加表单
+	 * @title 添加表单
 	 */
 	public function add(\think\Request $request) {
 		if ($this->request->isPost()) {
@@ -62,7 +68,7 @@ class Form extends Admin {
 	}
 
 	/**
-	 * 编辑表单
+	 * @title 编辑表单
 	 */
 	public function edit(\think\Request $request) {
 		if ($this->request->isPost()) {
@@ -85,7 +91,7 @@ class Form extends Admin {
 	}
 
 	/**
-	 * 删除表单
+	 * @title 删除表单
 	 */
 	public function del() {
 		$id     = $this->getArrayParam('id');
@@ -119,6 +125,9 @@ class Form extends Admin {
 		return $this->fetch('list_'.$form['name']);
 	}
 
+	/**
+	 * @title 数据详情
+	 */
 	public function detail($form_id = '', $id = ''){
 		$form = $this->model->where('id', $form_id)->find();
 
@@ -132,7 +141,9 @@ class Form extends Admin {
 		return $this->fetch('detail_'.$form['name']);
 	}
 
-	//数据导出
+	/**
+	 * @title 数据导出
+	 */
 	public function outxls($form_id = '') {
 		$form = $this->model->where('id', $form_id)->find();
 
@@ -152,6 +163,9 @@ class Form extends Admin {
 		$out->out();
 	}
 
+	/**
+	 * @title 表单字段
+	 */
 	public function attr($form_id = '') {
 		$map   = array();
 		$order = "id desc";
@@ -167,6 +181,9 @@ class Form extends Admin {
 		return $this->fetch();
 	}
 
+	/**
+	 * @title 添加表单字段
+	 */
 	public function addattr(){
 		$form_id = $this->request->param('form_id', '');
 		if (!$form_id) {
@@ -194,6 +211,9 @@ class Form extends Admin {
 		}
 	}
 
+	/**
+	 * @title 编辑表单字段
+	 */
 	public function editattr(\think\Request $request){
 		$param = $this->request->param();
 
@@ -222,6 +242,9 @@ class Form extends Admin {
 		}
 	}
 
+	/**
+	 * @title 删除表单字段
+	 */
 	public function delattr(\think\Request $request){
 		$id = $request->param('id', 0);
 		if (!$id) {

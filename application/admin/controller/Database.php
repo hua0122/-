@@ -10,6 +10,10 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
+/**
+ * @title 数据库管理
+ * @description 数据库管理
+ */
 class Database extends Admin {
 	/**
 	 * 数据库备份/还原列表
@@ -71,7 +75,7 @@ class Database extends Admin {
 		return $this->fetch($type);
 	}
 	/**
-	 * 优化表
+	 * @title 优化表
 	 * @param  String $tables 表名
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
@@ -100,7 +104,7 @@ class Database extends Admin {
 		}
 	}
 	/**
-	 * 修复表
+	 * @title 修复表
 	 * @param  String $tables 表名
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
@@ -129,7 +133,7 @@ class Database extends Admin {
 		}
 	}
 	/**
-	 * 删除备份文件
+	 * @title 删除备份文件
 	 * @param  Integer $time 备份时间
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
@@ -148,7 +152,7 @@ class Database extends Admin {
 		}
 	}
 	/**
-	 * 备份数据库
+	 * @title 备份数据库
 	 * @param  String  $tables 表名
 	 * @param  Integer $id     表ID
 	 * @param  Integer $start  起始行数
@@ -222,7 +226,7 @@ class Database extends Admin {
 		}
 	}
 	/**
-	 * 还原数据库
+	 * @title 还原数据库
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function import($time = 0, $part = null, $start = null) {

@@ -30,14 +30,14 @@ class AuthRule extends Base{
 		array('name'=>'condition','title'=>'条件','type'=>'text','help'=>'')
 	);
 
-	public $filter_method = array('__construct', 'execute', 'sqlSplit', 'isMobile', 'is_wechat', '_initialize');
+	public $filter_method = array('__construct', 'execute', 'login', 'sqlSplit', 'isMobile', 'is_wechat', '_initialize');
 
 	public function uprule($type){
 		$data = $this->updaterule($type);
 		foreach ($data as $value) {
 			$id = $this->where(array('name' => $value['name']))->value('id');
 			if ($id) {
-				$save['id'] = $id;
+				$value['id'] = $id;
 			}
 			$list[] = $value;
 		}
