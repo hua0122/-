@@ -22,10 +22,6 @@ class Index extends Admin {
      * @return html
      */
 	public function index() {
-		$methods = model('AuthRule')->updaterule('admin');
-		dump($methods);
-		exit();
-
 		$this->setMeta('后台首页');
 		return $this->fetch();
 	}
