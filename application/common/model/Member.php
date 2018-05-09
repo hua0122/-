@@ -21,7 +21,7 @@ class Member extends Base {
 		array('name'=>'sex','title'=>'性别','type'=>'select','option'=>array('0'=>'保密','1'=>'男','2'=>'女'),'help'=>''),
 		array('name'=>'email','title'=>'邮箱','type'=>'text','help'=>'用户邮箱，用于找回密码等安全操作'),
 		array('name'=>'qq','title'=>'QQ','type'=>'text','help'=>''),
-		array('name'=>'score','title'=>'用户积分','type'=>'text','help'=>''),
+		//array('name'=>'score','title'=>'用户积分','type'=>'text','help'=>''),
 		array('name'=>'signature','title'=>'用户签名','type'=>'textarea','help'=>''),
 		array('name'=>'status','title'=>'状态','type'=>'select','option'=>array('0'=>'禁用','1'=>'启用'),'help'=>''),
 	);
@@ -194,5 +194,9 @@ class Member extends Base {
 	public function logout(){
 		session('user_auth', null);
 		session('user_auth_sign', null);
+	}
+
+	public function editUser($data){
+		
 	}
 }
