@@ -20,8 +20,8 @@ class BaseModel {
 
 	protected $data;
 	protected $autoWriteTimestamp = true;
-	protected $auto               = array('update_time');
-	protected $insert             = array('create_time');
+	protected $auto               = array();
+	protected $insert             = array();
 	protected $update             = array();
 	// 创建时间字段
 	protected $createTime = 'create_time';
@@ -59,6 +59,13 @@ class BaseModel {
 			}
 			if ($value['is_must'] == 1 && $value['is_show'] == 0) {
 				$this->data[$value['name']] = $value['value'];
+			}
+			if ($value['type'] == 'datetime' || $value['type'] == 'date') {
+				if (isset($data[$value['name']]) && $data[$value['name']]) {
+					$this->data[$value['name']] = strtotime($data[$value['name']]);
+				}else{
+					$this->data[$value['name']] = time();
+				}
 			}
 		}
 		$this->autoCompleteData($this->auto);
