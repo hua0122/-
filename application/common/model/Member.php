@@ -173,7 +173,7 @@ class Member extends Base {
 		/* 更新登录信息 */
 		$data = array(
 			'uid'             => $user['uid'],
-			'login'           => array('exp', '`login`+1'),
+			'login'           => array('inc', 'login'),
 			'last_login_time' => time(),
 			'last_login_ip'   => get_client_ip(1),
 		);
