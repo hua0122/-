@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 
 // [ 应用入口文件 ]
-if(version_compare(PHP_VERSION,'5.4.0','<'))  die('require PHP > 5.4.0 !');
+if(version_compare(PHP_VERSION,'7.0.0','<'))  die('require PHP > 7.0.0 !');
 
 // 定义应用目录
 define('APP_PATH', __DIR__ . '/../application/');
