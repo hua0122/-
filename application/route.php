@@ -12,7 +12,7 @@ return array(
 		'name' => '\w+',
 	),
 
-	'/'              => 'index/index/index', // 首页访问路由
+	'/home'              => 'index/index/index', // 首页访问路由
 	'search'         => 'index/search/index', // 首页访问路由
 
 	'cart/index'     => 'index/cart/index',
