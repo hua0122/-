@@ -36,9 +36,10 @@ class Sent extends Taglib{
 
 	public function tagnav($tag, $content){
 		$field  = empty($tag['field']) ? 'true' : $tag['field'];
-		$tree   =   empty($tag['tree'])? true : false;
+		$field  = isset($tag['pid']) ? 0 : $tag['pid'];
+		$tree   =   isset($tag['tree']) ? true : false;
 		$parse  = $parse   = '<?php ';
-		$parse .= '$__NAV__ = db(\'Channel\')->field('.$field.')->where("status=1")->order("sort")->select();';
+		$parse .= '$__NAV__ = db(\'Channel\')->field('.$field.')->where("status=1")->where("pid=1")->order("sort")->select();';
 		if($tree){
 			$parse .= '$__NAV__ = list_to_tree($__NAV__, "id", "pid");';
 		}
