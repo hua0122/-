@@ -25,7 +25,7 @@ class Sent extends Taglib{
 	// 标签定义
 	protected $tags   =  array(
 		// 标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
-		'nav'       => array('attr' => 'field,name', 'close' => 1), //获取导航
+		'nav'       => array('attr' => 'name,pid', 'close' => 1), //获取导航
 		'list'      => array('attr' => 'table,where,order,limit,id,sql,field,key','level'=>3),//列表
 		'doc'       => array('attr' => 'model,field,limit,id,field,key','level'=>3),
 		'recom'     => array('attr' => 'doc_id,id'),
@@ -35,12 +35,11 @@ class Sent extends Taglib{
 	);
 
 	public function tagnav($tag, $content){
-		$field  = empty($tag['field']) ? 'true' : $tag['field'];
-		$field  = isset($tag['pid']) ? 0 : $tag['pid'];
-		$tree   =   isset($tag['tree']) ? true : false;
+		$pid  = isset($tag['pid']) ? 'pid=' . $tag['pid'] : '';
+		$tree   =   isset($tag['tree']) ? $tag['tree'] : 1;
 		$parse  = $parse   = '<?php ';
-		$parse .= '$__NAV__ = db(\'Channel\')->field('.$field.')->where("status=1")->where("pid=1")->order("sort")->select();';
-		if($tree){
+		$parse .= '$__NAV__ = db(\'Channel\')->where("status=1")->where("'.$pid.'")->order("sort")->select();';
+		if($tree == 1){
 			$parse .= '$__NAV__ = list_to_tree($__NAV__, "id", "pid");';
 		}
 		$parse .= 'foreach ($__NAV__ as $key => $'.$tag['name'].') {';
