@@ -27,7 +27,7 @@ class Sent extends Taglib{
 		// 标签定义： attr 属性列表 close 是否闭合（0 或者1 默认1） alias 标签别名 level 嵌套层次
 		'nav'       => array('attr' => 'name,pid', 'close' => 1), //获取导航
 		'list'      => array('attr' => 'table,where,order,limit,id,sql,field,key','level'=>3),//列表
-		'doc'       => array('attr' => 'model,field,limit,id,field,key','level'=>3),
+		'doc'       => array('attr' => 'model,field,limit,id,field,key,name','level'=>3),
 		'recom'     => array('attr' => 'doc_id,id'),
 		'link'		=> array('attr' => 'type,limit' , 'close' => 1),//友情链接
 		'prev'		=> array('attr' => 'id,cate' , 'close' => 1),//上一篇
@@ -55,6 +55,7 @@ class Sent extends Taglib{
 		$field     = empty($tag['field']) ? '*' : $tag['field'];
 		$limit        = empty($tag['limit']) ? 20 : $tag['limit'];
 		$order        = empty($tag['order']) ? 'id desc' : $tag['order'];
+		$name = isset($tag['name']) ? $tag['name'] : 'item';
 
 		//获得当前栏目的所有子栏目
 		$ids = get_category_child($cid);
