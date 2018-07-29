@@ -36,7 +36,7 @@ class Admin extends Base {
 					$dynamic = $this->checkDynamic(); //检测分类栏目有关的各项动态权限
 					if ($dynamic === null) {
 						//检测访问权限
-						if (!$this->checkRule($this->url, array('in', '1,2'))) {
+						if (!$this->checkRule($this->url_path, array('in', '1,2'))) {
 							$this->error('未授权访问!');
 						} else {
 							// 检测分类及内容有关的各项动态权限
