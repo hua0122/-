@@ -21,7 +21,7 @@ class Member extends Base {
 		array('name'=>'sex','title'=>'性别','type'=>'select','option'=>array('0'=>'保密','1'=>'男','2'=>'女'),'help'=>''),
 		array('name'=>'email','title'=>'邮箱','type'=>'text','help'=>'用户邮箱，用于找回密码等安全操作'),
 		array('name'=>'qq','title'=>'QQ','type'=>'text','help'=>''),
-		//array('name'=>'score','title'=>'用户积分','type'=>'text','help'=>''),
+		array('name'=>'score','title'=>'用户积分','type'=>'text','help'=>''),
 		array('name'=>'signature','title'=>'用户签名','type'=>'textarea','help'=>''),
 		array('name'=>'status','title'=>'状态','type'=>'select','option'=>array('0'=>'禁用','1'=>'启用'),'help'=>''),
 	);
@@ -52,6 +52,14 @@ class Member extends Base {
 		array('name'=>'company_post','title'=>'所属职务','type'=>'text','help'=>''),
 		array('name'=>'company_type','title'=>'单位类型','type'=>'select', 'option'=>'', 'help'=>''),
 	);
+
+	protected function setStatusAttr($value){
+		return 1;
+	}
+
+	protected function setPasswordAttr($value, $data){
+		return md5($value.$data['salt']);
+	}
 	
 	protected function getGroupListAttr($value, $data){
 		$sql = db('AuthGroupAccess')->where('uid', $data['uid'])->fetchSql(true)->column('group_id');
@@ -173,7 +181,7 @@ class Member extends Base {
 		/* 更新登录信息 */
 		$data = array(
 			'uid'             => $user['uid'],
-			'login'           => array('inc', 'login'),
+			'login'           => array('inc', 'login', 1),
 			'last_login_time' => time(),
 			'last_login_ip'   => get_client_ip(1),
 		);
@@ -196,7 +204,67 @@ class Member extends Base {
 		session('user_auth_sign', null);
 	}
 
-	public function editUser($data){
-		
+	public function getInfo($uid){
+		$data = $this->where(array('uid'=>$uid))->find();
+		return $data;
+	}
+
+	/**
+	 * 修改用户资料
+	 */
+	public function editUser($data, $ischangepwd = false){
+		if ($data['uid']) {
+			if (!$ischangepwd || ($ischangepwd && $data['password'] == '')) {
+				unset($data['salt']);
+				unset($data['password']);
+			}else{
+				$data['salt'] = rand_string(6);
+			}
+			$result = $this->validate('member.edit')->save($data, array('uid'=>$data['uid']));
+			if ($result) {
+				return $this->extend->save($data, array('uid'=>$data['uid']));
+			}else{
+				return false;
+			}
+		}else{
+			$this->error = "非法操作！";
+			return false;
+		}
+	}
+
+	public function editpw($data, $is_reset = false){
+		$uid = $is_reset ? $data['uid'] : session('user_auth.uid');
+		if (!$is_reset) {
+			//后台修改用户时可修改用户密码时设置为true
+			$this->checkPassword($uid,$data['oldpassword']);
+
+			$validate = $this->validate('member.password');
+			if (false === $validate) {
+				return false;
+			}
+		}
+
+		$data['salt'] = rand_string(6);
+
+		return $this->save($data, array('uid'=>$uid));
+	}
+
+	protected function checkPassword($uid,$password){
+		if (!$uid || !$password) {
+			$this->error = '原始用户UID和密码不能为空';
+			return false;
+		}
+
+		$user = $this->where(array('uid'=>$uid))->find();
+		if (md5($password.$user['salt']) === $user['password']) {
+			return true;
+		}else{
+			$this->error = '原始密码错误！';
+			return false;
+		}
+	}
+
+	public function extend(){
+		return $this->hasOne('MemberExtend', 'uid');
 	}
 }
