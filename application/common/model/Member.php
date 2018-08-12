@@ -152,8 +152,8 @@ class Member extends Base {
 	function register($username, $password, $repassword, $email, $isautologin = true, $other = array()){
 		$data['username'] = $username;
 		$data['salt'] = rand_string(6);
-		$data['password'] = md5($password . $data['salt']);
-		$data['repassword'] = md5($repassword . $data['salt']);
+		$data['password'] = $password;
+		$data['repassword'] = $repassword;
 		$data['email'] = $email;
 		if (!empty($other)) {
 			$data = array_merge($data, $other);
