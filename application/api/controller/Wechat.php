@@ -22,31 +22,29 @@ class Wechat extends \app\common\controller\Api{
 	}
 
 	public function jscode2session(){
-		$app = Factory::miniProgram(array(
-			'app_id' => 'wx463e346969cf5366',
-			'secret' => 'f4d830487dffc0c37f281420caea6db4',
-		));
+		$app = Factory::miniProgram(config('wechat.miniProgram'));
 		$param = $this->request->param();
 
 		$info = $app->auth->session($param['jsCode']);
 
 		if (isset($info['openid']) && $info['openid']) {
 			//查询用户是否已添加
-			$user = db('Member')->where('openid', $info['openid'])->find();
-			if (!$user) {
-				$other = array(
-					'avatar_url' => $param['avatar'],
-					'nickname' => $param['nickname'],
-					'openid' => $info['openid']
-				);
-				$user = model('Member')->register($param['nickname'], $info['openid'], $info['openid'], $info['openid'].'@wxapp.com', false, $other);
-			}else{
-				model('Member')->where('openid', $info['openid'])->setField('avatar_url', $param['avatar']);
+			$user = db('Member')->where('mini_openid', $info['openid'])->find();
+			//if (!$user) {
+				// $other = array(
+				// 	'avatar_url' => $param['avatar'],
+				// 	'nickname' => $param['nickname'],
+				// 	'openid' => $info['openid']
+				// );
+				// $user = model('Member')->register($param['nickname'], $info['openid'], $info['openid'], $info['openid'].'@wxapp.com', false, $other);
+			// }else{
+			// 	model('Member')->where('openid', $info['openid'])->setField('avatar_url', $param['avatar']);
+			// }
+			if ($user) {
+				model('Member')->where('mini_openid', $info['openid'])->setField('wechat_avatar', $param['avatar']);
+				$info['access_token'] = authcode($user['uid'].'|'.$user['username'].'|'.$user['password'], 'ENCODE');
+				$info['uid'] = $user['uid'];
 			}
-
-			$info['access_token'] = authcode($user['uid'].'|'.$user['username'].'|'.$user['password'], 'ENCODE');
-			$info['uid'] = $user['uid'];
-
 			$this->data['data'] = $info;
 		}else{
 			$this->data['code'] = 1;

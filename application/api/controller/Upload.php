@@ -16,12 +16,66 @@ class Upload extends \app\common\controller\Api {
 		))->move($config['rootPath'], true, false);
 
 		if ($info) {
-			$this->data['data'] = $this->save($config, 'images', $info);
+			$data = $this->save($config, 'images', $info);
+			$data['url'] = $this->serverurl . $data['url'];
+			$this->data['data'] = $data;
 			return $this->data;
 		}else{
 			$this->data['code'] = 1;
 			$this->data['msg'] = $file->getError();
 			return $this->data;
+		}
+	}
+
+	public function video(){
+		$config = config('video_upload');
+		// 获取表单上传文件 例如上传了001.jpg
+		$file = $this->request->file('file');
+		$size = $config['size'] * 1024 * 1024;
+		$info = $file->validate(array(
+			'size'     => $size,
+			'ext'      => $config['ext'],
+		))->move($config['rootPath'], true, false);
+
+		if ($info) {
+			$data = $this->save($config, 'images', $info);
+			$data['url'] = $this->serverurl . $data['url'];
+			$this->data['data'] = $data;
+			return $this->data;
+		}else{
+			$this->data['code'] = 1;
+			$this->data['msg'] = $file->getError();
+			return $this->data;
+		}
+	}
+
+	/**
+	 * 下载文件
+	 * @var view
+	 * @access public
+	 */
+	public function download($id, $type = 'File'){
+		$file = db($type)->where('id', $id)->find();
+		$file_config = config('attachment_upload');
+		if (is_file(ROOT_PATH . 'web' . $file['url'])) {
+			/* 调用回调函数新增下载数 */
+			//is_callable($callback) && call_user_func($callback, $args);
+
+			/* 执行下载 *///TODO: 大文件断点续传
+			header("Content-Description: File Transfer");
+			header('Content-type: ' . $file['ext']);
+			header('Content-Length:' . $file['size']);
+			if (preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT'])) {
+				//for IE
+				header('Content-Disposition: attachment; filename="' . rawurlencode($file['name']) . '"');
+			} else {
+				header('Content-Disposition: attachment; filename="' . $file['name'] . '"');
+			}
+			readfile(ROOT_PATH . 'web' . $file['url']);
+			exit;
+		} else {
+			$this->error = '文件已被删除！';
+			return false;
 		}
 	}
 
