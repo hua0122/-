@@ -161,7 +161,7 @@ class Grade extends Admin {
                 unset($data['id']);
 
                 $v = substr($data['version'],strlen($data['version'])- 3,3);
-                
+
                 $data['version'] = date("Ymd").sprintf("%03d", $v+1);
                 $result = $link->save($data);
 
