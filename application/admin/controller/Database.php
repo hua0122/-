@@ -10,10 +10,6 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
-/**
- * @title 数据库管理
- * @description 数据库管理
- */
 class Database extends Admin {
 	/**
 	 * 数据库备份/还原列表
@@ -75,7 +71,7 @@ class Database extends Admin {
 		return $this->fetch($type);
 	}
 	/**
-	 * @title 优化表
+	 * 优化表
 	 * @param  String $tables 表名
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
@@ -104,7 +100,7 @@ class Database extends Admin {
 		}
 	}
 	/**
-	 * @title 修复表
+	 * 修复表
 	 * @param  String $tables 表名
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
@@ -133,7 +129,7 @@ class Database extends Admin {
 		}
 	}
 	/**
-	 * @title 删除备份文件
+	 * 删除备份文件
 	 * @param  Integer $time 备份时间
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
@@ -152,14 +148,14 @@ class Database extends Admin {
 		}
 	}
 	/**
-	 * @title 备份数据库
+	 * 备份数据库
 	 * @param  String  $tables 表名
 	 * @param  Integer $id     表ID
 	 * @param  Integer $start  起始行数
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function export($tables = null, $id = null, $start = null) {
-		if ($this->request->isPost() && !empty($tables) && is_array($tables)) {
+		if (IS_POST && !empty($tables) && is_array($tables)) {
 			//初始化
 			$path = config('data_backup_path');
 			if (!is_dir($path)) {
@@ -193,7 +189,7 @@ class Database extends Admin {
 			} else {
 				return $this->error('初始化失败，备份文件创建失败！');
 			}
-		} elseif ($this->request->isGet() && is_numeric($id) && is_numeric($start)) {
+		} elseif (IS_GET && is_numeric($id) && is_numeric($start)) {
 			//备份数据
 			$tables = session('backup_tables');
 			//备份指定表
@@ -226,7 +222,7 @@ class Database extends Admin {
 		}
 	}
 	/**
-	 * @title 还原数据库
+	 * 还原数据库
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function import($time = 0, $part = null, $start = null) {

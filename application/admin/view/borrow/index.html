@@ -1,0 +1,113 @@
+{extend name="public/base"/}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/libs/bootstrap-editable.css">
+{/block}
+{block name="body"}
+<div class="main-box clearfix">
+	<header class="main-box-header clearfix">
+		<div class="pull-left">
+			<h2>{$meta_title}</h2>
+		</div>
+		<!-- 
+		<div class="pull-right">
+			<a class="btn btn-primary" href="{:url('add')}">新 增</a>
+			<button class="btn btn-danger ajax-post confirm" url="{:url('delete')}" target-form="ids">删 除</button>
+		</div>
+		
+		 -->
+		
+				
+				
+		 <div class="pull-right">
+				 <form class="form-inline" method="post" action="">
+                  <div class="form-group">
+                    <label class="sr-only" for="inputKeyword">关键字</label>
+                    <input type="text" class="form-control" name="keyword" id="inputKeyword" placeholder="关键字" value="">
+                  </div>
+                  <button type="submit" class="btn btn-default">搜索</button>
+                </form>
+				  
+		</div>	  
+				  
+	</header>
+	<div class="main-box-body clearfix">
+		<div class="table-responsive clearfix">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<!--<th width="30"><input class="checkbox check-all" type="checkbox"></th>-->
+						<th width="150">编号</th>
+						<th>名称</th>
+						<th>型号</th>
+						<th>借用数量</th>
+						<th>剩余归还数量</th>
+						<th>借用部门</th>
+						<th>借用时间</th>
+						<th>借用人</th>
+						<th>物资库位</th>
+						<th>归还时间</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="list" id="item"}
+					<tr>
+						<!--<td><input class="ids row-selected" type="checkbox" name="id[]" value="{$item['id']}"></td>-->
+						<td>{$item['cid']}</td>
+						<td>{$item['name']}</td>
+						<td>
+						{$item['model']}
+						</td>
+						<td>{$item['num']}</td>
+						<td>{$item['snum']}</td>
+						<td>{$item['title']}</td>
+						<td>{$item['time']}</td>
+						<td>{$item['username']}</td>
+						<td>{$item['library']}</td>
+						<td>{$item['returntime']}</td>
+						<td>
+						{if condition="$item['status']==0"}
+						未归还
+						{elseif condition="$item['status']==1"/}
+						已归还部分
+						{else/}
+						已还清
+						{/if}
+						
+						</td>
+						<td>
+							<!--<a href="{:url('edit?id='.$item['id'])}" class="table-link">编辑</a>-->
+							{if condition="$item['status']==0"}
+							<a href="javascript:;" onclick="back({$item['id']},'{$item['cid']}')" class="table-link">全部归还</a>
+							<a href="{:url('edit?id='.$item['id'])}" class="table-link">部分归还</a>
+							{elseif condition="$item['status']==1"/}
+							<a href="javascript:;" onclick="back({$item['id']},'{$item['cid']}')" class="table-link">全部归还</a>
+							<a href="{:url('edit?id='.$item['id'])}" class="table-link">部分归还</a>
+							{/if}
+							<!--  
+							<a href="{:url('delete?id='.$item['id'])}" class="confirm ajax-get">删除</a>
+							-->
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+			<a href='__ROOT__/writeExcel.php'>导出excel</a>
+			{$page}
+		</div>
+	</div>
+</div>
+<script>
+function back(id,cid){
+	$.post('{:url('borrow/select_back')}',{id:id,cid:cid},function(data){
+		if(data){
+			alert('全部归还成功！');
+			
+			location.href='{:url('borrow/index')}';
+		}
+	});
+}
+
+</script>
+{/block}

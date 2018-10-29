@@ -10,10 +10,6 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
-/**
- * @title 用户组管理
- * @description 用户组管理
- */
 class Group extends Admin {
 
 	protected $model;
@@ -25,15 +21,11 @@ class Group extends Admin {
 		$this->rule  = model('AuthRule');
 	}
 
-	/**
-	 * @title 用户组列表
-	 */
+	//会员分组首页控制器
 	public function index($type = 'admin') {
 		$map['module'] = $type;
 
-		$list = db('AuthGroup')->where($map)->order('id desc')->paginate(10, false, array(
-				'query'  => $this->request->param()
-			));
+		$list = db('AuthGroup')->where($map)->order('id desc')->paginate(10);
 
 		$data = array(
 			'list' => $list,
@@ -45,11 +37,9 @@ class Group extends Admin {
 		return $this->fetch();
 	}
 
-	/**
-	 * @title 添加用户组
-	 */
+	//会员分组添加控制器
 	public function add($type = 'admin') {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$result = $this->group->change();
 			if ($result) {
 				return $this->success("添加成功！", url('admin/group/index'));
@@ -67,14 +57,12 @@ class Group extends Admin {
 		}
 	}
 
-	/**
-	 * @title 编辑用户组
-	 */
+	//会员分组编辑控制器
 	public function edit($id) {
 		if (!$id) {
 			return $this->error("非法操作！");
 		}
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$result = $this->group->change();
 			if ($result) {
 				return $this->success("编辑成功！", url('admin/group/index'));
@@ -93,10 +81,7 @@ class Group extends Admin {
 		}
 	}
 
-
-	/**
-	 * @title 编辑用户组单字段
-	 */
+	//会员分组编辑字段控制器
 	public function editable() {
 		$pk     = input('pk', '', 'trim,intval');
 		$name   = input('name', '', 'trim');
@@ -109,10 +94,7 @@ class Group extends Admin {
 		}
 	}
 
-
-	/**
-	 * @title 删除用户组
-	 */
+	//会员分组删除控制器
 	public function del() {
 		$id = $this->getArrayParam('id');
 		if (empty($id)) {
@@ -126,16 +108,11 @@ class Group extends Admin {
 		}
 	}
 
-
-	/**
-	 * @title 权限节点
-	 */
+	//权限节点控制器
 	public function access($type = 'admin') {
 		$map['module'] = $type;
 
-		$list = db('AuthRule')->where($map)->order('id desc')->paginate(15, false, array(
-				'query'  => $this->request->param()
-			));
+		$list = db('AuthRule')->where($map)->order('id desc')->paginate(15);
 
 		$data = array(
 			'list' => $list,
@@ -147,23 +124,21 @@ class Group extends Admin {
 		return $this->fetch();
 	}
 
-	/**
-	 * @title 更新权限
-	 */
+	//根据菜单更新节点
 	public function upnode($type) {
-		//$rule = model('Menu')->getAuthNodes($type);
-		$reuslt = $this->rule->uprule($type);
+		$rule = model('Menu')->getAuthNodes($type);
+		$reuslt = $this->rule->uprule($rule, $type);
 		return $this->success("更新成功！");
 	}
 
 	/**
-	 * @title 用户组授权
+	 * 授权
 	 */
 	public function auth($id) {
 		if (!$id) {
 			return $this->error("非法操作！");
 		}
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$rule          = $this->request->post('rule/a', array());
 			$extend_rule   = $this->request->post('extend_rule/a', array());
 			$extend_result = $rule_result = false;
@@ -201,7 +176,7 @@ class Group extends Admin {
 
 			//模块
 			$model = db('model')->field('id,title,name')
-				->where(array('status' => array('gt', 0)))
+				->where(array('status' => array('gt', 0), 'extend' => array('gt', 0)))
 				->select();
 			//扩展权限
 			$extend_auth = db('AuthExtend')->where(array('group_id' => $id, 'type' => 2))->column('extend_id');
@@ -218,11 +193,8 @@ class Group extends Admin {
 		}
 	}
 
-	/**
-	 * @title 添加节点
-	 */
 	public function addnode($type = 'admin') {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$result = $this->rule->change();
 			if ($result) {
 				return $this->success("创建成功！", url('admin/group/access'));
@@ -240,11 +212,8 @@ class Group extends Admin {
 		}
 	}
 
-	/**
-	 * @title 编辑节点
-	 */
 	public function editnode($id) {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$result = $this->rule->change();
 			if (false !== $result) {
 				return $this->success("更新成功！", url('admin/group/access'));
@@ -266,9 +235,6 @@ class Group extends Admin {
 		}
 	}
 
-	/**
-	 * @title 删除节点
-	 */
 	public function delnode($id) {
 		if (!$id) {
 			return $this->error("非法操作！");

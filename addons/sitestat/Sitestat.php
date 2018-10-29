@@ -45,10 +45,10 @@ class Sitestat extends Addons{
             $info['users']		=	db('Member')->where($map)->count();
             $info['userall']		=	db('Member')->count();
             $info['action']		=	db('ActionLog')->where(array('create_time'=>array('gt',strtotime(date('Y-m-d')))))->count();
-            $info['category']	=	db('Category')->count();
-            $info['model']   =   db('Model')->count();
+            $info['goods']	=	db('Goods')->count();
+            $info['person']   =   db('Person')->count();
             $this->assign('info',$info);
-            echo $this->fetch('index/info');
+            $this->template('index/info');
         }
     }
 }

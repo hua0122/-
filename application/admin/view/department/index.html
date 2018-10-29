@@ -1,0 +1,64 @@
+{extend name="public/base"/}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/libs/bootstrap-editable.css">
+{/block}
+{block name="body"}
+<div class="main-box clearfix">
+	<header class="main-box-header clearfix">
+		<div class="pull-left">
+			<h2>{$meta_title}</h2>
+		</div>
+		<div class="pull-right">
+			<a class="btn btn-primary" href="{:url('add')}">新 增</a>
+			<button class="btn btn-danger ajax-post confirm" url="{:url('delete')}" target-form="ids">删 除</button>
+		</div>
+	</header>
+	<div class="main-box-body clearfix">
+		<div class="table-responsive clearfix">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th width="30"><input class="checkbox check-all" type="checkbox"></th>
+						<th width="60">ID</th>
+						<th>名称</th>
+						<th>上级栏目</th>
+						<th>状态</th>
+						<th>备注</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="list" id="item"}
+					<tr>
+						<td><input class="ids row-selected" type="checkbox" name="id[]" value="{$item['id']}"></td>
+						<td>{$item['id']}</td>
+						<td>
+						{$item['level_show']}
+						{$item['title']}
+						 <a class="add-sub-cate" title="添加子分类" href="{:url('add?pid='.$item['id'])}">
+                                        <i class="fa fa-plus-square"></i>
+                                    </a>
+						</td>
+						<td>{$menu.up_title|default='无'}</td>
+						<td>
+						{if condition="$item['status']==0"}
+							<span class="label label-primary">启用</span>
+							{else/}
+							<span class="label label-danger">禁用</span>
+							{/if}
+						</td>
+						<td>{$item['remark']}</td>
+						<td>
+							<a href="{:url('person/index?id='.$item['id'])}" class="table-link">人员信息</a>
+							<a href="{:url('edit?id='.$item['id'])}" class="table-link">编辑</a>
+							<a href="{:url('delete?id='.$item['id'])}" class="confirm ajax-get">删除</a>
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+			
+		</div>
+	</div>
+</div>
+{/block}

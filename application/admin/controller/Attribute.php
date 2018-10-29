@@ -10,10 +10,6 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
-/**
- * @title 字段管理
- * @description 字段管理
- */
 class Attribute extends Admin {
 
 	//保存的Model句柄
@@ -46,16 +42,16 @@ class Attribute extends Admin {
 	}
 
 	/**
-	 * @title 字段列表
+	 * index方法
 	 * @author colin <colin@tensent.cn>
 	 */
 	public function index($model_id = null) {
+		$map['model_id'] = $model_id;
 		if (!$model_id) {
-			return $this->error('非法操作！');
+			return $this->error("非法操作！");
 		}
-		$list = model('Attribute')->where('model_id', $model_id)->order('id desc')->paginate(25, false, array(
-				'query'  => $this->request->param()
-			));
+
+		$list = model('Attribute')->where($map)->order('id desc')->paginate(25);
 
 		$data = array(
 			'list'     => $list,
@@ -68,18 +64,22 @@ class Attribute extends Admin {
 	}
 
 	/**
-	 * @title 创建字段
+	 * 创建字段
 	 * @author colin <colin@tensent.cn>
 	 */
-	public function add($model_id = '') {
-		if ($this->request->isPost()) {
-			$result = $this->model->validate('attribute.add')->save($this->request->param());
-			if (false !== $result) {
+	public function add() {
+		$model_id = input('model_id', '', 'trim,intval');
+		if (IS_POST) {
+			$result = $this->model->change();
+			if ($result) {
 				return $this->success("创建成功！", url('Attribute/index', array('model_id' => $model_id)));
 			} else {
 				return $this->error($this->model->getError());
 			}
 		} else {
+			if (!$model_id) {
+				return $this->error('非法操作！');
+			}
 			$data = array(
 				'info'       => array('model_id' => $model_id),
 				'fieldGroup' => $this->field,
@@ -91,18 +91,19 @@ class Attribute extends Admin {
 	}
 
 	/**
-	 * @title 编辑字段
+	 * 编辑字段方法
 	 * @author colin <colin@tensent.cn>
 	 */
-	public function edit($id = '', $model_id = '') {
-		if ($this->request->isPost()) {
-			$result = $this->model->validate('attribute.edit')->save($this->request->param(), array('id'=>$id));
+	public function edit() {
+		if (IS_POST) {
+			$result = $this->model->change();
 			if ($result) {
-				return $this->success("修改成功！", url('Attribute/index', array('model_id' => $model_id)));
+				return $this->success("修改成功！", url('Attribute/index', array('model_id' => $_POST['model_id'])));
 			} else {
 				return $this->error($this->model->getError());
 			}
 		} else {
+			$id   = input('id', '', 'trim,intval');
 			$info = db('Attribute')->find($id);
 			$data = array(
 				'info'       => $info,
@@ -115,26 +116,24 @@ class Attribute extends Admin {
 	}
 
 	/**
-	 * @title 删除字段
+	 * 删除字段信息
 	 * @var delattr 是否删除字段表里的字段
 	 * @author colin <colin@tensent.cn>
 	 */
-	public function del(\think\Request $request) {
-		$id = $request->param('id');
-		$model_id = $request->param('model_id');
-
+	public function del() {
+		$id = input('id', '', 'trim,intval');
 		if (!$id) {
 			return $this->error("非法操作！");
 		}
 
-		$result = $this->model->del($id, $model_id);
+		$result = $this->model->del($id);
 		if ($result) {
 			return $this->success("删除成功！");
 		} else {
 			return $this->error($this->model->getError());
 		}
 	}
-	
+
 	//字段编辑所需字段
 	protected function getField() {
 		return array(

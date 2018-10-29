@@ -1,71 +1,111 @@
 <?php
 // +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK ]
+// | SentCMS [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2018 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2013 http://www.tensent.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: liu21st <liu21st@gmail.com>
+// | Author: molong <molong@tensent.cn> <http://www.tensent.cn>
 // +----------------------------------------------------------------------
 
-return [
-    // +----------------------------------------------------------------------
-    // | 应用设置
-    // +----------------------------------------------------------------------
+return array(
 
-    // 应用调试模式
-    'app_debug'              => true,
+	// 调试模式
+	'app_debug'         => true,
 
-    // 视图输出字符串内容替换
-    'view_replace_str'       => [
-        '__PUBLIC__'     => '/static',
-        '__STATIC__'     => '/static',
-        '__JS__'     => '/static/js',
-        '__CSS__'     => '/static/css',
-    ],
-    // 默认跳转页面对应的模板文件
-    'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
-    'dispatch_error_tmpl'    => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
+	'charset'           => 'UTF-8',
+	'lang_switch_on'    => true, // 开启语言包功能
+	'lang_list'         => ['zh-cn'], // 支持的语言列表
 
-    // +----------------------------------------------------------------------
-    // | 会话设置
-    // +----------------------------------------------------------------------
+	'data_auth_key'     => 'sent',
 
-    'session'                => [
-        'id'             => '',
-        // SESSION_ID的提交变量,解决flash上传跨域
-        'var_session_id' => '',
-        // SESSION 前缀
-        'prefix'         => 'think',
-        // 驱动方式 支持redis memcache memcached
-        'type'           => '',
-        // 是否自动开启 SESSION
-        'auto_start'     => true,
-    ],
+	'base_url'          => BASE_PATH,
+	'url_route_on'      => true,
+	'url_common_param'  => false,
 
-    //分页配置
-    'paginate'               => [
-        'type'      => 'bootstrap',
-        'var_page'  => 'page',
-        'list_rows' => 15,
-    ],
+	'template'          => array(
+		'taglib_build_in' => 'cx,com\Sent',
+	),
 
-    'picture_upload'         => [
-        'rootPath'   => ROOT_PATH . DS .'/web/uploads/',
-        'size'       => '2',
-        'ext'        => 'jpg,jpeg,png,gif'
-    ],
+	// 'dispatch_success_tmpl'  => APP_PATH . 'common/view/default/jump.html',
+	// 'dispatch_error_tmpl'    => APP_PATH . 'common/view/default/jump.html',
 
-    'attachment_upload'      => [
-        'rootPath'   => ROOT_PATH . DS .'/web/uploads/',
-        'size'       => '2',
-        'ext'        => 'doc,docx,xls,xlsx,ppt,pptx,zip,rar'
-    ],
+	'attachment_upload' => array(
+		// 允许上传的文件MiMe类型
+		'mimes'    => [],
+		// 上传的文件大小限制 (0-不做限制)
+		'maxSize'  => 0,
+		// 允许上传的文件后缀
+		'exts'     => [],
+		// 子目录创建方式，[0]-函数名，[1]-参数，多个参数使用数组
+		'subName'  => ['date', 'Ymd'],
+		//保存根路径
+		'rootPath' => './uploads/attachment',
+		// 保存路径
+		'savePath' => '',
+		// 上传文件命名规则，[0]-函数名，[1]-参数，多个参数使用数组
+		'saveName' => ['uniqid', ''],
+		// 文件上传驱动e,
+		'driver'   => 'Local',
+	),
 
-    'picture_upload'         => [
-        'rootPath'   => ROOT_PATH . DS .'/web/uploads/',
-        'size'       => '2',
-        'ext'        => 'jpg,jpeg,png,gif'
-    ],
-];
+	'editor_upload'     => array(
+		// 允许上传的文件MiMe类型
+		'mimes'    => [],
+		// 上传的文件大小限制 (0-不做限制)
+		'maxSize'  => 0,
+		// 允许上传的文件后缀
+		'exts'     => [],
+		// 子目录创建方式，[0]-函数名，[1]-参数，多个参数使用数组
+		'subName'  => ['date', 'Ymd'],
+		//保存根路径
+		'rootPath' => './uploads/editor',
+		// 保存路径
+		'savePath' => '',
+		// 上传文件命名规则，[0]-函数名，[1]-参数，多个参数使用数组
+		'saveName' => ['uniqid', ''],
+		// 文件上传驱动e,
+		'driver'   => 'Local',
+	),
+
+	'picture_upload'    => array(
+		// 允许上传的文件MiMe类型
+		'mimes'    => [],
+		// 上传的文件大小限制 (0-不做限制)
+		'maxSize'  => 0,
+		// 允许上传的文件后缀
+		'exts'     => [],
+		// 子目录创建方式，[0]-函数名，[1]-参数，多个参数使用数组
+		'subName'  => ['date', 'Ymd'],
+		//保存根路径
+		'rootPath' => './uploads/picture',
+		// 保存路径
+		'savePath' => '',
+		// 上传文件命名规则，[0]-函数名，[1]-参数，多个参数使用数组
+		'saveName' => ['uniqid', ''],
+		// 文件上传驱动e,
+		'driver'   => 'Local',
+	),
+	'session'           => array(
+		'prefix'     => 'sent',
+		'type'       => '',
+		'auto_start' => true,
+	),
+
+	'log'               => array(
+		// 日志记录方式，支持 file sae
+		'type' => 'file',
+		// 日志保存目录
+		'path' => LOG_PATH,
+	),
+	'app_trace' => false,
+	// 页面Trace信息
+	'trace'             => array(
+		//支持Html,Console 设为false则不显示
+		'type' => 'Console',
+	),
+
+	'view_replace_str'       => array(
+		'__ADDONS__' => BASE_PATH . '/addons',
+		'__PUBLIC__' => BASE_PATH . '/public',
+	)
+);

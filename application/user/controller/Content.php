@@ -25,7 +25,11 @@ class Content extends User {
 			return $this->error("无此模型！");
 		} else {
 			$this->modelInfo = $list[$model_id];
-			$this->model = M($this->modelInfo['name']);
+			if ($this->modelInfo['extend'] > 1) {
+				$this->model = model($this->modelInfo['name']);
+			} else {
+				$this->model = model('Document')->extend($this->modelInfo['name']);
+			}
 		}
 
 		$this->assign('model_id', $model_id);
@@ -40,6 +44,9 @@ class Content extends User {
 		$grid_list  = get_grid_list($this->modelInfo['list_grid']);
 		$order      = "id desc";
 		$map['uid'] = session('user_auth.uid');
+		if ($this->modelInfo['extend'] == 1) {
+			$map['model_id'] = $this->modelInfo['id'];
+		}
 
 		$field = array_filter($grid_list['fields']);
 		$list  = $this->model->where($map)->field($field)->order($order)->paginate(15);
@@ -131,27 +138,47 @@ class Content extends User {
 	}
 
 	protected function getField() {
-		$field_group = parse_config_attr($this->modelInfo['attribute_group']);
+		$field_group = parse_config_attr($this->modelInfo['field_group']);
+		$field_sort  = json_decode($this->modelInfo['field_sort'], true);
 
-		$map['model_id'] = $this->modelInfo['id'];
-		if ($this->request->action() == 'add') {
+		if ($this->modelInfo['extend'] > 1) {
+			$map['model_id'] = $this->modelInfo['id'];
+		} else {
+			$model_id[]      = $this->modelInfo['id'];
+			$model_id[]      = 1;
+			$map['model_id'] = array('IN', $model_id);
+		}
+		if (ACTION_NAME == 'add') {
 			$map['is_show'] = array('in', array('1', '2'));
-		} elseif ($this->request->action() == 'edit') {
+		} elseif (ACTION_NAME == 'edit') {
 			$map['is_show'] = array('in', array('1', '3'));
 		}
 
 		//获得数组的第一条数组
-		$rows    = model('Attribute')->getFieldlist($map, 'id');
-		if (!empty($rows)) {
-			foreach ($rows as $key => $value) {
-				$list[$value['group_id']][] = $value;
+		$first_key = array_keys($field_group);
+		$fields    = model('Attribute')->getFieldlist($map);
+		if (!empty($field_sort)) {
+			foreach ($field_sort as $key => $value) {
+				foreach ($value as $index) {
+					if (isset($fields[$index])) {
+						$groupfield[$key][] = $fields[$index];
+						unset($fields[$index]);
+					}
+				}
 			}
-			foreach ($field_group as $key => $value) {
-				$fields[$value] = isset($list[$key]) ? $list[$key] : array();
-			}
-		}else{
-			$fields = array();
 		}
-		return $fields;
+		//未进行排序的放入第一组中
+		$fields[] = array('name' => 'model_id', 'type' => 'hidden'); //加入模型ID值
+		$fields[] = array('name' => 'id', 'type' => 'hidden'); //加入模型ID值
+		foreach ($fields as $key => $value) {
+			$groupfield[$first_key[0]][] = $value;
+		}
+
+		foreach ($field_group as $key => $value) {
+			if ($groupfield[$key]) {
+				$data[$value] = $groupfield[$key];
+			}
+		}
+		return $data;
 	}
 }

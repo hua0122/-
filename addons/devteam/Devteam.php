@@ -40,7 +40,7 @@ class Devteam extends Addons{
         $config = $this->getConfig();
         $this->assign('addons_config', $config);
         if($config['display']){
-            echo $this->fetch('widget');
+            $this->template('widget');
         }
     }
 }

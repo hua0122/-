@@ -10,53 +10,45 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
-/**
- * @title 用户管理
- */
 class User extends Admin {
 
 	/**
-	 * @title 用户列表
+	 * 管理员管理首页
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function index() {
-		$param = $this->request->param();
+		$nickname      = input('nickname');
 		$map['status'] = array('egt', 0);
-		if (isset($param['nickname']) && $param['nickname']) {
-			$map['nickname'] = array('like', '%' . $param['nickname'] . '%');
-		} 
-		if (isset($param['username']) && $param['username']) {
-			$map['username'] = array('like', '%' . (string) $param['nickname'] . '%');
+		if (is_numeric($nickname)) {
+			$map['uid|nickname'] = array(intval($nickname), array('like', '%' . $nickname . '%'), '_multi' => true);
+		} else {
+			$map['nickname'] = array('like', '%' . (string) $nickname . '%');
 		}
 
 		$order = "uid desc";
-		$list  = model('Member')->where($map)->order($order)
-			->paginate(15, false, array(
-				'param'  => $param
-			));
+		$list  = model('User')->where($map)->order($order)->paginate(15);
 
 		$data = array(
 			'list' => $list,
 			'page' => $list->render(),
-			'param' => $param
 		);
 		$this->assign($data);
-		$this->setMeta('用户信息');
+		$this->setMeta('管理员信息');
 		return $this->fetch();
 	}
 
 	/**
-	 * @title 添加用户
+	 * 添加管理员
 	 * @author colin <molong@tensent.cn>
 	 */
 	public function add() {
-		$model = \think\Loader::model('Member');
-		if ($this->request->isPost()) {
+		$model = \think\Loader::model('User');
+		if (IS_POST) {
 			$data = $this->request->param();
-			//创建注册用户
+			//创建注册管理员
 			$result = $model->register($data['username'], $data['password'], $data['repassword'], $data['email'], false);
 			if ($result) {
-				return $this->success('用户添加成功！', url('admin/user/index'));
+				return $this->success('管理员添加成功！', url('admin/user/index'));
 			} else {
 				return $this->error($model->getError());
 			}
@@ -65,18 +57,18 @@ class User extends Admin {
 				'keyList' => $model->addfield,
 			);
 			$this->assign($data);
-			$this->setMeta("添加用户");
+			$this->setMeta("添加管理员");
 			return $this->fetch('public/edit');
 		}
 	}
 
 	/**
-	 * @title 修改用户
+	 * 修改昵称初始化
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function edit() {
-		$model = model('Member');
-		if ($this->request->isPost()) {
+		$model = model('User');
+		if (IS_POST) {
 			$data = $this->request->post();
 
 			$reuslt = $model->editUser($data, true);
@@ -94,32 +86,27 @@ class User extends Admin {
 				'keyList' => $model->editfield,
 			);
 			$this->assign($data);
-			$this->setMeta("编辑用户");
+			$this->setMeta("编辑管理员");
 			return $this->fetch('public/edit');
 		}
 	}
 
 	/**
-	 * @title 删除用户
+	 * del
 	 * @author colin <colin@tensent.cn>
 	 */
 	public function del($id) {
 		$uid = array('IN', is_array($id) ? implode(',', $id) : $id);
-		//获取用户信息
+		//获取管理员信息
 		$find = $this->getUserinfo($uid);
-		model('Member')->where(array('uid' => $uid))->delete();
-		return $this->success('删除用户成功！');
+		model('User')->where(array('uid' => $uid))->delete();
+		return $this->success('删除管理员成功！');
 	}
 
-
-	/**
-	 * @title 用户授权
-	 * @author colin <colin@tensent.cn>
-	 */
 	public function auth() {
 		$access = model('AuthGroupAccess');
 		$group  = model('AuthGroup');
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$uid = input('uid', '', 'trim,intval');
 			$access->where(array('uid' => $uid))->delete();
 			$group_type = config('user_group_type');
@@ -152,37 +139,37 @@ class User extends Admin {
 				'list'      => $list,
 			);
 			$this->assign($data);
-			$this->setMeta("用户分组");
+			$this->setMeta("管理员分组");
 			return $this->fetch();
 		}
 	}
 
 	/**
-	 * @title 获取某个用户的信息
+	 * 获取某个管理员的信息
 	 * @var uid 针对状态和删除启用
 	 * @var pass 是查询password
 	 * @var errormasg 错误提示
 	 * @author colin <colin@tensent.cn>
 	 */
 	private function getUserinfo($uid = null, $pass = null, $errormsg = null) {
-		$user = model('Member');
+		$user = model('User');
 		$uid  = $uid ? $uid : input('id');
-		//如果无UID则修改当前用户
+		//如果无UID则修改当前管理员
 		$uid        = $uid ? $uid : session('user_auth.uid');
 		$map['uid'] = $uid;
 		if ($pass != null) {
 			unset($map);
 			$map['password'] = $pass;
 		}
-		$list = $user::where($map)->field('uid,username,nickname,sex,email,qq,score,signature,status,salt')->find();
+		$list = $user::where($map)->field('uid,username,nickname,sex,email,mobile,score,signature,status,salt')->find();
 		if (!$list) {
-			return $this->error($errormsg ? $errormsg : '不存在此用户！');
+			return $this->error($errormsg ? $errormsg : '不存在此管理员！');
 		}
 		return $list;
 	}
 
 	/**
-	 * @title 修改昵称
+	 * 修改昵称提交
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function submitNickname() {
@@ -224,11 +211,11 @@ class User extends Admin {
 	}
 
 	/**
-	 * @title 修改密码初始化
+	 * 修改密码初始化
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function editpwd() {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$user = model('User');
 			$data = $this->request->post();
 
@@ -245,7 +232,7 @@ class User extends Admin {
 	}
 
 	/**
-	 * @title 会员状态修改
+	 * 会员状态修改
 	 * @author 朱亚杰 <zhuyajie@topthink.net>
 	 */
 	public function changeStatus($method = null) {

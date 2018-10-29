@@ -10,10 +10,6 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
-/**
- * @title 插件管理
- * @description 插件管理
- */
 class Addons extends Admin {
 
 	protected $addons;
@@ -26,15 +22,13 @@ class Addons extends Admin {
 		$this->hooks  = db('Hooks');
 	}
 	/**
-	 * @title 插件列表
+	 * 插件列表
 	 */
 	public function index($refresh = 0) {
 		if ($refresh) {
 			$this->addons->refresh();
 		}
-		$list = $this->addons->order('id desc')->paginate(25, false, array(
-				'query'  => $this->request->param()
-			));
+		$list = $this->addons->order('id desc')->paginate(25);
 		// 记录当前列表页的cookie
 		Cookie('__forward__', $_SERVER['REQUEST_URI']);
 
@@ -47,11 +41,9 @@ class Addons extends Admin {
 		return $this->fetch();
 	}
 
-	/**
-	 * @title 添加插件
-	 */
+	//创建向导首页
 	public function add() {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$data = $this->addons->create();
 			if ($data) {
 				if ($result) {
@@ -78,8 +70,12 @@ class Addons extends Admin {
 		}
 	}
 
+	//预览
+	public function preview($output = true) {
+	}
+
 	/**
-	 * @title 安装插件
+	 * 安装插件
 	 */
 	public function install() {
 		$addon_name = input('addon_name', '', 'trim,ucfirst');
@@ -109,7 +105,7 @@ class Addons extends Admin {
 	}
 
 	/**
-	 * @title 卸载插件
+	 * 卸载插件
 	 */
 	public function uninstall($id) {
 		$result = $this->addons->uninstall($id);
@@ -121,7 +117,7 @@ class Addons extends Admin {
 	}
 
 	/**
-	 * @title 启用插件
+	 * 启用插件
 	 */
 	public function enable() {
 		$id = input('id');
@@ -136,7 +132,7 @@ class Addons extends Admin {
 	}
 
 	/**
-	 * @title 禁用插件
+	 * 禁用插件
 	 */
 	public function disable() {
 		$id = input('id');
@@ -151,10 +147,10 @@ class Addons extends Admin {
 	}
 
 	/**
-	 * @title 设置插件页面
+	 * 设置插件页面
 	 */
 	public function config() {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			# code...
 		} else {
 			$id = input('id', '', 'trim,intval');
@@ -179,7 +175,6 @@ class Addons extends Admin {
 	}
 
 	/**
-	 * @title 检测插件
 	 * 获取插件所需的钩子是否存在，没有则新增
 	 * @param string $str  钩子名称
 	 * @param string $addons  插件名称
@@ -202,7 +197,7 @@ class Addons extends Admin {
 	}
 
 	/**
-	 * @title 删除钩子
+	 * 删除钩子
 	 * @param string $hook  钩子名称
 	 */
 	public function deleteHook($hook) {
@@ -215,15 +210,13 @@ class Addons extends Admin {
 	}
 
 	/**
-	 * @title 钩子列表
+	 * 钩子列表
 	 */
 	public function hooks() {
 
 		$map   = array();
 		$order = "id desc";
-		$list  = model('Hooks')->where($map)->order($order)->paginate(10, false, array(
-				'query'  => $this->request->param()
-			));
+		$list  = model('Hooks')->where($map)->order($order)->paginate(10);
 
 		// 记录当前列表页的cookie
 		Cookie('__forward__', $_SERVER['REQUEST_URI']);
@@ -237,12 +230,9 @@ class Addons extends Admin {
 		return $this->fetch();
 	}
 
-	/**
-	 * @title 添加钩子
-	 */
 	public function addhook() {
 		$hooks = model('Hooks');
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$result = $hooks->change();
 			if ($result !== false) {
 				return $this->success("修改成功");
@@ -260,12 +250,10 @@ class Addons extends Admin {
 		}
 	}
 
-	/**
-	 * @title 编辑钩子
-	 */
+	//钩子出编辑挂载插件页面
 	public function edithook($id) {
 		$hooks = model('Hooks');
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$result = $hooks->change();
 			if ($result !== false) {
 				return $this->success("修改成功");
@@ -285,9 +273,7 @@ class Addons extends Admin {
 		}
 	}
 
-	/**
-	 * @title 删除钩子
-	 */
+	//超级管理员删除钩子
 	public function delhook() {
 		$id        = $this->getArrayParam('id');
 		$map['id'] = array('IN', $id);
@@ -299,9 +285,6 @@ class Addons extends Admin {
 		}
 	}
 
-	/**
-	 * @title 更新钩子
-	 */
 	public function updateHook() {
 		$hookModel = D('Hooks');
 		$data      = $hookModel->create();

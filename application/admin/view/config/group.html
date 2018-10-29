@@ -60,9 +60,6 @@
 									{/volist}
 								</select>
 								{/case}
-								{case value="image"}                               
-                                {:widget('common/Form/showConfig',array($item,$item))}
-								{/case}
 								{/switch}
 								{if condition="$item['remark']"}
 								<span class="help-block">（{$item['remark']}）</span>

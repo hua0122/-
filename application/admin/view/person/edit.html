@@ -1,0 +1,96 @@
+{extend name="public/base"/}
+{block name="body"}
+<div class="main-box clearfix">
+	<header class="main-box-header clearfix">
+		<div class="pull-left">
+			<h2>{:isset($info['uid'])?'编辑':'新增'}人员信息</h2>
+		</div>
+		<div class="pull-right"></div>
+	</header>
+	<div class="main-box-body clearfix">
+		<form method="post" class="form form-horizontal">
+			<div class="form-group">
+				<label class="col-lg-2 control-label">姓名</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="username" value="{$info.username|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">性别</label>
+				<div class="col-lg-1">
+					<select name="sex" class="form-control">
+						<option value="0" >男</option>
+						<option value="1" {if isset($info['sex']) && $info['sex']==1}selected{/if}>女
+					</option>
+				</select>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-2 control-label">生日</label>
+				<div class="col-lg-10">
+					<input type="date" class="form-control" name="birthday" value="{$info.birthday|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-2 control-label">手机号码</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="mobile" value="{$info.mobile|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">邮箱地址</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="email" value="{$info.email|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+			<!--
+			<div class="form-group">
+				<label class="col-lg-2 control-label">QQ</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="qq" value="{$info.qq|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+			-->
+			
+			<div class="form-group">
+				<label class="col-lg-2 control-label">所属部门</label>
+				<div class="col-lg-10">
+					<select name="department_id" class="form-control" style="width: 50%">
+						{volist name="Departments" id="menu"}
+						<option value="{$menu['id']}" {if $info['department_id'] == $menu['id']}selected{/if}>{$menu.title_show}</option>
+						{/volist}
+					</select>
+					
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-2 control-label">是否启用</label>
+				<div class="col-lg-1">
+					<select name="status" class="form-control">
+						<option value="0" >是</option>
+						<option value="1" {if isset($info['status']) && $info['status']==1}selected{/if}>否
+					</option>
+				</select>
+				</div>
+			</div>
+			
+
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<input type="hidden" name="uid" value="{$info['uid']|default=''}">
+					<button class="btn btn-success submit-btn ajax-post" type="submit" target-form="form-horizontal">确 定</button>
+					<button class="btn btn-danger btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{/block}

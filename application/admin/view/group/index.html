@@ -14,13 +14,17 @@
 	</header>
 	<div class="main-box-body clearfix">
 		<div class="tabs-wrapper">
+		<!-- 
 			<ul class="nav nav-tabs">
+			 
 				{volist name=":config('USER_GROUP_TYPE')" id="item"}
 				<li {if condition="$key eq $type"}class="active"{/if}>
 					<a href="{:url('Group/index',array('type'=>$key))}">{$item}</a>
 				</li>
 				{/volist}
+				
 			</ul>
+		-->
 			<div class="tab-content">
 				<div class="tab-pane fade in active" id="tab-home">
 				{if condition="empty($list)"}

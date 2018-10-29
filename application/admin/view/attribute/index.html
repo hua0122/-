@@ -6,9 +6,9 @@
 			<h2>{$meta_title}</h2>
 		</div>
 		<div class="pull-right">
-			<a class="btn btn-danger" href="{:url('add',array('model_id'=>$model_id))}"><i class="fa fa-plus"></i> 新 增</a>
-			<!-- <button class="btn btn-danger ajax-post confirm" url="{:url('del')}" target-form="ids"><i class="fa fa-remove"></i> 删 除</button> -->
-			<a class="btn btn-warning" href="{:url('Model/index')}"><i class="fa fa-reply"></i> 返回</a>
+			<a class="btn btn-info" href="{:url('Model/index')}">返回</a>
+			<a class="btn btn-primary" href="{:url('add',array('model_id'=>$model_id))}">新 增</a>
+			<button class="btn btn-danger ajax-post confirm" url="{:url('del')}" target-form="ids">删 除</button>
 		</div>
 	</header>
 	<div class="main-box-body clearfix">
@@ -35,8 +35,8 @@
 						<td>{$item['length']}</td>
 						<td>{$item['value']}</td>
 						<td>
-							<a href="{:url('edit',array('id'=>$item['id'], 'model_id'=>$model_id))}">编辑</a>
-							<a href="{:url('del',array('id'=>$item['id'], 'model_id'=>$model_id))}" class="confirm ajax-get">删除</a>
+							<a href="{:url('edit',array('id'=>$item['id']))}">编辑</a>
+							<a href="{:url('del',array('id'=>$item['id']))}" class="confirm ajax-get">删除</a>
 						</td>
 					</tr>
 					{/volist}
@@ -46,19 +46,4 @@
 		</div>
 	</div>
 </div>
-{/block}
-{block name="script"}
-<script type="text/javascript" src="__PUBLIC__/plugs/layer/layer.js"></script>
-<script type="text/javascript">
-$(function(){
-	$('.openDilog').click(function(){
-		layer.open({
-			type: 2,
-			title: false,
-			area: ['900px', '560px'],
-			content: $('.openDilog').attr('url')
-		});
-	});
-})
-</script>
 {/block}

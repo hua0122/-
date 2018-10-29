@@ -19,11 +19,7 @@ class Upload {
 		$config      = $this->$upload_type();
 		// 获取表单上传文件 例如上传了001.jpg
 		$file = request()->file('file');
-		$size = $config['size'] * 1024 * 1024;
-		$info = $file->validate(array(
-			'size'     => $size,
-			'ext'      => $config['ext'],
-		))->move($config['rootPath'], true, false);
+		$info = $file->move($config['rootPath'], true, false);
 
 		if ($info) {
 			$return['status'] = 1;
@@ -159,7 +155,7 @@ class Upload {
 		$data['m_time']      = $info->getMTime(); //获取最后修改时间
 		$data['owner']       = $info->getOwner(); //文件拥有者
 		$data['savepath']    = $info->getPath(); //不带文件名的文件路径
-		$data['url']         = $data['path']         = '/uploads/' . $info->getSaveName(); //全路径
+		$data['url']         = $data['path']         = str_replace("\\", '/', substr($info->getPathname(), 1)); //全路径
 		$data['size']        = $info->getSize(); //文件大小，单位字节
 		$data['is_file']     = $info->isFile(); //是否是文件
 		$data['is_execut']   = $info->isExecutable(); //是否可执行

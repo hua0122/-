@@ -1,0 +1,88 @@
+{extend name="public/base"/}
+{block name="body"}
+<div class="main-box clearfix">
+	<header class="main-box-header clearfix">
+		<div class="pull-left">
+			<h2>部门选择</h2>
+		</div>
+		<div class="pull-right">
+			<h2>人员选择</h2>
+		</div>
+	</header>
+	<div class="main-box-body clearfix" style="width:50%;float:left;">
+		<table class="table table-hover">
+				<tbody>
+					{volist name="Department" id="item"}
+					<tr>
+						
+						<td>
+						{$item['level_show']}
+						{$item['title']}
+						 <a class="add-sub-cate" title="选择部门" href="javascript:;" onclick="select({$item['id']})">
+                                        <i class="fa fa-plus-square"></i>
+                                    </a>
+						</td>
+					
+						
+						
+						
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+	</div>
+	
+	
+	<div class="main-box-body clearfix" style="width:40%;float:right;">
+		<table class="table table-hover">
+				<tbody id="list">
+					{volist name="Person" id="item"}
+					<tr>
+						
+						<td align="right">
+						
+						<a class="add-sub-cate" title="选择人员" href="javascript:;" onclick="select_person({$item['uid']})">{$item['username']}</a>
+						
+						</td>
+					
+						
+						
+						
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+	</div>
+</div>
+
+<script>
+function select(id){
+	$.post('{:url('borrow/select_department')}',{id:id},function(data){
+		//alert(data.length);
+		var temp="";
+		for(var i=0;i<data.length;i++){
+			temp+='<tr><td align="right"> <a class="add-sub-cate" title="选择人员" href="javascript:;" onclick="select_person('+data[i].uid+')"> '+ data[i].username+' </a></td></tr>';
+		}
+		
+		$("#list").html(temp);
+	},'json');
+}
+
+function select_person(uid){
+	$.post('{:url('borrow/select_person')}',{uid:uid},function(data){
+		if(data){
+			//if(confirm("确定?")){
+				//alert(data[0].username);
+				//模态窗口返回值给当前窗口
+				window.opener.document.getElementById('person_name').value = data[0].username;
+				window.opener.document.getElementById('person_id').value = data[0].uid;
+				window.close();
+			//}
+			
+		}
+	
+	},'json');
+	
+}
+</script>
+{/block}

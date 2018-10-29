@@ -33,10 +33,6 @@ class Test extends Addons {
 		
 	}
 
-	public function headertest(){
-		
-	}
-
 	public function install(){
 		return true;
 	}

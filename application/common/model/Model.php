@@ -10,111 +10,162 @@
 namespace app\common\model;
 
 /**
- * 设置模型
- */
-class Model extends Base {
+* 设置模型
+*/
+class Model extends Base{
 
-	protected $auto   = ['update_time'];
-	protected $insert = ['name', 'create_time', 'status' => 1, 'list_grid'=>"id:ID\r\ntitle:标题\r\ncreate_time:添加时间|time_format\r\nupdate_time:更新时间|time_format"];
-	protected $type   = array(
-		'id'             => 'integer',
-		'create_time'    => 'integer',
-		'update_time'    => 'integer',
+	protected $auto = [ 'update_time', 'field_sort', 'attribute_list'];
+	protected $insert = ['name', 'create_time', 'status'=>1];
+	protected $type = array(
+		'id'   => 'integer',
+		'create_time' => 'integer',
+		'update_time' => 'integer'
 	);
 
-	protected static function init(){
-		self::beforeInsert(function($event){
-			$data = $event->toArray();
-			$tablename = strtolower($data['name']);
-			//实例化一个数据库操作类
-			$db = new \com\Datatable();
-			//检查表是否存在并创建
-			if (!$db->CheckTable($tablename)) {
-				//创建新表
-				return $db->initTable($tablename, $data['title'], 'id')->query();
-			}else{
-				return false;
-			}
-		});
-		self::afterInsert(function($event){
-			$data = $event->toArray();
-			
-			$fields = include(APP_PATH.'admin/fields.php');
-			if (!empty($fields)) {
-				foreach ($fields as $key => $value) {
-					if ($data['is_doc']) {
-						$fields[$key]['model_id'] = $data['id'];
-					}else{
-						if (in_array($key, array('uid', 'status', 'view', 'create_time', 'update_time'))) {
-							$fields[$key]['model_id'] = $data['id'];
-						}else{
-							unset($fields[$key]);
-						}
-					}
-				}
-				model('Attribute')->saveAll($fields);
-			}
-			return true;
-		});
-		self::beforeUpdate(function($event){
-			$data = $event->toArray();
-			if (isset($data['attribute_sort']) && $data['attribute_sort']) {
-				$attribute_sort = json_decode($data['attribute_sort'], true);
-			
-				if (!empty($attribute_sort)) {
-					foreach ($attribute_sort as $key => $value) {
-						db('Attribute')->where('id', 'IN', $value)->setField('group_id', $key);
-						foreach ($value as $k => $v) {
-							db('Attribute')->where('id', $v)->setField('sort', $k);
-						}
-					}
-				}
-			}
-			return true;
-		});
+	public function setFieldSortAttr($value){
+		return empty($value) ? '' : json_encode($value);
 	}
 
-	protected function setAttributeSortAttr($value){
-		return $value ? json_encode($value) : '';
-	}
-
-	public function setNameAttr($value) {
+	public function setNameAttr($value){
 		return strtolower($value);
 	}
 
-	public function getStatusTextAttr($value, $data) {
+	public function setAttributeListAttr($value){
+		return empty($value) ? '' : json_encode($value);
+	}
+
+	public function getStatusTextAttr($value, $data){
 		$status = array(
-			0 => '禁用',
-			1 => '启用',
+			0   => '禁用',
+			1   => '启用',
 		);
 		return $status[$data['status']];
 	}
 
-	public function del() {
-		$id        = input('id', '', 'trim,intval');
-		$tablename = $this->where('id', $id)->value('name');
+	/**
+	 * 更新一个或新增一个模型
+	 * @return array
+	 */
+	public function change() {
+		if(IS_POST){
+			$data = \think\Request::instance()->post();
+			if($data){
+				if (empty($data['id'])) {
+					/*创建表*/
+					$db = new \com\Datatable();
 
+					if ($data['extend'] == 1) {
+						//文档模型
+						$sql = $db->start_table('document_'.$data['name'])->create_id('doc_id', 11 , '主键' , false)->create_key('doc_id');
+					}else{
+						$sql = $db->start_table($data['name'])->create_id('id', 11 , '主键' , true)->create_uid()->create_key('id');
+					}
+					//执行操作数据库，建立数据表
+					$result = $sql->end_table($data['title'], $data['engine_type'])->create();
+					if ($result) {
+						$id = $this->validate('model.add')->save($data);
+						if (false === $id) {
+							return array('info'=>$this->getError(), 'status'=>0);
+						}else{
+							// 清除模型缓存数据
+							cache('document_model_list', null);
+							
+							//记录行为
+							action_log('update_model', 'model', $id, session('auth_user.uid'));
+							return $id ? array('info'=>'创建模型成功！','status'=>1) : array('info'=>'创建模型失败！','status'=>1);
+						}
+					}else{
+						return false;
+					}
+				} else {
+					//修改
+					$status = $this->validate('model.edit')->save($data,array('id'=>$data['id']));
+					if (false === $status) {
+						return array('info'=>$this->getError(), 'status'=>0);
+					}else{
+						// 清除模型缓存数据
+						cache('document_model_list', null);
+						//记录行为
+						action_log('update_model','model',$data['id'],session('auth_user.uid'));
+						return array('info'=>'保存模型成功！','status'=>1);
+					}
+				}
+			}else{
+				return array('info'=>$this->getError(),'status'=>0);
+			}
+		}
+	}
+
+	public function del(){
+		$id = input('id','','trim,intval');
+		$model = $this->db()->where(array('id'=>$id))->find();
+
+		if ($model['extend'] == 0) {
+			$this->error = "基础模型不允许删除！";
+			return false;
+		}elseif ($model['extend'] == 1){
+			$tablename = 'document_'.$model['name'];
+		}elseif ($model['extend'] == 2){
+			$tablename = $model['name'];
+		}
 		//删除数据表
 		$db = new \com\Datatable();
 		if ($db->CheckTable($tablename)) {
 			//检测表是否存在
-			$result = $db->delTable($tablename)->query();
+			$result = $db->del_table($tablename)->query();
 			if (!$result) {
 				return false;
 				$this->error = "数据表删除失败！";
 			}
 		}
-		db('Attribute')->where('model_id', $id)->delete(); //删除字段信息
-		$result = $this->where('id', $id)->delete();
+		$result = $this->db()->where(array('id'=>$id))->delete();
 		if ($result) {
 			return true;
-		} else {
+		}else{
 			$this->error = "模型删除失败！";
 			return false;
 		}
 	}
 
-	public function attribute() {
+	public function attribute(){
 		return $this->hasMany('Attribute');
+	}
+
+	/**
+	 * 解析字段
+	 * @param  [array] $model      [字段]
+	 * @return [array]             [解析后的字段]
+	 */
+	public function preFields($model){
+		$fields = $model->attribute;
+		$groups = parse_config_attr($model['field_group']);
+		$field_sort = json_decode($model['field_sort'],true);;
+
+		//获得数组的第一条数组
+		$first_key = array_keys($groups);
+		if (!empty($field_sort)) {
+			foreach ($field_sort as $key => $value) {
+				foreach ($value as $index) {
+					if (isset($fields[$index])) {
+						$groupfield[$key][] = $fields[$index];
+						unset($fields[$index]);
+					}
+				}
+			}
+		}
+		//未进行排序的放入第一组中
+		$fields[] = array('name'=>'model_id','type'=>'hidden');    //加入模型ID值
+		$fields[] = array('name'=>'id','type'=>'hidden');    //加入模型ID值
+		foreach ($fields as $key => $value) {
+			$groupfield[$first_key[0]][] = $value;
+		}
+
+		foreach ($groups as $key => $value) {
+			if ($groupfield[$key]) {
+				$data[$value] = $groupfield[$key];
+			}
+		}
+		return $data;
+		return array();
 	}
 }

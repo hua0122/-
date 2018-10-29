@@ -10,10 +10,6 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
-/**
- * @title 分类管理
- * @description 分类管理
- */
 class Category extends Admin {
 
 	public function _initialize() {
@@ -21,44 +17,30 @@ class Category extends Admin {
 		$this->getContentMenu();
 	}
 
-	/**
-	 * @title 分类列表
-	 */
-	public function index($model_id = '') {
+	public function index() {
 		$map  = array('status' => array('gt', -1));
-		if ($model_id) {
-			$map['model_id'] = $model_id;
-		}
 		$list = db('Category')->where($map)->order('sort asc,id asc')->column('*', 'id');
 
 		if (!empty($list)) {
 			$tree = new \com\Tree();
 			$list = $tree->toFormatTree($list);
 		}
-		$subsql = db('Attribute')->where('name', 'category_id')->fetchSql(true)->column('model_id');
-		$model_list = model('Model')->where('id IN ('. $subsql.')')->select();
 
 		$this->assign('tree', $list);
-		$this->assign('model_list', $model_list);
-		$this->assign('model_id', $model_id);
 		$this->setMeta('栏目列表');
 		return $this->fetch();
 	}
 
-	/**
-	 * @title 编辑字段
-	 */
+	/* 单字段编辑 */
 	public function editable($name = null, $value = null, $pk = null) {
 		if ($name && ($value != null || $value != '') && $pk) {
 			db('Category')->where(array('id' => $pk))->setField($name, $value);
 		}
 	}
 
-	/**
-	 * @title 编辑分类
-	 */
+	/* 编辑分类 */
 	public function edit($id = null, $pid = 0) {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$category = model('Category');
 			//提交表单
 			$result = $category->change();
@@ -79,27 +61,20 @@ class Category extends Admin {
 					return $this->error('指定的上级分类不存在或被禁用！');
 				}
 			}
-			$subsql = db('Attribute')->where('name', 'category_id')->fetchSql(true)->column('model_id');
-			$model_list = model('Model')->where('id IN ('. $subsql.')')->select();
-
 			/* 获取分类信息 */
 			$info = $id ? db('Category')->find($id) : '';
 
 			$this->assign('info', $info);
-			$this->assign('model_list', $model_list);
 			$this->assign('category', $cate);
 			$this->setMeta('编辑分类');
 			return $this->fetch();
 		}
 	}
-
-	/**
-	 * @title 添加分类
-	 */
+	/* 新增分类 */
 	public function add($pid = 0) {
 		$Category = model('Category');
 
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			//提交表单
 			$id = $Category->change();
 			if (false !== $id) {
@@ -118,19 +93,15 @@ class Category extends Admin {
 					return $this->error('指定的上级分类不存在或被禁用！');
 				}
 			}
-			$subsql = db('Attribute')->where('name', 'category_id')->fetchSql(true)->column('model_id');
-			$model_list = model('Model')->where('id IN ('. $subsql.')')->select();
-			
 			/* 获取分类信息 */
 			$this->assign('info', null);
-			$this->assign('model_list', $model_list);
 			$this->assign('category', $cate);
 			$this->setMeta('新增分类');
 			return $this->fetch('edit');
 		}
 	}
 	/**
-	 * @title 删除分类
+	 * 删除一个分类
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function remove($id) {
@@ -143,10 +114,10 @@ class Category extends Admin {
 			return $this->error('请先删除该分类下的子分类');
 		}
 		//判断该分类下有没有内容
-		// $document_list = db('Document')->where(array('category_id' => $id))->field('id')->select();
-		// if (!empty($document_list)) {
-		// 	return $this->error('请先删除该分类下的文章（包含回收站）');
-		// }
+		$document_list = db('Document')->where(array('category_id' => $id))->field('id')->select();
+		if (!empty($document_list)) {
+			return $this->error('请先删除该分类下的文章（包含回收站）');
+		}
 		//删除该分类信息
 		$res = db('Category')->where(array('id' => $id))->delete();
 		if ($res !== false) {
@@ -195,9 +166,8 @@ class Category extends Admin {
 		$this->setMeta($operate . '分类');
 		return $this->fetch();
 	}
-	
 	/**
-	 * @title 移动分类
+	 * 移动分类
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function move() {
@@ -210,9 +180,8 @@ class Category extends Admin {
 			return $this->error('分类移动失败！');
 		}
 	}
-
 	/**
-	 * @title 合并分类
+	 * 合并分类
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function merge() {
@@ -248,10 +217,6 @@ class Category extends Admin {
 		}
 	}
 
-	/**
-	 * @title 修改状态
-	 * @author huajie <banhuajie@163.com>
-	 */
 	public function status() {
 		$id     = $this->getArrayParam('id');
 		$status = input('status', '0', 'trim,intval');
@@ -267,47 +232,5 @@ class Category extends Admin {
 		} else {
 			return $this->error("设置失败！");
 		}
-	}
-	
-	/**
-	 * @title 生成频道
-	 * @author huajie <banhuajie@163.com>
-	 */
-	public function add_channel() {
-			if ($this->request->isPost()) {
-				$Channel = model('Channel');
-				$data    = $this->request->param();
-				if ($data) {
-					$id = $Channel->save($data);
-					if ($id) {
-						$map['id'] = array('IN', $data['mid']);
-						$result  = db('Category')->where($map)->setField('ismenu',$Channel->id);                                      
-						return $this->success('生成成功',url('index'));
-						//记录行为
-						action_log('update_channel', 'channel', $id, session('user_auth.uid'));
-					} else {
-						return $this->error('生成失败');
-					}
-				} else {
-					$this->error($Channel->getError());
-				}
-			} else {
-				$data    = $this->request->param();
-				$modelname = db('Model')->where( array('id' => $data['model_id']) )->field('id,name')->find();  
-				$data['url'] = $modelname['name'].'/list/'.$data['mid'];
-				$pid = input('pid', 0);
-				//获取父导航
-				if (!empty($pid)) {
-					$parent = db('Channel')->where(array('id' => $pid))->field('title')->find();
-					$this->assign('parent', $parent);
-				}
-				$pnav = db('Channel')->where(array('pid' => '0'))->select();
-				$this->assign('pnav', $pnav);
-				$this->assign('pid', $pid);
-				$this->assign('info', $data);
-				$this->assign('data',null );
-				$this->setMeta('生成导航');    
-				return $this->fetch('edit_channel');
-			}
 	}
 }

@@ -8,12 +8,12 @@
 // +----------------------------------------------------------------------
 
 namespace app\user\controller;
-use app\common\controller\Front;
+use app\common\controller\Fornt;
 
-class Login extends Front{
+class Login extends Fornt{
 
 	public function index($username = '', $password = '', $verify = ''){
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			if (!$username || !$password) {
 				return $this->error('用户名或者密码不能为空！','');
 			}
@@ -48,7 +48,7 @@ class Login extends Front{
 	}
 
 	public function register($username = '', $password = '', $repassword = '', $email = '', $verify = ''){
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$user = model('User');
 			
 			//验证码验证
@@ -72,7 +72,7 @@ class Login extends Front{
 	}
 
 	public function forget($email = '', $verify = ''){
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			//验证码验证
 			$this->checkVerify($verify);
 			if (!$email) {
@@ -100,7 +100,8 @@ class Login extends Front{
 	}
 
 	public function find(){
-		if ($this->request->isPost()) {
+		//http://127.0.0.2/user/login/find.html?time=1467174578&token=b561PJhVI2OjWUPNLsAMdeW8AKZLw/RcqyXUHBa1mCiX2OUzvq0D69Rt40F/n7zfJKR05d7qA41G6/33NQ
+		if (IS_POST) {
 			$data = $this->request->post();
 			//验证码验证
 			$this->checkVerify($data['verify']);

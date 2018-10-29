@@ -1,0 +1,125 @@
+{extend name="public/base"/}
+{block name="style"}
+<link rel="stylesheet" href="__PUBLIC__/plugs/tagsinput/bootstrap-tagsinput.css">
+<script src="__PUBLIC__/plugs/tagsinput/bootstrap-tagsinput.js"></script>
+
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugs/webuploader/webuploader.css">
+<!-- 配置文件 -->
+<script type="text/javascript" src="__PUBLIC__/plugs/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__PUBLIC__/plugs/ueditor/ueditor.all.min.js"></script>
+<!-- datepicker statr -->
+<link href="__PUBLIC__/plugs/datepicker/css/foundation-datepicker.min.css" rel="stylesheet" type="text/css">
+<script src="__PUBLIC__/plugs/datepicker/js/foundation-datepicker.js"></script>
+<script src="__PUBLIC__/plugs/datepicker/js/foundation-datepicker.zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugs/board/board.min.css">
+<!-- datepicker end -->
+{/block}
+{block name="body"}
+<div class="main-box clearfix">
+	<header class="main-box-header clearfix">
+		<div class="pull-left">
+			<h2>{:isset($info['id'])?'编辑':'新增'}班别信息</h2>
+		</div>
+		<div class="pull-right"></div>
+	</header>
+	<div class="main-box-body clearfix">
+		<form method="post" class="form form-horizontal">
+			<div class="form-group">
+				<label class="col-lg-2 control-label">编号</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="cid" value="{$info.cid|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<!--<label class="col-lg-2 control-label">版本号</label>-->
+				<div class="col-lg-10">
+					<input type="hidden" class="form-control" name="version" value="{$version|default=''}" style="width: 80%">
+
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">班别名称</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="name" value="{$info.name|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-lg-2 control-label">所属场地</label>
+				<div class="col-lg-10">
+					<select name="area_id" class="form-control" style="width: 50%">
+
+						{volist name="area" id="menu"}
+						<option value="{$menu['id']}" >{$menu.name}</option>
+						{/volist}
+					</select>
+
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label class="col-lg-2 control-label">班别车型</label>
+				<div class="col-lg-10 col-sm-10">
+					<select class="form-control" name="type" id="type" style="width:auto;">
+						<option value="1" selected="">C1</option>
+						<option value="2">C2</option>
+					</select>
+					<div class="help-block"></div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-2 control-label">价格</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="price" value="{$info.price|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+			<!--<div class="form-group">
+				<label class="col-lg-2 control-label">班别详情</label>
+				<div class="col-lg-10 col-sm-10">
+					<textarea name="content" id="content" style="width: 100%;"></textarea>
+					<!-- 实例化编辑器代码
+					<script type="text/javascript">
+                        var ue = UE.getEditor('content', {
+                            serverUrl : "/admin/upload/ueditor.html"
+                        });
+					</script>								<div class="help-block"></div>
+				</div>
+			</div>
+			-->
+
+			<div class="form-group">
+				<label class="col-lg-2 control-label">班别详情</label>
+				<div class="col-lg-10 col-sm-10">
+					<textarea class="form-control" name="content" id="content"></textarea>
+					<div class="help-block"></div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-lg-2 control-label">学车须知</label>
+				<div class="col-lg-10 col-sm-10">
+					<textarea class="form-control" name="notice" id="notice"></textarea>
+					<div class="help-block"></div>
+				</div>
+			</div>
+
+
+			
+			
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<input type="hidden" name="id" value="{$info['id']|default=''}">
+					<button class="btn btn-success submit-btn ajax-post" type="submit" target-form="form-horizontal">确 定</button>
+					<button class="btn btn-danger btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{/block}

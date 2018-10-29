@@ -8,8 +8,8 @@
 // +----------------------------------------------------------------------
 
 // SentCMS常量定义
-define('SENTCMS_VERSION', '3.6.201803');
-define('SENT_ADDON_PATH', __DIR__ . '/../addons' . DS);
+define('SENTCMS_VERSION', '3.0.20161201');
+define('SENT_ADDON_PATH', ROOT_PATH . DS . 'addons' . DS);
 
 //字符串解密加密
 function authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
@@ -230,7 +230,6 @@ function addons_url($url, $param = array()) {
 function get_nav_url($url) {
 	switch ($url) {
 	case 'http://' === substr($url, 0, 7):
-	case 'https://' === substr($url, 0, 8):
 	case '#' === substr($url, 0, 1):
 		break;
 	default:
@@ -249,14 +248,14 @@ function get_nav_url($url) {
  */
 function get_cover($cover_id, $field = null) {
 	if (empty($cover_id)) {
-		return BASE_PATH . '/static/images/default.png';
+		return BASE_PATH . '/public/images/default.png';
 	}
 	$picture = db('Picture')->where(array('status' => 1, 'id' => $cover_id))->find();
 	if ($field == 'path') {
 		if (!empty($picture['url'])) {
-			$picture['path'] = $picture['url'] ? BASE_PATH . $picture['url'] : BASE_PATH . '/static/images/default.png';
+			$picture['path'] = $picture['url'] ? BASE_PATH . $picture['url'] : BASE_PATH . '/public/images/default.png';
 		} else {
-			$picture['path'] = $picture['path'] ? BASE_PATH . $picture['path'] : BASE_PATH . '/static/images/default.png';
+			$picture['path'] = $picture['path'] ? BASE_PATH . $picture['path'] : BASE_PATH . '/public/images/default.png';
 		}
 	}
 	return empty($field) ? $picture : $picture[$field];
@@ -535,17 +534,6 @@ function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root 
 }
 
 /**
- * 获取父树列表
- * 
- */
-function get_parent_tree($id = ''){
-	if ($id) {
-		return array();
-	}
-}
-
-
-/**
  * 将list_to_tree的树还原成列表
  * @param  array $tree  原来的树
  * @param  string $child 孩子节点的键
@@ -597,11 +585,15 @@ function parse_field_attr($string) {
 function parse_field_bind($table, $selected = '', $model = 0) {
 	$list = array();
 	if ($table) {
-		$res    = db($table)->select();
+		$select = db($table);
+		$res    = $select->select();
 		foreach ($res as $key => $value) {
-			if (($model && isset($value['model_id']) && $value['model_id'] == $model) || (isset($value['model_id']) && $value['model_id'] == 0)) {
-				$list[] = $value;
-			} elseif(!$model) {
+			if ($model && $value['model']) {
+				$models = explode(',', $value['model']);
+				if (in_array($model, $models)) {
+					$list[] = $value;
+				}
+			} else {
 				$list[] = $value;
 			}
 		}
@@ -770,7 +762,7 @@ function execute_action($rules = false, $action_id = null, $user_id = null) {
 
 		//检查执行周期
 		$map                = array('action_id' => $action_id, 'user_id' => $user_id);
-		$map['create_time'] = array('gt', time() - intval($rule['cycle']) * 3600);
+		$map['create_time'] = array('gt', NOW_TIME - intval($rule['cycle']) * 3600);
 		$exec_count         = db('ActionLog')->where($map)->count();
 		if ($exec_count > $rule['max']) {
 			continue;
@@ -791,9 +783,9 @@ function execute_action($rules = false, $action_id = null, $user_id = null) {
 function avatar($uid, $size = 'middle') {
 	$size = in_array($size, array('big', 'middle', 'small', 'real')) ? $size : 'middle';
 	$dir  = setavatardir($uid);
-	$file = BASE_PATH . '/static/avatar/' . $dir . 'avatar_' . $size . '.png';
+	$file = BASE_PATH . '/uploads/avatar/' . $dir . 'avatar_' . $size . '.png';
 	if (!file_exists('.' . $file)) {
-		$file = BASE_PATH . '/static/images/default_avatar_' . $size . '.jpg';
+		$file = BASE_PATH . '/public/images/default_avatar_' . $size . '.jpg';
 	}
 	return $file;
 }
@@ -908,7 +900,45 @@ function get_attribute_type($type = '') {
 	return $type ? $type_list[$type][0] : $type_list;
 }
 
-//获得内容状态
+/**
+ * 获取文档模型信息
+ * @param  integer $id    模型ID
+ * @param  string  $field 模型字段
+ * @return array
+ */
+function get_document_model($id = null, $field = null) {
+	static $list;
+
+	/* 非法分类ID */
+	if (!(is_numeric($id) || is_null($id))) {
+		return '';
+	}
+
+	/* 读取缓存数据 */
+	if (empty($list)) {
+		$list = cache('document_model_list');
+	}
+
+	/* 获取模型名称 */
+	if (empty($list)) {
+		$map   = array('status' => 1, 'is_bind_category' => 1);
+		$model = db('Model')->where($map)->field(true)->select();
+		foreach ($model as $value) {
+			$list[$value['id']] = $value;
+		}
+		cache('document_model_list', $list); //更新缓存
+	}
+
+	/* 根据条件返回数据 */
+	if (is_null($id)) {
+		return $list;
+	} elseif (is_null($field)) {
+		return $list[$id];
+	} else {
+		return $list[$id][$field];
+	}
+}
+
 function get_content_status($status) {
 	$text = array(
 		'-1' => '<span class="label label-danger">删除</span>',
@@ -951,21 +981,24 @@ function get_category_list_tree($model) {
 
 	/* 读取缓存数据 */
 	if (empty($list)) {
-		$list = db('Category')->select();
+		$list = D('category')->select();
 		cache('sys_category_list', $list);
 	}
-	if ($model) {
-		foreach ($list as $key => $value) {
+	foreach ($list as $key => $value) {
+		if ($model) {
 			$models = explode(',', $value['model']);
 			if (in_array($model, $models)) {
 				$res[] = $value;
 			}
+		} else {
+			$res[] = $value;
 		}
-	} else {
-		$res = $list;
 	}
-
+	$res  = list_unique($res);
 	$tree = list_to_tree($res);
+	if ($limit) {
+		$tree = array_slice($tree, 0, $limit);
+	}
 	return $tree;
 }
 
@@ -988,44 +1021,6 @@ function get_category_child($id) {
 	return array_unique($ids);
 }
 
-/**
- * 栏目文章当前位置
- * @param  integer $id   当前栏目ID
- * @param  string $ext   文章标题
- * @return here          当前栏目树
- * @author K先森 <77413254@qq.com>
- **/
-function get_category_pos($id,$ext=''){
-        $cat = db('Category');
-        $here = '<a href="/">首页</a>';
-        $uplevels = $cat->field("id,title,pid,model_id")->where("id=$id")->find();
-        if(empty($uplevels)){
-            return '栏目不存在';            
-        }
-        if($uplevels['pid'] != 0)
-        $here .= get_category_uplevels($uplevels['pid']);
-        $modelid = $uplevels['model_id'];
-        $modelname = db('Model')->field("name")->where("id = $modelid")->find();
-        $links = url('index/content/lists?model='.$modelname['name'],array('id'=>$uplevels['id']));        
-        $here .= ' &gt;&gt; <a href="'.$links.'">'.$uplevels['title']."</a>";
-        if($ext != '') $here .= ' &gt;&gt; '.$ext;
-        return $here;
-}
-function get_category_uplevels($id){
-        $cat = db('Category');
-        $here = '';
-        $uplevels = $cat->field("id,title,pid,model_id")->where("id=$id")->find();
-        $modelid = $uplevels['model_id'];
-        $modelname = db('Model')->field("name")->where("id = $modelid")->find();
-        $links = url('index/content/lists?model='.$modelname['name'],array('id'=>$uplevels['id']));
-        $here .= ' &gt;&gt; <a href="'.$links.'">'.$uplevels['title']."</a>";
-        if($uplevels['pid'] != 0){
-            $here = get_category_uplevels($uplevels['pid']).$here;
-        }
-        return $here;
-}
-
-
 function send_email($to, $subject, $message) {
 	$config = array(
 		'protocol'  => 'smtp',
@@ -1041,15 +1036,6 @@ function send_email($to, $subject, $message) {
 	$email->message($message);
 
 	return $email->send();
-}
-
-//实例化模型
-function M($name, $type = 'model') {
-	if ($type == 'model') {
-		return new \app\common\model\Content(strtolower($name));
-	} elseif ($type == 'form') {
-		return new \app\common\model\DiyForm(strtolower($name));
-	}
 }
 
 //php获取中文字符拼音首字母

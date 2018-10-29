@@ -29,4 +29,5 @@ class Model extends Base{
 		'add'     => 'name,title',
 		'edit'     => 'title',
 	);
+
 }

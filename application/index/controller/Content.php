@@ -8,9 +8,9 @@
 // +----------------------------------------------------------------------
 
 namespace app\index\controller;
-use app\common\controller\Front;
+use app\common\controller\Fornt;
 
-class Content extends Front {
+class Content extends Fornt {
 
 	protected $beforeActionList = array(
 		'setModel' => array('except' => 'category'),
@@ -24,27 +24,26 @@ class Content extends Front {
 			$id = db('Category')->where(array('name' => $name))->getField('id');
 		}
 
-		if ($id) {
-			$cate = $this->getCategory($id);
-
-			//获得当前栏目的所有子栏目
-			$ids = get_category_child($id);
-		}else{
-			$cate = array();
-			$ids = '';
+		if (!$id) {
+			return $this->error("无此频道！");
 		}
+
+		$cate = $this->getCategory($id);
+
+		//获得当前栏目的所有子栏目
+		$ids = get_category_child($id);
 
 		$data = array(
 			'category'   => $cate,
 			'child_cate' => $ids,
 		);
-		if (isset($cate['template_index']) && $cate['template_index']) {
+		if ($cate['template_index']) {
 			$teamplate = 'content/' . $this->modelInfo['name'] . '/' . $cate['template_index'];
 		} else {
 			$teamplate = 'content/' . $this->modelInfo['name'] . '/index';
 		}
 		$this->assign($data);
-		$this->setSeo($this->modelInfo['title']);
+		$this->setSeo($cate['name']);
 		return $this->fetch($teamplate);
 	}
 
@@ -59,21 +58,20 @@ class Content extends Front {
 		}
 
 		$cate = $this->getCategory($id);
-		$map = array();
-		$attr = db('Attribute')->where('model_id', $this->modelInfo['id'])->column('name');
-		if (in_array('category_id', $attr)) {
+
+		if ($this->modelInfo['extend'] == 1) {
+			//获得当前栏目的所有子栏目
 			$ids                = get_category_child($id);
 			$map['category_id'] = array('IN', $ids);
-		}
-		if (in_array('status', $attr)) {
+			$map['model_id']    = $this->modelInfo['id'];
 			$map['status']      = array('GT', 0);
 		}
-		if (in_array('is_top', $attr)) {
-			$order = "is_top desc,id desc";
-		}else{
-			$order = "id desc";
-		}
 
+		if ($this->modelInfo['extend'] > 1) {
+			$order = "id desc";
+		} else {
+			$order = "is_top desc,id desc";
+		}
 		$list = $this->model->where($map)->order($order)->paginate(15);
 
 		$data = array(
@@ -105,7 +103,7 @@ class Content extends Front {
 		);
 
 		$order = "id desc";
-		$list  = $this->model->where($map)->order($order)->paginate(15);
+		$list  = model('Document')->where($map)->order($order)->paginate(15);
 
 		$data = array(
 			'list' => $list,
@@ -125,7 +123,12 @@ class Content extends Front {
 	//模块内容详情页
 	public function detail($id = '', $name = '') {
 		//当为文章模型时
-		$info = $this->model->find($id);
+		$info = $this->model->detail($id);
+
+		if ($this->modelInfo['extend'] = 1 && (time() - session('set_content_view')) > 1800) {
+			db('Document')->where(array('id' => $id))->setInc('view');
+			session('set_content_view', time());
+		}
 
 		if (empty($info)) {
 			return $this->error("无此内容！");
@@ -165,7 +168,11 @@ class Content extends Front {
 			return $this->error("无此模型！");
 		} else {
 			$this->modelInfo = $model_name ? $name_list[$model_name] : $id_list[$model_id];
-			$this->model = M($this->modelInfo['name']);
+			if ($this->modelInfo['extend'] > 1) {
+				$this->model = model('Content')->extend($this->modelInfo['name']);
+			} else {
+				$this->model = model('Document')->extend($this->modelInfo['name']);
+			}
 
 			$this->assign('model_id', $this->modelInfo['id']);
 			$this->assign('model_list', $name_list);

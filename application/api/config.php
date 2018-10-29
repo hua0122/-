@@ -1,7 +1,12 @@
 <?php
-//配置文件
-return [
+// +----------------------------------------------------------------------
+// | SentCMS [ WE CAN DO IT JUST THINK IT ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2013 http://www.tensent.cn All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: molong <molong@tensent.cn> <http://www.tensent.cn>
+// +----------------------------------------------------------------------
 
-    // 默认输出类型
-    'default_return_type'    => 'json',
-];
+return array(
+	'default_return_type'    => 'json',
+);

@@ -10,19 +10,12 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
-
-/**
- * @title 菜单管理
- */
 class Menu extends Admin {
 
 	public function _initialize() {
 		parent::_initialize();
 	}
 
-	/**
-	 * @title 菜单列表
-	 */
 	public function index() {
 		$map   = array();
 		$title = trim(input('get.title'));
@@ -41,9 +34,7 @@ class Menu extends Admin {
 		return $this->fetch();
 	}
 
-	/**
-	 * @title 编辑菜单字段
-	 */
+	/* 单字段编辑 */
 	public function editable($name = null, $value = null, $pk = null) {
 		if ($name && ($value != null || $value != '') && $pk) {
 			db('Menu')->where(array('id' => $pk))->setField($name, $value);
@@ -51,11 +42,11 @@ class Menu extends Admin {
 	}
 
 	/**
-	 * @title 新增菜单
+	 * 新增菜单
 	 * @author yangweijie <yangweijiester@gmail.com>
 	 */
 	public function add() {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$Menu = model('Menu');
 			$data = input('post.');
 			$id   = $Menu->save($data);
@@ -85,11 +76,11 @@ class Menu extends Admin {
 	}
 
 	/**
-	 * @title 编辑配置
+	 * 编辑配置
 	 * @author yangweijie <yangweijiester@gmail.com>
 	 */
 	public function edit($id = 0) {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$Menu = model('Menu');
 			$data = input('post.');
 			if ($Menu->save($data, array('id' => $data['id'])) !== false) {
@@ -120,7 +111,7 @@ class Menu extends Admin {
 	}
 
 	/**
-	 * @title 删除菜单
+	 * 删除后台菜单
 	 * @author yangweijie <yangweijiester@gmail.com>
 	 */
 	public function del() {
@@ -185,7 +176,7 @@ class Menu extends Admin {
 	}
 
 	public function import() {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$tree      = input('post.tree');
 			$lists     = explode(PHP_EOL, $tree);
 			$menuModel = db('Menu');
@@ -222,11 +213,11 @@ class Menu extends Admin {
 	}
 
 	/**
-	 * @title 菜单排序
+	 * 菜单排序
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function sort() {
-		if ($this->request->isGet()) {
+		if (IS_GET) {
 			$ids = input('ids');
 			$pid = input('pid');
 
@@ -244,7 +235,7 @@ class Menu extends Admin {
 			$this->assign('list', $list);
 			$this->setMeta('菜单排序');
 			return $this->fetch();
-		} elseif ($this->request->isPost()) {
+		} elseif (IS_POST) {
 			$ids = input('post.ids');
 			$ids = explode(',', $ids);
 			foreach ($ids as $key => $value) {

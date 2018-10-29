@@ -12,7 +12,7 @@ return array(
 		'name' => '\w+',
 	),
 
-	'/home'              => 'index/index/index', // 首页访问路由
+	'/'              => 'admin/index/index', // 首页访问路由
 	'search'         => 'index/search/index', // 首页访问路由
 
 	'cart/index'     => 'index/cart/index',
@@ -31,7 +31,7 @@ return array(
 	'admin/logout'   => 'admin/index/logout',
 
 	// 变量传入index模块的控制器和操作方法
-	'plugs/:mc/:ac' => 'index/addons/execute', // 静态地址和动态地址结合
-	'user/plugs/:mc/:ac'  => 'user/addons/execute', // 静态地址和动态地址结合
-	'admin/plugs/:mc/:ac' => 'admin/addons/execute', // 静态地址和动态地址结合
+	'addons/:mc/:ac' => 'index/addons/execute', // 静态地址和动态地址结合
+	'usera/:mc/:ac'  => 'user/addons/execute', // 静态地址和动态地址结合
+	'admina/:mc/:ac' => 'admin/addons/execute', // 静态地址和动态地址结合
 );

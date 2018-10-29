@@ -10,14 +10,10 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
-/**
- * @title 行为管理
- * @description 行为管理
- */
 class Action extends Admin {
 
 	/**
-	 * @title 用户行为列表
+	 * 用户行为列表
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function index() {
@@ -25,9 +21,7 @@ class Action extends Admin {
 
 		$order = "id desc";
 		//获取列表数据
-		$list = model('Action')->where($map)->order($order)->paginate(10, false, array(
-				'query'  => $this->request->param()
-			));
+		$list = model('Action')->where($map)->order($order)->paginate(10);
 
 		// 记录当前列表页的cookie
 		Cookie('__forward__', $_SERVER['REQUEST_URI']);
@@ -41,12 +35,12 @@ class Action extends Admin {
 	}
 
 	/**
-	 * @title 新建用户行为
+	 * 新建用户行为
 	 * @author colin <colin@tensent.cn>
 	 */
 	public function add() {
 		$model = model('Action');
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$data   = input('post.');
 			$result = $model->save($data);
 			if (false != $result) {
@@ -66,12 +60,12 @@ class Action extends Admin {
 	}
 
 	/**
-	 * @title 编辑用户行为
+	 * 编辑用户行为
 	 * @author colin <colin@tensent.cn>
 	 */
 	public function edit($id = null) {
 		$model = model('Action');
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$data   = input('post.');
 			$result = $model->save($data, array('id' => $data['id']));
 			if ($result !== false) {
@@ -96,7 +90,7 @@ class Action extends Admin {
 	}
 
 	/**
-	 * @title 删除用户行为
+	 * 删除用户行为状态
 	 * @author colin <colin@tensent.cn>
 	 */
 	public function del() {
@@ -115,7 +109,7 @@ class Action extends Admin {
 	}
 
 	/**
-	 * @title 修改用户行为状态
+	 * 修改用户行为状态
 	 * @author colin <colin@tensent.cn>
 	 */
 	public function setstatus() {
@@ -136,7 +130,7 @@ class Action extends Admin {
 	}
 
 	/**
-	 * @title 行为日志列表
+	 * 行为日志列表
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function log() {
@@ -157,7 +151,7 @@ class Action extends Admin {
 		return $this->fetch();
 	}
 	/**
-	 * @title 查看行为日志
+	 * 查看行为日志
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function detail($id = 0) {
@@ -180,9 +174,8 @@ class Action extends Admin {
 		$this->setMeta('查看行为日志');
 		return $this->fetch();
 	}
-
 	/**
-	 * @title 删除日志
+	 * 删除日志
 	 * @param mixed $id
 	 * @author huajie <banhuajie@163.com>
 	 */
@@ -200,9 +193,8 @@ class Action extends Admin {
 			return $this->error('删除失败！');
 		}
 	}
-	
 	/**
-	 * @title 清空日志
+	 * 清空日志
 	 */
 	public function clear($id = '') {
 		$res = db('ActionLog')->where('1=1')->delete();

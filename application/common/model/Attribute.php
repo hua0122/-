@@ -18,39 +18,6 @@ class Attribute extends Base{
 		'id'  => 'integer',
 	);
 
-	protected static function init(){
-		self::afterInsert(function($data){
-			if ($data['model_id']) {
-				$name = db('Model')->where('id', $data['model_id'])->value('name');
-				$db = new \com\Datatable();
-				$attr = $data->toArray();
-				$model_attr = array(
-					'model_id' => $data['model_id'],
-					'attr_id'  => $data->id,
-					'group_id' => 0,
-					'is_add_table'  => 1,
-					'is_show'  => $data['is_show'],
-					'is_must'  => $data['is_must'],
-					'sort' => 0,
-				);
-				$attr['after'] = db('Attribute')->where('name', '<>', $data['name'])->where('model_id', $data['model_id'])->order('id desc')->value('name');
-				return $db->columField(strtolower($name), $attr)->query();
-			}
-		});
-		self::beforeUpdate(function($data){
-			$attr = $data->toArray();
-			$attr['action'] = 'CHANGE';
-			$attr['oldname'] = db('Attribute')->where('id', $attr['id'])->value('name');
-			if ($attr['id']) {
-				$name = db('Model')->where('id', $attr['model_id'])->value('name');
-				$db = new \com\Datatable();
-				return $db->columField(strtolower($name), $attr)->query();
-			}else{
-				return false;
-			}
-		});
-	}
-
 	protected function getTypeTextAttr($value, $data){
     	$type = config('config_type_list');
     	$type_text = explode(',', $type[$data['type']]);
@@ -59,12 +26,12 @@ class Attribute extends Base{
 
 	public function getFieldlist($map,$index='id'){
 		$list = array();
-		$row = db('Attribute')->field('*,remark as help,type,extra as "option",model_id')->where($map)->order('group_id asc, sort asc')->select();
+		$row = db('Attribute')->field('*,remark as help,type,extra as "option"')->where($map)->select();
 		foreach ($row as $key => $value) {
 			if (in_array($value['type'],array('checkbox','radio','select','bool'))) {
 				$value['option'] = parse_field_attr($value['extra']);
 			} elseif ($value['type'] == 'bind') {
-				$extra = parse_field_bind($value['extra'], '', $value['model_id']);
+				$extra = parse_field_bind($value['extra']);
 				$option = array();
 				foreach ($extra as $k => $v) {
 					$option[$v['id']] = $v['title_show'];
@@ -76,21 +43,45 @@ class Attribute extends Base{
 		return $list;
 	}
 
-	public function del($id, $model_id){
+	public function change(){
+		$data = \think\Request::instance()->post();
+
+		if ($data['id']) {
+			$status = $this->validate('attribute.edit')->save($data, array('id'=>$data['id']));
+		}else{
+			$status = $this->validate('attribute.add')->save($data);
+		}
+		
+		if (false !== $status) {
+			//在数据库内添加字段
+			$result = $this->checkTableField($data);
+			if (!$result) {
+				$this->error = "字段创建失败！";
+				return false;
+			}
+			return $status;
+		}else{
+			return false;
+		}
+	}
+
+	public function del($id){
 		$map['id'] = $id;
 		$info = $this->find($id);
-		$tablename = db('Model')->where(array('id'=>$model_id))->value('name');
+		$model = db('Model')->where(array('id'=>$info['model_id']))->find();
 
 		//先删除字段表内的数据
 		$result = $this->where($map)->delete();
 		if ($result) {
-			$tablename = strtolower($tablename);
+			if ($model['extend'] == 1) {
+				$tablename = 'document_'.$model['name'];
+			}else{
+				$tablename = $model['name'];
+			}
+
 			//删除模型表中字段
 			$db = new \com\Datatable();
-			if (!$db->CheckField($tablename,$info['name'])) {
-				return true;
-			}
-			$result = $db->delField($tablename,$info['name'])->query();
+			$result = $db->del_field($tablename,$info['name'])->query();
 			if ($result) {
 				return true;
 			}else{
@@ -101,5 +92,46 @@ class Attribute extends Base{
 			$this->error = "删除失败！";
 			return false;
 		}
+	}
+
+	protected function checkTableField($field){
+		$model = db('Model')->find($field['model_id']);
+		if ($model['extend'] == 1) {
+			$tablename = 'document_'.$model['name'];
+			$key = "doc_id";
+		}else{
+			$tablename = $model['name'];
+			$key = "id";
+		}
+
+		//实例化一个数据库操作类
+		$db = new \com\Datatable();
+		//检查表是否存在并创建
+		if (!$db->CheckTable($tablename)) {
+			//创建新表
+			$db->start_table($tablename)->create_id($key)->create_key($key)->end_table()->query();
+		};
+		$oldname = "";
+		if ($field['id']) {
+			$oldname = $this->db()->where(array('id'=>$field['id']))->value('name');
+		}
+		$attribute_type = get_attribute_type();
+		$field['field'] = $field['name'];
+		$field['type'] = $attribute_type[$field['type']][1];  
+		$field['is_null'] = $field['is_must'];  //是否为null
+		$field['default'] = $field['value'];    //字段默认值
+		$field['comment'] = $field['remark'];   //字段注释
+		if($db->CheckField($tablename,$oldname) && $oldname){
+			$field['action'] = 'CHANGE';
+			$field['oldname'] = $oldname;
+			$field['newname'] = $field['name'];
+			$db->colum_field($tablename,$field);
+		}else{
+			$field['action'] = 'ADD';
+			$db->colum_field($tablename,$field);
+		}
+
+		$result = $db->create();
+		return $result;
 	}
 }

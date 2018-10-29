@@ -1,0 +1,61 @@
+{extend name="public/base"/}
+{block name="body"}
+<div class="main-box clearfix">
+	<header class="main-box-header clearfix">
+		<div class="pull-left">
+			<h2>{:isset($info['id'])?'编辑':'新增'}物料信息</h2>
+		</div>
+		<div class="pull-right"></div>
+	</header>
+	<div class="main-box-body clearfix">
+		<form method="post" class="form form-horizontal">
+		<div class="form-group">
+				<label class="col-lg-2 control-label">物料编号</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="cid" value="{$info.cid|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">物料名称</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="name" value="{$info.name|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-2 control-label">物料型号</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="model" value="{$info.model|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-2 control-label">物料库位</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="library" value="{$info.library|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">入库数量</label>
+				<div class="col-lg-10">
+					<input type="number" min="1" class="form-control" name="stock" value="{$info.stock|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+			
+			
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<input type="hidden" name="id" value="{$info['id']|default=''}">
+					<button class="btn btn-success submit-btn ajax-post" type="submit" target-form="form-horizontal">确 定</button>
+					<button class="btn btn-danger btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{/block}

@@ -10,22 +10,13 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
-/**
- * @title 友情链接
- * @description 友情链接
- */
 class Link extends Admin {
 
-	/**
-	 * @title 链接列表
-	 */
 	public function index() {
 		$map = array();
 
 		$order = "id desc";
-		$list  = db('Link')->where($map)->order($order)->paginate(10, false, array(
-				'query'  => $this->request->param()
-			));
+		$list  = db('Link')->where($map)->order($order)->paginate(10);
 
 		$data = array(
 			'list' => $list,
@@ -36,12 +27,10 @@ class Link extends Admin {
 		return $this->fetch();
 	}
 
-	/**
-	 * @title 添加链接
-	 */
+	//添加
 	public function add() {
 		$link = model('Link');
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$data = input('post.');
 			if ($data) {
 				unset($data['id']);
@@ -64,14 +53,11 @@ class Link extends Admin {
 		}
 	}
 
-
-	/**
-	 * @title 修改链接
-	 */
+	//修改
 	public function edit() {
 		$link = model('Link');
 		$id   = input('id', '', 'trim,intval');
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$data = input('post.');
 			if ($data) {
 				$result = $link->save($data, array('id' => $data['id']));
@@ -97,9 +83,7 @@ class Link extends Admin {
 		}
 	}
 
-	/**
-	 * @title 删除链接
-	 */
+	//删除
 	public function delete() {
 		$id = $this->getArrayParam('id');
 		if (empty($id)) {

@@ -8,22 +8,16 @@
 // +----------------------------------------------------------------------
 
 namespace app\index\controller;
-use app\common\controller\Front;
+use app\common\controller\Fornt;
 
-class Search extends Front{
+class Search extends Fornt{
 
 	//文档搜索结果显示
-	public function index(\think\Request $request){
-		$model = $request->param('model', 'article');
-
-		$model_id = db('Model')->where('name', $model)->value('id');
-
-		if (!$model_id) {
-			return $this->error('无此模型！');
-		}
+	public function index(){
+		$content = model('Document');
 
 		$map = $this->mapBuild();
-		$list = M($model)->where($map)->order('create_time desc')->paginate(10);
+		$list = $content->where($map)->order('create_time desc')->paginate(10);
 		$data = array(
 			'list'   => $list,
 			'page'   => $list->render()

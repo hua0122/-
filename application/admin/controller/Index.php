@@ -8,40 +8,25 @@
 // +----------------------------------------------------------------------
 
 namespace app\admin\controller;
-
 use app\common\controller\Admin;
 
-/**
- * @title 首页
- * @description 后台首页
- */
 class Index extends Admin {
 
-    /**
-     * @title 后台首页
-     * @return html
-     */
 	public function index() {
 		$this->setMeta('后台首页');
 		return $this->fetch();
 	}
 
-    /**
-     * @title 用户登录
-     * @return html
-     */
 	public function login($username = '', $password = '', $verify = '') {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			if (!$username || !$password) {
 				return $this->error('用户名或者密码不能为空！', '');
 			}
 
 			//验证码验证
-			if(!captcha_check($verify)){
-				return $this->error('验证码错误！', '');
-			}
+			$this->checkVerify($verify);
 
-			$user = model('Member');
+			$user = model('User');
 			$uid  = $user->login($username, $password);
 			if ($uid > 0) {
 				return $this->success('登录成功！', url('admin/index/index'));
@@ -61,23 +46,14 @@ class Index extends Admin {
 		}
 	}
 
-    /**
-     * @title 后台退出
-     * @return html
-     */
 	public function logout() {
-		$user = model('Member');
+		$user = model('User');
 		$user->logout();
 		$this->redirect('admin/index/login');
 	}
 
-
-    /**
-     * @title 清除缓存
-     * @return html
-     */
 	public function clear() {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$clear = input('post.clear/a', array());
 			foreach ($clear as $key => $value) {
 				if ($value == 'cache') {

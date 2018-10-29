@@ -10,19 +10,12 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
-/**
- * @title 频道管理
- * @description 频道管理
- */
 class Channel extends Admin {
 
 	public function _initialize() {
 		parent::_initialize();
 	}
 
-	/**
-	 * @title 频道列表
-	 */
 	public function index($type = 0) {
 		/* 获取频道列表 */
 		//$map  = array('status' => array('gt', -1), 'pid'=>$pid);
@@ -48,9 +41,7 @@ class Channel extends Admin {
 		return $this->fetch();
 	}
 
-	/**
-	 * @title 单字段编辑
-	 */
+	/* 单字段编辑 */
 	public function editable($name = null, $value = null, $pk = null) {
 		if ($name && ($value != null || $value != '') && $pk) {
 			model('Channel')->where(array('id' => $pk))->setField($name, $value);
@@ -58,11 +49,11 @@ class Channel extends Admin {
 	}
 
 	/**
-	 * @title 添加频道
+	 * 添加频道
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function add() {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$Channel = model('Channel');
 			$data    = $this->request->post();
 			if ($data) {
@@ -94,11 +85,11 @@ class Channel extends Admin {
 		}
 	}
 	/**
-	 * @title 编辑频道
+	 * 编辑频道
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function edit($id = 0) {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$Channel = model('Channel');
 			$data    = $this->request->post();
 			if ($data) {
@@ -137,7 +128,7 @@ class Channel extends Admin {
 		}
 	}
 	/**
-	 * @title 删除频道
+	 * 删除频道
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function del() {
@@ -149,9 +140,6 @@ class Channel extends Admin {
 
 		$map = array('id' => array('in', $id));
 		if (db('Channel')->where($map)->delete()) {
-                        //删除category中的ismenu字段记录
-                        $map = array('ismenu' => array('in', $id));    
-                        db('Category')->where($map)->setField('ismenu',0);  
 			//记录行为
 			action_log('update_channel', 'channel', $id, session('user_auth.uid'));
 			return $this->success('删除成功');
@@ -160,11 +148,11 @@ class Channel extends Admin {
 		}
 	}
 	/**
-	 * @title 导航排序
+	 * 导航排序
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function sort() {
-		if ($this->request->isGet()) {
+		if (IS_GET) {
 			$ids = input('ids');
 			$pid = input('pid');
 			//获取排序的数据
@@ -181,7 +169,7 @@ class Channel extends Admin {
 			$this->assign('list', $list);
 			$this->setMeta('导航排序');
 			return $this->fetch();
-		} elseif ($this->request->isPost()) {
+		} elseif (IS_POST) {
 			$ids = input('post.ids');
 			$ids = explode(',', $ids);
 			foreach ($ids as $key => $value) {
@@ -197,9 +185,6 @@ class Channel extends Admin {
 		}
 	}
 
-	/**
-	 * @title 设置状态
-	 */
 	public function setStatus() {
 		$id     = array_unique((array) input('ids', 0));
 		$status = input('status', '0', 'trim');

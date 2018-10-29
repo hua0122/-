@@ -1,14 +1,7 @@
 ## SentCMS介绍
 > SentCMS网站管理系统是南昌腾速科技有限公司倾力打造的一款简单易用的网站管理系统，SentCMS网站管理系统（下文简称SentCMS）继承了thinkphp5.0的优秀品质，秉承“大道至简”的设计理念。SnetCMS为网站建设而生，为网站建设减少90%的代码编写，只需前端设计师就可以设计出完美的网站，而如此完美的系统还是完全开源的。
 
-## 环境要求
-
-生产环境建议Linux+Nginx+php+mysql
-建议PHP7+
-
 ## 安装
-
-为了保证系统的安全性，系统根目录移至web目录下，把程序和逻辑代码放到根目录以外。在配置网站时，把网站根目录指向web目录下，然后通过composer把所需的扩展类库更新，包括thinkphp框架同样通过composer进行更新。
 
 访问网址：http://网址/install
 
@@ -63,17 +56,15 @@
 │ ├─route.php         路由配置文件
 │ ├─tags.php          行为扩展配置文件
 │ ├─ueditor.json      编辑配置文件
+├─core                thinkphp框架目录
 ├─data                缓存以及备份目录
-├─extend              自定义类库扩展目录
-├─vendor              网站扩展类库目录，通过composer更新下载的类库扩展在此目录
-├─web              网站根目录
-│ ├─uploads        上传文件目录
-│ ├─template       网站主题模板目录
-│ ├─.htaccess      Apache下伪静态文件
-│ ├─favicon.ico    ico图标
-│ ├─index.php      入口文件
-├─composer.json    composer配置文件
-├─README.md        系统介绍文件
+├─public         公共资源库
+├─uploads        上传文件目录
+├─template       网站主题模板目录
+├─.htaccess      Apache下伪静态文件
+├─favicon.ico    ico图标
+├─index.php      入口文件
+├─README.md      系统介绍文件
 ~~~
 
 ## 版本列表

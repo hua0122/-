@@ -1,0 +1,104 @@
+{extend name="public/base"/}
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/libs/bootstrap-editable.css">
+{/block}
+{block name="body"}
+<div class="main-box clearfix">
+	<header class="main-box-header clearfix">
+		<div class="pull-left">
+			<h2>{$meta_title}</h2>
+		</div>
+		<div class="pull-right">
+			<a class="btn btn-primary" href="{:url('add')}">新 增</a>
+			<button class="btn btn-success ajax-post" target-form="ids" url="{:url('status?status=0')}" >上 线</button>
+			<button class="btn btn-default ajax-post" target-form="ids" url="{:url('status?status=1')}">下 线</button>
+			<!--<button class="btn btn-danger ajax-post confirm" url="{:url('delete')}" target-form="ids">删 除</button>-->
+		</div>
+	</header>
+	<div class="main-box-body clearfix">
+        <div class="row">
+            <form method="get">
+                <div class="col-sm-12 col-md-4 col-lg-3">
+                    <select name="area_id" id="area_id" class="form-control">
+                        <option value="">请选择所属场地</option>
+                        {volist name="area" id="item"}
+                        <option value="{$item.id}" {if isset($area_id) && $area_id==$item.id}selected{/if}>{$item.name}</option>
+                        {/volist}
+                    </select>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-3">
+                    <select name="status" id="status" class="form-control">
+                        <option value="">请选择班别状态</option>
+                        <option value="2" {if isset($status) && $status==2}selected{/if}>上线</option>
+                        <option value="1" {if isset($status) && $status==1}selected{/if}>下线</option>
+                    </select>
+                </div>
+
+
+                <div class="col-sm-12 col-md-4">
+                    <button class="btn btn-primary" type="submit">查询</button>
+                </div>
+            </form>
+        </div>
+
+		<div class="table-responsive clearfix">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th width="30"><input class="checkbox check-all" type="checkbox"></th>
+						<th width="150">序号</th>
+						<th width="150">编号</th>
+						<th width="150">版本号</th>
+						<th>名称</th>
+						<th>所属场地</th>
+						<th>车型</th>
+						<th>价格</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="list" id="item"}
+					<tr>
+						<td><input class="ids row-selected" type="checkbox" name="id[]" value="{$item['id']}"></td>
+						<td>{$item['id']}</td>
+						<td>{$item['cid']}</td>
+						<td>{$item['version']}</td>
+						<td>{$item['name']}</td>
+						<td>{$item['area_name']}</td>
+						<td>
+							{if condition=" $item['type'] eq 1 "}
+							C1
+							{else /}
+							C2
+							{/if}
+						</td>
+						<td>{$item['price']}</td>
+						<td>
+							{if condition=" $item['status'] eq 0 "}
+							<span class="label label-primary">上线</span>
+							{else /}
+							<span class="label label-danger">下线</span>
+							{/if}
+						</td>
+						<td>
+
+							<a href="{:url('edit?id='.$item['id'])}" class="btn btn-info">编辑</a>
+
+							{if $item['status']}
+							<a href="{:url('status?id='.$item['id'].'&status=0')}" class="btn btn-success ajax-get">上线</a>
+							{else/}
+							<a href="{:url('status?id='.$item['id'].'&status=1')}" class="btn btn-danger ajax-get">下线</a>
+							{/if}
+							
+							<!--<a href="{:url('delete?id='.$item['id'])}" class="confirm ajax-get table-link">删除</a>-->
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+			{$page}
+		</div>
+	</div>
+</div>
+{/block}

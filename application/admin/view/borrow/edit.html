@@ -1,0 +1,116 @@
+{extend name="public/base"/}
+{block name="body"}
+<div class="main-box clearfix">
+	<header class="main-box-header clearfix">
+		<div class="pull-left">
+			<h2>归还物料信息</h2>
+		</div>
+		<div class="pull-right"></div>
+	</header>
+	<div class="main-box-body clearfix">
+		<form method="post" class="form form-horizontal">
+		<div class="form-group">
+				<label class="col-lg-2 control-label">物料编号</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="cid" value="{$info.cid|default=''}" style="width: 80%" readonly>
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">物料名称</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="name" value="{$info.name|default=''}" style="width: 80%" readonly>
+					
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-2 control-label">物料型号</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="model" value="{$info.model|default=''}" style="width: 80%" readonly>
+					
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-2 control-label">物料库位</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="library" value="{$info.library|default=''}" style="width: 80%" readonly>
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">借用部门</label>
+				<div class="col-lg-10">
+					<input type="text"  class="form-control" name="department" value="{$info.title|default=''}" style="width: 80%" readonly>
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">借用人</label>
+				<div class="col-lg-10">
+					<input type="hidden" name="person_id" value="{$info.uid}"/>
+					<input type="text"  class="form-control" name="personname" value="{$info.username|default=''}" style="width: 80%" readonly>
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">最初借用数量</label>
+				<div class="col-lg-10">
+					<input type="number" class="form-control" name="num" id="num" value="{$info.num|default=''}" style="width: 80%" readonly>
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">剩余借用数量</label>
+				<div class="col-lg-10">
+					<input type="number" class="form-control" name="snum" id="snum" value="{$info.snum|default=''}" style="width: 80%" readonly>
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">归还数量</label>
+				<div class="col-lg-10">
+					<input type="number" min="1" max="{$info.snum-1}" class="form-control" name="returnnum" id="returnnum" value="{$info.returnnum|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-2 control-label">归还时间</label>
+				<div class="col-lg-10">
+					<input type="date" class="form-control" name="returntime" id="returntime" value="{$info.returntime|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+			
+			
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<input type="hidden" name="id" value="{$info['id']|default=''}">
+					<button class="btn btn-success submit-btn ajax-post" type="submit" target-form="form-horizontal">确 定</button>
+					<button class="btn btn-danger btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+$num=parseInt($("#snum").val());
+$("#returnnum").blur(function(){
+	if($("#returnnum").val()>=$num){
+	alert('归还数量必须小于剩余借用数量！');
+	$('#returnnum').val('');
+	return false;
+	}
+	
+	if($("#returnnum").val()<=0){
+		alert("归还数量必须大于0");
+		$('#returnnum').val('');
+		return false;
+	}
+	
+});
+
+
+</script>
+{/block}

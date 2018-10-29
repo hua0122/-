@@ -10,9 +10,6 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
-/**
- * @title 配置管理
- */
 class Config extends Admin {
 
 	public function _initialize() {
@@ -21,7 +18,7 @@ class Config extends Admin {
 	}
 
 	/**
-	 * @title 配置管理
+	 * 配置管理
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function index() {
@@ -37,9 +34,7 @@ class Config extends Admin {
 			$map['name'] = array('like', '%' . $name . '%');
 		}
 
-		$list = $this->model->where($map)->order('id desc')->paginate(25, false, array(
-				'query'  => $this->request->param()
-			));
+		$list = $this->model->where($map)->order('id desc')->paginate(25);
 		// 记录当前列表页的cookie
 		Cookie('__forward__', $_SERVER['REQUEST_URI']);
 
@@ -56,11 +51,8 @@ class Config extends Admin {
 		return $this->fetch();
 	}
 
-	/**
-	 * @title 信息配置
-	 */
 	public function group($id = 1) {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$config = $this->request->post('config/a');
 			$model  = model('Config');
 			foreach ($config as $key => $value) {
@@ -82,11 +74,11 @@ class Config extends Admin {
 	}
 
 	/**
-	 * @title 新增配置
+	 * 新增配置
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function add() {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$config = model('Config');
 			$data   = $this->request->post();
 			if ($data) {
@@ -110,11 +102,11 @@ class Config extends Admin {
 	}
 
 	/**
-	 * @title 编辑配置
+	 * 编辑配置
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function edit($id = 0) {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$config = model('Config');
 			$data   = $this->request->post();
 			if ($data) {
@@ -144,7 +136,7 @@ class Config extends Admin {
 		}
 	}
 	/**
-	 * @title 批量保存配置
+	 * 批量保存配置
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function save($config) {
@@ -158,9 +150,8 @@ class Config extends Admin {
 		cache('db_config_data', null);
 		return $this->success('保存成功！');
 	}
-
 	/**
-	 * @title 删除配置
+	 * 删除配置
 	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
 	 */
 	public function del() {
@@ -182,11 +173,11 @@ class Config extends Admin {
 	}
 
 	/**
-	 * @title 配置排序
+	 * 配置排序
 	 * @author huajie <banhuajie@163.com>
 	 */
 	public function sort() {
-		if ($this->request->isGet()) {
+		if (IS_GET) {
 			$ids = input('ids');
 			//获取排序的数据
 			$map = array('status' => array('gt', -1));
@@ -200,7 +191,7 @@ class Config extends Admin {
 			$this->assign('list', $list);
 			$this->setMeta('配置排序');
 			return $this->fetch();
-		} elseif ($this->request->isPost()) {
+		} elseif (IS_POST) {
 			$ids = input('post.ids');
 			$ids = explode(',', $ids);
 			foreach ($ids as $key => $value) {
@@ -216,9 +207,7 @@ class Config extends Admin {
 		}
 	}
 
-	/**
-	 * @title 主题选择
-	 */
+
 	public function themes() {
 		$list = $this->model->getThemesList();
 		$pc = config('pc_themes');
@@ -235,7 +224,7 @@ class Config extends Admin {
 	}
 
 	/**
-	 * @title 设置主题
+	 * 设置主题
 	 * @return json
 	 */
 	public function setthemes($name, $id){

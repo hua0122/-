@@ -10,9 +10,6 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
-/**
- * @title SEO管理
- */
 class Seo extends Admin {
 
 	protected $seo;
@@ -24,16 +21,11 @@ class Seo extends Admin {
 		$this->rewrite = model('Rewrite');
 	}
 
-	/**
-	 * @title SEO列表
-	 */
 	public function index($page = 1, $r = 20) {
 		//读取规则列表
 		$map = array('status' => array('EGT', 0));
 
-		$list = $this->seo->where($map)->order('sort asc')->paginate(10, false, array(
-				'query'  => $this->request->param()
-			));
+		$list = $this->seo->where($map)->order('sort asc')->paginate(10);
 
 		$data = array(
 			'list' => $list,
@@ -44,11 +36,8 @@ class Seo extends Admin {
 		return $this->fetch();
 	}
 
-	/**
-	 * @title 添加SEO
-	 */
 	public function add() {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$data   = $this->request->post();
 			$result = $this->seo->save($data);
 			if ($result) {
@@ -66,11 +55,8 @@ class Seo extends Admin {
 		}
 	}
 
-	/**
-	 * @title 编辑SEO
-	 */
 	public function edit($id = null) {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$data   = $this->request->post();
 			$result = $this->seo->save($data, array('id' => $data['id']));
 			if (false !== $result) {
@@ -91,9 +77,6 @@ class Seo extends Admin {
 		}
 	}
 
-	/**
-	 * @title 删除SEO
-	 */
 	public function del() {
 		$id = $this->getArrayParam('id');
 		if (empty($id)) {
@@ -107,9 +90,6 @@ class Seo extends Admin {
 		}
 	}
 
-	/**
-	 * @title 伪静态列表
-	 */
 	public function rewrite() {
 		$list = db('Rewrite')->paginate(10);
 
@@ -122,11 +102,8 @@ class Seo extends Admin {
 		return $this->fetch();
 	}
 
-	/**
-	 * @title 添加静态规则
-	 */
 	public function addrewrite() {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$result = model('Rewrite')->change();
 			if (false != $result) {
 				return $this->success("添加成功！", url('admin/seo/rewrite'));
@@ -143,11 +120,8 @@ class Seo extends Admin {
 		}
 	}
 
-	/**
-	 * @title 编辑静态规则
-	 */
 	public function editrewrite() {
-		if ($this->request->isPost()) {
+		if (IS_POST) {
 			$result = model('Rewrite')->change();
 			if (false != $result) {
 				return $this->success("更新成功！", url('admin/seo/rewrite'));
@@ -167,9 +141,6 @@ class Seo extends Admin {
 		}
 	}
 
-	/**
-	 * @title 删除静态规则
-	 */
 	public function delrewrite() {
 		$id = $this->getArrayParam('id');
 		if (empty($id)) {

@@ -26,27 +26,29 @@ class Addons extends Base {
 	public function _initialize() {
 		$mc = $this->getAddonsName();
 
-		$this->addon_path = SENT_ADDON_PATH . "{$mc}/";
+		$this->addon_path = ROOT_PATH . "/addons/{$mc}/";
 		if (is_file($this->addon_path . 'config.php')) {
 			$this->config_file = $this->addon_path . 'config.php';
 		}
-
-		$this->template();
 	}
 
-	public function template() {
+	public function template($template) {
 		$mc                         = $this->getAddonsName();
 		$ac                         = input('ac', '', 'trim,strtolower');
 		$parse_str                  = \think\Config::get('parse_str');
-		$parse_str['__ADDONROOT__'] = SENT_ADDON_PATH . "{$mc}";
+		$parse_str['__ADDONROOT__'] = ROOT_PATH . "/addons/{$mc}";
 		\think\Config::set('parse_str', $parse_str);
 
+		if ($template) {
+			$template = $template;
+		} else {
+			$template = $mc . "/" . $ac;
+		}
+
 		$this->view->engine(
-			array(
-				'view_path' => SENT_ADDON_PATH . $mc . "/view/",
-				'replace'   => array('__ADDONROOT__'=>SENT_ADDON_PATH . "{$mc}")
-			)
+			array('view_path' => "addons/" . $mc . "/view/")
 		);
+		echo $this->fetch($template);
 	}
 
 	final public function getAddonsName() {

@@ -14,7 +14,7 @@ class Upload extends Admin {
 
 	public function _empty() {
 		$controller = controller('common/Upload');
-		$action     = $this->request->action();
+		$action     = ACTION_NAME;
 		return $controller->$action();
 	}
 }

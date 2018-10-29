@@ -1,22 +1,26 @@
 <?php
+// +----------------------------------------------------------------------
+// | SentCMS [ WE CAN DO IT JUST THINK IT ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2013 http://www.tensent.cn All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: molong <molong@tensent.cn> <http://www.tensent.cn>
+// +----------------------------------------------------------------------
+
 namespace app\common\controller;
 use app\common\model\AuthGroup;
 use app\common\model\AuthRule;
 
 class Admin extends Base {
 
-	protected $param;
-
 	public function _initialize() {
 		parent::_initialize();
 
-		$this->param = $this->request->param();
-
-		if (!is_login() and !in_array($this->url_path, array('admin/index/login', 'admin/index/logout', 'admin/index/verify'))) {
+		if (!is_login() and !in_array($this->url, array('admin/index/login', 'admin/index/logout', 'admin/index/verify'))) {
 			$this->redirect('admin/index/login');
 		}
 
-		if (!in_array($this->url_path, array('admin/index/login', 'admin/index/logout', 'admin/index/verify'))) {
+		if (!in_array($this->url, array('admin/index/login', 'admin/index/logout', 'admin/index/verify'))) {
 
 			// 是否是超级管理员
 			define('IS_ROOT', is_administrator());
@@ -36,7 +40,7 @@ class Admin extends Base {
 					$dynamic = $this->checkDynamic(); //检测分类栏目有关的各项动态权限
 					if ($dynamic === null) {
 						//检测访问权限
-						if (!$this->checkRule($this->url_path, array('in', '1,2'))) {
+						if (!$this->checkRule($this->url, array('in', '1,2'))) {
 							$this->error('未授权访问!');
 						} else {
 							// 检测分类及内容有关的各项动态权限
@@ -115,7 +119,7 @@ class Admin extends Base {
 
 	protected function setMenu() {
 		$hover_url  = $this->request->module() . '/' . $this->request->controller();
-		$controller = $this->url_path;
+		$controller = $this->url;
 		$menu       = array(
 			'main'  => array(),
 			'child' => array(),
@@ -127,7 +131,7 @@ class Admin extends Base {
 			// 是否开发者模式
 			$where['is_dev'] = 0;
 		}
-		$row = db('menu')->field('id,title,url,icon,"" as style')->where($where)->order('sort asc')->select();
+		$row = db('menu')->field('id,title,url,icon,"" as style')->where($where)->select();
 		foreach ($row as $key => $value) {
 			//此处用来做权限判断
 			if (!IS_ROOT && !$this->checkRule($value['url'], 2, null)) {
@@ -152,7 +156,7 @@ class Admin extends Base {
 			$map['pid']  = $pid;
 			$map['hide'] = 0;
 			$map['type'] = 'admin';
-			$row         = db('menu')->field("id,title,url,icon,`group`,pid,'' as style")->where($map)->order('sort asc')->select();
+			$row         = db('menu')->field('id,title,url,icon,group,pid,"" as style')->where($map)->select();
 			foreach ($row as $key => $value) {
 				if (IS_ROOT || $this->checkRule($value['url'], 2, null)) {
 					if ($controller == $value['url']) {
@@ -170,7 +174,8 @@ class Admin extends Base {
 		$model = \think\Loader::model('Model');
 		$list  = array();
 		$map   = array(
-			'status' => array('gt', 0)
+			'status' => array('gt', 0),
+			'extend' => array('gt', 0),
 		);
 		$list = $model::where($map)->field("name,id,title,icon,'' as 'style'")->select();
 
@@ -178,7 +183,7 @@ class Admin extends Base {
 		$models = AuthGroup::getAuthModels(session('user_auth.uid'));
 		foreach ($list as $key => $value) {
 			if (IS_ROOT || in_array($value['id'], $models)) {
-				if ('admin/content/index' == $this->request->path() && input('model_id') == $value['id']) {
+				if ('admin/content/index' == $this->url && input('model_id') == $value['id']) {
 					$value['style'] = "active";
 				}
 				$value['url']   = "admin/content/index?model_id=" . $value['id'];
@@ -204,7 +209,7 @@ class Admin extends Base {
 		$menu = array();
 		foreach ($list as $key => $value) {
 			$class = "\\addons\\" . strtolower($value['name']) . "\\controller\\Admin";
-			if (is_file(ROOT_PATH .'/addons/' . strtolower($value['name']) . "/controller/Admin.php")) {
+			if (is_file(ROOT_PATH . $class . ".php")) {
 				$action       = get_class_methods($class);
 				$value['url'] = "admin/addons/execute?mc=" . strtolower($value['name']) . "&ac=" . $action[0];
 				$menu[$key]   = $value;
@@ -215,8 +220,7 @@ class Admin extends Base {
 		}
 	}
 
-	protected function getArrayParam(){
-		$param = $this->request->param();
-		return is_array($param['id']) ? array('IN', $param['id']) : $param['id'];
+	protected function setMeta($title = '') {
+		$this->assign('meta_title', $title);
 	}
 }
