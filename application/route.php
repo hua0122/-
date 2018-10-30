@@ -12,7 +12,7 @@ return array(
 		'name' => '\w+',
 	),
 
-	'/'              => 'admin/index/index', // 首页访问路由
+	'/'              => 'index/index', // 首页访问路由
 	'search'         => 'index/search/index', // 首页访问路由
 
 	'cart/index'     => 'index/cart/index',
@@ -29,6 +29,12 @@ return array(
 
 	'admin/login'    => 'admin/index/login',
 	'admin/logout'   => 'admin/index/logout',
+	'admin/index'   => 'admin/index/index',
+	//'wap/index'   => 'index/index',
+    'enlist/index'   => 'wap/enlist/index',//报名
+    'enlist/detail'   => 'wap/enlist/detail',//报名
+
+
 
 	// 变量传入index模块的控制器和操作方法
 	'addons/:mc/:ac' => 'index/addons/execute', // 静态地址和动态地址结合
