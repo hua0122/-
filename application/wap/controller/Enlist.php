@@ -13,12 +13,12 @@ class Enlist extends Fornt
 {
     //报名班级列表页
     public function index(){
-        return $this->fetch('../enlist/index');
+        return $this->fetch("template/wap/enlist/index.html");
     }
 
     //详情页
     public function detail(){
-        return $this->fetch('../enlist/detail');
+        return $this->fetch("template/wap/enlist/detail.html");
     }
 
 }
