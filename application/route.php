@@ -24,7 +24,7 @@ return array(
     'admin/logout'   => 'admin/index/logout',
 
 
-    'wap'   => 'index/index',
+    'wap'   => 'wap/index/index',
     'enlist/index'   => 'wap/enlist/index',//报名
     'enlist/detail'   => 'wap/enlist/detail',//报名
 
