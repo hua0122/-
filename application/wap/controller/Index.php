@@ -16,6 +16,6 @@ class Index extends Fornt {
 	public function index() {
 		//设置SEO
 		$this->setSeo(config('web_site_title'), config('web_site_keyword'), config('web_site_description'));
-		return $this->fetch();
+		return $this->fetch('../index/index');
 	}
 }

@@ -12,7 +12,7 @@ return array(
 		'name' => '\w+',
 	),
 
-	'/'              => 'index/index', // 首页访问路由
+	//'/'              => 'index/index', // 首页访问路由
 	'search'         => 'index/search/index', // 首页访问路由
 
 	'cart/index'     => 'index/cart/index',
@@ -30,7 +30,7 @@ return array(
 	'admin/login'    => 'admin/index/login',
 	'admin/logout'   => 'admin/index/logout',
 	'admin/index'   => 'admin/index/index',
-	//'wap/index'   => 'index/index',
+	'/'   => 'wap/index/index',
     'enlist/index'   => 'wap/enlist/index',//报名
     'enlist/detail'   => 'wap/enlist/detail',//报名
 
