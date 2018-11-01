@@ -1,0 +1,134 @@
+{extend name="public/base"/}
+{block name="style"}
+<link rel="stylesheet" href="__PUBLIC__/plugs/tagsinput/bootstrap-tagsinput.css">
+<script src="__PUBLIC__/plugs/tagsinput/bootstrap-tagsinput.js"></script>
+
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugs/webuploader/webuploader.css">
+<!-- 配置文件 -->
+<script type="text/javascript" src="__PUBLIC__/plugs/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__PUBLIC__/plugs/ueditor/ueditor.all.min.js"></script>
+<!-- datepicker statr -->
+<link href="__PUBLIC__/plugs/datepicker/css/foundation-datepicker.min.css" rel="stylesheet" type="text/css">
+<script src="__PUBLIC__/plugs/datepicker/js/foundation-datepicker.js"></script>
+<script src="__PUBLIC__/plugs/datepicker/js/foundation-datepicker.zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugs/board/board.min.css">
+<!-- datepicker end -->
+{/block}
+{block name="body"}
+<div class="main-box clearfix">
+    <header class="main-box-header clearfix">
+        <div class="pull-left">
+            <h2>{$meta_title}</h2>
+        </div>
+    </header>
+    <div class="main-box-body clearfix">
+        <form method="post" class="form form-horizontal">
+            <div class="tabs-wrapper">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab基础" data-toggle="tab">基础</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tab基础">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">标题</label>
+                            <div class="col-lg-10 col-sm-10">
+                                <input type="text" class="form-control" name="title" id="title" autocomplete="false" value="{$info.title}">
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">封面</label>
+                            <div class="col-lg-10 col-sm-10">
+                                <div class="picker-box">
+                                    <div id="picker_cover_id" class="picker_button">上传图片</div>
+                                    <input type="hidden" name="cover_id" id="field_cover_id" value="">
+                                    <div id="fileList_cover_id" class="upload-file-list-info" style="width:280px;">
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                    uploadsize =  2;
+                                    $(function(){
+                                        $("#picker_cover_id").SentUploader({
+                                                fileNumLimit:1,
+                                                uploadEvents: {
+                                                    uploadComplete:function(file){}
+                                                },
+                                                listName : 'fileList_cover_id',
+                                                hiddenName: 'field_cover_id',
+                                                hiddenValType:1,
+                                                fileSingleSizeLimit:uploadsize*1024*1024,
+                                                closeX:true
+                                            },
+                                            {
+                                                fileType: 'service',
+                                                filename : 'images',
+                                            });
+                                    });
+                                </script>								<div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">内容</label>
+                            <div class="col-lg-10 col-sm-10">
+                                <textarea name="content" id="content" style="width: 100%;">{$info.content}</textarea>
+                                <!-- 实例化编辑器代码 -->
+                                <script type="text/javascript">
+                                    var ue = UE.getEditor('content', {
+                                        serverUrl : "/admin/upload/ueditor.html"
+                                    });
+                                </script>								<div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">创建时间</label>
+                            <div class="col-lg-10 col-sm-10">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="create_time" name="create_time" value="{$info.create_time|date='Y-m-d H:i:s',###}" readonly size="15">
+                                    <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                                </div>
+                                <script>
+                                    $('#create_time').fdatepicker({
+                                        format: 'yyyy-mm-dd hh:ii:ss',
+                                        pickTime: true
+                                    });
+                                </script>								<div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">更新时间</label>
+                            <div class="col-lg-10 col-sm-10">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="update_time" name="update_time" value="{$info.update_time|date='Y-m-d H:i:s',###}" readonly size="15">
+                                    <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                                </div>
+                                <script>
+                                    $('#update_time').fdatepicker({
+                                        format: 'yyyy-mm-dd hh:ii:ss',
+                                        pickTime: true
+                                    });
+                                </script>								<div class="help-block"></div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="model_id" value="4"/>
+                        <input type="hidden" name="id" value="1"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <input type="hidden" name="id" value="1">
+                    <button class="btn btn-success submit-btn ajax-post" type="submit" target-form="form-horizontal">确 定</button>
+                    <button class="btn btn-danger btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__PUBLIC__/plugs/webuploader/webuploader.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/plugs/webuploader/webuploader.custom.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/droppable.js"></script>
+<script type="text/javascript" src="__PUBLIC__/plugs/board/board.min.js"></script>
+{/block}

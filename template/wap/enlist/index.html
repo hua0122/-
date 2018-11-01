@@ -174,28 +174,26 @@
 <div class="container">
     <div class="flexslider">
         <ul class="slides">
-            <li style="background:url(../template/wap/static/images/0_154005338AW9l.jpg) 50% 50% no-repeat;"></li>
-            <li style="background:url(../template/wap/static/images/0_154005406Djr5.jpg) 50% 50% no-repeat;"></li>
-            <li style="background:url(../template/wap/static/images/0_154005409KK94.jpg) 50% 50% no-repeat;"></li>
-
-
+            {volist name="banner" id="item"}
+            <li style="background:url({:get_cover($item['cover_id'],'path')}) 50% 50% no-repeat;"></li>
+            {/volist}
         </ul>
     </div>
 
 
     <div class="row nav-bar">
         <div class="col-xs-3 nav-bar-item">
-            <a href="/index.php?do=new_detail&id=41"><img src="../template/wap/static/images/vrxc.png"/><i>学车流程</i></a>
+            <a href="../page/index/id/6"><img src="../template/wap/static/images/vrxc.png"/><i>学车流程</i></a>
         </div>
         <div class="col-xs-3 nav-bar-item">
-            <a href="/index.php?do=new_detail&id=42"><img
+            <a href="../page/index/id/7"><img
                     src="../template/wap/static/images/qbjl.png"/><i>优势服务</i></a>
         </div>
         <div class="col-xs-3 nav-bar-item">
-            <a href="/index.php?do=new_detail&id=43"><img src="../template/wap/static/images/fwys.png"/><i>学车保障</i></a>
+            <a href="../page/index/id/8"><img src="../template/wap/static/images/fwys.png"/><i>学车保障</i></a>
         </div>
         <div class="col-xs-3 nav-bar-item">
-            <a href="/index.php?do=new_detail&id=44"><img src="../template/wap/static/images/qbcd.png"/><i>常见问题</i></a>
+            <a href="../page/index/id/9"><img src="../template/wap/static/images/qbcd.png"/><i>常见问题</i></a>
         </div>
 
     </div>
@@ -217,7 +215,7 @@
         <h1 class="col-xs-12" id="select-city">
             <div class="form-group">
                 <img src="../template/wap/static/images/map.png" width="20"/>
-                <span style="color:#0baae4;">大学城</span>
+                <span style="color:#0baae4;" id="text">大学城</span>
                 <span style="color:#0baae4;float: right"> > </span>
             </div>
         </h1>
@@ -226,9 +224,10 @@
             <div class="c_alert_wrap c_alert_width">
                 <div class="c_alert_title">请选择报名区域</div>
                 <div class="c_alert_con" >
-                    <label><input type="radio" name="city" value="1"/>大学城</label><br/>
-                    <label><input type="radio" name="city" value="2"/>南岸区</label><br/>
-                    <label><input type="radio" name="city" value="3"/>北碚区</label>
+                    {volist name="area" id="item"}
+                    <label><input type="radio" name="city" value="{$item.id}"/>{$item.name}</label><br/>
+                    {/volist}
+
                 </div>
                 <div class="c_alert_btn">
                     <a href="javascript:;" id="confirm" data-name="确定">确定</a>
@@ -241,18 +240,11 @@
 
 
         <div class="col-xs-12" id="course_list">
+            {volist name="grade" id="item"}
             <div class="col-xs-12">
-                <a href="/enlist/detail">计时贵宾班手动挡（C1）<span class="right">6860.00</span></a>
+                <a href="/enlist/detail/id/{$item.id}">{$item.name}（C{$item.type}）<span class="right">{$item.price}</span></a>
             </div>
-            <div class="col-xs-12">
-                <a href="/enlist/detail">计时全包班手动挡（C1）<span class="right">3960.00</span></a>
-            </div>
-            <div class="col-xs-12">
-                <a href="/enlist/detail">计时普通班手动挡（C1）<span class="right">3260.00</span></a>
-            </div>
-            <div class="col-xs-12">
-                <a href="/enlist/detail">计时无忧班手动挡（C1）<span class="right">3460.00</span></a>
-            </div>
+            {/volist}
 
         </div>
     </div>
@@ -292,6 +284,8 @@
             //alert(city);
             get_list(city);
             $(".dialog_open").hide();
+            var text =$('input:radio[name="city"]:checked')[0].nextSibling.nodeValue;
+            $("#text").html(text);
 
         });
 
@@ -342,7 +336,7 @@
 
         function get_list(city){
             $.ajax({
-                url: '/index.php?do=course_list_ajax',
+                url: '../enlist/ajax_list',
                 type: 'post',
                 dataType: 'json',
                 data: {city:city},
@@ -350,13 +344,14 @@
                     alert('error');
                 },
                 success: function(data){
-                    if(data!=null){
+
+                    if(data!=null&&data.length!=0){
                         $("#course_list").empty();
                         var template ='';
                         for(var i=0;i<data.length;i++){
 
                             template += '<div class="col-xs-12">' +
-                                '<a href="index.php?do=coach_details&id='+data[i]['id']+'">'+data[i]['name']+'<span class="right">'+data[i]['zd_price']+'</span></a>' +
+                                '<a href="/enlist/detail/id/'+data[i]['id']+'">'+data[i]['name']+'C('+data[i]['type']+')<span class="right">'+data[i]['price']+'</span></a>' +
                                 '</div>';
                         }
                         $("#course_list").append(template);

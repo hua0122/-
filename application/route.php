@@ -27,6 +27,8 @@ return array(
     'wap'   => 'wap/index/index',
     'enlist/index'   => 'wap/enlist/index',//报名
     'enlist/detail'   => 'wap/enlist/detail',//报名
+    'page/index'   => 'wap/page/index',//报名
+    'enlist/ajax_list'   => 'wap/enlist/ajax_list',//班别信息
 
 
 

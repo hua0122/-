@@ -107,5 +107,6 @@ return array(
 	'view_replace_str'       => array(
 		'__ADDONS__' => BASE_PATH . '/addons',
 		'__PUBLIC__' => BASE_PATH . '/public',
+		'__ROOT_PATH__' => BASE_PATH .'/template',
 	)
 );

@@ -58,7 +58,7 @@ class Content extends Fornt {
 		}
 
 		$cate = $this->getCategory($id);
-
+        $map = [];
 		if ($this->modelInfo['extend'] == 1) {
 			//获得当前栏目的所有子栏目
 			$ids                = get_category_child($id);

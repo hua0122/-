@@ -130,24 +130,23 @@
             <div id="cuteslider_3_wrapper" class="cs-circleslight" style="overflow:hidden; height: 1508px;">
                 <div id="cuteslider_3" class="cute-slider" data-width="960" data-height="1508" data-overpause="true">
                     <ul data-type="slides">
+                        {volist name="banner1" id="item"}
                         <li data-delay="5" data-src="5"
                             data-trans3d="tr6,tr17,tr22,tr23,tr29,tr27,tr32,tr34,tr35,tr53,tr54,tr62,tr63,tr4,tr13,tr45"
                             data-trans2d="tr3,tr8,tr12,tr19,tr22,tr25,tr27,tr29,tr31,tr34,tr35,tr38,tr39,tr41">
-                            <img src="../template/wap/static/images/0_1540132033TaN.jpg"/>
+                            <img src="{:get_cover($item['cover_id'],'path')}"/>
                         </li>
+                        {/volist}
 
+                        {volist name="banner" id="item"}
                         <li data-delay="5" data-src="5"
                             data-trans3d="tr6,tr17,tr22,tr23,tr26,tr27,tr29,tr32,tr34,tr35,tr53,tr54,tr62,tr63,tr4,tr13"
                             data-trans2d="tr3,tr8,tr12,tr19,tr22,tr25,tr27,tr29,tr31,tr34,tr35,tr38,tr39,tr41">
                             <img src="../template/wap/static/images/blank.png"
-                                 data-src="../template/wap/static/images/0_154013190y1hc.jpg" data-thumb=""/>
+                                 data-src="{:get_cover($item['cover_id'],'path')}" data-thumb=""/>
                         </li>
-                        <li data-delay="5" data-src="5"
-                            data-trans3d="tr6,tr17,tr22,tr23,tr26,tr27,tr29,tr32,tr34,tr35,tr53,tr54,tr62,tr63,tr4,tr13"
-                            data-trans2d="tr3,tr8,tr12,tr19,tr22,tr25,tr27,tr29,tr31,tr34,tr35,tr38,tr39,tr41">
-                            <img src="../template/wap/static/images/blank.png"
-                                 data-src="../template/wap/static/images/0_1540132033TaN.jpg" data-thumb=""/>
-                        </li>
+                        {/volist}
+
 
 
                     </ul>
@@ -210,19 +209,28 @@
 
 
 
-    <a href="/index.php?do=new_detail&id=7">
+    <a href="page/index/id/1">
         <div class="row img-one">
-            <img src="../template/wap/static/images/0_15400509100P8.gif" style="width:66%;height: 105px;"/>
+            {volist name="step1" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:66%;height: 105px;"/>
+            {/volist}
 
-            <img src="../template/wap/static/images/0_154003339khsW.jpg" style="width:33%;height: 105px;float: right;"/>
-
+            {volist name="step2" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
+            {/volist}
         </div>
         <div class="row img-two">
-            <img src="../template/wap/static/images/0_154003414kLn3.jpg" style="width:31.9%;height: 105px;"/>
+            {volist name="step3" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:31.9%;height: 105px;"/>
+            {/volist}
 
-            <img src="../template/wap/static/images/0_154003427YZ0T.jpg" style="width:33%;height: 105px;"/>
+            {volist name="step4" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;"/>
+            {/volist}
 
-            <img src="../template/wap/static/images/0_1540034294Ap4.jpg" style="width:33%;height: 105px;float: right;"/>
+            {volist name="step5" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
+            {/volist}
 
         </div>
 
@@ -236,29 +244,17 @@
 
         </div>
     </a>
-    <a href="/index.php?do=new_detail&id=3">
+    <a href="page/index/id/2">
         <div class="row news" style="background-color: #fff;margin-top: 20px;">
 
             <div id="marquee1" class="marqueeleft">
                 <div style="width:8000px;">
                     <ul id="marquee1_1">
+                        {volist name="beautiful" id="item"}
                         <li>
-                            <span class="pic"><img src="../template/wap/static/images/0_1540120948220.jpg"></span>
+                            <span class="pic"><img src="{:get_cover($item['cover_id'],'path')}"></span>
                         </li>
-                        <li>
-                            <span class="pic"><img src="../template/wap/static/images/0_154012093DU66.jpg"></span>
-                        </li>
-                        <li>
-                            <span class="pic"><img src="../template/wap/static/images/0_154012093rj3r.jpg"></span>
-                        </li>
-                        <li>
-                            <span class="pic"><img src="../template/wap/static/images/0_1540120916rM8.jpg"></span>
-                        </li>
-                        <li>
-                            <span class="pic"><img src="../template/wap/static/images/0_1540120901C99.jpg"></span>
-                        </li>
-
-
+                        {/volist}
                     </ul>
                     <ul id="marquee1_2"></ul>
                 </div>
@@ -280,19 +276,28 @@
     </a>
 
 
-    <a href="/index.php?do=new_detail&id=6">
+    <a href="page/index/id/3">
         <div class="row img-one">
-            <img src="../template/wap/static/images/0_154005325sRts.jpg" style="width:66%;height: 105px;"/>
+            {volist name="coach1" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:66%;height: 105px;"/>
+            {/volist}
 
-            <img src="../template/wap/static/images/0_1540053324AFo.jpg" style="width:33%;height: 105px;float: right;"/>
-
+            {volist name="coach2" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
+            {/volist}
         </div>
         <div class="row img-two">
-            <img src="../template/wap/static/images/0_154005334366U.jpg" style="width:31.9%;height: 105px;"/>
+            {volist name="coach3" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:31.9%;height: 105px;"/>
+            {/volist}
 
-            <img src="../template/wap/static/images/0_1540053367WqG.jpg" style="width:33%;height: 105px;"/>
+            {volist name="coach4" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;"/>
+            {/volist}
 
-            <img src="../template/wap/static/images/0_154005338AW9l.jpg" style="width:33%;height: 105px;float: right;"/>
+            {volist name="coach5" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
+            {/volist}
 
         </div>
 
@@ -307,19 +312,28 @@
         </div>
     </a>
 
-    <a href="/index.php?do=new_detail&id=5">
+    <a href="page/index/id/4">
         <div class="row img-one">
-            <img src="../template/wap/static/images/0_1540054040xsm.gif" style="width:66%;height: 105px;"/>
+            {volist name="team1" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:66%;height: 105px;"/>
+            {/volist}
 
-            <img src="../template/wap/static/images/0_154005406Djr5.jpg" style="width:33%;height: 105px;float: right;"/>
-
+            {volist name="team2" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
+            {/volist}
         </div>
         <div class="row img-two">
-            <img src="../template/wap/static/images/0_154005409KK94.jpg" style="width:31.9%;height: 105px;"/>
+            {volist name="team3" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:31.9%;height: 105px;"/>
+            {/volist}
 
-            <img src="../template/wap/static/images/0_154005411Io7Z.jpg" style="width:33%;height: 105px;"/>
+            {volist name="team4" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;"/>
+            {/volist}
 
-            <img src="../template/wap/static/images/0_154005413y8IF.jpg" style="width:33%;height: 105px;float: right;"/>
+            {volist name="team5" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
+            {/volist}
 
         </div>
 
@@ -334,19 +348,28 @@
     </a>
 
 
-    <a href="/index.php?do=new_detail&id=4">
+    <a href="page/index/id/5">
         <div class="row img-one">
-            <img src="../template/wap/static/images/0_154005463YfO1.jpg" style="width:66%;height: 105px;"/>
+            {volist name="student1" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:66%;height: 105px;"/>
+            {/volist}
 
-            <img src="../template/wap/static/images/0_15400546677FR.jpg" style="width:33%;height: 105px;float: right;"/>
-
+            {volist name="student2" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
+            {/volist}
         </div>
         <div class="row img-two">
-            <img src="../template/wap/static/images/0_154005468C3NK.jpg" style="width:31.9%;height: 105px;"/>
+            {volist name="student3" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:31.9%;height: 105px;"/>
+            {/volist}
 
-            <img src="../template/wap/static/images/0_154005469UY2L.jpg" style="width:33%;height: 105px;"/>
+            {volist name="student4" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;"/>
+            {/volist}
 
-            <img src="../template/wap/static/images/0_154005471L664.jpg" style="width:33%;height: 105px;float: right;"/>
+            {volist name="student5" id="item"}
+            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
+            {/volist}
 
         </div>
 
@@ -370,10 +393,12 @@
         </div>
 
         <div class="col-xs-12 activity-item">
-            <a href="/index.php?do=new_detail&id=8">
-                <img src="../template/wap/static/images/0_150411765qtDj.jpg" width="100%"/>
-                <h2>报名即可参加万人电音节</h2>
+            <a href="article/detail-17.html">
+                <img src="{:get_cover($new_ad['cover_id'],'path')}" width="100%"/>
+                <h2>{$new_ad.title}</h2>
             </a>
+
+
         </div>
 
     </div>
@@ -389,7 +414,7 @@
             <i class="iconfont icon-baoming"></i>
             <p>报名</p>
         </a>
-        <a class="col-xs-4" href="/index.php?do=center">
+        <a class="col-xs-4" href="">
             <i class="iconfont icon-wode"></i>
             <p>我的</p>
         </a>
