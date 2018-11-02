@@ -282,7 +282,7 @@
                     <table width='100%' border='0' cellspacing='0'>
                         <tr>
                             {volist name="beautiful" id="item"}
-                            <td align=center><a href="wap" onclick="reload()"><img src="{:get_cover($item['cover_id'],'path')}" width=120 height=80 border=0></a></td>
+                            <td align=center><a href="page/index/id/2" onclick="reload()"><img src="{:get_cover($item['cover_id'],'path')}" width=120 height=80 border=0></a></td>
                             {/volist}
 
                         </tr>
@@ -328,6 +328,28 @@
         function reload(){
             window.location.reload();
         }
+
+        //清空浏览器历史记录
+        pushHistory();
+        //监听浏览器后退事件
+        window.addEventListener("popstate",
+            function(e) {
+                //转向指定的URL
+                //location.href=url;
+                window.location.reload();
+                alert(1111);
+            }, false);
+        //清空浏览器历史记录
+        function pushHistory() {
+            var url = "#";
+            var state = {
+                title: "title",
+                url: "#"
+            };
+            window.history.pushState(state, "title", "#");
+        }
+
+
     </script>
 
 
