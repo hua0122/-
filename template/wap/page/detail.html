@@ -11,33 +11,33 @@
     <meta name="description" content="Yan" />
     <meta name="keywords" content="Yan" />
     <meta name="author" content="Yan" />
-    <script src="../template/wap/static/js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../template/wap/static/js/custom1.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__ROOT_PATH__/wap/static/js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__ROOT_PATH__/wap/static/js/custom1.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DBd897f58d7a63e585485e3dea011253"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="../template/wap/static/css/normalize.css" />
-    <link rel="stylesheet" type="text/css" href="../template/wap/static/css/default.css">
-    <link rel="stylesheet" href="../template/wap/static/css/main.css">
-    <link rel="stylesheet" href="../template/wap/static/css/examples.css">
+    <link rel="stylesheet" type="text/css" href="__ROOT_PATH__/wap/static/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="__ROOT_PATH__/wap/static/css/default.css">
+    <link rel="stylesheet" href="__ROOT_PATH__/wap/static/css/main.css">
+    <link rel="stylesheet" href="__ROOT_PATH__/wap/static/css/examples.css">
     <!-- Themes -->
-    <link rel="stylesheet" href="../template/wap/static/css/bars-1to10.css">
-    <link rel="stylesheet" href="../template/wap/static/css/bars-movie.css">
-    <link rel="stylesheet" href="../template/wap/static/css/bars-square.css">
-    <link rel="stylesheet" href="../template/wap/static/css/bars-pill.css">
-    <link rel="stylesheet" href="../template/wap/static/css/bars-reversed.css">
-    <link rel="stylesheet" href="../template/wap/static/css/bars-horizontal.css">
+    <link rel="stylesheet" href="__ROOT_PATH__/wap/static/css/bars-1to10.css">
+    <link rel="stylesheet" href="__ROOT_PATH__/wap/static/css/bars-movie.css">
+    <link rel="stylesheet" href="__ROOT_PATH__/wap/static/css/bars-square.css">
+    <link rel="stylesheet" href="__ROOT_PATH__/wap/static/css/bars-pill.css">
+    <link rel="stylesheet" href="__ROOT_PATH__/wap/static/css/bars-reversed.css">
+    <link rel="stylesheet" href="__ROOT_PATH__/wap/static/css/bars-horizontal.css">
 
-    <link rel="stylesheet" href="../template/wap/static/css/fontawesome-stars.css">
-    <link rel="stylesheet" href="../template/wap/static/css/css-stars.css">
-    <link rel="stylesheet" href="../template/wap/static/css/bootstrap-stars.css">
+    <link rel="stylesheet" href="__ROOT_PATH__/wap/static/css/fontawesome-stars.css">
+    <link rel="stylesheet" href="__ROOT_PATH__/wap/static/css/css-stars.css">
+    <link rel="stylesheet" href="__ROOT_PATH__/wap/static/css/bootstrap-stars.css">
 
 
-    <link rel="stylesheet" type="text/css" href="../template/wap/static/css/reset.css" />
-    <link rel="stylesheet" type="text/css" href="../template/wap/static/css/swiper-3.4.1.min.css" />
-    <link rel="stylesheet" type="text/css" href="../template/wap/static/css/custom.css" />
-    <link rel="stylesheet" type="text/css" href="../template/wap/static/css/iconfont.css"/>
-    <link rel="stylesheet" type="text/css" href="../template/wap/static/css/new_add.css"/>
+    <link rel="stylesheet" type="text/css" href="__ROOT_PATH__/wap/static/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="__ROOT_PATH__/wap/static/css/swiper-3.4.1.min.css" />
+    <link rel="stylesheet" type="text/css" href="__ROOT_PATH__/wap/static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="__ROOT_PATH__/wap/static/css/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="__ROOT_PATH__/wap/static/css/new_add.css"/>
 </head>
 
 <body>
@@ -57,6 +57,31 @@
         $("iframe").css('width','100%');
         $("iframe").css('height','188px');
 
+        //清空浏览器历史记录
+        pushHistory();
+        //监听浏览器后退事件
+        window.addEventListener("popstate",
+            function(e) {
+                //转向指定的URL
+                location.href="http://{$web_path}/wap";
+                console.log("11133333");
+                //window.location.reload();
+
+            }, false);
+        //清空浏览器历史记录
+        function pushHistory() {
+            var url = "#";
+            var state = {
+                title: "title",
+                url: "#"
+            };
+            window.history.pushState(state, "title", "#");
+        }
+
+
+
+
+
 
         document.getElementById('Jvideo').play();
 
@@ -75,28 +100,10 @@
             videoAutoPlay('Jvideo');
         });
 
+
+
     });
 
-    //清空浏览器历史记录
-    pushHistory();
-    //监听浏览器后退事件
-    window.addEventListener("popstate",
-        function(e) {
-            //转向指定的URL
-            location.href="wap";
-            alert(1111);
-            //window.location.reload();
-
-        }, false);
-    //清空浏览器历史记录
-    function pushHistory() {
-        var url = "#";
-        var state = {
-            title: "title",
-            url: "#"
-        };
-        window.history.pushState(state, "title", "#");
-    }
 
 
 </script>

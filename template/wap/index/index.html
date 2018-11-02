@@ -329,27 +329,6 @@
             window.location.reload();
         }
 
-        //清空浏览器历史记录
-        pushHistory();
-        //监听浏览器后退事件
-        window.addEventListener("popstate",
-            function(e) {
-                //转向指定的URL
-                //location.href=url;
-                window.location.reload();
-                alert(1111);
-            }, false);
-        //清空浏览器历史记录
-        function pushHistory() {
-            var url = "#";
-            var state = {
-                title: "title",
-                url: "#"
-            };
-            window.history.pushState(state, "title", "#");
-        }
-
-
     </script>
 
 
