@@ -274,6 +274,59 @@
         </div>
     </a>
 
+    <a href="page/index/id/2">
+    <div id=demo style="overflow:hidden;width:750;" align=center>
+        <table border=0 align=center cellpadding=1 cellspacing=1 cellspace=0 >
+            <tr>
+                <td valign=top bgcolor=ffffff id=marquePic1>
+                    <table width='100%' border='0' cellspacing='0'>
+                        <tr>
+                            {volist name="beautiful" id="item"}
+                            <td align=center><a><img src="{:get_cover($item['cover_id'],'path')}" width=120 height=80 border=0></a></td>
+                            {/volist}
+
+                        </tr>
+                    </table>
+                </td>
+                <td id=marquePic2 valign=top></td></tr>
+        </table>
+
+    </div>
+    </a>
+
+    <style>
+        table td{padding-right:30px;}
+        table td img{
+            display: block;
+            border: #ccc 1px solid;
+            width: 22rem;
+            height: 14rem;
+            overflow: hidden;
+            border-radius: 10px;
+            -webkit-box-shadow: 3px 3px 3px;
+            -moz-box-shadow: 3px 3px 3px;
+            box-shadow: 3px 3px 3px;
+
+        }
+    </style>
+
+    <script type="text/javascript">
+        var speed=10
+        marquePic2.innerHTML=marquePic1.innerHTML
+        function Marquee(){
+            if(demo.scrollLeft>=marquePic1.scrollWidth){
+                demo.scrollLeft=0
+            }else{
+                demo.scrollLeft++
+            }
+        }
+        var MyMar=setInterval(Marquee,speed)
+        demo.onmouseover=function() {clearInterval(MyMar)}
+        demo.onmouseout=function() {MyMar=setInterval(Marquee,speed)}
+    </script>
+
+
+
 
     <a href="page/index/id/3">
         <div class="row img-one">
