@@ -19,7 +19,6 @@ class Page extends Fornt
         $res = $model->where(array('id'=>$id))->find();
         $this->assign('res',$res);
         $web_path = $_SERVER['SERVER_NAME'];
-        echo $web_path;
         $this->assign('web_path',$web_path);
         return $this->fetch("template/wap/page/detail.html");
 
