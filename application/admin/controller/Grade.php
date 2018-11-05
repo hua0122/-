@@ -45,7 +45,10 @@ class Grade extends Admin {
             'page' => $list->render(),
         );
         $this->assign($data);
-
+        $count = db('Grade')->count();
+        if($count==0){
+            session('cid', null);
+        }
 
         $area = db('Area')->select();
         $this->assign('area',$area);
@@ -66,12 +69,9 @@ class Grade extends Admin {
             if(empty($data['name'])){
                 return $this->error("班别名称不能为空！");
             }
-            if(empty($data['cid'])){
-                return $this->error("编号不能为空！");
-            }
 
-            if(empty($data['version'])){
-                return $this->error("版本号不能为空！");
+            if(is_numeric($data['name'])){
+                return $this->error("班别名称不能全为数字！");
             }
 
             if(empty($data['price'])){
@@ -85,16 +85,21 @@ class Grade extends Admin {
             if(empty($data['notice'])){
                 return $this->error("学车须知不能为空！");
             }
+            $data['create_time'] = $data['update_time'] = time();
 
             if ($data) {
-                $list  = db('Grade')->where(array("cid"=>$data['cid']))->select();
-                if($list){
-                    return $this->error("编号已存在，请重新输入！", url('Grade/index'));
+                if(session('cid')){
+                    $cid = session('cid');
                 }else{
-                    $result = $Area->save($data);
-
+                    $cid = 0;
                 }
+                //版本号
+                $y=substr(date("Y"),2,2);
 
+                $data['version'] = $y.date("md").sprintf("%03d", $cid+1)."_v0.1";
+                $data['cid'] = sprintf("%03d", $cid+1);
+                $result = $Area->save($data);
+                session("cid",$cid+1);
 
                 if ($result) {
                     return $this->success("添加成功！", url('Grade/index'));
@@ -116,10 +121,6 @@ class Grade extends Admin {
             $area = db('Area')->select();
             $this->assign('area',$area);
 
-            //版本号
-            $version = date("Ymd")."_V1.0";
-            $this->assign('version',$version);
-
             $this->setMeta("添加班别");
             return $this->fetch('add');
         }
@@ -134,13 +135,6 @@ class Grade extends Admin {
             if(empty($data['name'])){
                 return $this->error("班别名称不能为空！");
             }
-            /*if(empty($data['cid'])){
-                return $this->error("编号不能为空！");
-            }
-
-            if(empty($data['version'])){
-                return $this->error("版本号不能为空！");
-            }*/
 
             if(empty($data['price'])){
                 return $this->error("价格不能为空！");
@@ -155,16 +149,26 @@ class Grade extends Admin {
             }
 
             if ($data) {
-                //$result = $link->save($data, array('id' => $data['id']));
-                //既要保存历史内容，又要添加新内容(把该条信息下线，添加新的内容)
-                $link->where(array('id' => $data['id']))->setField('status', '1');
-                unset($data['id']);
 
-                $v = substr($data['version'],strlen($data['version'])- 3,3);
+                $data['update_time'] = time();
+                //如果内容改变 则改变版本号
+                $old_content = $link->where(array("id"=>$id))->find();
 
-                $data['version'] = date("Ymd").sprintf("%03d", $v+1);
-                $result = $link->save($data);
 
+                //查询编号相同的最新版本号
+                $zx_version = $link->where(array("cid"=>$old_content['cid']))->order("update_time desc")->find();
+
+                if($old_content['type']!=$data['type']||$old_content['price']!=$data['price']||$old_content['content']!=$data['content']||$old_content['notice']!=$data['notice']){
+                    //既要保存历史内容，又要添加新内容(把该条信息下线，添加新的内容)
+                    $link->where(array('id' => $data['id']))->setField('status', '1');
+                    unset($data['id']);
+                    $len = strlen(stristr($zx_version['version'],'.'))-1;
+                    $v = substr($zx_version['version'],strlen($data['version'])- $len,$len);
+                    $data['version'] =substr($zx_version['version'],0,9)."_v0.".($v+1);
+                    $result = $link->save($data);
+                }else{
+                    $result = $link->save($data,array("id"=>$id));
+                }
 
 
                 if ($result) {
@@ -176,8 +180,11 @@ class Grade extends Admin {
                 return $this->error($link->getError());
             }
         } else {
-            $map  = array('id' => $id);
-            $info = db('Grade')->where($map)->find();
+            $map  = array('sent_grade.id' => $id);
+            $info = db('Grade')
+                ->join('sent_area ','sent_area.id = sent_grade.area_id','left')
+                ->field('sent_grade.*,sent_area.name as area_name')
+                ->where($map)->find();
 
             $data = array(
                 'keyList' => $link->keyList,

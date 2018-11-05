@@ -25,24 +25,11 @@
 	</header>
 	<div class="main-box-body clearfix">
 		<form method="post" class="form form-horizontal">
-			<div class="form-group">
-				<label class="col-lg-2 control-label">编号</label>
-				<div class="col-lg-10">
-					<input type="text" class="form-control" name="cid" value="{$info.cid|default=''}" style="width: 80%">
-					
-				</div>
-			</div>
-			<div class="form-group">
-				<!--<label class="col-lg-2 control-label">版本号</label>-->
-				<div class="col-lg-10">
-					<input type="hidden" class="form-control" name="version" value="{$version|default=''}" style="width: 80%">
 
-				</div>
-			</div>
 			<div class="form-group">
 				<label class="col-lg-2 control-label">班别名称</label>
 				<div class="col-lg-10">
-					<input type="text" class="form-control" name="name" value="{$info.name|default=''}" style="width: 80%">
+					<input type="text" class="form-control" name="name" id="name" value="{$info.name|default=''}" style="width: 80%">
 					
 				</div>
 			</div>

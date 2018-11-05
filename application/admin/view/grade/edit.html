@@ -9,13 +9,9 @@
 	</header>
 	<div class="main-box-body clearfix">
 		<form method="post" class="form form-horizontal">
-			<div class="form-group">
-				<!--<label class="col-lg-2 control-label">编号</label>-->
-				<div class="col-lg-10">
-					<input type="hidden" class="form-control" name="cid" value="{$info.cid|default=''}" style="width: 80%">
 
-				</div>
-			</div>
+            <input type="hidden" class="form-control" name="cid" value="{$info.cid|default=''}" style="width: 80%">
+
 			<div class="form-group">
 				<!--<label class="col-lg-2 control-label">版本号</label>-->
 				<div class="col-lg-10">
@@ -34,12 +30,9 @@
 			<div class="form-group">
 				<label class="col-lg-2 control-label">所属场地</label>
 				<div class="col-lg-10">
-					<select name="area_id" class="form-control" style="width: 50%">
+					<input type="text" readonly value="{$info.area_name}" style="border:none;padding-top: 5px"/>
+					<input type="hidden" name="area_id" value="{$info.area_id}" />
 
-						{volist name="area" id="menu"}
-						<option value="{$menu['id']}" {if $info['area_id'] == $menu['id']}selected{/if} >{$menu.name}</option>
-						{/volist}
-					</select>
 
 				</div>
 			</div>
@@ -93,17 +86,8 @@
 				</div>
 			</div>
 
-			<div class="form-group">
-				<label class="col-lg-2 control-label">是否启用</label>
-				<div class="col-lg-1">
-					<select name="status" class="form-control">
-						<option value="0" >是</option>
-						<option value="1" {if isset($info['status']) && $info['status']==1}selected{/if}>否
-						</option>
-					</select>
-				</div>
-			</div>
-			
+			<input type="hidden" value="0" name="status" />
+
 			
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">

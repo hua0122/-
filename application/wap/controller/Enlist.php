@@ -54,4 +54,15 @@ class Enlist extends Fornt
 
     }
 
+
+    //报名页面
+    public function sign(){
+        return $this->fetch("template/wap/enlist/sign.html");
+    }
+
+    //报名成功页面
+    public function cg(){
+        return $this->fetch("template/wap/enlist/success.html");
+    }
+
 }
