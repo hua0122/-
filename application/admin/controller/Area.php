@@ -19,6 +19,8 @@ class Area extends Admin {
                 $map['status'] = $status;
             }
 
+        }else{
+            $map['status']='0';
         }
 
         $order = "id desc";

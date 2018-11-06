@@ -14,12 +14,12 @@ class Person extends Admin {
 
 	/**
 	 * 人员管理首页
-	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+	 * @author
 	 */
 	public function index() { 
 	    $id   = input('id', '', 'trim,intval');
 	    //查询是否存在子集ID,若存在取出来，若不存在就是其本身
-	    $departments = db('Department')->field('id')->where(array("pid"=>$id))->select();
+	    /*$departments = db('Department')->field('id')->where(array("pid"=>$id))->select();
 	    $ids="";
 	    if($departments){
 	        foreach ($departments as $k=>$v){
@@ -35,22 +35,28 @@ class Person extends Admin {
 	    if($id){
 	        $id=$id.",".$ids;
 	    }
-	  
-	   
+
 	    
 
 	    if(!empty($id)){
 	        $map['sent_person.department_id'] = array('in',$id);
-	    }
-	    
-	    
-	    //$map['sent_person.status'] = array('egt', 0);
-		$map=array();
+	    }*/
+
+        $map=array();
+
+        if(!empty($id)) {
+            $map['sent_person.department_id'] = $id;
+        }
+
+
+
+        //$map['sent_person.status'] = array('egt', 0);
+
 		
 		$order = "uid desc";
 		$list  = model('Person')
-		->join('sent_department','sent_person.department_id=sent_department.id')
-		->field('sent_person.uid,sent_person.username,sent_person.email,sent_person.mobile,sent_person.sex,sent_person.create_time,sent_person.status,sent_person.department_id,sent_person.status,sent_department.title')
+		->join('sent_department','sent_person.department_id=sent_department.id','left')
+		->field('sent_person.uid,sent_person.username,sent_person.email,sent_person.mobile,sent_person.sex,sent_person.create_time,sent_person.status,sent_person.department_id,sent_person.status,sent_department.title,sent_person.code,sent_person.number')
 		->where($map)
 		->order($order)->paginate(15);
 
@@ -60,7 +66,7 @@ class Person extends Admin {
 		);
 		
 		$this->assign($data);
-		$this->setMeta('人员信息');
+		$this->setMeta('队员信息');
 		
 		
 		
@@ -92,7 +98,7 @@ class Person extends Admin {
 			
 			
 			if ($result) {
-				return $this->success('人员添加成功！', url('admin/person/index'));
+				return $this->success('队员添加成功！', url('admin/person/index'));
 			} else {
 				return $this->error($model->getError());
 			}
@@ -117,7 +123,7 @@ class Person extends Admin {
 			$this->assign('Departments', $departments);
 			
 			
-			$this->setMeta("添加人员");
+			$this->setMeta("添加队员");
 			return $this->fetch('edit');
 		}
 	}
@@ -165,7 +171,7 @@ class Person extends Admin {
 		    $departments = array_merge(array(0 => array('id' => 0, 'title_show' => '顶级菜单')), $departments);
 		    $this->assign('Departments', $departments);
 		    if (false === $info) {
-		        return $this->error('获取人员信息错误');
+		        return $this->error('获取队员信息错误');
 		    }
 		  
 		    $this->assign('info', $info);

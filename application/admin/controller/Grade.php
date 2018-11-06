@@ -32,6 +32,8 @@ class Grade extends Admin {
                 $map['sent_grade.status'] = $status;
             }
 
+        }else{
+            $map['sent_grade.status']='0';
         }
 
         $order = "id desc";

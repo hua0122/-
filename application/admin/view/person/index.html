@@ -5,9 +5,9 @@
 		<div class="pull-left">
 			<h2>{$meta_title}</h2>
 		</div>
-		<div class="pull-right">
-			<a href="{:url('add')}" class="btn btn-primary pull-right"> <i class="fa fa-plus-circle fa-lg"></i> 新增用户</a>
-		</div>
+		<!--<div class="pull-right">
+			<a href="{:url('add')}" class="btn btn-primary pull-right"> <i class="fa fa-plus-circle fa-lg"></i> 新增队员</a>
+		</div>-->
 	</header>
 	<div class="main-box-body clearfix">
 		<div class="table-responsive">
@@ -17,25 +17,32 @@
 						<th>
 							<span>姓名</span>
 						</th>
-						<th>
+						<!--<th>
 							<span>性别</span>
-						</th>
+						</th>-->
 						<th>
 							<span>手机号码</span>
 						</th>
 						<th>
-							<span>邮箱地址</span>
+							<span>推荐码</span>
 						</th>
+
+						<!--<th>
+							<span>邮箱地址</span>
+						</th>-->
 						
 						<th>
-							<span>所属部门</span>
+							<span>所属团队</span>
 						</th>
 						<th>
+							<span>招生人数</span>
+						</th>
+						<!--<th>
 							<span>创建时间</span>
 						</th>
 						<th class="text-center">
 							<span>状态</span>
-						</th>
+						</th>-->
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -46,26 +53,26 @@
 							<img src="{:avatar($item['uid'])}" alt=""/>
 							<span class="user-subhead">{$item['username']}</span>
 						</td>
-						<td>
+						<!--<td>
 							{if condition="$item['sex']"}
 							<span >女</span>
 							{else/}
 							<span >男</span>
 							
 							{/if}
-						</td>
+						</td>-->
 						<td>
 							<span >{$item['mobile']}</span>
 						</td>
 						<td>
-							<span >{$item['email']}</span>
+							<span >{$item['code']}</span>
 						</td>
 						<td>
 							<span >{$item['title']}</span>
 						</td>
 						
-						<td>{$item['create_time']}</td>
-						<td class="text-center">
+						<td>{$item['number']}</td>
+						<!--<td class="text-center">
 						
 							{if condition="$item['status']==1"}
 							<span class="label label-danger">禁用</span>
@@ -73,15 +80,15 @@
 							<span class="label label-primary">启用</span>
 							
 							{/if}
-						</td>
+						</td>-->
 						<td>
-							<a href="{:url('Person/edit',array('id'=>$item['uid']))}" class="table-link" title="">
+							<a href="{:url('Person/edit',array('id'=>$item['uid']))}" class="btn btn-info" title="">
 								编辑
 							</a>
 							
-							<a href="{:url('Person/del',array('id'=>$item['uid']))}" class="table-link confirm ajax-get">
+							<!--<a href="{:url('Person/del',array('id'=>$item['uid']))}" class="btn btn-danger confirm ajax-get">
 								删除
-							</a>
+							</a>-->
 						</td>
 					</tr>
 					{/volist}

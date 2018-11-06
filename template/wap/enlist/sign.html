@@ -67,7 +67,7 @@
         <span class="map activity right"> 填写推荐码 > </span>
     </div>
 
-    <div class="row address total">
+    <div class="row address total" id="total">
         <span>费用合计</span>
         <span class="count right"> 3280元</span>
     </div>
@@ -76,9 +76,9 @@
     <div class="row notice">
         <h1 class="col-xs-12">填写信息</h1>
         <div class="col-xs-12">
-            <input type="text" placeholder="请输入您的姓名"/><br/>
-            <input type="text" placeholder="请输入您的电话"/><br/>
-            <input type="text" placeholder="请输入您的身份证号码"/>
+            <input type="text" name="name" placeholder="请输入您的姓名"/><br/>
+            <input type="text" name="phone" placeholder="请输入您的电话"/><br/>
+            <input type="text" name="cno" placeholder="请输入您的身份证号码"/>
         </div>
         <div class="xieyi">
             <span>
@@ -86,9 +86,9 @@
                 <label  for="color-input-red"></label >
 
                 <span class="text">我已阅读并同意</span>
-                <span class="color"><a href="">《鼎吉驾校学车协议》</a> </span>
+                <span class="color"><a href="javascript:xieyi()">《鼎吉驾校学车协议》</a> </span>
             </span>
-            <span class="right">先付定金</span></div>
+            <span class="right" id="other" onclick="javascript:other()">其他</span></div>
     </div>
 
 
@@ -169,6 +169,29 @@
 </div>
 
 
+<div class="c_alert_dialog other" style="display: none">
+    <div class="c_alert_mask" ontouchmove="return false"></div>
+    <div class="c_alert_wrap c_alert_width">
+
+        <div class="row">
+            <div class="modal-body">
+                <div>
+                    <label><input type="radio" value="1" name="other" class="other-input" checked>全款支付</label>
+                    <label><input type="radio" value="2" name="other" class="other-input">定金支付</label>
+                    <label><input type="radio" value="3" name="other" class="other-input">线下支付</label>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input type="submit" id="confirm-other" class="confirm" value="确认">
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
 
 
 
@@ -182,15 +205,67 @@
         $(".jts").show();
     }
 
+    function other(){
+        $(".other").show();
+    }
+
+
    $(function(){
        $("#confirm").click(function(){
            $(".dialog_open").hide();
-           //do
+           //do something
        });
        $("#yhq").click(function () {
            $(".jts").hide();
+           //do something
        });
-   })
+
+       $("#confirm-other").click(function(){
+           $(".other").hide();
+
+           var check_val = $('input:radio[name="other"]:checked').val();
+            //全款支付
+           if(check_val==1){
+                var tem='<span>费用合计</span>' +
+                    '<span class="count right"> 3280元</span>';
+               $("#total").html(tem);
+               $(".sign .total").css('height','45');
+           }
+           //定金支付
+           if(check_val==2){
+               var template ='<div class="left djzf" style="padding-top: 0px;"><span>费用合计<span class="xf">您可以先付定金抢占名额</span></span></div>' +
+                   '<div class="right djzf"><span class="count right"> <input type="text" name="deposit" placeholder="300-3460">元(定金)</span></div>';
+
+                $("#total").html(template);
+                $(".sign .total").css('height','70');
+           }
+           //线下支付
+           if(check_val==3){
+               var tem='<span>费用合计</span>' +
+                   '<span class="count right"> 0元</span>';
+               $("#total").html(tem);
+               $(".sign .total").css('height','45');
+           }
+
+
+
+           //do something
+       });
+
+   });
+    function xieyi(){
+        var name = $("#name").val();
+        var phone = $("#phone").val();
+        var cno = $("#cno").val();
+
+        $.post("enlist/agreement",{name:name,phone:phone,cno:cno},function (data) {
+            if(data){
+                location.href="{$web_path}/enlist/agreement";
+            }
+
+        });
+
+    }
 
 
 

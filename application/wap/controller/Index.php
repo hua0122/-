@@ -15,7 +15,7 @@ class Index extends Fornt {
 	//网站首页
 	public function index() {
         $web_path = $_SERVER['SERVER_NAME'];
-        $this->assign('web_path',$web_path);
+        $this->assign('web_path',"http://".$web_path);
 
 		//设置SEO
 		$this->setSeo(config('web_site_title'), config('web_site_keyword'), config('web_site_description'));

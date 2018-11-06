@@ -22,7 +22,7 @@
 		<tr>
 			<td colspan="2">
 				<div>
-					<div class="aui_title" style="cursor: move;height: 28px;line-height: 27px;padding-top:0px;padding-right: 28px;padding-bottom: 0px;padding-left: 10px;font-weight: bold;">BaiduMap</div>
+					<div class="aui_title" style="cursor: move;height: 28px;line-height: 27px;padding-top:0px;padding-right: 28px;padding-bottom: 0px;padding-left: 10px;font-weight: bold;">百度地图</div>
 					<a class="aui_close" id="close" href="javascript:void(0);" style="padding: 0;top: 4px;right: 4px;width: 21px;line-height: 21px;font-size: 18px;color: #333333;overflow: hidden;display: block;position: absolute;text-decoration: none;outline: none;">×</a>
 				</div>
 			</td>
@@ -95,7 +95,7 @@
 
 							<li class="affix-list-item" id="WU_FILE_0">
 								<div class="upload-file-info">
-									<span class="webuploader-pick-file-close" data-queued-id="WU_FILE_0" data-id="5" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
+									<span class="webuploader-pick-file-close" data-queued-id="WU_FILE_0" data-id="{$info.thumb}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
 									<span class="fname"></span>
 									<span class="fsize"></span>
 									<div class="clearfix"></div>
@@ -184,9 +184,36 @@
         var point = new BMap.Point(p_lng,p_lat);
         map.centerAndZoom(point, 12);
         map.enableScrollWheelZoom(true);   //缩放地图
+
+
+		//启用地图惯性拖拽，默认禁用
+        map.enableContinuousZoom(true);
+        map.centerAndZoom(point, 15);
+		//添加默认缩放平移控件
+        map.addControl(new BMap.NavigationControl());
+
+
+
+
+
         var marker = new BMap.Marker(point);// 创建标注
         map.addOverlay(marker);             // 将标注添加到地图中
         marker.enableDragging();           // 可拖拽
+        //跳动的动画
+        marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+
+
+		//点击事件监听
+        marker.addEventListener("click", function(){
+            this.openInfoWindow(infoWindow);
+            //图片加载完毕重绘infowindow
+            document.getElementById('imgDemo').onload = function (){
+                infoWindow.redraw();
+            }
+        });
+
+
+
         $("#close").click(function(){
             $("#bd_map").css("z-index",-2017);
         });
@@ -210,3 +237,11 @@
     });
 </script>
 {/block}
+
+
+
+
+
+
+
+

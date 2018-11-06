@@ -13,7 +13,7 @@ use app\common\controller\Admin;
 class Department extends Admin {
 
 	/**
-	 * 部门管理首页
+	 * 团队管理首页
 	 * @author 
 	 */
 	public function index() {
@@ -34,7 +34,7 @@ class Department extends Admin {
 		);
 		
 		$this->assign($data);
-		$this->setMeta("部门信息");
+		$this->setMeta("合伙人信息");
 		return $this->fetch();
 	}
 	
@@ -74,7 +74,7 @@ class Department extends Admin {
 		    
 		    $this->assign('Departments', $departments);
 
-			$this->setMeta("添加部门");
+			$this->setMeta("添加合伙人");
 			return $this->fetch('edit');
 		}
 	}
@@ -113,14 +113,14 @@ class Department extends Admin {
 			$departments = array_merge(array(0 => array('id' => 0, 'title_show' => '顶级菜单')), $departments);
 			$this->assign('Departments', $departments);
 			if (false === $info) {
-			    return $this->error('获取部门信息错误');
+			    return $this->error('获取合伙人信息错误');
 			}
 			$this->assign('info', $info);
 			
 			
 			
 			//$this->assign($data);
-			$this->setMeta("编辑部门");
+			$this->setMeta("编辑合伙人");
 			//return $this->fetch('public/edit');
 			return $this->fetch('edit');
 		}
@@ -142,10 +142,5 @@ class Department extends Admin {
 			return $this->error("删除失败！");
 		}
 	}
-	
-	
-	//人员信息
-	public function person(){
-	    
-	}
+
 }

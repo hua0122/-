@@ -315,3 +315,63 @@ input[type=checkbox] {
 .jts .yhq{
     width: 90%;
 }
+.other .modal-body lable{
+    display: block;
+}
+.other .modal-body .other-input{
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+}
+.djzf{
+    width:50%;
+    padding-top: 0px;
+}
+.djzf .xf{
+    float:left;
+    font-size: 14px;
+    line-height: 10px;
+}
+.djzf span input{
+    width: 60%;
+    background-color: #c3c3c3;
+    border: none;
+}
+.agreement{
+    background-color: #fff;
+    min-height: 140px;
+
+}
+.agreement h1{
+    font-size: 18px;
+    margin-top: 20px;
+    text-align: center;
+}
+.agreement span{
+    margin: 5px;
+    line-height: 40px;
+    height: 40px;
+    width: 100%;
+    display: block;
+    float: left;
+    margin-left: 15px;
+}
+.agreement input{
+    border: none;
+    border-bottom: 1px solid #ccc;
+    width: 70%;
+}
+.agreement .yi{
+    float: left;
+    width: 25%;
+}
+.agreement .cno{
+    float: right;
+    width: 65%;
+}
+.agreement .yi-input{
+    width: 60%;
+}
+.agreement .cno-input{
+    width: 55%;
+}

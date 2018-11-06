@@ -8,9 +8,17 @@
 
 namespace app\wap\controller;
 use app\common\controller\Fornt;
+use think\Request;
 
 class Enlist extends Fornt
 {
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $web_path = $_SERVER['SERVER_NAME'];
+        $this->assign('web_path',"http://".$web_path);
+    }
+
     //报名班级列表页
     public function index(){
         $area = model('Area');
@@ -31,6 +39,9 @@ class Enlist extends Fornt
 
     //详情页
     public function detail(){
+
+        $web_path = $_SERVER['SERVER_NAME'];
+        $this->assign('web_path',"http://".$web_path);
 
         $id   = input('id', '', 'trim,intval');
         $grade = model('Grade');
@@ -65,4 +76,15 @@ class Enlist extends Fornt
         return $this->fetch("template/wap/enlist/success.html");
     }
 
+
+    //学车协议
+    public function agreement(){
+        if (IS_POST) {
+            $data = input('post.');
+            session('agreement_name');
+        }else{
+            return $this->fetch("template/wap/enlist/agreement.html");
+        }
+
+    }
 }

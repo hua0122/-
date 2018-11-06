@@ -31,6 +31,7 @@ return array(
     'enlist/ajax_list'   => 'wap/enlist/ajax_list',//班别信息
     'enlist/sign'   => 'wap/enlist/sign',//报名信息
     'enlist/success'   => 'wap/enlist/cg',//报名成功
+    'enlist/agreement'   => 'wap/enlist/agreement',//学车协议
 
 
 
