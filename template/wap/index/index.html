@@ -210,26 +210,14 @@
 
     <a href="{$web_path}/page/index/id/1">
         <div class="row img-one">
-            {volist name="step1" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:66%;height: 105px;"/>
-            {/volist}
+            <img src="{:get_cover($step['cover_id'],'path')}" style="width:66%;height: 105px;"/>
 
-            {volist name="step2" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
-            {/volist}
+            <img src="{:get_cover($step1['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
         </div>
         <div class="row img-two">
-            {volist name="step3" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:31.9%;height: 105px;"/>
-            {/volist}
-
-            {volist name="step4" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;"/>
-            {/volist}
-
-            {volist name="step5" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
-            {/volist}
+            <img src="{:get_cover($step2['cover_id'],'path')}" style="width:31.9%;height: 105px;"/>
+            <img src="{:get_cover($step3['cover_id'],'path')}" style="width:33%;height: 105px;"/>
+            <img src="{:get_cover($step4['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
 
         </div>
 
@@ -277,27 +265,14 @@
 
     <a href="{$web_path}/page/index/id/3">
         <div class="row img-one">
-            {volist name="coach1" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:66%;height: 105px;"/>
-            {/volist}
+            <img src="{:get_cover($coach1['cover_id'],'path')}" style="width:66%;height: 105px;"/>
+            <img src="{:get_cover($coach2['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
 
-            {volist name="coach2" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
-            {/volist}
         </div>
         <div class="row img-two">
-            {volist name="coach3" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:31.9%;height: 105px;"/>
-            {/volist}
-
-            {volist name="coach4" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;"/>
-            {/volist}
-
-            {volist name="coach5" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
-            {/volist}
-
+            <img src="{:get_cover($coach3['cover_id'],'path')}" style="width:31.9%;height: 105px;"/>
+            <img src="{:get_cover($coach4['cover_id'],'path')}" style="width:33%;height: 105px;"/>
+            <img src="{:get_cover($coach5['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
         </div>
 
         <div class="row news">
@@ -313,27 +288,13 @@
 
     <a href="{$web_path}/page/index/id/4">
         <div class="row img-one">
-            {volist name="team1" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:66%;height: 105px;"/>
-            {/volist}
-
-            {volist name="team2" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
-            {/volist}
+            <img src="{:get_cover($team1['cover_id'],'path')}" style="width:66%;height: 105px;"/>
+            <img src="{:get_cover($team2['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
         </div>
         <div class="row img-two">
-            {volist name="team3" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:31.9%;height: 105px;"/>
-            {/volist}
-
-            {volist name="team4" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;"/>
-            {/volist}
-
-            {volist name="team5" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
-            {/volist}
-
+            <img src="{:get_cover($team3['cover_id'],'path')}" style="width:31.9%;height: 105px;"/>
+            <img src="{:get_cover($team4['cover_id'],'path')}" style="width:33%;height: 105px;"/>
+            <img src="{:get_cover($team5['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
         </div>
 
         <div class="row news">
@@ -349,27 +310,13 @@
 
     <a href="{$web_path}/page/index/id/5">
         <div class="row img-one">
-            {volist name="student1" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:66%;height: 105px;"/>
-            {/volist}
-
-            {volist name="student2" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
-            {/volist}
+            <img src="{:get_cover($student1['cover_id'],'path')}" style="width:66%;height: 105px;"/>
+            <img src="{:get_cover($student2['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
         </div>
         <div class="row img-two">
-            {volist name="student3" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:31.9%;height: 105px;"/>
-            {/volist}
-
-            {volist name="student4" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;"/>
-            {/volist}
-
-            {volist name="student5" id="item"}
-            <img src="{:get_cover($item['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
-            {/volist}
-
+            <img src="{:get_cover($student3['cover_id'],'path')}" style="width:31.9%;height: 105px;"/>
+            <img src="{:get_cover($student4['cover_id'],'path')}" style="width:33%;height: 105px;"/>
+            <img src="{:get_cover($student5['cover_id'],'path')}" style="width:33%;height: 105px;float: right;"/>
         </div>
 
         <div class="row news">
@@ -392,7 +339,7 @@
         </div>
 
         <div class="col-xs-12 activity-item">
-            <a href="{$web_path}/article/detail-17.html">
+            <a href="{$web_path}/page/index/id/13">
                 <img src="{:get_cover($new_ad['cover_id'],'path')}" width="100%"/>
                 <h2>{$new_ad.title}</h2>
             </a>

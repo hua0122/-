@@ -27,26 +27,21 @@ class Index extends Fornt {
         $this->assign("banner",$banner);
 
         //首页最新活动
-        $where1 = array("category_id"=>2);
-        $new_ad = db("Document")->where($where1)->order("create_time desc")->limit(0,1)->find();
+        $new_ad = db('Page')->find(13);
         $this->assign("new_ad",$new_ad);
 
         //走进鼎吉
         $w = array("category_id"=>3);
-        $step1 = db("Document")->where($w)->order("create_time desc")->limit(0,1)->select();
+        $step = db("Document")->where($w)->find(21);
+        $this->assign("step",$step);
+        $step1 = db("Document")->where($w)->find(22);
         $this->assign("step1",$step1);
-
-        $step2 = db("Document")->where($w)->order("create_time desc")->limit(1,1)->select();
+        $step2 = db("Document")->where($w)->find(23);
         $this->assign("step2",$step2);
-
-        $step3 = db("Document")->where($w)->order("create_time desc")->limit(2,1)->select();
+        $step3 = db("Document")->where($w)->find(24);
         $this->assign("step3",$step3);
-
-        $step4 = db("Document")->where($w)->order("create_time desc")->limit(3,1)->select();
+        $step4 = db("Document")->where($w)->find(25);
         $this->assign("step4",$step4);
-
-        $step5 = db("Document")->where($w)->order("create_time desc")->limit(4,1)->select();
-        $this->assign("step5",$step5);
 
 
         //发现最美鼎吉
@@ -57,53 +52,53 @@ class Index extends Fornt {
 
         //教练风采
         $w1 = array("category_id"=>10);
-        $coach1 = db("Document")->where($w1)->order("create_time desc")->limit(0,1)->select();
+        $coach1 = db("Document")->where($w1)->find(26);
         $this->assign("coach1",$coach1);
 
-        $coach2 = db("Document")->where($w1)->order("create_time desc")->limit(1,1)->select();
+        $coach2 = db("Document")->where($w1)->find(27);
         $this->assign("coach2",$coach2);
 
-        $coach3 = db("Document")->where($w1)->order("create_time desc")->limit(2,1)->select();
+        $coach3 = db("Document")->where($w1)->find(28);
         $this->assign("coach3",$coach3);
 
-        $coach4 = db("Document")->where($w1)->order("create_time desc")->limit(3,1)->select();
+        $coach4 = db("Document")->where($w1)->find(29);
         $this->assign("coach4",$coach4);
 
-        $coach5 = db("Document")->where($w1)->order("create_time desc")->limit(4,1)->select();
+        $coach5 = db("Document")->where($w1)->find(30);
         $this->assign("coach5",$coach5);
 
         //团队风采
         $w2 = array("category_id"=>11);
-        $team1 = db("Document")->where($w2)->order("create_time desc")->limit(0,1)->select();
+        $team1 = db("Document")->where($w2)->find(31);
         $this->assign("team1",$team1);
 
-        $team2 = db("Document")->where($w2)->order("create_time desc")->limit(1,1)->select();
+        $team2 = db("Document")->where($w2)->find(32);
         $this->assign("team2",$team2);
 
-        $team3 = db("Document")->where($w2)->order("create_time desc")->limit(2,1)->select();
+        $team3 = db("Document")->where($w2)->find(33);
         $this->assign("team3",$team3);
 
-        $team4 = db("Document")->where($w2)->order("create_time desc")->limit(3,1)->select();
+        $team4 = db("Document")->where($w2)->find(34);
         $this->assign("team4",$team4);
 
-        $team5 = db("Document")->where($w2)->order("create_time desc")->limit(4,1)->select();
+        $team5 = db("Document")->where($w2)->find(35);
         $this->assign("team5",$team5);
 
         //学员风采
         $w3 = array("category_id"=>12);
-        $student1 = db("Document")->where($w3)->order("create_time desc")->limit(0,1)->select();
+        $student1 = db("Document")->where($w3)->find(36);
         $this->assign("student1",$student1);
 
-        $student2 = db("Document")->where($w3)->order("create_time desc")->limit(1,1)->select();
+        $student2 = db("Document")->where($w3)->find(37);
         $this->assign("student2",$student2);
 
-        $student3 = db("Document")->where($w3)->order("create_time desc")->limit(2,1)->select();
+        $student3 = db("Document")->where($w3)->find(38);
         $this->assign("student3",$student3);
 
-        $student4 = db("Document")->where($w3)->order("create_time desc")->limit(3,1)->select();
+        $student4 = db("Document")->where($w3)->find(39);
         $this->assign("student4",$student4);
 
-        $student5 = db("Document")->where($w3)->order("create_time desc")->limit(4,1)->select();
+        $student5 = db("Document")->where($w3)->find(40);
         $this->assign("student5",$student5);
 
 

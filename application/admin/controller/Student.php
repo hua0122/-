@@ -16,10 +16,16 @@ class Student extends Admin
      */
     public function index(){
         $this->setMeta("学员管理");
-
         $map = array();
 
-        $status = input('status','','trim,intval');//场地状态
+        $keyword = input('keyword','', 'htmlspecialchars,trim');
+        if(!empty($keyword)){
+                $map['name|phone'] = array('like', '%' .$keyword . '%');
+
+        }
+
+
+        $status = input('status','','trim,intval');//学员状态
         if(!empty($status)){
             if($status==2){
                 $map['status']='0';
@@ -38,6 +44,7 @@ class Student extends Admin
             'page' => $list->render(),
         );
         $this->assign($data);
+        $this->assign('status',$status);
 
 
         return $this->fetch();

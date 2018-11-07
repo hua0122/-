@@ -14,6 +14,82 @@
 <script src="__PUBLIC__/plugs/datepicker/js/foundation-datepicker.zh-CN.js"></script>
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/plugs/board/board.min.css">
 <!-- datepicker end -->
+<style type="text/css">
+    .one-pic{
+        width: 43%;
+        float: left;
+
+    }
+    .two-pic{
+        width: 30%;
+        float: left;
+    }
+    .form-horizontal .left{
+        margin-left: 100px;
+    }
+    .form-horizontal .two-left{
+        margin-left: 130px;
+    }
+
+    @media (max-width: 767px){
+        .one-pic{
+            width: 100%;
+            float: left;
+
+        }
+        .two-pic{
+            width: 100%;
+            float: left;
+        }
+
+        .form-horizontal .left{
+            margin-left: 0px;
+        }
+        .form-horizontal .two-left{
+            margin-left: 0px;
+        }
+    }
+
+
+    @media screen and  (max-width:620px){
+        .one-pic{
+            width: 100%;
+            float: left;
+
+        }
+        .two-pic{
+            width: 100%;
+            float: left;
+        }
+
+        .form-horizontal .left{
+            margin-left: 0px;
+        }
+        .form-horizontal .two-left{
+            margin-left: 0px;
+        }
+    }
+
+    @media screen and  (max-width:1024px) and (min-width:621px) {
+        .one-pic{
+            width: 43%;
+            float: left;
+
+        }
+        .two-pic{
+            width: 30%;
+            float: left;
+        }
+        .form-horizontal .left{
+            margin-left: 0px;
+        }
+        .form-horizontal .two-left{
+            margin-left: 0px;
+        }
+    }
+
+
+</style>
 {/block}
 {block name="body"}
 <div class="main-box clearfix">
@@ -39,31 +115,32 @@
                         </div>
 
 
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label">左</label>
+                        <div class="form-group one-pic left">
+                            <label class="col-lg-2 control-label"></label>
                             <div class="col-lg-10 col-sm-10">
                                 <div class="picker-box">
                                     <div id="picker_cover_id" class="picker_button webuploader-container">
-                                        上传图片
+                                        第一排左图
                                         <div id="rt_rt_1cqq4q92f1m6d1m8g1c7t12hqbus1" style="position: absolute; top: 0px; left: 0px; width: 88px; height: 32px; overflow: hidden; bottom: auto; right: auto;">
                                             <input type="file" name="file" class="webuploader-element-invisible" multiple="multiple">
                                             <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="cover_id" id="field_cover_id" value="{$info.cover_id}">
-                                    <div id="fileList_cover_id" class="upload-file-list-info" style="width:280px;">
-
+                                    <input type="hidden" name="cover_id" id="field_cover_id" value="{$step.cover_id}">
+                                    <div id="fileList_cover_id" class="upload-file-list-info" style="width:200px;">
+                                        {if condition="$step['cover_id']"}
                                         <li class="affix-list-item" id="WU_FILE_0">
                                             <div class="upload-file-info">
-                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_0" data-id="{$info.cover_id}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
+                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_0" data-id="{$step.cover_id}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
                                                 <span class="fname"></span>
                                                 <span class="fsize"></span>
                                                 <div class="clearfix"></div>
                                             </div>
                                             <div class="filebox image">
-                                                <img src="{:get_cover($info.cover_id,'path')}" class="img-responsive">
+                                                <img src="{:get_cover($step.cover_id,'path')}" class="img-responsive">
                                             </div>
                                         </li>
+                                        {/if}
 
                                     </div>
                                 </div>
@@ -91,6 +168,226 @@
                             </div>
                         </div>
 
+                        <div class="form-group one-pic">
+                            <label class="col-lg-2 control-label"></label>
+                            <div class="col-lg-10 col-sm-10">
+                                <div class="picker-box">
+                                    <div id="picker_cover_id1" class="picker_button webuploader-container">
+                                        第一排右图
+                                        <div id="rt_rt_1cqq4q92f1m6d1m8g1c7t12hqbus11" style="position: absolute; top: 0px; left: 0px; width: 88px; height: 32px; overflow: hidden; bottom: auto; right: auto;">
+                                            <input type="file" name="file" class="webuploader-element-invisible" multiple="multiple">
+                                            <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="cover_id1" id="field_cover_id1" value="{$step1.cover_id}">
+                                    <div id="fileList_cover_id1" class="upload-file-list-info" style="width:200px;">
+                                        {if condition="$step1['cover_id']"}
+                                        <li class="affix-list-item" id="WU_FILE_01">
+                                            <div class="upload-file-info">
+                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_01" data-id="{$step1.cover_id}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
+                                                <span class="fname"></span>
+                                                <span class="fsize"></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="filebox image">
+                                                <img src="{:get_cover($step1.cover_id,'path')}" class="img-responsive">
+                                            </div>
+                                        </li>
+                                        {/if}
+
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                    uploadsize =  5;
+                                    $(function(){
+                                        $("#picker_cover_id1").SentUploader({
+                                                fileNumLimit:1,
+                                                uploadEvents: {
+                                                    uploadComplete:function(file){}
+                                                },
+                                                listName : 'fileList_cover_id1',
+                                                hiddenName: 'field_cover_id1',
+                                                hiddenValType:1,
+                                                fileSingleSizeLimit:uploadsize*1024*1024,
+                                                closeX:true
+                                            },
+                                            {
+                                                fileType: 'service',
+                                                filename : 'images',
+                                            });
+                                    });
+                                </script>
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div style="clear: both"></div>
+
+                        <div class="form-group two-pic two-left">
+                            <label class="col-lg-2 control-label"></label>
+                            <div class="col-lg-10 col-sm-10">
+                                <div class="picker-box">
+                                    <div id="picker_cover_id2" class="picker_button webuploader-container">
+                                        第二排左图
+                                        <div id="rt_rt_1cqq4q92f1m6d1m8g1c7t12hqbus12" style="position: absolute; top: 0px; left: 0px; width: 88px; height: 32px; overflow: hidden; bottom: auto; right: auto;">
+                                            <input type="file" name="file" class="webuploader-element-invisible" multiple="multiple">
+                                            <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="cover_id2" id="field_cover_id2" value="{$step2.cover_id}">
+                                    <div id="fileList_cover_id2" class="upload-file-list-info" style="width:200px;">
+                                        {if condition="$step2['cover_id']"}
+                                        <li class="affix-list-item" id="WU_FILE_02">
+                                            <div class="upload-file-info">
+                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_02" data-id="{$step2.cover_id}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
+                                                <span class="fname"></span>
+                                                <span class="fsize"></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="filebox image">
+                                                <img src="{:get_cover($step2.cover_id,'path')}" class="img-responsive">
+                                            </div>
+                                        </li>
+                                        {/if}
+
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                    uploadsize =  5;
+                                    $(function(){
+                                        $("#picker_cover_id2").SentUploader({
+                                                fileNumLimit:1,
+                                                uploadEvents: {
+                                                    uploadComplete:function(file){}
+                                                },
+                                                listName : 'fileList_cover_id2',
+                                                hiddenName: 'field_cover_id2',
+                                                hiddenValType:1,
+                                                fileSingleSizeLimit:uploadsize*1024*1024,
+                                                closeX:true
+                                            },
+                                            {
+                                                fileType: 'service',
+                                                filename : 'images',
+                                            });
+                                    });
+                                </script>
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group two-pic">
+                            <label class="col-lg-2 control-label"></label>
+                            <div class="col-lg-10 col-sm-10">
+                                <div class="picker-box">
+                                    <div id="picker_cover_id3" class="picker_button webuploader-container">
+                                        第二排中图
+                                        <div id="rt_rt_1cqq4q92f1m6d1m8g1c7t12hqbus13" style="position: absolute; top: 0px; left: 0px; width: 88px; height: 32px; overflow: hidden; bottom: auto; right: auto;">
+                                            <input type="file" name="file" class="webuploader-element-invisible" multiple="multiple">
+                                            <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="cover_id3" id="field_cover_id3" value="{$step3.cover_id}">
+                                    <div id="fileList_cover_id3" class="upload-file-list-info" style="width:200px;">
+                                        {if condition="$step3['cover_id']"}
+                                        <li class="affix-list-item" id="WU_FILE_03">
+                                            <div class="upload-file-info">
+                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_03" data-id="{$step3.cover_id}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
+                                                <span class="fname"></span>
+                                                <span class="fsize"></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="filebox image">
+                                                <img src="{:get_cover($step3.cover_id,'path')}" class="img-responsive">
+                                            </div>
+                                        </li>
+                                        {/if}
+
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                    uploadsize =  5;
+                                    $(function(){
+                                        $("#picker_cover_id3").SentUploader({
+                                                fileNumLimit:1,
+                                                uploadEvents: {
+                                                    uploadComplete:function(file){}
+                                                },
+                                                listName : 'fileList_cover_id3',
+                                                hiddenName: 'field_cover_id3',
+                                                hiddenValType:1,
+                                                fileSingleSizeLimit:uploadsize*1024*1024,
+                                                closeX:true
+                                            },
+                                            {
+                                                fileType: 'service',
+                                                filename : 'images',
+                                            });
+                                    });
+                                </script>
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group two-pic">
+                            <label class="col-lg-2 control-label"></label>
+                            <div class="col-lg-10 col-sm-10">
+                                <div class="picker-box">
+                                    <div id="picker_cover_id4" class="picker_button webuploader-container">
+                                        第二排右图
+                                        <div id="rt_rt_1cqq4q92f1m6d1m8g1c7t12hqbus14" style="position: absolute; top: 0px; left: 0px; width: 88px; height: 32px; overflow: hidden; bottom: auto; right: auto;">
+                                            <input type="file" name="file" class="webuploader-element-invisible" multiple="multiple">
+                                            <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="cover_id4" id="field_cover_id4" value="{$step4.cover_id}">
+                                    <div id="fileList_cover_id4" class="upload-file-list-info" style="width:200px;">
+                                        {if condition="$step4['cover_id']"}
+                                        <li class="affix-list-item" id="WU_FILE_04">
+                                            <div class="upload-file-info">
+                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_04" data-id="{$step4.cover_id}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
+                                                <span class="fname"></span>
+                                                <span class="fsize"></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="filebox image">
+                                                <img src="{:get_cover($step4.cover_id,'path')}" class="img-responsive">
+                                            </div>
+                                        </li>
+                                        {/if}
+
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                    uploadsize =  5;
+                                    $(function(){
+                                        $("#picker_cover_id4").SentUploader({
+                                                fileNumLimit:1,
+                                                uploadEvents: {
+                                                    uploadComplete:function(file){}
+                                                },
+                                                listName : 'fileList_cover_id4',
+                                                hiddenName: 'field_cover_id4',
+                                                hiddenValType:1,
+                                                fileSingleSizeLimit:uploadsize*1024*1024,
+                                                closeX:true
+                                            },
+                                            {
+                                                fileType: 'service',
+                                                filename : 'images',
+                                            });
+                                    });
+                                </script>
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+
+
+
+                        <div style="clear:both"></div>
+
 
 
                         <div class="form-group">
@@ -105,49 +402,19 @@
                                 </script>								<div class="help-block"></div>
                             </div>
                         </div>
-                        <!--<div class="form-group">
-                            <label class="col-lg-2 control-label">创建时间</label>
-                            <div class="col-lg-10 col-sm-10">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="create_time" name="create_time" value="{$info.create_time|date='Y-m-d H:i:s',###}" readonly size="15">
-                                    <span class="input-group-addon"><i class="fa fa-th"></i></span>
-                                </div>
-                                <script>
-                                    $('#create_time').fdatepicker({
-                                        format: 'yyyy-mm-dd hh:ii:ss',
-                                        pickTime: true
-                                    });
-                                </script>								<div class="help-block"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label">更新时间</label>
-                            <div class="col-lg-10 col-sm-10">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="update_time" name="update_time" value="{$info.update_time|date='Y-m-d H:i:s',###}" readonly size="15">
-                                    <span class="input-group-addon"><i class="fa fa-th"></i></span>
-                                </div>
-                                <script>
-                                    $('#update_time').fdatepicker({
-                                        format: 'yyyy-mm-dd hh:ii:ss',
-                                        pickTime: true
-                                    });
-                                </script>								<div class="help-block"></div>
-                            </div>
-                        </div>-->
+
                         <input type="hidden" name="create_time" value="{$time}"/>
                         <input type="hidden" name="update_time" value="{$time}"/>
 
                         <input type="hidden" name="category_id" value="1"/>
 
                         <input type="hidden" name="model_id" value="4"/>
-                        <input type="hidden" name="id" value="1"/>
+                        <input type="hidden" name="id" value="{$info.id}"/>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-lg-offset-2 col-lg-10">
-                    <input type="hidden" name="id" value="1">
                     <button class="btn btn-success submit-btn ajax-post" type="submit" target-form="form-horizontal">确 定</button>
                     <button class="btn btn-danger btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
                 </div>

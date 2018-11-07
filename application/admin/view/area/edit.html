@@ -73,8 +73,8 @@
 				<div class="col-lg-10" style="color: #666">
 
 					<input type="button" id="open_map" value="位置标注" style="color: #000;">
-					经度<input name="lng" readonly="readonly" type="text" size="11" id="lng" value="" style="border: none;">
-					纬度<input name="lat" readonly="readonly" type="text" size="10" id="lat" value="" style="border: none;">
+					经度<input name="lng" readonly="readonly" type="text" size="11" id="lng" value="{$info.lng}" style="border: none;">
+					纬度<input name="lat" readonly="readonly" type="text" size="10" id="lat" value="{$info.lat}" style="border: none;">
 
 				</div>
 			</div>
@@ -131,7 +131,7 @@
 				</div>
 			</div>
 
-			<div class="form-group">
+			<!--<div class="form-group">
 				<label class="col-lg-2 control-label">状态</label>
 				<div class="col-lg-10 col-sm-10">
 					<select class="form-control" name="status" id="status" style="width:auto;">
@@ -140,8 +140,9 @@
 					</select>
 					<div class="help-block"></div>
 				</div>
-			</div>
-			
+			</div>-->
+
+			<input type="hidden" name="status" value="{$info['status']}"/>
 			
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">

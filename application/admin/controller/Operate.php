@@ -15,22 +15,12 @@ class Operate extends Admin
     public function __construct(Request $request = null)
     {
         parent::__construct($request);
-        $time = date("Y-m-d H:i:s");
+        $time = time();
 
         $this->assign('time',$time);
     }
-
+    //首页banner图列表
     public function index(){
-        /*$order = "id desc";
-        $list = db('Page')->order($order)->paginate(10);
-        $data = array(
-            'list' => $list,
-            'page' => $list->render(),
-        );
-        $this->assign($data);
-        $this->assign('model_id','4');//单页
-        */
-
         $order = "id desc";
         $where = [];
         $where['category_id '] = 1;
@@ -40,8 +30,19 @@ class Operate extends Admin
         $this->setMeta("图片列表");
         return $this->fetch();
     }
+    //报名页 banner图列表
+    public function banner(){
+        $order = "id desc";
+        $where = [];
+        $where['category_id '] = 8;
+        $list = db('Document')->where($where)->order($order)->select();
 
-    //添加
+        $this->assign('list',$list);
+        $this->setMeta("图片列表");
+        return $this->fetch();
+    }
+
+    //首页banner图 添加
     public function add() {
         $document = model('Document');
 
@@ -53,6 +54,7 @@ class Operate extends Admin
             if(empty($data['cover_id'])){
                 return $this->error("缩略图不能为空！");
             }
+
 
 
             if ($data) {
@@ -72,14 +74,90 @@ class Operate extends Admin
             }
         } else {
 
-            $time = date("Y-m-d H:i:s");
-
-            $this->assign('time',$time);
             $this->setMeta("添加");
             return $this->fetch('add');
         }
     }
-    //修改
+
+    //报名页banner图 添加
+    public function banner_add() {
+        $document = model('Document');
+
+        if (IS_POST) {
+            $data = input('post.');
+            if(empty($data['title'])){
+                return $this->error("标题不能为空！");
+            }
+            if(empty($data['cover_id'])){
+                return $this->error("缩略图不能为空！");
+            }
+
+
+
+            if ($data) {
+
+                $result = $document->save($data);
+
+
+                if ($result) {
+                    return $this->success("添加成功！", url('Operate/banner'));
+                } else {
+
+                    return $this->error($document->getError());
+                }
+
+            } else {
+                return $this->error($document->getError());
+            }
+        } else {
+
+            $this->setMeta("添加");
+            return $this->fetch('banner_add');
+        }
+    }
+
+
+    //最美鼎吉 滚动图片添加
+    public function beautiful_add() {
+        $document = model('Document');
+
+        if (IS_POST) {
+            $data = input('post.');
+            if(empty($data['title'])){
+                return $this->error("标题不能为空！");
+            }
+            if(empty($data['cover_id'])){
+                return $this->error("缩略图不能为空！");
+            }
+
+
+
+            if ($data) {
+
+                $result = $document->save($data);
+
+
+                if ($result) {
+                    return $this->success("添加成功！", url('Operate/beautiful'));
+                } else {
+
+                    return $this->error($document->getError());
+                }
+
+            } else {
+                return $this->error($document->getError());
+            }
+        } else {
+
+            $this->setMeta("添加");
+            return $this->fetch('beautiful_add');
+        }
+    }
+
+
+
+
+    //首页banner图 修改
     public function edit() {
         $link = model('Document');
         $id   = input('id', '', 'trim,intval');
@@ -109,22 +187,109 @@ class Operate extends Admin
                 'info'    => $info,
             );
             $this->assign($data);
-            $time = date("Y-m-d H:i:s");
+            $this->setMeta("图片修改");
+            return $this->fetch();
+        }
+    }
 
-            $this->assign('time',$time);
+    //报名页banner图 修改
+    public function banner_edit() {
+        $link = model('Document');
+        $id   = input('id', '', 'trim,intval');
+        if (IS_POST) {
+            $data = input('post.');
+
+            if(empty($data['title'])){
+                return $this->error("标题不能为空！");
+            }
+
+
+            if ($data) {
+                $result = $link->save($data, array('id' => $data['id']));
+                if ($result) {
+                    return $this->success("修改成功！", url('Operate/banner'));
+                } else {
+                    return $this->error("修改失败！");
+                }
+            } else {
+                return $this->error($link->getError());
+            }
+        } else {
+            $map  = array('id' => $id);
+            $info = db('Document')->where($map)->find();
+
+            $data = array(
+                'info'    => $info,
+            );
+            $this->assign($data);
             $this->setMeta("图片修改");
             return $this->fetch();
         }
     }
 
 
-    //走进鼎吉
-    public function about(){
-        $link = model('Page');
+    public function beautiful_edit() {
+        $link = model('Document');
         $id   = input('id', '', 'trim,intval');
         if (IS_POST) {
             $data = input('post.');
 
+            if(empty($data['title'])){
+                return $this->error("标题不能为空！");
+            }
+
+
+            if ($data) {
+                $result = $link->save($data, array('id' => $data['id']));
+                if ($result) {
+                    return $this->success("修改成功！", url('Operate/beautiful'));
+                } else {
+                    return $this->error("修改失败！");
+                }
+            } else {
+                return $this->error($link->getError());
+            }
+        } else {
+            $map  = array('id' => $id);
+            $info = db('Document')->where($map)->find();
+
+            $data = array(
+                'info'    => $info,
+            );
+            $this->assign($data);
+            $this->setMeta("图片修改");
+            return $this->fetch();
+        }
+    }
+
+
+    //删除
+    public function del(){
+        $id = $this->getArrayParam('id');
+        if (empty($id)) {
+            return $this->error('非法操作！');
+        }
+        $link = db('Document');
+
+        $map    = array('id' => array('IN', $id));
+        $result = $link->where($map)->delete();
+        if ($result) {
+            return $this->success("删除成功！");
+        } else {
+            return $this->error("删除失败！");
+        }
+
+    }
+
+
+    //走进鼎吉
+    public function about(){
+        $link = model('Page');
+        if (IS_POST) {
+            $data = [];
+            $data['id'] = input('id', '', 'trim,intval');
+            $data['title'] = input('title','', 'htmlspecialchars,trim');
+            $data['content'] = input('content');
             if(empty($data['title'])){
                 return $this->error("标题不能为空！");
             }
@@ -136,6 +301,22 @@ class Operate extends Admin
             if ($data) {
                 $result = $link->save($data, array('id' => $data['id']));
                 if ($result) {
+
+                    //修改首页展示图
+                    $pic['cover_id'] = input('cover_id','','trim,intval');
+                    $pic1['cover_id1'] = input('cover_id1','','trim,intval');
+                    $pic2['cover_id2'] = input('cover_id2','','trim,intval');
+                    $pic3['cover_id3'] = input('cover_id3','','trim,intval');
+                    $pic4['cover_id4'] = input('cover_id4','','trim,intval');
+
+                    model("Document")->where(array('id'=>21))->setField($pic);
+                    model("Document")->where(array('id'=>22))->setField($pic1);
+                    model("Document")->where(array('id'=>23))->setField($pic2);
+                    model("Document")->where(array('id'=>24))->setField($pic3);
+                    model("Document")->where(array('id'=>25))->setField($pic4);
+
+
+
                     return $this->success("修改成功！", url('Operate/about'));
                 } else {
                     return $this->error("修改失败！");
@@ -144,12 +325,27 @@ class Operate extends Admin
                 return $this->error($link->getError());
             }
         } else {
-            $map  = array('id' => 1);
-            $info = db('Page')->where($map)->find();
 
+            $info = db('Page')->find(1);
             $data = array(
                 'info'    => $info,
             );
+
+
+            //首页展示图
+            $w = array("category_id"=>3);
+            $step = db("Document")->where($w)->find(21);
+            $this->assign("step",$step);
+            $step1 = db("Document")->where($w)->find(22);
+            $this->assign("step1",$step1);
+            $step2 = db("Document")->where($w)->find(23);
+            $this->assign("step2",$step2);
+            $step3 = db("Document")->where($w)->find(24);
+            $this->assign("step3",$step3);
+            $step4 = db("Document")->where($w)->find(25);
+            $this->assign("step4",$step4);
+
+
             $this->assign($data);
             $this->setMeta("走进鼎吉");
             return $this->fetch();
@@ -184,13 +380,22 @@ class Operate extends Admin
                 return $this->error($link->getError());
             }
         } else {
-            $map  = array('id' => 2);
-            $info = db('Page')->where($map)->find();
 
+            $info = db('Page')->find(2);
             $data = array(
                 'info'    => $info,
             );
             $this->assign($data);
+
+            //首页滚动图
+            $order = "id desc";
+            $where = [];
+            $where['category_id '] = 9;
+            $list = db('Document')->where($where)->order($order)->select();
+
+            $this->assign('list',$list);
+
+
             $this->setMeta("发现最美鼎吉");
             return $this->fetch();
         }
@@ -200,10 +405,11 @@ class Operate extends Admin
     //教练风采
     public function coach(){
         $link = model('Page');
-        $id   = input('id', '', 'trim,intval');
         if (IS_POST) {
-            $data = input('post.');
-
+            $data = [];
+            $data['id'] = input('id', '', 'trim,intval');
+            $data['title'] = input('title','', 'htmlspecialchars,trim');
+            $data['content'] = input('content');
             if(empty($data['title'])){
                 return $this->error("标题不能为空！");
             }
@@ -215,6 +421,21 @@ class Operate extends Admin
             if ($data) {
                 $result = $link->save($data, array('id' => $data['id']));
                 if ($result) {
+
+                    //修改首页展示图
+                    $pic['cover_id'] = input('cover_id','','trim,intval');
+                    $pic1['cover_id1'] = input('cover_id1','','trim,intval');
+                    $pic2['cover_id2'] = input('cover_id2','','trim,intval');
+                    $pic3['cover_id3'] = input('cover_id3','','trim,intval');
+                    $pic4['cover_id4'] = input('cover_id4','','trim,intval');
+
+                    model("Document")->where(array('id'=>26))->setField($pic);
+                    model("Document")->where(array('id'=>27))->setField($pic1);
+                    model("Document")->where(array('id'=>28))->setField($pic2);
+                    model("Document")->where(array('id'=>29))->setField($pic3);
+                    model("Document")->where(array('id'=>30))->setField($pic4);
+
+
                     return $this->success("修改成功！", url('Operate/coach'));
                 } else {
                     return $this->error("修改失败！");
@@ -223,13 +444,26 @@ class Operate extends Admin
                 return $this->error($link->getError());
             }
         } else {
-            $map  = array('id' => 3);
-            $info = db('Page')->where($map)->find();
-
+            $info = db('Page')->find(3);
             $data = array(
                 'info'    => $info,
             );
             $this->assign($data);
+
+            //首页展示图
+            $w = array("category_id"=>10);
+            $step = db("Document")->where($w)->find(26);
+            $this->assign("step",$step);
+            $step1 = db("Document")->where($w)->find(27);
+            $this->assign("step1",$step1);
+            $step2 = db("Document")->where($w)->find(28);
+            $this->assign("step2",$step2);
+            $step3 = db("Document")->where($w)->find(29);
+            $this->assign("step3",$step3);
+            $step4 = db("Document")->where($w)->find(30);
+            $this->assign("step4",$step4);
+
+
             $this->setMeta("教练风采");
             return $this->fetch();
         }
@@ -239,10 +473,11 @@ class Operate extends Admin
     //团队风采
     public function team(){
         $link = model('Page');
-        $id   = input('id', '', 'trim,intval');
         if (IS_POST) {
-            $data = input('post.');
-
+            $data = [];
+            $data['id'] = input('id', '', 'trim,intval');
+            $data['title'] = input('title','', 'htmlspecialchars,trim');
+            $data['content'] = input('content');
             if(empty($data['title'])){
                 return $this->error("标题不能为空！");
             }
@@ -254,6 +489,21 @@ class Operate extends Admin
             if ($data) {
                 $result = $link->save($data, array('id' => $data['id']));
                 if ($result) {
+
+                    //修改首页展示图
+                    $pic['cover_id'] = input('cover_id','','trim,intval');
+                    $pic1['cover_id1'] = input('cover_id1','','trim,intval');
+                    $pic2['cover_id2'] = input('cover_id2','','trim,intval');
+                    $pic3['cover_id3'] = input('cover_id3','','trim,intval');
+                    $pic4['cover_id4'] = input('cover_id4','','trim,intval');
+
+                    model("Document")->where(array('id'=>31))->setField($pic);
+                    model("Document")->where(array('id'=>32))->setField($pic1);
+                    model("Document")->where(array('id'=>33))->setField($pic2);
+                    model("Document")->where(array('id'=>34))->setField($pic3);
+                    model("Document")->where(array('id'=>35))->setField($pic4);
+
+
                     return $this->success("修改成功！", url('Operate/team'));
                 } else {
                     return $this->error("修改失败！");
@@ -262,13 +512,26 @@ class Operate extends Admin
                 return $this->error($link->getError());
             }
         } else {
-            $map  = array('id' => 4);
-            $info = db('Page')->where($map)->find();
-
+            $info = db('Page')->find(4);
             $data = array(
                 'info'    => $info,
             );
             $this->assign($data);
+
+            //首页展示图
+            $w = array("category_id"=>11);
+            $step = db("Document")->where($w)->find(31);
+            $this->assign("step",$step);
+            $step1 = db("Document")->where($w)->find(32);
+            $this->assign("step1",$step1);
+            $step2 = db("Document")->where($w)->find(33);
+            $this->assign("step2",$step2);
+            $step3 = db("Document")->where($w)->find(34);
+            $this->assign("step3",$step3);
+            $step4 = db("Document")->where($w)->find(35);
+            $this->assign("step4",$step4);
+
+
             $this->setMeta("团队风采");
             return $this->fetch();
         }
@@ -279,10 +542,11 @@ class Operate extends Admin
     //学员风采
     public function student(){
         $link = model('Page');
-        $id   = input('id', '', 'trim,intval');
         if (IS_POST) {
-            $data = input('post.');
-
+            $data = [];
+            $data['id'] = input('id', '', 'trim,intval');
+            $data['title'] = input('title','', 'htmlspecialchars,trim');
+            $data['content'] = input('content');
             if(empty($data['title'])){
                 return $this->error("标题不能为空！");
             }
@@ -294,6 +558,20 @@ class Operate extends Admin
             if ($data) {
                 $result = $link->save($data, array('id' => $data['id']));
                 if ($result) {
+
+                    //修改首页展示图
+                    $pic['cover_id'] = input('cover_id','','trim,intval');
+                    $pic1['cover_id1'] = input('cover_id1','','trim,intval');
+                    $pic2['cover_id2'] = input('cover_id2','','trim,intval');
+                    $pic3['cover_id3'] = input('cover_id3','','trim,intval');
+                    $pic4['cover_id4'] = input('cover_id4','','trim,intval');
+
+                    model("Document")->where(array('id'=>36))->setField($pic);
+                    model("Document")->where(array('id'=>37))->setField($pic1);
+                    model("Document")->where(array('id'=>38))->setField($pic2);
+                    model("Document")->where(array('id'=>39))->setField($pic3);
+                    model("Document")->where(array('id'=>40))->setField($pic4);
+
                     return $this->success("修改成功！", url('Operate/student'));
                 } else {
                     return $this->error("修改失败！");
@@ -302,13 +580,25 @@ class Operate extends Admin
                 return $this->error($link->getError());
             }
         } else {
-            $map  = array('id' => 5);
-            $info = db('Page')->where($map)->find();
-
+            $info = db('Page')->find(5);
             $data = array(
                 'info'    => $info,
             );
             $this->assign($data);
+            //首页展示图
+            $w = array("category_id"=>12);
+            $step = db("Document")->where($w)->find(36);
+            $this->assign("step",$step);
+            $step1 = db("Document")->where($w)->find(37);
+            $this->assign("step1",$step1);
+            $step2 = db("Document")->where($w)->find(38);
+            $this->assign("step2",$step2);
+            $step3 = db("Document")->where($w)->find(39);
+            $this->assign("step3",$step3);
+            $step4 = db("Document")->where($w)->find(40);
+            $this->assign("step4",$step4);
+
+
             $this->setMeta("学员风采");
             return $this->fetch();
         }
@@ -319,7 +609,6 @@ class Operate extends Admin
     //最新活动
     public function activity(){
         $link = model('Page');
-        $id   = input('id', '', 'trim,intval');
         if (IS_POST) {
             $data = input('post.');
 
@@ -342,8 +631,7 @@ class Operate extends Admin
                 return $this->error($link->getError());
             }
         } else {
-            $map  = array('id' => 6);
-            $info = db('Page')->where($map)->find();
+            $info = db('Page')->find(13);
 
             $data = array(
                 'info'    => $info,
