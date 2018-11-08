@@ -54,8 +54,10 @@
                     <th width="30"><input class="checkbox check-all" type="checkbox"></th>
                     <th width="60">序号</th>
                     <th>名称</th>
+                    <th>券码</th>
                     <th>金额</th>
-                    <th>物品</th>
+                    <th>总张数</th>
+                    <th>已使用</th>
                     <th>上线时间</th>
                     <th>下线时间</th>
                     <th>报名人数</th>
@@ -69,12 +71,13 @@
                     <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$item['id']}"></td>
                     <td>{$item['id']}</td>
                     <td>{$item['name']}</td>
-                    <td>{$item['amount']}</td>
-                    <td>{$item['gift']}</td>
+                    <td>{$item['code']}</td>
+                    <td>{$item['amount ']}</td>
+                    <td>{$item['total']}</td>
+                    <td>{$item['use']}</td>
                     <td>{$item['online_time']}</td>
                     <td>{$item['downline_time']}</td>
                     <td>{$item['number']}</td>
-
                     <td>
                         {if condition=" $item['status'] eq 0 "}
                         <span class="label label-primary">上线</span>
@@ -86,9 +89,9 @@
 
                         <a href="{:url('edit?id='.$item['id'])}" class="btn btn-info">编辑</a>
                         {if $item['status']}
-                        <a href="{:url('status?id='.$item['id'].'&status=0')}" class="btn btn-success ajax-get">下线</a>
+                        <a href="{:url('status?id='.$item['id'].'&status=0')}" class="btn btn-success ajax-get">启用</a>
                         {else/}
-                        <a href="{:url('status?id='.$item['id'].'&status=1')}" class="btn btn-danger ajax-get">上线</a>
+                        <a href="{:url('status?id='.$item['id'].'&status=1')}" class="btn btn-danger ajax-get">禁用</a>
                         {/if}
 
                         <!--<a href="{:url('delete?id='.$item['id'])}" class="confirm ajax-get table-link">删除</a>-->
@@ -107,4 +110,5 @@
 <script type="text/javascript" src="__PUBLIC__/plugs/webuploader/webuploader.custom.js"></script>
 <script type="text/javascript" src="__PUBLIC__/js/droppable.js"></script>
 <script type="text/javascript" src="__PUBLIC__/plugs/board/board.min.js"></script>
+
 {/block}

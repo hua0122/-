@@ -70,8 +70,9 @@
                     <label>所属场地：</label>
                     <select name="area_id" id="area_id" class="form-control">
                         <option value="">请选择场地</option>
-                        <option value="2" {if isset($area_id) && $area_id==2}selected{/if}>1</option>
-                        <option value="1" {if isset($area_id) && $area_id==1}selected{/if}>2</option>
+                        {volist name="area" id="item"}
+                        <option value="{$item.id}" {if isset($area_id) && $area_id==$item['id']}selected{/if}>{$item.name}</option>
+                        {/volist}
 
                     </select>
                 </div>
@@ -80,8 +81,8 @@
                     <label>参加活动：</label>
                     <select name="activity_id" id="activity_id" class="form-control">
                         <option value="">请选择参加活动类型</option>
-                        <option value="2" {if isset($activity_id) && $activity_id==2}selected{/if}>1</option>
-                        <option value="1" {if isset($activity_id) && $activity_id==1}selected{/if}>2</option>
+                        <option value="1" {if isset($activity_id) && $activity_id==1}selected{/if}>1</option>
+                        <option value="2" {if isset($activity_id) && $activity_id==2}selected{/if}>2</option>
 
                     </select>
                 </div>
@@ -100,30 +101,29 @@
                 <div class="col-sm-12 col-md-4 col-lg-3 tuition" style="width: 50%;float: left; display: none">
                     <br/>
                     <label>欠费：</label>
-                    <input type="text" name="min-tuition" class="price"/>-<input type="text" name="max-tuition" class="price"/>
+                    <input type="number" min="1" name="min_tuition" class="price" value="{$min_tuition}"/>-<input type="number" name="max_tuition" class="price" value="{$max_tuition}"/>
                 </div>
                 <div style="clear: both"></div>
 
                 <div class="col-sm-12 col-md-4 col-lg-3" style="width: 50%;float: left;">
                     <label>班别信息：</label>
-                    <select name="grade" id="grade" class="form-control">
+                    <select name="grade_id" id="grade_id" class="form-control">
                         <option value="">请选择班别</option>
                         <option disabled>上线</option>
-                        <option value="">1</option>
-                        <option value="">1</option>
-                        <option value="">1</option>
-
+                        {volist name="grade_x" id="item"}
+                        <option value="{$item.id}" {if isset($grade_id) && $grade_id==$item['id']}selected{/if}>{$item.name}({$item.version})</option>
+                        {/volist}
                         <option disabled>下线</option>
-                        <option value="">1</option>
-                        <option value="">1</option>
-                        <option value="">1</option>
+                        {volist name="grade_s" id="item"}
+                        <option value="{$item.id}" {if isset($grade_id) && $grade_id==$item['id']}selected{/if}>{$item.name}({$item.version})</option>
+                        {/volist}
 
                     </select>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-3" style="width: 50%;float: left">
                     <br/>
                     <label>价格：</label>
-                    <input type="text" name="min-price" class="price"/>-<input type="text" name="max-price" class="price"/>
+                    <input type="number" min="1" name="min_price" class="price" value="{$min_price}"/>-<input type="number" name="max_price" class="price" value="{$max_price}"/>
                 </div>
 
                 <div style="clear: both"></div>
@@ -131,7 +131,7 @@
 
                 <div class="col-sm-12 col-md-4 col-lg-3" style="width: 100%;">
                     <label>多身份证查询：</label>
-                    <textarea placeholder="多个换行隔开" style="margin-top: 10px;border-color: #e7ebee;" class="form-control"></textarea>
+                    <textarea placeholder="多个换行隔开" name="card" style="margin-top: 10px;border-color: #e7ebee;" class="form-control"></textarea>
 
                 </div>
 
@@ -149,7 +149,7 @@
                 <thead>
                 <tr>
                     <th width="30"><input class="checkbox check-all" type="checkbox"></th>
-                    <th width="150">序号</th>
+                    <th width="50">序号</th>
                     <th>学员姓名</th>
                     <th>电话</th>
                     <th>身份证</th>
@@ -175,12 +175,12 @@
                     <td>{$item['card']}</td>
                     <td>{$item.grade_name}</td>
                     <td>{$item.price}</td>
-                    <td>{$item.area_id}</td>
+                    <td>{$item.area_name}</td>
                     <td>{$item.activity_id}</td>
                     <td>{$item.coupon}</td>
                     <td>{$item.inviter}</td>
                     <td>{$item.inviter}</td>
-                    <td>{$item.sign_date}</td>
+                    <td>{$item.sign_date|date="Y-m-d H:i:s",###}</td>
                     <td>
                         {if condition=" $item['status'] eq 0 "}
                         <span class="label label-danger">退学</span>
@@ -224,6 +224,12 @@
                 $(".tuition").hide();
             }
         });
+
+        if($("#tuition_state option:selected").val()==2){
+            $(".tuition").show();
+        }else{
+            $(".tuition").hide();
+        }
 
 
     })

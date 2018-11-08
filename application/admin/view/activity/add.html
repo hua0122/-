@@ -1,0 +1,123 @@
+{extend name="public/base"/}
+{block name="style"}
+<link rel="stylesheet" href="__PUBLIC__/plugs/tagsinput/bootstrap-tagsinput.css">
+<script src="__PUBLIC__/plugs/tagsinput/bootstrap-tagsinput.js"></script>
+
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugs/webuploader/webuploader.css">
+<!-- 配置文件 -->
+<script type="text/javascript" src="__PUBLIC__/plugs/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__PUBLIC__/plugs/ueditor/ueditor.all.min.js"></script>
+<!-- datepicker statr -->
+<link href="__PUBLIC__/plugs/datepicker/css/foundation-datepicker.min.css" rel="stylesheet" type="text/css">
+<script src="__PUBLIC__/plugs/datepicker/js/foundation-datepicker.js"></script>
+<script src="__PUBLIC__/plugs/datepicker/js/foundation-datepicker.zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugs/board/board.min.css">
+<!-- datepicker end -->
+{/block}
+{block name="body"}
+<div class="main-box clearfix">
+    <header class="main-box-header clearfix">
+        <div class="pull-left">
+            <h2>{:isset($info['id'])?'编辑':'新增'}活动信息</h2>
+        </div>
+        <div class="pull-right"></div>
+    </header>
+    <div class="main-box-body clearfix">
+        <form method="post" class="form form-horizontal" onsubmit="return check()">
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">活动名称</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" name="name" id="name" value="" style="width: 80%">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">活动介绍</label>
+                <div class="col-lg-10">
+                    <textarea class="form-control" name="description" id="description"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">活动金额</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" name="amount" id="amount" value="" style="width: 80%">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">物品名称</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" name="gift" id="gift" value="" style="width: 80%">
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-lg-2 control-label">上线时间</label>
+                <div class="col-lg-10 col-sm-10">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="create_time" name="online_time" value="{$time}" readonly size="15">
+                        <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                    </div>
+                    <script>
+                        $('#create_time').fdatepicker({
+                            format: 'yyyy-mm-dd hh:ii:ss',
+                            pickTime: true
+                        });
+                    </script>								<div class="help-block"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">下线时间</label>
+                <div class="col-lg-10 col-sm-10">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="update_time" name="downline_time" value="{$time}" readonly size="15">
+                        <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                    </div>
+                    <script>
+                        $('#update_time').fdatepicker({
+                            format: 'yyyy-mm-dd hh:ii:ss',
+                            pickTime: true
+                        });
+                    </script>								<div class="help-block"></div>
+                </div>
+            </div>
+
+
+
+
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <input type="hidden" name="id" value="{$info['id']|default=''}">
+                    <button class="btn btn-success submit-btn ajax-post" type="submit" target-form="form-horizontal">确 定</button>
+                    <button class="btn btn-danger btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" src="__PUBLIC__/plugs/webuploader/webuploader.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/plugs/webuploader/webuploader.custom.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/droppable.js"></script>
+<script type="text/javascript" src="__PUBLIC__/plugs/board/board.min.js"></script>
+
+<script type="text/javascript">
+    function check(){
+        if(!$("#name").val()){
+            alert("场地名称不能为空！");
+            return false;
+        }
+    }
+
+
+{/block}
