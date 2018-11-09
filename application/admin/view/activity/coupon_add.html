@@ -19,7 +19,7 @@
 <div class="main-box clearfix">
     <header class="main-box-header clearfix">
         <div class="pull-left">
-            <h2>{:isset($info['id'])?'编辑':'新增'}活动信息</h2>
+            <h2>生成优惠券</h2>
         </div>
         <div class="pull-right"></div>
     </header>
@@ -27,7 +27,7 @@
         <form method="post" class="form form-horizontal" onsubmit="return check()">
 
             <div class="form-group">
-                <label class="col-lg-2 control-label">活动名称</label>
+                <label class="col-lg-2 control-label">券名</label>
                 <div class="col-lg-10">
                     <input type="text" class="form-control" name="name" id="name" value="" style="width: 80%">
 
@@ -35,14 +35,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-lg-2 control-label">活动介绍</label>
-                <div class="col-lg-10">
-                    <textarea class="form-control" name="description" id="description"></textarea>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-lg-2 control-label">活动金额</label>
+                <label class="col-lg-2 control-label">金额</label>
                 <div class="col-lg-10">
                     <input type="text" class="form-control" name="amount" id="amount" value="" style="width: 80%">
 
@@ -50,13 +43,12 @@
             </div>
 
             <div class="form-group">
-                <label class="col-lg-2 control-label">物品名称</label>
+                <label class="col-lg-2 control-label">生成数量</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" name="gift" id="gift" value="" style="width: 80%">
+                    <input type="number" min="1" class="form-control" name="total" id="total" value="" style="width: 80%">
 
                 </div>
             </div>
-
 
             <div class="form-group">
                 <label class="col-lg-2 control-label">上线时间</label>
@@ -92,6 +84,8 @@
 
 
 
+
+
             <div class="form-group">
                 <div class="col-lg-offset-2 col-lg-10">
                     <input type="hidden" name="id" value="{$info['id']|default=''}">
@@ -120,4 +114,4 @@
     }
 
 
-{/block}
+    {/block}

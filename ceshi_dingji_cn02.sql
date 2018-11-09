@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2018 �?11 �?09 �?09:24
+-- 生成日期: 2018 �?11 �?07 �?09:50
 -- 服务器版本: 5.5.53
 -- PHP 版本: 5.5.38
 
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `sent_action_log` (
   KEY `action_ip_ix` (`action_ip`),
   KEY `action_id_ix` (`action_id`),
   KEY `user_id_ix` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表' AUTO_INCREMENT=195 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表' AUTO_INCREMENT=193 ;
 
 --
 -- 转存表中的数据 `sent_action_log`
@@ -274,38 +274,7 @@ INSERT INTO `sent_action_log` (`id`, `action_id`, `user_id`, `action_ip`, `model
 (189, 10, 1, 2130706433, 'Menu', 66, '操作url：/admin/menu/edit/id/66.html', 1, 1541495528),
 (190, 10, 1, 2130706433, 'Menu', 67, '操作url：/admin/menu/edit/id/67.html', 1, 1541495548),
 (191, 10, 1, 2130706433, 'Menu', 43, '操作url：/admin/menu/edit/id/43.html', 1, 1541496140),
-(192, 10, 1, 2130706433, 'Menu', 44, '操作url：/admin/menu/edit/id/44.html', 1, 1541496168),
-(193, 10, 1, 2130706433, 'Menu', 1, '操作url：/admin/menu/edit/id/1.html', 1, 1541661810),
-(194, 10, 1, 2130706433, 'Menu', 58, '操作url：/admin/menu/edit/id/58.html', 1, 1541667732);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `sent_activity`
---
-
-CREATE TABLE IF NOT EXISTS `sent_activity` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL COMMENT '名称',
-  `amount` int(11) NOT NULL COMMENT '金额',
-  `gift` varchar(255) NOT NULL COMMENT '礼物名称',
-  `online_time` int(11) NOT NULL COMMENT '上线时间',
-  `downline_time` int(11) NOT NULL COMMENT '下线时间',
-  `number` int(11) NOT NULL COMMENT '报名人数',
-  `status` tinyint(4) NOT NULL COMMENT '状态 1:上线 0:下线',
-  `description` varchar(300) NOT NULL COMMENT '活动介绍',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='活动管理' AUTO_INCREMENT=5 ;
-
---
--- 转存表中的数据 `sent_activity`
---
-
-INSERT INTO `sent_activity` (`id`, `name`, `amount`, `gift`, `online_time`, `downline_time`, `number`, `status`, `description`) VALUES
-(1, '报名减免', 200, '', 1551292238, 1563402638, 0, 0, '直接报名可以享受200元学费减免'),
-(2, '团报优惠', 300, '', 1531348250, 1563402650, 0, 0, '三人团减免200元\r\n五人团减免300元'),
-(3, '双11报名立减1000', 1000, '', 1521077438, 1594866638, 0, 0, '双11报名立减1000'),
-(4, '加就送', 0, '价值888元跑步机', 1541723450, 1546216250, 0, 0, '报名加200元赠送\r\n价值888元跑步机');
+(192, 10, 1, 2130706433, 'Menu', 44, '操作url：/admin/menu/edit/id/44.html', 1, 1541496168);
 
 -- --------------------------------------------------------
 
@@ -801,44 +770,6 @@ INSERT INTO `sent_channel` (`id`, `pid`, `title`, `url`, `type`, `sort`, `icon`,
 -- --------------------------------------------------------
 
 --
--- 表的结构 `sent_code`
---
-
-CREATE TABLE IF NOT EXISTS `sent_code` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `code` varchar(50) NOT NULL,
-  `amount` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态（0:未使用 1:已使用）',
-  `coupon_id` int(11) NOT NULL COMMENT '优惠券id',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='优惠券码' AUTO_INCREMENT=18 ;
-
---
--- 转存表中的数据 `sent_code`
---
-
-INSERT INTO `sent_code` (`id`, `code`, `amount`, `status`, `coupon_id`) VALUES
-(1, 'iGPvrOCaRJ', 100, 0, 1),
-(2, 'ygLNRJjuQr', 100, 0, 1),
-(3, 'RuivkFLsaM', 100, 0, 1),
-(4, 'aKwiWcNEbY', 100, 0, 1),
-(5, 'gFNiIjyToa', 100, 0, 1),
-(6, 'cpCyXwnVWM', 100, 0, 1),
-(7, 'CKbPmqFXTo', 100, 0, 1),
-(8, 'mOzpjfNuDx', 100, 0, 1),
-(9, 'hdQPWLSCVG', 100, 0, 1),
-(10, 'zlmZCAtWja', 100, 0, 1),
-(11, 'ncCUmtZbgD', 200, 0, 2),
-(12, 'mIvaeYqpwX', 200, 0, 2),
-(13, 'agxSMzZNhU', 200, 0, 2),
-(14, 'FhrwvosKLa', 200, 0, 2),
-(15, 'uoKcXZYWsp', 200, 0, 2),
-(16, 'xtulnrDUca', 500, 0, 3),
-(17, 'OUmsnDIjrZ', 500, 0, 3);
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `sent_config`
 --
 
@@ -901,35 +832,6 @@ INSERT INTO `sent_config` (`id`, `name`, `type`, `title`, `group`, `extra`, `rem
 (41, 'pc_themes', 'text', 'PC站模板', 0, '', '', '', 1480043043, 1480043043, 1, 'default', 0),
 (42, 'mobile_themes', 'text', '手机站模板', 0, '', '', '', 1480043066, 1480043066, 1, 'wap', 0),
 (43, 'nav_type_list', 'textarea', '导航分类', 99, '', '', '', 1481539756, 1481539801, 1, '1:顶部\r\n2:底部', 1);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `sent_coupon`
---
-
-CREATE TABLE IF NOT EXISTS `sent_coupon` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL COMMENT '名称',
-  `code` varchar(50) NOT NULL COMMENT '券码',
-  `amount` smallint(6) NOT NULL COMMENT '金额',
-  `total` int(11) NOT NULL COMMENT '总张数',
-  `use` int(11) NOT NULL COMMENT '已使用张数',
-  `online_time` int(11) NOT NULL COMMENT '上线时间',
-  `downline_time` int(11) NOT NULL COMMENT '下线时间',
-  `number` int(11) NOT NULL COMMENT '报名人数',
-  `status` int(11) NOT NULL COMMENT '状态 1:上线 0:下线',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='优惠券管理' AUTO_INCREMENT=4 ;
-
---
--- 转存表中的数据 `sent_coupon`
---
-
-INSERT INTO `sent_coupon` (`id`, `name`, `code`, `amount`, `total`, `use`, `online_time`, `downline_time`, `number`, `status`) VALUES
-(1, '双11优惠券', '', 100, 10, 0, 1541752733, 1542011933, 0, 0),
-(2, '双11优惠券', '', 200, 5, 0, 1541752774, 1542011974, 0, 0),
-(3, '双11优惠券', '', 500, 2, 0, 1541752814, 1542012014, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1718,7 +1620,7 @@ CREATE TABLE IF NOT EXISTS `sent_grade` (
   `create_time` int(11) NOT NULL,
   `update_time` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='班别管理表' AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='班别管理表' AUTO_INCREMENT=11 ;
 
 --
 -- 转存表中的数据 `sent_grade`
@@ -1734,8 +1636,7 @@ INSERT INTO `sent_grade` (`id`, `version`, `name`, `type`, `price`, `content`, `
 (7, '181105002_v0.4', '班2', 1, '111.00', '1111我 ', '111撒打算东方闪电', 0, 1, '002', 1541401882, 1541401882),
 (8, '181105003_v0.1', '班3', 1, '333.00', '333', '333', 0, 1, '003', 1541401960, 1541401960),
 (9, '181105001_v0.4', '班1', 1, '111.00', '111', '111打', 0, 1, '001', 1541402081, 1541402081),
-(10, '181105001_v0.5', '班1', 1, '111.00', '11123423', '111CVC', 1, 1, '001', 1541402099, 1541402099),
-(11, '181105001_v0.6', '计时全包班', 1, '3480.00', '11123423', '111CVC', 0, 1, '001', 1541731314, 1541731314);
+(10, '181105001_v0.5', '班1', 1, '111.00', '11123423', '111CVC', 0, 1, '001', 1541402099, 1541402099);
 
 -- --------------------------------------------------------
 
@@ -1884,7 +1785,7 @@ CREATE TABLE IF NOT EXISTS `sent_member` (
 --
 
 INSERT INTO `sent_member` (`uid`, `username`, `password`, `nickname`, `email`, `mobile`, `sex`, `birthday`, `qq`, `score`, `signature`, `pos_province`, `pos_city`, `pos_district`, `pos_community`, `salt`, `login`, `reg_ip`, `reg_time`, `last_login_ip`, `last_login_time`, `status`) VALUES
-(1, 'admin', '9d98696a650b7bd9c90f057023951aa3', 'admin', 'admin@admin.com', NULL, 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'nPdbMU', 55, 0, 1489650033, 2130706433, 1541725629, 1),
+(1, 'admin', '9d98696a650b7bd9c90f057023951aa3', 'admin', 'admin@admin.com', NULL, 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'nPdbMU', 53, 0, 1489650033, 2130706433, 1541552952, 1),
 (2, 'test', 'd7c7432365423cc3b473c9e4ac7bc45a', '', 'test@16.com', NULL, 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'BpsVQg', 0, 0, 1497422004, 0, 1497422004, 1),
 (3, 'xkxkxk', '100faf20849f8192835a72da157ba09c', '', '123@qq.com', '13594855872', 1, '0000-00-00', '', 60, 'dasdasd', 0, 0, 0, 0, 'dQJbmu', 0, 0, 1498803351, 0, 1499135716, 1);
 
@@ -1992,7 +1893,7 @@ CREATE TABLE IF NOT EXISTS `sent_menu` (
 --
 
 INSERT INTO `sent_menu` (`id`, `title`, `type`, `icon`, `pid`, `sort`, `url`, `hide`, `tip`, `group`, `is_dev`, `status`) VALUES
-(1, '首页', 'admin', 'home', 0, 0, 'admin/index/index', 0, '', '', 0, 0),
+(1, '首页', 'admin', 'home', 0, 0, 'admin/index/index', 1, '', '', 0, 0),
 (2, '系统', 'admin', 'laptop', 0, 10, 'admin/menu/index', 1, '', '', 0, 0),
 (3, '内容', 'admin', 'list', 0, 2, 'admin/category/index', 1, '', '', 0, 0),
 (4, '权限管理', 'admin', 'user', 0, 1, 'admin/user/index', 0, '', '', 0, 0),
@@ -2049,7 +1950,7 @@ INSERT INTO `sent_menu` (`id`, `title`, `type`, `icon`, `pid`, `sort`, `url`, `h
 (55, '学车协议', 'admin', 'fa fa-edit', 6, 0, '', 0, '', '其他', 0, 0),
 (56, '意见建议', 'admin', 'fa fa-comment', 6, 0, '', 0, '', '其他', 0, 0),
 (57, '活动列表', 'admin', 'fa fa-list', 35, 0, 'admin/activity/index', 0, '', '活动管理', 0, 0),
-(58, '优惠券列表', 'admin', 'fa fa-list', 35, 0, 'admin/activity/coupon', 0, '', '优惠券管理', 0, 0),
+(58, '优惠券列表', 'admin', 'fa fa-list', 35, 0, '', 0, '', '优惠券管理', 0, 0),
 (59, '资源保护', 'admin', 'fa fa-list', 52, 0, 'admin/protect/index', 0, '', '保护系统', 0, 0),
 (60, '开发记录', 'admin', 'fa fa-list', 52, 0, '', 0, '', '保护系统', 0, 0),
 (61, '体检码列表', 'admin', 'fa fa-list', 53, 0, 'admin/code/index', 0, '', '体检管理', 0, 0),
@@ -2326,35 +2227,32 @@ CREATE TABLE IF NOT EXISTS `sent_student` (
   `name` varchar(20) NOT NULL COMMENT '学员姓名',
   `phone` varchar(15) NOT NULL COMMENT '电话',
   `card` varchar(20) NOT NULL COMMENT '身份证',
+  `grade_name` varchar(50) NOT NULL COMMENT '班别名称',
+  `price` decimal(5,2) NOT NULL COMMENT '价格',
   `grade_id` int(11) NOT NULL COMMENT '班别ID',
   `area_id` int(11) NOT NULL COMMENT '场地ID',
   `activity_id` varchar(20) NOT NULL COMMENT '活动ID',
   `coupon` int(11) NOT NULL COMMENT '优惠券ID',
-  `inviter` int(11) NOT NULL COMMENT '邀请人ID(根据此ID查询合伙人和队员)  根据学员填写的推荐码查询推荐人ID',
+  `inviter` int(11) NOT NULL COMMENT '邀请人ID(根据此ID查询合伙人和队员)',
   `sign_date` int(11) NOT NULL COMMENT '报名时间',
   `pay_date` int(11) NOT NULL COMMENT '支付时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态（0：退学 1：正常）',
   `tuition_state` tinyint(4) NOT NULL COMMENT '学费状态（1：全款 2：欠费）',
-  `payable` decimal(9,2) NOT NULL COMMENT '应付款',
-  `payment` decimal(9,2) NOT NULL COMMENT '实付款',
-  `unpaid` decimal(9,2) NOT NULL COMMENT '未付款',
+  `payable` decimal(5,2) NOT NULL COMMENT '应付款',
+  `payment` decimal(5,2) NOT NULL COMMENT '实付款',
+  `unpaid` decimal(5,2) NOT NULL COMMENT '未付款',
   `openId` varchar(50) NOT NULL COMMENT '微信用户',
   `sn` varchar(100) NOT NULL COMMENT '订单编号',
-  `pay_type` tinyint(4) NOT NULL COMMENT '缴费类型（1：线上全款支付 2：线上定金支付 3：线下全款支付 4：线下定金支付）',
-  `payee` int(11) NOT NULL COMMENT '收款人',
-  `remark` varchar(300) NOT NULL COMMENT '收款备注',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='学员管理表' AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='学员管理表' AUTO_INCREMENT=3 ;
 
 --
 -- 转存表中的数据 `sent_student`
 --
 
-INSERT INTO `sent_student` (`id`, `name`, `phone`, `card`, `grade_id`, `area_id`, `activity_id`, `coupon`, `inviter`, `sign_date`, `pay_date`, `status`, `tuition_state`, `payable`, `payment`, `unpaid`, `openId`, `sn`, `pay_type`, `payee`, `remark`) VALUES
-(1, '张三', '13594855879', '500236199101226203', 4, 1, '1,2', 1, 1, 1234567890, 1234567890, 1, 1, '111.00', '111.00', '0.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC4', 'dj_15368421461PCtrZCq', 1, 0, '已确认全部付完'),
-(2, '李四', '13594855878', '500236199101226204', 7, 1, '1', 1, 2, 1234567890, 1234567890, 1, 1, '111.00', '111.00', '0.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC4', 'dj_15368421461PCtrZCw', 1, 0, '已确认全部付清'),
-(3, '王二', '13594855877', '500236199101226202', 4, 2, '1', 2, 2, 1234567890, 1234567890, 1, 2, '111.00', '50.00', '61.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC3', 'dj_15368421461PCtrZCp', 2, 0, '微信支付50'),
-(4, '王三', '13594855871', '500236199101226201', 11, 3, '1', 2, 3, 1234567890, 1234567890, 1, 2, '3480.00', '0.00', '0.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC1', 'dj_15368421461PCtrZCo', 3, 0, '');
+INSERT INTO `sent_student` (`id`, `name`, `phone`, `card`, `grade_name`, `price`, `grade_id`, `area_id`, `activity_id`, `coupon`, `inviter`, `sign_date`, `pay_date`, `status`, `tuition_state`, `payable`, `payment`, `unpaid`, `openId`, `sn`) VALUES
+(1, '张三', '13594855879', '500236199101226203', '班1', '111.00', 4, 1, '1,2', 1, 1, 1234567890, 1234567890, 1, 1, '111.00', '111.00', '0.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC4', 'dj_15368421461PCtrZCq'),
+(2, '李四', '13594855878', '500236199101226204', '班2', '111.00', 7, 1, '1', 1, 2, 1234567890, 1234567890, 1, 1, '111.00', '111.00', '0.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC4', 'dj_15368421461PCtrZCw');
 
 -- --------------------------------------------------------
 

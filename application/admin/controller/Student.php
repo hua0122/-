@@ -40,6 +40,11 @@ class Student extends Admin
             $map['sent_student.area_id'] = $area_id;
         }
 
+        $activity_id = input('activity_id','','trim,intval');//活动id
+        if(!empty($activity_id)){
+            $map['sent_student.activity_id'] = $activity_id;
+        }
+
         $tuition_state = input('tuition_state','','trim,intval');//学费状态
         if(!empty($tuition_state)){
             $map['tuition_state'] = $tuition_state;
@@ -89,7 +94,8 @@ class Student extends Admin
         $list  = db('Student')
             ->join('sent_grade','sent_grade.id=sent_student.grade_id','left')
             ->join('sent_area','sent_area.id=sent_student.area_id','left')
-            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name')
+            ->join('sent_activity','sent_activity.id=sent_student.activity_id','left')
+            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name,sent_activity.name as activity_name')
             ->where($map)->order($order)->paginate(10);
 
         $data = array(
@@ -105,6 +111,7 @@ class Student extends Admin
         $this->assign('max_price',$max_price);
         $this->assign('max_tuition',$max_tuition);
         $this->assign('min_tuition',$min_tuition);
+        $this->assign('activity_id',$activity_id);
 
 
         //班级信息展示
@@ -117,6 +124,116 @@ class Student extends Admin
         $area = db("Area")->select();
         $this->assign("area",$area);
 
+        //活动信息展示
+        $activity = db("Activity")->select();
+        $this->assign("activity",$activity);
+
         return $this->fetch();
     }
+
+
+    public function status() {
+        $id     = $this->getArrayParam('id');
+        $status = input('status', '0', 'trim,intval');
+
+        if (!$id) {
+            return $this->error("非法操作！");
+        }
+
+        $map['id'] = array('IN', $id);
+        $result    = db('Student')->where($map)->setField('status', $status);
+        if ($result) {
+            return $this->success("设置成功！");
+        } else {
+            return $this->error("设置失败！");
+        }
+    }
+
+    //导出
+    public function export(){
+
+        date_default_timezone_set('Asia/Shanghai');
+
+        ob_end_clean();
+        header("content-type:text/html;charset='utf-8'");
+        require_once(PHP_EXCEL.'PHPExcel.php');
+        require_once(PHP_EXCEL.'PHPExcel/IOFactory.php');
+        $objPHPExcel=new \PHPExcel();
+        $iofactory=new \PHPExcel_IOFactory();
+
+        $data  = db('Student')
+            ->join('sent_grade','sent_grade.id=sent_student.grade_id','left')
+            ->join('sent_area','sent_area.id=sent_student.area_id','left')
+            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name')
+            ->select();
+
+        //设置excel列名
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1','ID');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1','学员姓名');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1','电话');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1','身份证号');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1','班别');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1','价格');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1','场地');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1','活动');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1','优惠券');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1','合伙人');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1','队员');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1','报名时间');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M1','应缴');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N1','已缴');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O1','欠费');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P1','缴费时间');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q1','缴费类型');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R1','收款人');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S1','收款备注');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T1','状态');
+
+        //把数据循环写入excel中
+        foreach($data as $key => $value){
+            $key+=2;
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$key,$value['id']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$key,$value['name']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,$value['phone']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$key,$value['card']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$key,$value['grade_name']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$key,$value['price']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,$value['area_name']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,$value['activity_id']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$key,$value['coupon']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$key,$value['inviter']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$key,$value['inviter']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$key,$value['sign_date']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$key,$value['payable']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$key,$value['payment']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$key,$value['unpaid']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$key,$value['pay_date']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,$value['pay_type']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$key,$value['payee']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$key,$value['remark']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$key,$value['status']);
+
+        }
+
+        $this->xiazaiExcel($data,$objPHPExcel,$iofactory);
+
+    }
+
+
+    //导出excel并下载
+    function xiazaiExcel($data,$objPHPExcel,$iofactory){
+        //导出代码
+        $objPHPExcel->getActiveSheet() -> setTitle('学员管理');
+        $objPHPExcel-> setActiveSheetIndex(0);
+        $objWriter = $iofactory -> createWriter($objPHPExcel, 'Excel2007');
+
+        $filename = date("YmdHis").'student.xlsx';
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        $objWriter -> save('php://output');
+
+    }
+
 }

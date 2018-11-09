@@ -30,5 +30,8 @@ define('ICONV_ENABLED', TRUE);
  */
 define ( 'RUNTIME_PATH', __DIR__ . '/data/' );
 
+//定义phpexcel目录
+define('PHP_EXCEL',__DIR__ . '/phpexcel/');
+
 // 加载框架引导文件
 require __DIR__ . '/core/start.php';

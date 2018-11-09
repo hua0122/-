@@ -29,7 +29,7 @@
             <div class="form-group">
                 <label class="col-lg-2 control-label">活动名称</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" name="name" id="name" value="" style="width: 80%">
+                    <input type="text" class="form-control" name="name" id="name" value="{$info.name}" style="width: 80%">
 
                 </div>
             </div>
@@ -37,14 +37,14 @@
             <div class="form-group">
                 <label class="col-lg-2 control-label">活动介绍</label>
                 <div class="col-lg-10">
-                    <textarea class="form-control" name="description" id="description"></textarea>
+                    <textarea class="form-control" name="description" id="description">{$info.description}</textarea>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-lg-2 control-label">活动金额</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" name="amount" id="amount" value="" style="width: 80%">
+                    <input type="text" class="form-control" name="amount" id="amount" value="{$info.amount}" style="width: 80%">
 
                 </div>
             </div>
@@ -52,7 +52,7 @@
             <div class="form-group">
                 <label class="col-lg-2 control-label">物品名称</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" name="gift" id="gift" value="" style="width: 80%">
+                    <input type="text" class="form-control" name="gift" id="gift" value="{$info.gift}" style="width: 80%">
 
                 </div>
             </div>
@@ -62,7 +62,7 @@
                 <label class="col-lg-2 control-label">上线时间</label>
                 <div class="col-lg-10 col-sm-10">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="create_time" name="online_time" value="{$time|date='Y-m-d H:i:s',###}" readonly size="15">
+                        <input type="text" class="form-control" id="create_time" name="online_time" value="{$info.online_time|date='Y-m-d H:i:s',###}" readonly size="15">
                         <span class="input-group-addon"><i class="fa fa-th"></i></span>
                     </div>
                     <script>
@@ -77,7 +77,7 @@
                 <label class="col-lg-2 control-label">下线时间</label>
                 <div class="col-lg-10 col-sm-10">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="update_time" name="downline_time" value="{$time|date='Y-m-d H:i:s',###}" readonly size="15">
+                        <input type="text" class="form-control" id="update_time" name="downline_time" value="{$info.downline_time|date='Y-m-d H:i:s',###}" readonly size="15">
                         <span class="input-group-addon"><i class="fa fa-th"></i></span>
                     </div>
                     <script>
@@ -120,4 +120,4 @@
     }
 
 
-{/block}
+    {/block}
