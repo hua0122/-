@@ -141,6 +141,7 @@ class Activity extends Admin
             'page' => $list->render(),
         );
         $this->assign($data);
+        $this->assign('status',$status);
 
         $this->setMeta("优惠券管理");
         return $this->fetch();
@@ -225,7 +226,7 @@ class Activity extends Admin
             'page' => $list->render(),
         );
         $this->assign($data);
-
+        $this->assign('status',$status);
 
 
         $this->setMeta("券码列表");

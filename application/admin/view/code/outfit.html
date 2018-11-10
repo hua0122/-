@@ -22,24 +22,12 @@
         <div class="pull-left">
             <h2>{$meta_title}</h2>
         </div>
+        <div class="pull-right">
+            <a class="btn btn-primary" href="{:url('outfit_add')}">新 增</a>
+            <button class="btn btn-danger ajax-post confirm" url="{:url('outfit_delete')}" target-form="ids">删 除</button>
+        </div>
     </header>
     <div class="main-box-body clearfix">
-        <div class="row">
-            <form method="get">
-                <div class="col-sm-12 col-md-4 col-lg-3">
-                    <select name="status" id="status" class="form-control">
-                        <option value="">请选择状态</option>
-                        <option value="2" {if isset($status) && $status==2}selected{/if} selected>未使用</option>
-                        <option value="1" {if isset($status) && $status==1}selected{/if}>已使用</option>
-
-                    </select>
-                </div>
-                <div class="col-sm-12 col-md-4">
-                    <button class="btn btn-primary" type="submit">查询</button>
-                </div>
-            </form>
-        </div>
-
 
         <div class="table-responsive clearfix">
             <table class="table table-hover">
@@ -47,9 +35,10 @@
                 <tr>
                     <th width="30"><input class="checkbox check-all" type="checkbox"></th>
                     <th width="60">序号</th>
-                    <th>兑换码</th>
-                    <th>金额</th>
+                    <th>名称</th>
+                    <th>地址</th>
                     <th>状态</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -57,14 +46,22 @@
                 <tr>
                     <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$item['id']}"></td>
                     <td>{$item['id']}</td>
-                    <td>{$item['code']}</td>
-                    <td>{$item['amount']}</td>
+                    <td>{$item['name']}</td>
+                    <td>{$item['address']}</td>
                     <td>
                         {if condition="$item['status']"}
-                            <span class="label label-info">已使用</span>
+                        <span class="label label-primary">启用</span>
                         {else}
-                        <span class="label label-primary">未使用</span>
+                        <span class="label label-danger">禁用</span>
                         {/if}
+                    </td>
+                    <td>
+                        <a href="{:url('station_list?id='.$item['id'])}" class="btn btn-success">体检站</a>
+
+                        <a href="{:url('outfit_edit?id='.$item['id'])}" class="btn btn-info">编辑</a>
+
+
+                        <a href="{:url('outfit_delete?id='.$item['id'])}" class="btn btn-danger ajax-get">删除</a>
                     </td>
 
                 </tr>

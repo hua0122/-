@@ -19,7 +19,7 @@
 <div class="main-box clearfix">
     <header class="main-box-header clearfix">
         <div class="pull-left">
-            <h2>生成优惠券</h2>
+            <h2>编辑机构</h2>
         </div>
         <div class="pull-right"></div>
     </header>
@@ -27,62 +27,20 @@
         <form method="post" class="form form-horizontal" onsubmit="return check()">
 
             <div class="form-group">
-                <label class="col-lg-2 control-label">券名</label>
+                <label class="col-lg-2 control-label">名称</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" name="name" id="name" value="" style="width: 80%">
+                    <input type="text" class="form-control" name="name" id="name" value="{$info.name}" style="width: 80%">
 
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-lg-2 control-label">金额</label>
+                <label class="col-lg-2 control-label">地址</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" name="amount" id="amount" value="" style="width: 80%">
+                    <input type="text" class="form-control" name="address" id="address" value="{$info.address}" style="width: 80%">
 
                 </div>
             </div>
-
-            <div class="form-group">
-                <label class="col-lg-2 control-label">生成数量</label>
-                <div class="col-lg-10">
-                    <input type="number" min="1" class="form-control" name="total" id="total" value="" style="width: 80%">
-
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-lg-2 control-label">上线时间</label>
-                <div class="col-lg-10 col-sm-10">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="create_time" name="online_time" value="{$time|date='Y-m-d H:i:s',###}" readonly size="15">
-                        <span class="input-group-addon"><i class="fa fa-th"></i></span>
-                    </div>
-                    <script>
-                        $('#create_time').fdatepicker({
-                            format: 'yyyy-mm-dd hh:ii:ss',
-                            pickTime: true
-                        });
-                    </script>								<div class="help-block"></div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-lg-2 control-label">下线时间</label>
-                <div class="col-lg-10 col-sm-10">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="update_time" name="downline_time" value="{$time|date='Y-m-d H:i:s',###}" readonly size="15">
-                        <span class="input-group-addon"><i class="fa fa-th"></i></span>
-                    </div>
-                    <script>
-                        $('#update_time').fdatepicker({
-                            format: 'yyyy-mm-dd hh:ii:ss',
-                            pickTime: true
-                        });
-                    </script>								<div class="help-block"></div>
-                </div>
-            </div>
-
-
-
 
 
 
@@ -108,10 +66,11 @@
 <script type="text/javascript">
     function check(){
         if(!$("#name").val()){
-            alert("场地名称不能为空！");
+            alert("名称不能为空！");
             return false;
         }
     }
+
 </script>
 
 {/block}

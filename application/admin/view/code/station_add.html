@@ -1,0 +1,175 @@
+{extend name="public/base"/}
+{block name="style"}
+<link rel="stylesheet" href="__PUBLIC__/plugs/tagsinput/bootstrap-tagsinput.css">
+<script src="__PUBLIC__/plugs/tagsinput/bootstrap-tagsinput.js"></script>
+
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugs/webuploader/webuploader.css">
+<!-- 配置文件 -->
+<script type="text/javascript" src="__PUBLIC__/plugs/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__PUBLIC__/plugs/ueditor/ueditor.all.min.js"></script>
+<!-- datepicker statr -->
+<link href="__PUBLIC__/plugs/datepicker/css/foundation-datepicker.min.css" rel="stylesheet" type="text/css">
+<script src="__PUBLIC__/plugs/datepicker/js/foundation-datepicker.js"></script>
+<script src="__PUBLIC__/plugs/datepicker/js/foundation-datepicker.zh-CN.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/plugs/board/board.min.css">
+<!-- datepicker end -->
+{/block}
+{block name="body"}
+<div id="bd_map" style="display: block; position: absolute;width: 716px;left: 180px;top: 50px;z-index: -2017;">
+	<table style="background-color:#f6f6f6;">
+		<tbody>
+		<tr>
+			<td colspan="2">
+				<div>
+					<div class="aui_title" style="cursor: move;height: 28px;line-height: 27px;padding-top:0px;padding-right: 28px;padding-bottom: 0px;padding-left: 10px;font-weight: bold;">BaiduMap</div>
+					<a class="aui_close" id="close" href="javascript:void(0);" style="padding: 0;top: 4px;right: 4px;width: 21px;line-height: 21px;font-size: 18px;color: #333333;overflow: hidden;display: block;position: absolute;text-decoration: none;outline: none;">×</a>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding-bottom: 0px;width: 700px;height: 430px;visibility: visible;">
+				<div id="l-map" style="display: block;width: 100%;margin: 0;padding: 0!important;height: 100%;"></div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="aui_footer">
+				<div class="aui_buttons" style="background-color: #f6f6f6;border-top-width:1px;border-top-style: solid;border-top-color: rgb(218,222,229);padding: 8px;text-align: right;white-space: nowrap;">
+					<button type="button" id="confirm" style="margin-left: 15px;padding-top: 6px;padding-right: 8px;padding-bottom: 6px;padding-left: 8px;cursor: pointer;display: inline-block;text-align: center;line-height: 1;letter-spacing: 2px;overflow: visible;border-radius: 5px;border: solid 1px #999999;">确定</button>
+					<button type="button" id="cancel" style="margin-left: 15px;padding-top: 6px;padding-right: 8px;padding-bottom: 6px;padding-left: 8px;cursor: pointer;display: inline-block;text-align: center;line-height: 1;letter-spacing: 2px;overflow: visible;border-radius: 5px;border: solid 1px #999999;">取消</button>
+				</div>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+
+
+
+<div class="main-box clearfix">
+	<header class="main-box-header clearfix">
+		<div class="pull-left">
+			<h2>{:isset($info['id'])?'编辑':'新增'}体检站信息</h2>
+		</div>
+		<div class="pull-right"></div>
+	</header>
+	<div class="main-box-body clearfix">
+		<form method="post" class="form form-horizontal" onsubmit="return check()">
+
+			<div class="form-group">
+				<label class="col-lg-2 control-label">名称</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="name" id="name" value="{$info.name|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+
+
+
+			<div class="form-group">
+				<label class="col-lg-2 control-label">详细地址</label>
+				<div class="col-lg-10">
+					<input type="text" class="form-control" name="address" id="address" value="{$info.address|default=''}" style="width: 80%">
+					
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-2 control-label">位置</label>
+				<div class="col-lg-10" style="color: #666">
+
+						<input type="button" id="open_map" value="位置标注" style="color: #000;">
+						经度<input name="lng" readonly="readonly" type="text" size="11" id="lng" value="" style="border: none;">
+						纬度<input name="lat" readonly="readonly" type="text" size="10" id="lat" value="" style="border: none;">
+
+				</div>
+			</div>
+
+			<input type="hidden" value="{$id}" name="outfit_id">
+
+
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<input type="hidden" name="id" value="{$info['id']|default=''}">
+					<button class="btn btn-success submit-btn ajax-post" type="submit" target-form="form-horizontal">确 定</button>
+					<button class="btn btn-danger btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" src="__PUBLIC__/plugs/webuploader/webuploader.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/plugs/webuploader/webuploader.custom.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/droppable.js"></script>
+<script type="text/javascript" src="__PUBLIC__/plugs/board/board.min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DBd897f58d7a63e585485e3dea011253"></script>
+
+<script type="text/javascript">
+    function check(){
+        if(!$("#name").val()){
+            alert("场地名称不能为空！");
+            return false;
+        }
+        if(!$("#address").val()){
+            alert("场地地址不能为空！");
+            return false;
+        }
+        if(!$("#field_cover_id").val()){
+            alert("封面图不能为空！");
+            return false;
+        }
+    }
+
+
+    $(function(){
+        // 百度地图API功能
+        var map = new BMap.Map("l-map");
+        var p_lng;
+        var p_lat;
+        p_lng = $("#lng").val();
+        p_lat = $("#lat").val();
+        //判断 如果是新建的标注无值 就取默认的定位，如果标注有值 就取出值标注定位到地图
+        if((p_lng==null||p_lng==''||p_lng==undefined)&&(p_lat==null||p_lat==''||p_lat==undefined)){
+            p_lng = 106.559614;
+            p_lat = 29.567507;
+        } else {
+            p_lng = $("#lng").val();
+            p_lat = $("#lat").val();
+        }
+        var point = new BMap.Point(p_lng,p_lat);
+        map.centerAndZoom(point, 12);
+        map.enableScrollWheelZoom(true);   //缩放地图
+        var marker = new BMap.Marker(point);// 创建标注
+        map.addOverlay(marker);             // 将标注添加到地图中
+        marker.enableDragging();           // 可拖拽
+        $("#close").click(function(){
+            $("#bd_map").css("z-index",-2017);
+        });
+
+        $("#cancel").click(function(){
+            $("#bd_map").css("z-index",-2017);
+        });
+
+        $("#open_map").click(function(){
+            $("#bd_map").css("z-index",2017);
+        });
+
+        $("#confirm").click(function(){
+            var p = marker.getPosition();       //获取marker的位置
+            var lng = p.lng;
+            var lat = p.lat;
+            $("#lng").val(lng);
+            $("#lat").val(lat);
+            $("#bd_map").css("z-index",-2017);
+        });
+    });
+
+
+
+</script>
+
+{/block}

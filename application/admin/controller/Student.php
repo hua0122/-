@@ -167,6 +167,7 @@ class Student extends Admin
             ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name')
             ->select();
 
+
         //设置excel列名
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1','ID');
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1','学员姓名');

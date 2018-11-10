@@ -22,24 +22,13 @@
         <div class="pull-left">
             <h2>{$meta_title}</h2>
         </div>
+        <div class="pull-right">
+            <!--<a class="btn btn-primary" href="{:url('add')}">新 增</a>
+            <button class="btn btn-danger ajax-post confirm" url="{:url('delete')}" target-form="ids">删 除</button>
+            -->
+        </div>
     </header>
     <div class="main-box-body clearfix">
-        <div class="row">
-            <form method="get">
-                <div class="col-sm-12 col-md-4 col-lg-3">
-                    <select name="status" id="status" class="form-control">
-                        <option value="">请选择状态</option>
-                        <option value="2" {if isset($status) && $status==2}selected{/if} selected>未使用</option>
-                        <option value="1" {if isset($status) && $status==1}selected{/if}>已使用</option>
-
-                    </select>
-                </div>
-                <div class="col-sm-12 col-md-4">
-                    <button class="btn btn-primary" type="submit">查询</button>
-                </div>
-            </form>
-        </div>
-
 
         <div class="table-responsive clearfix">
             <table class="table table-hover">
@@ -47,9 +36,14 @@
                 <tr>
                     <th width="30"><input class="checkbox check-all" type="checkbox"></th>
                     <th width="60">序号</th>
-                    <th>兑换码</th>
-                    <th>金额</th>
-                    <th>状态</th>
+                    <th>姓名</th>
+                    <th>电话</th>
+                    <th>体检站</th>
+                    <th>体检码</th>
+                    <th>验证码</th>
+                    <th>是否付款</th>
+                    <th>申请时间</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -57,14 +51,24 @@
                 <tr>
                     <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$item['id']}"></td>
                     <td>{$item['id']}</td>
+                    <td>{$item['name']}</td>
+                    <td>{$item['phone']}</td>
+                    <td>({$item['outfit_name']}){$item['station_name']}</td>
                     <td>{$item['code']}</td>
-                    <td>{$item['amount']}</td>
+                    <td>{$item['verify']}</td>
                     <td>
-                        {if condition="$item['status']"}
-                            <span class="label label-info">已使用</span>
+                        {if condition="$item['is_pay']"}
+                        <span class="label label-success">已付款</span>
                         {else}
-                        <span class="label label-primary">未使用</span>
+                        <span class="label label-danger">未付款</span>
                         {/if}
+                    </td>
+                    <td>{$item['create_time']|date='Y-m-d H:i:s',###}</td>
+
+                    <td>
+
+                        <a href="{:url('apply_edit?id='.$item['id'])}" class="btn btn-info">编辑</a>
+
                     </td>
 
                 </tr>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2018 �?11 �?10 �?09:08
+-- 生成日期: 2018 �?11 �?09 �?09:24
 -- 服务器版本: 5.5.53
 -- PHP 版本: 5.5.38
 
@@ -397,33 +397,6 @@ CREATE TABLE IF NOT EXISTS `sent_ad_place` (
 
 INSERT INTO `sent_ad_place` (`id`, `title`, `name`, `show_type`, `show_num`, `start_time`, `end_time`, `create_time`, `update_time`, `template`, `status`) VALUES
 (1, '首页幻灯片', 'banner', 1, 5, 0, 0, 1440433367, 1440433367, '', 1);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `sent_apply`
---
-
-CREATE TABLE IF NOT EXISTS `sent_apply` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL COMMENT '姓名',
-  `phone` varchar(15) NOT NULL COMMENT '电话',
-  `station_id` int(11) NOT NULL COMMENT '体检站',
-  `code_id` int(11) NOT NULL COMMENT '体检码',
-  `is_pay` tinyint(4) NOT NULL COMMENT '是否付款(1:已付款 0：未付款)',
-  `create_time` int(11) NOT NULL COMMENT '申请时间',
-  `openid` varchar(200) NOT NULL COMMENT '用户openid',
-  `sn` varchar(200) NOT NULL COMMENT '订单标号',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='体检申请表' AUTO_INCREMENT=3 ;
-
---
--- 转存表中的数据 `sent_apply`
---
-
-INSERT INTO `sent_apply` (`id`, `name`, `phone`, `station_id`, `code_id`, `is_pay`, `create_time`, `openid`, `sn`) VALUES
-(1, '张三', '13594855879', 1, 1, 0, 1540978129, 'o2l0cwkQxENh7euCIIORxCH1RYtY', 'tjnew_15203099148SS7iIPL'),
-(2, '李四', '13594855878', 1, 2, 1, 1540978129, 'o2l0cwkQxENh7euCIIORxCH1RYtq', 'tjnew_15203099148SS7iIPZ');
 
 -- --------------------------------------------------------
 
@@ -1911,7 +1884,7 @@ CREATE TABLE IF NOT EXISTS `sent_member` (
 --
 
 INSERT INTO `sent_member` (`uid`, `username`, `password`, `nickname`, `email`, `mobile`, `sex`, `birthday`, `qq`, `score`, `signature`, `pos_province`, `pos_city`, `pos_district`, `pos_community`, `salt`, `login`, `reg_ip`, `reg_time`, `last_login_ip`, `last_login_time`, `status`) VALUES
-(1, 'admin', '9d98696a650b7bd9c90f057023951aa3', 'admin', 'admin@admin.com', NULL, 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'nPdbMU', 56, 0, 1489650033, 2130706433, 1541817483, 1),
+(1, 'admin', '9d98696a650b7bd9c90f057023951aa3', 'admin', 'admin@admin.com', NULL, 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'nPdbMU', 55, 0, 1489650033, 2130706433, 1541725629, 1),
 (2, 'test', 'd7c7432365423cc3b473c9e4ac7bc45a', '', 'test@16.com', NULL, 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'BpsVQg', 0, 0, 1497422004, 0, 1497422004, 1),
 (3, 'xkxkxk', '100faf20849f8192835a72da157ba09c', '', '123@qq.com', '13594855872', 1, '0000-00-00', '', 60, 'dasdasd', 0, 0, 0, 0, 'dQJbmu', 0, 0, 1498803351, 0, 1499135716, 1);
 
@@ -2134,29 +2107,6 @@ INSERT INTO `sent_model` (`id`, `name`, `title`, `extend`, `icon`, `relation`, `
 -- --------------------------------------------------------
 
 --
--- 表的结构 `sent_outfit`
---
-
-CREATE TABLE IF NOT EXISTS `sent_outfit` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL COMMENT '名称',
-  `address` varchar(100) NOT NULL COMMENT '地址',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态（0:禁用 1:启用）',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='体检机构' AUTO_INCREMENT=4 ;
-
---
--- 转存表中的数据 `sent_outfit`
---
-
-INSERT INTO `sent_outfit` (`id`, `name`, `address`, `status`) VALUES
-(1, '红十字协会', '红十字协会', 1),
-(2, '建设医院', '建设医院', 1),
-(3, '陈家桥医院', '陈家桥医院11213', 1);
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `sent_page`
 --
 
@@ -2368,33 +2318,6 @@ INSERT INTO `sent_seo_rule` (`id`, `title`, `app`, `controller`, `action`, `stat
 -- --------------------------------------------------------
 
 --
--- 表的结构 `sent_station`
---
-
-CREATE TABLE IF NOT EXISTS `sent_station` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL COMMENT '名称',
-  `outfit_id` int(11) NOT NULL COMMENT '机构名称',
-  `address` varchar(200) NOT NULL COMMENT '详细地址',
-  `lng` varchar(20) NOT NULL COMMENT '经度',
-  `lat` varchar(20) NOT NULL COMMENT '纬度',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='体检站' AUTO_INCREMENT=6 ;
-
---
--- 转存表中的数据 `sent_station`
---
-
-INSERT INTO `sent_station` (`id`, `name`, `outfit_id`, `address`, `lng`, `lat`) VALUES
-(1, '人和驾驶员体检站', 1, '渝北区人和立交紫露苑附近', '106.532472', '29.617023'),
-(2, '茶园驾驶员体检站', 1, '南岸区茶园新区机电路22号（南岸支队车管所旁）', '106.666800', '29.483675'),
-(3, '大堰驾驶员体检站', 1, '九龙坡区龙泉村115号(马王场轻轨站大堰机动车检测站旁)', '106.479916', '29.506797'),
-(4, '九龙坡区体检站', 2, '九龙坡区云湖路3号光华机市场1-220号（周日休息）', '106.506722', '29.505162'),
-(5, '白市驿驾驶员体检站', 3, '九龙坡区白市驿镇白龙路68号附43号（周日休息）', '106.493355', '29.5293');
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `sent_student`
 --
 
@@ -2447,35 +2370,6 @@ CREATE TABLE IF NOT EXISTS `sent_sync_login` (
   `refresh_token` varchar(255) NOT NULL,
   `status` tinyint(4) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `sent_test`
---
-
-CREATE TABLE IF NOT EXISTS `sent_test` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `code` int(11) NOT NULL COMMENT '体检源码',
-  `random` int(11) NOT NULL COMMENT '随机码',
-  `verify` int(11) NOT NULL COMMENT '体检新码',
-  `create_time` int(11) NOT NULL COMMENT '录入时间',
-  `status` int(11) NOT NULL DEFAULT '0' COMMENT '是否分配（0：未分配 1:已分配）',
-  `outfit_id` int(11) NOT NULL COMMENT '所属机构',
-  `username` varchar(100) DEFAULT NULL COMMENT '申请人',
-  `phone` varchar(20) DEFAULT NULL COMMENT '申请人电话',
-  `apply_time` int(11) DEFAULT NULL COMMENT '申请时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='体检码表' AUTO_INCREMENT=4 ;
-
---
--- 转存表中的数据 `sent_test`
---
-
-INSERT INTO `sent_test` (`id`, `code`, `random`, `verify`, `create_time`, `status`, `outfit_id`, `username`, `phone`, `apply_time`) VALUES
-(1, 31050, 952, 31952, 1540978129, 0, 1, '', '', NULL),
-(2, 31051, 953, 31953, 1540978121, 1, 2, '李四', '13594855878', 1540978129),
-(3, 31050, 950, 31950, 2147483647, 1, 3, '张三', '13594855879', 1540978129);
 
 -- --------------------------------------------------------
 
