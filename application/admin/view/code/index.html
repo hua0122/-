@@ -24,16 +24,21 @@
         </div>
         <div class="pull-right">
             <a class="btn btn-primary" href="{:url('add')}">导入体检源码</a>
+            <a class="btn btn-info" href="{:url('export')}">导出</a>
       </div>
     </header>
     <div class="main-box-body clearfix">
         <div class="row">
-            <form method="get">
+            <form method="post">
+                <div class="col-sm-12 col-md-4 col-lg-3">
+                    <input type="text" class="form-control" name="keyword" value="{$keyword|default=''}" placeholder="请输入体检源码、新码、姓名、电话">
+                </div>
+
                 <div class="col-sm-12 col-md-4 col-lg-3">
                     <select name="status" id="status" class="form-control">
                         <option value="">请选择状态</option>
-                        <option value="2" {if isset($status) && $status==2}selected{/if} selected>未使用</option>
-                        <option value="1" {if isset($status) && $status==1}selected{/if}>已使用</option>
+                        <option value="2" {if isset($status) && $status==2}selected{/if} selected>未分配</option>
+                        <option value="1" {if isset($status) && $status==1}selected{/if}>已分配</option>
 
                     </select>
                 </div>

@@ -95,7 +95,11 @@ class Student extends Admin
             ->join('sent_grade','sent_grade.id=sent_student.grade_id','left')
             ->join('sent_area','sent_area.id=sent_student.area_id','left')
             ->join('sent_activity','sent_activity.id=sent_student.activity_id','left')
-            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name,sent_activity.name as activity_name')
+            ->join('sent_person','sent_person.uid=sent_student.inviter','left')
+            ->join('sent_department','sent_department.id=sent_person.department_id','left')
+            ->join('sent_code','sent_code.id=sent_student.coupon','left')
+            ->join('sent_coupon','sent_coupon.id=sent_code.coupon_id','left')
+            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name,sent_activity.name as activity_name,sent_person.username,sent_department.title as partner_name,sent_code.code,sent_coupon.name as coupon_name,sent_coupon.amount as coupon_amount')
             ->where($map)->order($order)->paginate(10);
 
         $data = array(
@@ -151,20 +155,21 @@ class Student extends Admin
 
     //导出
     public function export(){
-
         date_default_timezone_set('Asia/Shanghai');
-
-        ob_end_clean();
         header("content-type:text/html;charset='utf-8'");
         require_once(PHP_EXCEL.'PHPExcel.php');
         require_once(PHP_EXCEL.'PHPExcel/IOFactory.php');
         $objPHPExcel=new \PHPExcel();
         $iofactory=new \PHPExcel_IOFactory();
-
         $data  = db('Student')
             ->join('sent_grade','sent_grade.id=sent_student.grade_id','left')
             ->join('sent_area','sent_area.id=sent_student.area_id','left')
-            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name')
+            ->join('sent_activity','sent_activity.id=sent_student.activity_id','left')
+            ->join('sent_person','sent_person.uid=sent_student.inviter','left')
+            ->join('sent_department','sent_department.id=sent_person.department_id','left')
+            ->join('sent_code','sent_code.id=sent_student.coupon','left')
+            ->join('sent_coupon','sent_coupon.id=sent_code.coupon_id','left')
+            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name,sent_activity.name as activity_name,sent_person.username,sent_department.title as partner_name,sent_code.code,sent_coupon.name as coupon_name,sent_coupon.amount as coupon_amount')
             ->select();
 
 
@@ -200,35 +205,42 @@ class Student extends Admin
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$key,$value['grade_name']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$key,$value['price']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,$value['area_name']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,$value['activity_id']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$key,$value['coupon']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$key,$value['inviter']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$key,$value['inviter']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$key,$value['sign_date']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,$value['activity_name']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$key,$value['coupon_name'].$value['coupon_amount'].'('.$value['code'].')');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$key,$value['partner_name']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$key,$value['username']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$key,date("Y-m-d H:i:s",$value['sign_date']));
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$key,$value['payable']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$key,$value['payment']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$key,$value['unpaid']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$key,$value['pay_date']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,$value['pay_type']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$key,date("Y-m-d H:i:s",$value['pay_date']));
+            if($value['pay_type']==1){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,'线上全款支付');
+            }elseif ($value['pay_type']==2){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,'线上定金支付');
+            }elseif ($value['pay_type']==3){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,'线下全款支付');
+            }else{
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,'线下定金支付');
+            }
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$key,$value['payee']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$key,$value['remark']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$key,$value['status']);
+            if($value['status']==0){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$key,'退学');
+            }else{
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$key,'正常');
+            }
+
 
         }
 
-        $this->xiazaiExcel($data,$objPHPExcel,$iofactory);
-
-    }
-
-
-    //导出excel并下载
-    function xiazaiExcel($data,$objPHPExcel,$iofactory){
         //导出代码
         $objPHPExcel->getActiveSheet() -> setTitle('学员管理');
         $objPHPExcel-> setActiveSheetIndex(0);
-        $objWriter = $iofactory -> createWriter($objPHPExcel, 'Excel2007');
+        $objWriter = $iofactory -> createWriter($objPHPExcel, 'Excel5');
 
-        $filename = date("YmdHis").'student.xlsx';
+        $filename = date("Y-m-d H:i:s").'学员管理.xls';
+        ob_end_clean();
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
@@ -236,5 +248,4 @@ class Student extends Admin
         $objWriter -> save('php://output');
 
     }
-
 }

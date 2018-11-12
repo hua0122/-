@@ -14,6 +14,13 @@ class Code extends Admin
     public function index(){
         $map = array();
 
+        $keyword = input('keyword','', 'htmlspecialchars,trim');
+        if(!empty($keyword)){
+            $map['username|phone|code|verify'] = array('like', '%' .$keyword . '%');
+
+        }
+
+
         $status = input('status','','trim,intval');//状态
         if(!empty($status)){
             if($status==2){
@@ -45,20 +52,87 @@ class Code extends Admin
     }
 
 
-    //添加
+    //添加  导入体检源码
     public function add(){
         $Area = model('Test');
 
         if (IS_POST) {
             $data = input('post.');
-            if(empty($data['name'])){
-                return $this->error("文件不能为空！");
+            //导入excel表格
+
+
+            //接收前台文件
+            $ex = $_FILES["file"];
+            if(empty($ex['name'])){
+                return $this->error("请选择文件");
             }
-            if ($data) {
 
-                $result = $Area->save($data);
+            //重设置文件名
+            $filename = time().substr($ex['name'],stripos($ex['name'],'.'));
+            $path = S_ROOT.'/uploads/excel/'.$filename;//设置移动路径
+            move_uploaded_file($ex['tmp_name'],$path);
 
+            $driveFile=PHP_EXCEL.'PHPExcel.php';
+            if(!file_exists($driveFile)){
+                $res=array('code'=>'55','msg'=>'驱动文件不存在');
+                return json_encode($res);
+            }
+            require_once($driveFile);
+            require_once(PHP_EXCEL.'PHPExcel/IOFactory.php');
 
+            //获取excel读取类
+            $objReader = \PHPExcel_IOFactory::createReader('Excel5');
+            //如果excel文件后缀名为.xls，导入这个类
+            $exts = explode('.',$ex['name'])[1];
+            if($exts=='xls'){
+                $objReader = \PHPExcel_IOFactory::createReader('Excel5');
+            }elseif($exts=='xlsx'){
+                $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+            }else{
+                $objReader = \PHPExcel_IOFactory::createReader('Excel5');
+            }
+
+            //设置只读
+            $objReader->setReadDataOnly(true);
+            //加载需要读取的文件
+            $objPHPExcel = $objReader->load($path);
+            //获取单元格
+            $objWorksheet = $objPHPExcel->getActiveSheet();
+            //获取总的行数
+            $highestRow = $objWorksheet->getHighestRow();
+            //获取总的列数
+            $highestColumn = $objWorksheet->getHighestColumn();
+            //将字母列名变成数字列名
+            $highestColumnIndex = \PHPExcel_Cell::columnIndexFromString($highestColumn);
+            //定义
+            $excelData = array();
+            //循环获取数据
+            for($row = 1; $row <= $highestRow; $row++ ){
+                for($cols = 0; $cols < $highestColumnIndex; $cols++){
+                    $excelData[$row]['b'[$cols]]=(string)$objWorksheet->getCellByColumnAndRow($cols, $row)->getValue();
+                }
+            }
+            unlink($path);
+            for($i=1;$i<=count($excelData);$i++){
+                $arr = array(
+                    'code'            => 	$excelData[$i]['b'],
+                    'create_time'     => 	time(),
+                    'status'          => 	'0',
+                    'outfit_id'       => 	$data['outfit_id'],
+                );
+                $rand1 = rand(0,9);
+                $rand2 = rand(0,9);
+                $rand3 = rand(0,9);
+
+                $rand_group = $rand1.$rand2.$rand3;
+                $arr['random'] = $rand_group;
+                $substring = substr($excelData[$i]['b'],0,7);
+                // 10位体检码  7位源码 ＋ 3位随机码
+                $arr['verify'] = $substring.$rand_group;
+                $arr1[] = $arr;
+            }
+
+                $result = $Area->saveAll($arr1);
                 if ($result) {
                     return $this->success("添加成功！", url('Code/index'));
                 } else {
@@ -66,9 +140,6 @@ class Code extends Admin
                     return $this->error($Area->getError());
                 }
 
-            } else {
-                return $this->error($Area->getError());
-            }
         } else {
             $time = time();
             $this->assign("time",$time);
@@ -80,6 +151,75 @@ class Code extends Admin
             $this->setMeta("添加体检码");
             return $this->fetch();
         }
+
+    }
+
+
+    //导出 体检码信息
+    public function export(){
+        date_default_timezone_set('Asia/Shanghai');
+        header("content-type:text/html;charset='utf-8'");
+        require_once(PHP_EXCEL.'PHPExcel.php');
+        require_once(PHP_EXCEL.'PHPExcel/IOFactory.php');
+        $objPHPExcel=new \PHPExcel();
+        $iofactory=new \PHPExcel_IOFactory();
+
+        $data  = db('Test')
+            ->join('sent_outfit','sent_outfit.id=sent_test.outfit_id','left')
+            ->field('sent_test.*,sent_outfit.name as outfit_name')
+            ->select();
+
+
+        //设置excel列名
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1','ID');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1','体检源码');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1','随机码');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1','体检新码');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1','录入时间');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1','是否分配');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1','所属机构');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1','申请人');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1','申请人电话');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1','申请时间');
+
+        //把数据循环写入excel中
+        foreach($data as $key => $value){
+            $key+=2;
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$key,$value['id']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$key,$value['code']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,$value['random']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$key,$value['verify']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$key,date("Y-m-d H:i:s",$value['create_time']));
+            if($value['status']){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$key,'已分配');
+            }else{
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$key,'未分配');
+            }
+
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,$value['outfit_name']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,$value['username']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$key,$value['phone']);
+            if($value['apply_time']=="NULL"){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$key,' ');
+            }else{
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$key,date("Y-m-d H:i:s",$value['apply_time']));
+            }
+
+
+        }
+
+        //导出代码
+        $objPHPExcel->getActiveSheet() -> setTitle('体检码列表');
+        $objPHPExcel-> setActiveSheetIndex(0);
+        $objWriter = $iofactory -> createWriter($objPHPExcel, 'Excel5');
+
+        $filename = date("Y-m-d H:i:s").'体检码列表.xls';
+        ob_end_clean();
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        $objWriter -> save('php://output');
 
     }
 

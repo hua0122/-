@@ -9,7 +9,7 @@
 namespace app\admin\controller;
 use app\common\controller\Admin;
 
-class Protect extends Admin
+class Partner extends Admin
 {
 
     public function index() {
@@ -17,7 +17,7 @@ class Protect extends Admin
 
 
         $order = "id desc";
-        $list  = db('Protect')->where($map)->order($order)->paginate(10);
+        $list  = db('Partner')->where($map)->order($order)->paginate(10);
 
         $data = array(
             'list' => $list,
@@ -25,14 +25,7 @@ class Protect extends Admin
         );
 
         $this->assign($data);
-        $this->setMeta("保护系统");
-        return $this->fetch();
-    }
-
-    //开发记录
-    public function develop(){
-
-        $this->setMeta("开发记录");
+        $this->setMeta("合伙人申请信息");
         return $this->fetch();
     }
 }

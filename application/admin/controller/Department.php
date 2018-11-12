@@ -18,7 +18,14 @@ class Department extends Admin {
 	 */
 	public function index() {
 		$map = array();
-		$title = trim(input('get.title'));
+
+        $keyword = input('keyword','', 'htmlspecialchars,trim');
+        if(!empty($keyword)){
+            $map['title|phone|code'] = array('like', '%' .$keyword . '%');
+
+        }
+
+
 		$order = "id desc";
 		//$list  = db('Department')->where($map)->order($order)->paginate(10);
 		$list  = db('Department')->where($map)->order($order)->select();
@@ -75,7 +82,7 @@ class Department extends Admin {
 		    $this->assign('Departments', $departments);
 
 			$this->setMeta("添加合伙人");
-			return $this->fetch('edit');
+			return $this->fetch();
 		}
 	}
 

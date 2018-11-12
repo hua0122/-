@@ -25,12 +25,12 @@
 		<div class="pull-right"></div>
 	</header>
 	<div class="main-box-body clearfix">
-		<form method="post" class="form form-horizontal" onsubmit="return check()">
+		<form  method="post" enctype="multipart/form-data" class="form form-horizontal" onsubmit="return check()">
 
 			<div class="form-group">
 				<label class="col-lg-2 control-label">表格</label>
 				<div class="col-lg-10">
-					<input type="file" class="form-control" name="file" id="file" value="" style="width: 80%">
+					<input type="file" name="file" id="filename" style="width: 80%">
 					
 				</div>
 			</div>
@@ -55,7 +55,7 @@
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
 					<input type="hidden" name="id" value="{$info['id']|default=''}">
-					<button class="btn btn-success submit-btn ajax-post" type="submit" target-form="form-horizontal">确 定</button>
+                    <button class="btn btn-success submit-btn ajax-post" id="submit" target-form="form-horizontal">确 定</button>
 					<button class="btn btn-danger btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 				</div>
 			</div>
@@ -70,16 +70,43 @@
 <script type="text/javascript" src="__PUBLIC__/plugs/webuploader/webuploader.custom.js"></script>
 <script type="text/javascript" src="__PUBLIC__/js/droppable.js"></script>
 <script type="text/javascript" src="__PUBLIC__/plugs/board/board.min.js"></script>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DBd897f58d7a63e585485e3dea011253"></script>
-
 
 <script type="text/javascript">
-    function check(){
-        if(!$("#file").val()){
-            alert("文件不能为空！");
-            return false;
-        }
-    }
+   function check(){
+       if(!$("#filename").val()){
+           alert("文件不能为空");
+           return false;
+       }
+   }
 
+   $(function(){
+       $("#submit").click(function(){
+
+           //formdata储存异步上传数据
+           var formData = new FormData($('form')[0]);
+           formData.append('file',$(':file')[0].files[0]);
+
+           console.log(formData);
+           //坑点: 无论怎么传数据,console.log(formData)都会显示为空,但其实值是存在的,f12查看Net tab可以看到数据被上传了
+           $.ajax({
+               url:"{:url('add')}",
+               type: 'POST',
+               data: formData,
+               //这两个设置项必填
+               contentType: false,
+               processData: false,
+               success:function(data){
+                   if(data.msg=='请选择文件'){
+                       alert(data.msg);
+                   }else{
+                       alert(data.msg);
+                       location.href="{:url('index')}";
+                   }
+
+
+               }
+           },'json')
+       });
+   })
 </script>
 {/block}

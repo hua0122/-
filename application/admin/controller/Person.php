@@ -44,6 +44,13 @@ class Person extends Admin {
 
         $map=array();
 
+        $keyword = input('keyword','', 'htmlspecialchars,trim');
+        if(!empty($keyword)){
+            $map['username|mobile|sent_person.code'] = array('like', '%' .$keyword . '%');
+
+        }
+
+
         if(!empty($id)) {
             $map['sent_person.department_id'] = $id;
         }

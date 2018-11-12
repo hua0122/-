@@ -229,9 +229,15 @@
                     <td>{$item.price}</td>
                     <td>{$item.area_name}</td>
                     <td>{$item.activity_name}</td>
-                    <td>{$item.coupon}</td>
-                    <td>{$item.inviter}</td>
-                    <td>{$item.inviter}</td>
+                    <td>
+                        {if condition="$item['coupon'] eq null"}
+                            /
+                        {else}
+                        {$item.coupon_name}{$item.coupon_amount}({$item.code})
+                        {/if}
+                    </td>
+                    <td>{$item.partner_name}</td>
+                    <td>{$item.username}</td>
                     <td>{$item.sign_date|date="Y-m-d H:i:s",###}</td>
                     <td>
                         {if condition=" $item['pay_type'] eq 1 "}
