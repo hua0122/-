@@ -21,11 +21,11 @@ class User extends Fornt
 
     //个人中心
     public function index(){
-        if (empty($_SESSION['openid'])) {
+        if (empty(session('openid'))) {
 	        header("Location:getwxinfo");
 	        exit();
         }
-        $userwxinfo = model('WxUser')->where(array("openid"=>$_SESSION['openid']))->find();
+        $userwxinfo = model('WxUser')->where(array("openid"=>session('openid')))->find();
         $this->assign("userwxinfo",$userwxinfo);
 
         return $this->fetch("template/wap/user/index.html");
