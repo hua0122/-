@@ -49,9 +49,6 @@ switch ($method) {//获取code
 		//echo $getaccessurl;
 		$data = file_get_contents($getaccessurl);
 		$data = json_decode($data, true);
-		var_dump($data);
-		var_dump(APPID);
-		exit;
 
 		if ($data["errcode"] == 40029 || $data['errcode'] == 41008) {//code无效重新获取
 			$url = "/l_wx/getwxinfo.php?method=getCode&state=".$state."&scope=snsapi_userinfo&redirect_uri=".urlencode("http://" . $_SERVER['HTTP_HOST']."/l_wx/getwxinfo.php?method=getUserInfo");
@@ -63,6 +60,9 @@ switch ($method) {//获取code
 			
 		$user_info = file_get_contents($infourl);
 		$data= json_encode($user_info, JSON_UNESCAPED_UNICODE);
+
+		var_dump($data);
+		exit;
 		
 		switch($state) {
 			case 'addStudent':
