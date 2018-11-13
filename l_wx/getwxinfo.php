@@ -1,6 +1,7 @@
 <?php
 define("ROOT_PATH", $_SERVER['DOCUMENT_ROOT']);
 include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
+
 $wx = new Weixin_class();
 
 $method=$_REQUEST['method']?$_REQUEST['method']:'getCode';
@@ -48,8 +49,7 @@ switch ($method) {//获取code
 		//echo $getaccessurl;
 		$data = file_get_contents($getaccessurl);
 		$data = json_decode($data, true);
-		
-		
+
 		if ($data["errcode"] == 40029 || $data['errcode'] == 41008) {//code无效重新获取
 			$url = "/l_wx/getwxinfo.php?method=getCode&state=".$state."&scope=snsapi_userinfo&redirect_uri=".urlencode("http://" . $_SERVER['HTTP_HOST']."/l_wx/getwxinfo.php?method=getUserInfo");
 			header("Location:" . $url);
