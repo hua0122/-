@@ -80,7 +80,7 @@ switch ($method) {//获取code
 				header("Location:" . $url);
 				exit();
 				break; 
-			case 'ydxcnew':
+			case 'djjx':
 				$url = "/user/getwxinfo?data=".$data;
 				header("Location:" . $url);
 				exit();

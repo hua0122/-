@@ -104,7 +104,7 @@ class User extends Fornt
 
         }
 
-        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=ydxcnew";
+        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=djjx";
         header("Location:" . $url);
         exit();
     }
