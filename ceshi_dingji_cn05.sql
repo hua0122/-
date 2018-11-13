@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2018 �?11 �?12 �?09:53
+-- 生成日期: 2018 �?11 �?10 �?09:08
 -- 服务器版本: 5.5.53
 -- PHP 版本: 5.5.38
 
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `sent_action_log` (
   KEY `action_ip_ix` (`action_ip`),
   KEY `action_id_ix` (`action_id`),
   KEY `user_id_ix` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表' AUTO_INCREMENT=197 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表' AUTO_INCREMENT=195 ;
 
 --
 -- 转存表中的数据 `sent_action_log`
@@ -276,9 +276,7 @@ INSERT INTO `sent_action_log` (`id`, `action_id`, `user_id`, `action_ip`, `model
 (191, 10, 1, 2130706433, 'Menu', 43, '操作url：/admin/menu/edit/id/43.html', 1, 1541496140),
 (192, 10, 1, 2130706433, 'Menu', 44, '操作url：/admin/menu/edit/id/44.html', 1, 1541496168),
 (193, 10, 1, 2130706433, 'Menu', 1, '操作url：/admin/menu/edit/id/1.html', 1, 1541661810),
-(194, 10, 1, 2130706433, 'Menu', 58, '操作url：/admin/menu/edit/id/58.html', 1, 1541667732),
-(195, 10, 1, 2130706433, 'Menu', 54, '操作url：/admin/menu/edit/id/54.html', 1, 1542010923),
-(196, 10, 1, 2130706433, 'Menu', 56, '操作url：/admin/menu/edit/id/56.html', 1, 1542011336);
+(194, 10, 1, 2130706433, 'Menu', 58, '操作url：/admin/menu/edit/id/58.html', 1, 1541667732);
 
 -- --------------------------------------------------------
 
@@ -995,21 +993,6 @@ INSERT INTO `sent_department` (`id`, `title`, `pid`, `status`, `remark`, `code`,
 -- --------------------------------------------------------
 
 --
--- 表的结构 `sent_develop`
---
-
-CREATE TABLE IF NOT EXISTS `sent_develop` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `partner_id` int(11) NOT NULL COMMENT '合伙人或队员ID',
-  `student_id` int(11) NOT NULL COMMENT '学员ID',
-  `develop_time` int(11) NOT NULL COMMENT '开发时间',
-  `process` int(11) NOT NULL COMMENT '最新进度',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='开发记录' AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `sent_district`
 --
 
@@ -1689,30 +1672,6 @@ INSERT INTO `sent_document_photo` (`doc_id`, `photo_list`, `content`) VALUES
 -- --------------------------------------------------------
 
 --
--- 表的结构 `sent_feedback`
---
-
-CREATE TABLE IF NOT EXISTS `sent_feedback` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL COMMENT '姓名',
-  `phone` varchar(15) NOT NULL COMMENT '电话',
-  `content` text NOT NULL COMMENT '内容',
-  `create_time` int(11) NOT NULL COMMENT '提交时间',
-  `status` tinyint(4) NOT NULL COMMENT '状态(0:未处理 1：已处理)',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='意见建议' AUTO_INCREMENT=3 ;
-
---
--- 转存表中的数据 `sent_feedback`
---
-
-INSERT INTO `sent_feedback` (`id`, `name`, `phone`, `content`, `create_time`, `status`) VALUES
-(1, '何雪莲', '13167876373', '快速报名', 2147483647, 1),
-(2, '何雪莲', '13167876373', '快速报名', 2147483647, 0);
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `sent_file`
 --
 
@@ -1952,7 +1911,7 @@ CREATE TABLE IF NOT EXISTS `sent_member` (
 --
 
 INSERT INTO `sent_member` (`uid`, `username`, `password`, `nickname`, `email`, `mobile`, `sex`, `birthday`, `qq`, `score`, `signature`, `pos_province`, `pos_city`, `pos_district`, `pos_community`, `salt`, `login`, `reg_ip`, `reg_time`, `last_login_ip`, `last_login_time`, `status`) VALUES
-(1, 'admin', '9d98696a650b7bd9c90f057023951aa3', 'admin', 'admin@admin.com', NULL, 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'nPdbMU', 57, 0, 1489650033, 2130706433, 1541984299, 1),
+(1, 'admin', '9d98696a650b7bd9c90f057023951aa3', 'admin', 'admin@admin.com', NULL, 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'nPdbMU', 56, 0, 1489650033, 2130706433, 1541817483, 1),
 (2, 'test', 'd7c7432365423cc3b473c9e4ac7bc45a', '', 'test@16.com', NULL, 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'BpsVQg', 0, 0, 1497422004, 0, 1497422004, 1),
 (3, 'xkxkxk', '100faf20849f8192835a72da157ba09c', '', '123@qq.com', '13594855872', 1, '0000-00-00', '', 60, 'dasdasd', 0, 0, 0, 0, 'dQJbmu', 0, 0, 1498803351, 0, 1499135716, 1);
 
@@ -2113,9 +2072,9 @@ INSERT INTO `sent_menu` (`id`, `title`, `type`, `icon`, `pid`, `sort`, `url`, `h
 (51, '团队管理', 'admin', 'fa fa-users', 0, 0, 'admin/department/index', 0, '', '', 0, 0),
 (52, '保护系统', 'admin', 'fa fa-key', 0, 0, 'admin/protect/index', 0, '', '', 0, 0),
 (53, '体检码', 'admin', 'fa fa-code', 0, 0, 'admin/code/index', 0, '', '', 0, 0),
-(54, '合伙人申请', 'admin', 'fa fa-user', 6, 0, 'admin/partner/index', 0, '', '其他', 0, 0),
+(54, '合伙人申请', 'admin', 'fa fa-user', 6, 0, '', 0, '', '其他', 0, 0),
 (55, '学车协议', 'admin', 'fa fa-edit', 6, 0, '', 0, '', '其他', 0, 0),
-(56, '意见建议', 'admin', 'fa fa-comment', 6, 0, 'admin/feedback/index', 0, '', '其他', 0, 0),
+(56, '意见建议', 'admin', 'fa fa-comment', 6, 0, '', 0, '', '其他', 0, 0),
 (57, '活动列表', 'admin', 'fa fa-list', 35, 0, 'admin/activity/index', 0, '', '活动管理', 0, 0),
 (58, '优惠券列表', 'admin', 'fa fa-list', 35, 0, 'admin/activity/coupon', 0, '', '优惠券管理', 0, 0),
 (59, '资源保护', 'admin', 'fa fa-list', 52, 0, 'admin/protect/index', 0, '', '保护系统', 0, 0),
@@ -2184,7 +2143,7 @@ CREATE TABLE IF NOT EXISTS `sent_outfit` (
   `address` varchar(100) NOT NULL COMMENT '地址',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态（0:禁用 1:启用）',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='体检机构' AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='体检机构' AUTO_INCREMENT=4 ;
 
 --
 -- 转存表中的数据 `sent_outfit`
@@ -2193,8 +2152,7 @@ CREATE TABLE IF NOT EXISTS `sent_outfit` (
 INSERT INTO `sent_outfit` (`id`, `name`, `address`, `status`) VALUES
 (1, '红十字协会', '红十字协会', 1),
 (2, '建设医院', '建设医院', 1),
-(3, '陈家桥医院', '陈家桥医院11213', 1),
-(4, '红十字北碚', '红十字北碚', 1);
+(3, '陈家桥医院', '陈家桥医院11213', 1);
 
 -- --------------------------------------------------------
 
@@ -2232,28 +2190,6 @@ INSERT INTO `sent_page` (`id`, `uid`, `title`, `model_id`, `cover_id`, `content`
 (8, 0, '学车保障', 4, 0, '<p>学车保障789</p>', 1541555824, 1541555824),
 (9, 0, '常见问题', 4, 0, '<p>常见问题456</p>', 1541555815, 1541555815),
 (13, 0, '报名即可参加万人电音节', 4, 71, '<p>最新活动11</p>', 1541572887, 1541572887);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `sent_partner`
---
-
-CREATE TABLE IF NOT EXISTS `sent_partner` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL COMMENT '姓名',
-  `phone` varchar(15) NOT NULL COMMENT '电话',
-  `school` varchar(50) NOT NULL COMMENT '学校',
-  `create_time` int(11) NOT NULL COMMENT '申请时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='合伙人申请列表' AUTO_INCREMENT=2 ;
-
---
--- 转存表中的数据 `sent_partner`
---
-
-INSERT INTO `sent_partner` (`id`, `name`, `phone`, `school`, `create_time`) VALUES
-(1, '刘恩瑞', '18315067756', '重庆电子工程职业学院', 1540978129);
 
 -- --------------------------------------------------------
 
@@ -2390,20 +2326,6 @@ INSERT INTO `sent_picture` (`id`, `path`, `url`, `md5`, `sha1`, `status`, `creat
 -- --------------------------------------------------------
 
 --
--- 表的结构 `sent_protect`
---
-
-CREATE TABLE IF NOT EXISTS `sent_protect` (
-  `id` int(11) NOT NULL,
-  `student_id` int(11) NOT NULL COMMENT '学员',
-  `person_id` int(11) NOT NULL COMMENT '队员ID,或者合伙人ID',
-  `protect_time` int(11) NOT NULL COMMENT '保护时间',
-  `deactivation_time` int(11) NOT NULL COMMENT '脱保时间'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='资源保护';
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `sent_rewrite`
 --
 
@@ -2484,7 +2406,7 @@ CREATE TABLE IF NOT EXISTS `sent_student` (
   `grade_id` int(11) NOT NULL COMMENT '班别ID',
   `area_id` int(11) NOT NULL COMMENT '场地ID',
   `activity_id` varchar(20) NOT NULL COMMENT '活动ID',
-  `coupon` int(11) DEFAULT NULL COMMENT '优惠券ID',
+  `coupon` int(11) NOT NULL COMMENT '优惠券ID',
   `inviter` int(11) NOT NULL COMMENT '邀请人ID(根据此ID查询合伙人和队员)  根据学员填写的推荐码查询推荐人ID',
   `sign_date` int(11) NOT NULL COMMENT '报名时间',
   `pay_date` int(11) NOT NULL COMMENT '支付时间',
@@ -2506,10 +2428,10 @@ CREATE TABLE IF NOT EXISTS `sent_student` (
 --
 
 INSERT INTO `sent_student` (`id`, `name`, `phone`, `card`, `grade_id`, `area_id`, `activity_id`, `coupon`, `inviter`, `sign_date`, `pay_date`, `status`, `tuition_state`, `payable`, `payment`, `unpaid`, `openId`, `sn`, `pay_type`, `payee`, `remark`) VALUES
-(1, '张三', '13594855879', '500236199101226203', 4, 1, '1,2', 1, 4, 1234567890, 1234567890, 1, 1, '111.00', '111.00', '0.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC4', 'dj_15368421461PCtrZCq', 1, 0, '已确认全部付完'),
-(2, '李四', '13594855878', '500236199101226204', 7, 1, '1', 3, 5, 1234567890, 1234567890, 1, 1, '111.00', '111.00', '0.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC4', 'dj_15368421461PCtrZCw', 1, 0, '已确认全部付清'),
-(3, '王二', '13594855877', '500236199101226202', 4, 2, '1', NULL, 6, 1234567890, 1234567890, 1, 2, '111.00', '50.00', '61.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC3', 'dj_15368421461PCtrZCp', 2, 0, '微信支付50'),
-(4, '王三', '13594855871', '500236199101226201', 11, 3, '1', 16, 7, 1234567890, 1234567890, 1, 2, '3480.00', '0.00', '2980.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC1', 'dj_15368421461PCtrZCo', 3, 0, '');
+(1, '张三', '13594855879', '500236199101226203', 4, 1, '1,2', 1, 1, 1234567890, 1234567890, 1, 1, '111.00', '111.00', '0.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC4', 'dj_15368421461PCtrZCq', 1, 0, '已确认全部付完'),
+(2, '李四', '13594855878', '500236199101226204', 7, 1, '1', 1, 2, 1234567890, 1234567890, 1, 1, '111.00', '111.00', '0.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC4', 'dj_15368421461PCtrZCw', 1, 0, '已确认全部付清'),
+(3, '王二', '13594855877', '500236199101226202', 4, 2, '1', 2, 2, 1234567890, 1234567890, 1, 2, '111.00', '50.00', '61.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC3', 'dj_15368421461PCtrZCp', 2, 0, '微信支付50'),
+(4, '王三', '13594855871', '500236199101226201', 11, 3, '1', 2, 3, 1234567890, 1234567890, 1, 2, '3480.00', '0.00', '0.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC1', 'dj_15368421461PCtrZCo', 3, 0, '');
 
 -- --------------------------------------------------------
 
@@ -2544,109 +2466,16 @@ CREATE TABLE IF NOT EXISTS `sent_test` (
   `phone` varchar(20) DEFAULT NULL COMMENT '申请人电话',
   `apply_time` int(11) DEFAULT NULL COMMENT '申请时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='体检码表' AUTO_INCREMENT=97 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='体检码表' AUTO_INCREMENT=4 ;
 
 --
 -- 转存表中的数据 `sent_test`
 --
 
 INSERT INTO `sent_test` (`id`, `code`, `random`, `verify`, `create_time`, `status`, `outfit_id`, `username`, `phone`, `apply_time`) VALUES
-(1, 31005, 576, 31576, 1542008373, 0, 1, NULL, NULL, NULL),
-(2, 31006, 732, 31732, 1542008373, 0, 1, NULL, NULL, NULL),
-(3, 31007, 541, 31541, 1542008373, 0, 1, NULL, NULL, NULL),
-(4, 31008, 107, 31107, 1542008373, 0, 1, NULL, NULL, NULL),
-(5, 31009, 1, 31001, 1542008373, 0, 1, NULL, NULL, NULL),
-(6, 31010, 74, 31074, 1542008373, 0, 1, NULL, NULL, NULL),
-(7, 31011, 265, 31265, 1542008373, 0, 1, NULL, NULL, NULL),
-(8, 31012, 239, 31239, 1542008373, 0, 1, NULL, NULL, NULL),
-(9, 31013, 158, 31158, 1542008373, 0, 1, NULL, NULL, NULL),
-(10, 31014, 274, 31274, 1542008373, 0, 1, NULL, NULL, NULL),
-(11, 31015, 891, 31891, 1542008373, 0, 1, NULL, NULL, NULL),
-(12, 31016, 171, 31171, 1542008373, 0, 1, NULL, NULL, NULL),
-(13, 31017, 445, 31445, 1542008373, 0, 1, NULL, NULL, NULL),
-(14, 31018, 648, 31648, 1542008373, 0, 1, NULL, NULL, NULL),
-(15, 31019, 622, 31622, 1542008373, 0, 1, NULL, NULL, NULL),
-(16, 31020, 108, 31108, 1542008373, 0, 1, NULL, NULL, NULL),
-(17, 31021, 752, 31752, 1542008373, 0, 1, NULL, NULL, NULL),
-(18, 31022, 201, 31201, 1542008373, 0, 1, NULL, NULL, NULL),
-(19, 31023, 239, 31239, 1542008373, 0, 1, NULL, NULL, NULL),
-(20, 31024, 39, 31039, 1542008373, 0, 1, NULL, NULL, NULL),
-(21, 31025, 517, 31517, 1542008373, 0, 1, NULL, NULL, NULL),
-(22, 31026, 859, 31859, 1542008373, 0, 1, NULL, NULL, NULL),
-(23, 31027, 703, 31703, 1542008373, 0, 1, NULL, NULL, NULL),
-(24, 31028, 31, 31031, 1542008373, 0, 1, NULL, NULL, NULL),
-(25, 31029, 500, 31500, 1542008373, 0, 1, NULL, NULL, NULL),
-(26, 31030, 245, 31245, 1542008373, 0, 1, NULL, NULL, NULL),
-(27, 31031, 896, 31896, 1542008373, 0, 1, NULL, NULL, NULL),
-(28, 31032, 13, 31013, 1542008373, 0, 1, NULL, NULL, NULL),
-(29, 31033, 439, 31439, 1542008373, 0, 1, NULL, NULL, NULL),
-(30, 31034, 58, 31058, 1542008373, 0, 1, NULL, NULL, NULL),
-(31, 31035, 701, 31701, 1542008373, 0, 1, NULL, NULL, NULL),
-(32, 31036, 241, 31241, 1542008373, 0, 1, NULL, NULL, NULL),
-(33, 31037, 905, 31905, 1542008373, 0, 1, NULL, NULL, NULL),
-(34, 31038, 210, 31210, 1542008373, 0, 1, NULL, NULL, NULL),
-(35, 31039, 96, 31096, 1542008373, 0, 1, NULL, NULL, NULL),
-(36, 31040, 535, 31535, 1542008373, 0, 1, NULL, NULL, NULL),
-(37, 31041, 435, 31435, 1542008373, 0, 1, NULL, NULL, NULL),
-(38, 31042, 449, 31449, 1542008373, 0, 1, NULL, NULL, NULL),
-(39, 31043, 976, 31976, 1542008373, 0, 1, NULL, NULL, NULL),
-(40, 31044, 60, 31060, 1542008373, 0, 1, NULL, NULL, NULL),
-(41, 31045, 900, 31900, 1542008373, 0, 1, NULL, NULL, NULL),
-(42, 31046, 557, 31557, 1542008373, 0, 1, NULL, NULL, NULL),
-(43, 31047, 71, 31071, 1542008373, 0, 1, NULL, NULL, NULL),
-(44, 31048, 628, 31628, 1542008373, 0, 1, NULL, NULL, NULL),
-(45, 31049, 836, 31836, 1542008373, 0, 1, NULL, NULL, NULL),
-(46, 31050, 253, 31253, 1542008373, 0, 1, NULL, NULL, NULL),
-(47, 264379, 523, 264523, 1542008472, 0, 2, NULL, NULL, NULL),
-(48, 264378, 502, 264502, 1542008472, 0, 2, NULL, NULL, NULL),
-(49, 264377, 16, 264016, 1542008472, 0, 2, NULL, NULL, NULL),
-(50, 264376, 580, 264580, 1542008472, 0, 2, NULL, NULL, NULL),
-(51, 264375, 153, 264153, 1542008472, 0, 2, NULL, NULL, NULL),
-(52, 264374, 514, 264514, 1542008472, 0, 2, NULL, NULL, NULL),
-(53, 264373, 965, 264965, 1542008472, 0, 2, NULL, NULL, NULL),
-(54, 264372, 825, 264825, 1542008472, 0, 2, NULL, NULL, NULL),
-(55, 264371, 974, 264974, 1542008472, 0, 2, NULL, NULL, NULL),
-(56, 264370, 18, 264018, 1542008472, 0, 2, NULL, NULL, NULL),
-(57, 264369, 366, 264366, 1542008472, 0, 2, NULL, NULL, NULL),
-(58, 264368, 210, 264210, 1542008472, 0, 2, NULL, NULL, NULL),
-(59, 264367, 545, 264545, 1542008472, 0, 2, NULL, NULL, NULL),
-(60, 264366, 716, 264716, 1542008472, 0, 2, NULL, NULL, NULL),
-(61, 264365, 845, 264845, 1542008472, 0, 2, NULL, NULL, NULL),
-(62, 264364, 355, 264355, 1542008472, 0, 2, NULL, NULL, NULL),
-(63, 264363, 161, 264161, 1542008472, 0, 2, NULL, NULL, NULL),
-(64, 264362, 892, 264892, 1542008472, 0, 2, NULL, NULL, NULL),
-(65, 264361, 173, 264173, 1542008472, 0, 2, NULL, NULL, NULL),
-(66, 264360, 181, 264181, 1542008472, 0, 2, NULL, NULL, NULL),
-(67, 264359, 490, 264490, 1542008472, 0, 2, NULL, NULL, NULL),
-(68, 264358, 266, 264266, 1542008472, 0, 2, NULL, NULL, NULL),
-(69, 264357, 808, 264808, 1542008472, 0, 2, NULL, NULL, NULL),
-(70, 264356, 97, 264097, 1542008472, 0, 2, NULL, NULL, NULL),
-(71, 264355, 516, 264516, 1542008472, 0, 2, NULL, NULL, NULL),
-(72, 264354, 285, 264285, 1542008472, 0, 2, NULL, NULL, NULL),
-(73, 264353, 680, 264680, 1542008472, 0, 2, NULL, NULL, NULL),
-(74, 264352, 324, 264324, 1542008472, 0, 2, NULL, NULL, NULL),
-(75, 264351, 109, 264109, 1542008472, 0, 2, NULL, NULL, NULL),
-(76, 264350, 478, 264478, 1542008472, 0, 2, NULL, NULL, NULL),
-(77, 264349, 166, 264166, 1542008472, 0, 2, NULL, NULL, NULL),
-(78, 264348, 252, 264252, 1542008472, 0, 2, NULL, NULL, NULL),
-(79, 264347, 453, 264453, 1542008472, 0, 2, NULL, NULL, NULL),
-(80, 264346, 390, 264390, 1542008472, 0, 2, NULL, NULL, NULL),
-(81, 264345, 208, 264208, 1542008472, 0, 2, NULL, NULL, NULL),
-(82, 264344, 43, 264043, 1542008472, 0, 2, NULL, NULL, NULL),
-(83, 264343, 916, 264916, 1542008472, 0, 2, NULL, NULL, NULL),
-(84, 264342, 573, 264573, 1542008472, 0, 2, NULL, NULL, NULL),
-(85, 264341, 142, 264142, 1542008472, 0, 2, NULL, NULL, NULL),
-(86, 264340, 264, 264264, 1542008472, 0, 2, NULL, NULL, NULL),
-(87, 264339, 993, 264993, 1542008472, 0, 2, NULL, NULL, NULL),
-(88, 264338, 470, 264470, 1542008472, 0, 2, NULL, NULL, NULL),
-(89, 264337, 961, 264961, 1542008472, 0, 2, NULL, NULL, NULL),
-(90, 264336, 679, 264679, 1542008472, 0, 2, NULL, NULL, NULL),
-(91, 264335, 43, 264043, 1542008472, 0, 2, NULL, NULL, NULL),
-(92, 264334, 703, 264703, 1542008472, 0, 2, NULL, NULL, NULL),
-(93, 264333, 89, 264089, 1542008472, 0, 2, NULL, NULL, NULL),
-(94, 264332, 56, 264056, 1542008472, 0, 2, NULL, NULL, NULL),
-(95, 264331, 460, 264460, 1542008472, 0, 2, NULL, NULL, NULL),
-(96, 264330, 827, 264827, 1542008472, 0, 2, NULL, NULL, NULL);
+(1, 31050, 952, 31952, 1540978129, 0, 1, '', '', NULL),
+(2, 31051, 953, 31953, 1540978121, 1, 2, '李四', '13594855878', 1540978129),
+(3, 31050, 950, 31950, 2147483647, 1, 3, '张三', '13594855879', 1540978129);
 
 -- --------------------------------------------------------
 

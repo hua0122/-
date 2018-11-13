@@ -27,11 +27,15 @@ return array(
     'wap'   => 'wap/index/index',
     'enlist/index'   => 'wap/enlist/index',//报名
     'enlist/detail'   => 'wap/enlist/detail',//报名
-    'page/index'   => 'wap/page/index',//报名
+    'page/index'   => 'wap/page/index',//单页详情
+    'page/detail'   => 'wap/page/detail',//单页详情 返回首页发现最美鼎吉
     'enlist/ajax_list'   => 'wap/enlist/ajax_list',//班别信息
     'enlist/sign'   => 'wap/enlist/sign',//报名信息
     'enlist/success'   => 'wap/enlist/cg',//报名成功
     'enlist/agreement'   => 'wap/enlist/agreement',//学车协议
+    'user/index'   => 'wap/user/index',//个人中心
+    'user/study'   => 'wap/user/study',//学习中心
+    'user/feedback'   => 'wap/user/feedback',//投诉建议
 
 
 

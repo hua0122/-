@@ -81,8 +81,10 @@ class Enlist extends Fornt
     public function agreement(){
         if (IS_POST) {
             $data = input('post.');
-            session('agreement_name');
+            session('agreement_name',$data);
+            return json_encode($data);
         }else{
+            $this->assign('agreement',session('agreement_name'));
             return $this->fetch("template/wap/enlist/agreement.html");
         }
 

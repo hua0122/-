@@ -76,9 +76,9 @@
     <div class="row notice">
         <h1 class="col-xs-12">填写信息</h1>
         <div class="col-xs-12">
-            <input type="text" name="name" placeholder="请输入您的姓名"/><br/>
-            <input type="text" name="phone" placeholder="请输入您的电话"/><br/>
-            <input type="text" name="cno" placeholder="请输入您的身份证号码"/>
+            <input type="text" name="name" id="name" placeholder="请输入您的姓名"/><br/>
+            <input type="text" name="phone" id="phone" placeholder="请输入您的电话"/><br/>
+            <input type="text" name="cno" id="cno" placeholder="请输入您的身份证号码"/>
         </div>
         <div class="xieyi">
             <span>
@@ -86,7 +86,7 @@
                 <label  for="color-input-red"></label >
 
                 <span class="text">我已阅读并同意</span>
-                <span class="color"><a href="javascript:xieyi()">《鼎吉驾校学车协议》</a> </span>
+                <span class="color"><a href="javascript:" onclick="xieyi()">《鼎吉驾校学车协议》</a> </span>
             </span>
             <span class="right" id="other" onclick="javascript:other()">其他</span></div>
     </div>
@@ -104,7 +104,7 @@
                 <p>400-689-8909</p>
             </div>
         </a>
-        <a class="col-xs-8 enroll-btn">我要报名</a>
+        <a class="col-xs-8 enroll-btn" href="javascript:" onclick="sign()">我要报名</a>
     </div>
 
 </div>
@@ -258,12 +258,32 @@
         var phone = $("#phone").val();
         var cno = $("#cno").val();
 
-        $.post("enlist/agreement",{name:name,phone:phone,cno:cno},function (data) {
+        $.post("{$web_path}/enlist/agreement",{name:name,phone:phone,cno:cno},function (data) {
             if(data){
                 location.href="{$web_path}/enlist/agreement";
             }
 
         });
+
+    }
+
+    function sign(){
+        var name = $("#name").val();
+        var phone = $("#phone").val();
+        var cno = $("#cno").val();
+
+        if(!name){
+            alert('姓名不能为空');
+            return false;
+        }
+        if(!phone){
+            alert('联系电话不能为空');
+            return false;
+        }
+        if(!cno){
+            alert('身份证号码不能为空');
+            return false;
+        }
 
     }
 
