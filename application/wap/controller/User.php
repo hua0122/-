@@ -66,8 +66,7 @@ class User extends Fornt
     public function getwxinfo(){
         if (!empty($_REQUEST['data']) || !empty(session("openid"))) {
             $data = $_REQUEST['data'];
-            var_dump($data);
-            exit;
+
             if($data){
                 $data = json_decode($data, JSON_UNESCAPED_UNICODE);
                 $data = json_decode($data);
