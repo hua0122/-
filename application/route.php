@@ -36,6 +36,7 @@ return array(
     'user/index'   => 'wap/user/index',//个人中心
     'user/study'   => 'wap/user/study',//学习中心
     'user/feedback'   => 'wap/user/feedback',//投诉建议
+    'user/getwxinfo'   => 'wap/user/getwxinfo',//获取微信用户信息
 
 
 
