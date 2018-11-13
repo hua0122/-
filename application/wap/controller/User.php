@@ -95,7 +95,7 @@ class User extends Fornt
                     model('WxUser')->save($sign);
                 }
 
-                $url = "user/index";
+                $url = "index";
                 header("Location:" . $url);
                 exit();
             }else{
