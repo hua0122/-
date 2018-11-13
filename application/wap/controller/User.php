@@ -69,7 +69,6 @@ class User extends Fornt
 
             if($data){
                 $data = json_decode($data, JSON_UNESCAPED_UNICODE);
-                $data = json_decode($data);
                 var_dump($data);
 
                 if(session("openid")){
