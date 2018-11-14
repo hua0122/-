@@ -74,6 +74,7 @@ class Enlist extends Fornt
 
     //报名页面
     public function sign(){
+        var_dump(session('openid'));
         $id = input('id','','trim,intval');
         if(IS_POST){
             $data = input('post.');
