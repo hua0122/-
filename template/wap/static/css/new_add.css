@@ -408,3 +408,50 @@ input[type=checkbox] {
     border: none;
     border-radius: 10px;
 }
+.success .img{
+    text-align: center;
+}
+.success .img img{
+    width: 150px;
+}
+.success .title{
+    font-size: 16px;
+    border-top: 1px solid #C9C5C5;
+    text-align: left;
+    padding: 10px;
+}
+.success>div{
+    padding: 20px 0;
+}
+.success .title span{
+    float: left;
+    display: block;
+    color: #0baae4;
+}
+.success .code{
+    border-top:1px solid #ccc;
+}
+.success .code li{
+    width:100%;
+    float: left;
+    margin-bottom: 20px;
+}
+.success .code .tit{
+    float: left;
+    width: 70%;
+}
+.success .code .tit span{
+    display: block;
+    float: left;
+    width: 100%;
+    text-align: left;
+    padding-left: 10px;
+    font-size: 16px;
+}
+.success .code .tit .dizhi{
+    font-size: 14px;
+}
+.success .code .address{
+    border-left: 1px solid #ccc;
+    padding-left: 15px;
+}

@@ -68,7 +68,44 @@ class Enlist extends Fornt
 
     //报名页面
     public function sign(){
-        return $this->fetch("template/wap/enlist/sign.html");
+        $id = input('id','','trim,intval');
+        if(IS_POST){
+            $data = input('post.');
+            if(!$data['name']){
+                return json_encode(array("code"=>"400","msg"=>"姓名不能为空"));
+            }
+            if(!$data['phone']){
+                return json_encode(array("code"=>"400","msg"=>"电话不能为空"));
+            }
+            if(!$data['cno']){
+                return json_encode(array("code"=>"400","msg"=>"身份证号码不能为空"));
+            }
+
+            $res = model("Student")->save($data);
+            if($res){
+                return json_encode(array("code"=>"200","msg"=>"报名成功"),JSON_UNESCAPED_SLASHES);
+            }else{
+                return json_encode(array("code"=>"400","msg"=>"报名失败"),JSON_UNESCAPED_SLASHES);
+            }
+
+
+
+        }else{
+            //班级信息展示
+            $grade = model('Grade')
+                ->join('sent_area','sent_area.id=sent_grade.area_id','left')
+                ->field('sent_grade.*,sent_area.name as area_name,sent_area.id as area_id')
+                ->where(array("sent_grade.id"=>$id))
+                ->find();
+            $this->assign('grade',$grade);
+            //活动信息展示
+            $activity = model('Activity')->limit(0,3)->select();
+            $this->assign('activity',$activity);
+
+
+            return $this->fetch("template/wap/enlist/sign.html");
+        }
+
     }
 
     //报名成功页面

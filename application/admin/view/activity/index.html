@@ -53,6 +53,8 @@
                 <tr>
                     <th width="30"><input class="checkbox check-all" type="checkbox"></th>
                     <th width="60">序号</th>
+                    <th>活动图标</th>
+                    <th>活动类型</th>
                     <th>名称</th>
                     <th>金额</th>
                     <th>物品</th>
@@ -68,6 +70,14 @@
                 <tr>
                     <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$item['id']}"></td>
                     <td>{$item['id']}</td>
+                    <td><img src="{:get_cover($item['icon'],'path')}" width="50"/></td>
+                    <td>
+                    {if condition="$item['type'] eq 1"}
+                        <span class="label label-success">加</span>
+                    {else}
+                        <span class="label label-default">减</span>
+                    {/if}
+                    </td>
                     <td>{$item['name']}</td>
                     <td>{$item['amount']}</td>
                     <td>{$item['gift']}</td>

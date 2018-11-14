@@ -45,16 +45,16 @@
 <div class="container sign">
     <div class="row mold-on">
         <label for="">
-            <input type="hidden" name="class" value="1">计时无忧班手动挡（C1）
+            <input type="hidden" name="class" id="grade_id" value="{$grade.id}">{$grade.name}（C{$grade.type}）
         </label>
-        <span class="right">
-					3460.00
+        <span class="right" id="payable">
+					{$grade.price}
 				</span>
     </div>
 
     <div class="row address">
-        <span>场地:<span>大学城训练基地</span></span>
-        <span class="map right"><a href=""><img src="__ROOT_PATH__/wap/static/images/map1.png" width="20"/> > </a></span>
+        <span>场地:<span><input type="hidden" name="class" id="area_id" value="{$grade.area_id}">{$grade.area_name}</span></span>
+        <span class="map right"><a href="javascript:" onclick="show_map()"><img src="__ROOT_PATH__/wap/static/images/map1.png" width="20"/> > </a></span>
     </div>
 
     <div class="row address" onclick="javascript:jts()">
@@ -69,7 +69,7 @@
 
     <div class="row address total" id="total">
         <span>费用合计</span>
-        <span class="count right"> 3280元</span>
+        <span class="count right"> {$grade.price}元</span>
     </div>
 
 
@@ -82,7 +82,7 @@
         </div>
         <div class="xieyi">
             <span>
-                <input id="color-input-red" class="chat-button-location-radio-input" type="checkbox" name="color-input-red" value="#f0544d" checked/>
+                <input id="color-input-red" class="chat-button-location-radio-input" type="checkbox" name="color-input-red" value="#f0544d" />
                 <label  for="color-input-red"></label >
 
                 <span class="text">我已阅读并同意</span>
@@ -135,20 +135,14 @@
     <div class="c_alert_wrap c_alert_width">
 
         <div class="row">
+            {volist name="activity" id="item"}
             <div class="modal-body">
-                <div><img src="__ROOT_PATH__/wap/static/images/jts_1.png" width="83" height="83" /> <br/>报名减免</div>
-                <div><span>直接报名可享受</span><span>200元学费减免</span></div>
+                <input type="hidden" value="{$item.id}" name="activity_id">
+                <div><img src="{:get_cover($item['icon'],'path')}" width="83" height="83" /> <br/>{$item.name}</div>
+                <div><span>{$item.description}</span></div>
+            </div>
+            {/volist}
 
-            </div>
-            <div class="modal-body">
-                <div><img src="__ROOT_PATH__/wap/static/images/jts_2.png" width="83" height="83" /> <br/>团报优惠</div>
-                <div><span>三人团减免200元</span><span>五人团减免300元</span></div>
-
-            </div>
-            <div class="modal-body">
-                <div><img src="__ROOT_PATH__/wap/static/images/jts_3.png" width="83" height="83" /> <br/>加就送</div>
-                <div><span>报名加200元赠送</span><span>价值888元跑步机</span></div>
-            </div>
         </div>
 
 
@@ -268,9 +262,9 @@
     }
 
     function sign(){
-        var name = $("#name").val();
-        var phone = $("#phone").val();
-        var cno = $("#cno").val();
+        var name = $("#name").val();//姓名
+        var phone = $("#phone").val();//电话
+        var cno = $("#cno").val();//身份证号
 
         if(!name){
             alert('姓名不能为空');
@@ -284,6 +278,50 @@
             alert('身份证号码不能为空');
             return false;
         }
+        if(!$('#color-input-red').is(':checked')) {
+            alert('请先阅读并同意鼎吉驾校学车协议');
+            return false;
+        }
+
+
+
+        var payable = $("#payable").text();//应付款
+        var grade_id = $("#grade_id").val();//班级id
+        var area_id = $("#area_id").val();//场地id
+
+        var activity_id = '';//活动id
+        var coupon = $("#yhq_code").val();//优惠券
+        var inviter = $("#code").val();//邀请人 推荐码
+        var payment = '';//实付款
+        var unpaid = '';//未付款
+        var pay_type ='';//缴费类型
+
+
+
+        $.post("{$web_path}/enlist/sign", {
+                name:name,
+                phone:phone,
+                cno:cno,
+                payable:payable,
+                grade_id:grade_id,
+                area_id:area_id,
+                activity_id:activity_id,
+                coupon:coupon,
+                inviter:inviter,
+                payment:payment,
+                unpaid:unpaid,
+                pay_type:pay_type
+            }, function(data){
+                data=eval("("+data+")");
+                if(data.code=="200"){
+                    console.log(data);
+                    alert(data.msg);
+                    location.href="{$web_path}/enlist/success";
+                }else{
+                    alert(data.msg);
+                }
+
+        });
 
     }
 

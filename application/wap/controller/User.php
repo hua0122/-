@@ -17,14 +17,14 @@ class User extends Fornt
         parent::__construct($request);
         $web_path = $_SERVER['SERVER_NAME'];
         $this->assign('web_path',"http://".$web_path);
+        if (empty(session('openid'))) {
+            header("Location:getwxinfo");
+            exit();
+        }
     }
 
     //个人中心
     public function index(){
-        if (empty(session('openid'))) {
-	        header("Location:getwxinfo");
-	        exit();
-        }
         $userwxinfo = model('WxUser')->where(array("openid"=>session('openid')))->find();
         $this->assign("userwxinfo",$userwxinfo);
 
@@ -67,7 +67,7 @@ class User extends Fornt
         if (!empty($_REQUEST['data']) || !empty(session("openid"))) {
             $data = $_REQUEST['data'];
 
-            if($data){
+            if($data!='false'){
                 $data = json_decode($data, JSON_UNESCAPED_UNICODE);
                 $data = json_decode($data);
                 var_dump($data);
@@ -99,7 +99,7 @@ class User extends Fornt
                 header("Location:" . $url);
                 exit();
             }else{
-
+                echo "请在微信客户端打开";
             }
 
         }
