@@ -77,12 +77,33 @@ class Enlist extends Fornt
             if(!$data['phone']){
                 return json_encode(array("code"=>"400","msg"=>"电话不能为空"));
             }
-            if(!$data['cno']){
+            if(!$data['card']){
                 return json_encode(array("code"=>"400","msg"=>"身份证号码不能为空"));
             }
 
-            $data['payment'] = '';//实付款
-            $data['unpaid'] = '';//未付款
+            //缴费类型
+            if($data['pay_type']==1){
+                //线上全额支付
+                $data['unpaid'] = 0;//未付款
+                $data['tuition_state'] = 1;//学费状态 1全款
+            }else if($data['pay_type']==2){
+                //线上定金支付
+                $data['unpaid'] = $data['payable']-$data['payment']-$data['activity_id']-$data['coupon'];//未付款
+                $data['tuition_state'] = 2;
+            }else if($data['pay_type']==3||$data['pay_type']==4){
+                //线下全额支付 或者线下定金支付
+                $data['unpaid'] = $data['payable']-$data['activity_id']-$data['coupon'];
+                $data['tuition_state'] = 2;
+            }else{
+                //缴费类型不对
+                return json_encode(array("code"=>"400","msg"=>"缴费类型不对"));
+            }
+
+
+            $data['sign_date'] = time();//报名时间
+            $data['openid'] = session('openid');
+            $data['sn'] = "dj_".rand_string(20);//订单编号
+
 
             $res = model("Student")->save($data);
             if($res){

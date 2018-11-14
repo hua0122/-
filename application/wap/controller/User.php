@@ -34,7 +34,14 @@ class User extends Fornt
 
     //学习中心
     public function study(){
+        $study = model('Student');
+        $info = $study->where(array("openid"=>session("openid")))->find();
+        if($info){
+            $this->assign("info",$info);
+
+        }
         return $this->fetch("template/wap/user/study.html");
+
     }
 
     //投诉建议

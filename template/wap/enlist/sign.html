@@ -69,7 +69,7 @@
 
     <div class="row address total" id="total">
         <span>费用合计</span>
-        <span class="count right"> {$grade.price}元</span>
+        <span class="count right"> <span class="total-count">{$grade.price}</span>元</span>
     </div>
 
 
@@ -221,14 +221,14 @@
             //全款支付
            if(check_val==1){
                 var tem='<span>费用合计</span>' +
-                    '<span class="count right"> 3280元</span>';
+                    '<span class="count right"> <span class="total-count">3280</span>元</span>';
                $("#total").html(tem);
                $(".sign .total").css('height','45');
            }
            //定金支付
            if(check_val==2){
                var template ='<div class="left djzf" style="padding-top: 0px;"><span>费用合计<span class="xf">您可以先付定金抢占名额</span></span></div>' +
-                   '<div class="right djzf"><span class="count right"> <input type="text" name="deposit" placeholder="300-3460">元(定金)</span></div>';
+                   '<div class="right djzf"><span class="count right"> <input type="text" name="deposit" id="deposit" placeholder="300-{$grade.price}">元(定金)</span></div>';
 
                 $("#total").html(template);
                 $(".sign .total").css('height','70');
@@ -293,8 +293,14 @@
         var coupon = $("#yhq_code").val();//优惠券
         var inviter = $("#code").val();//邀请人 推荐码
         var pay_type = $('input:radio[name="other"]:checked').val();//缴费类型
-
-
+        var payment ="";
+        if(pay_type==1){
+           payment = $(".total-count").text();//实付款
+        }else if(pay_type==2){
+            payment = $("#deposit").val();
+        }else{
+            payment = 0;
+        }
 
         $.post("{$web_path}/enlist/sign", {
                 name:name,
@@ -306,7 +312,8 @@
                 activity_id:activity_id,
                 coupon:coupon,
                 inviter:inviter,
-                pay_type:pay_type
+                pay_type:pay_type,
+                payment:payment
             }, function(data){
                 data=eval("("+data+")");
                 if(data.code=="200"){
