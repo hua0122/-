@@ -108,7 +108,7 @@ class Enlist extends Fornt
 
 
             $data['sign_date'] = time();//报名时间
-            $data['openid'] = session('openid');
+            $data['openId'] = session('openid');
             $data['sn'] = "dj_".rand_string(20);//订单编号
 
 
