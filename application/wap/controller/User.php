@@ -35,11 +35,24 @@ class User extends Fornt
     //学习中心
     public function study(){
         $study = model('Student');
-        $info = $study->where(array("openid"=>session("openid")))->find();
-        if($info){
-            $this->assign("info",$info);
+        $info = $study
+            ->join('sent_grade','sent_grade.id=sent_student.grade_id','left')
+            ->join('sent_area','sent_area.id=sent_student.area_id','left')
+            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_grade.content,sent_area.address,sent_area.thumb,sent_area.lat,sent_area.lng')
+            ->where(array("openid"=>session("openid")))->find();
 
-        }
+        $this->assign("info",$info);
+
+        //体检信息查询
+        $code = model('Apply')
+            ->join('sent_test','sent_test.id=sent_apply.code_id','left')
+            ->join('sent_station','sent_station.id=sent_apply.station_id','left')
+            ->field('sent_apply.*,sent_test.code,sent_test.verify,sent_station.name as station_name,sent_station.address,sent_station.lng,sent_station.lat')
+            ->where(array("openid"=>session("openid")))
+            ->find();
+        $this->assign('code',$code);
+
+
         return $this->fetch("template/wap/user/study.html");
 
     }
