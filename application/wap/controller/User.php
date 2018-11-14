@@ -83,7 +83,7 @@ class User extends Fornt
                 if(session("openid")){
                     session("openid",session("openid"));
                 }else{
-                    session("openid",$data->openid);
+                    session("openid",$data->openid);//这一步保存openid到session
                 }
 
                 $info = model('WxUser')->where(array("openid"=>$data->openid))->find();

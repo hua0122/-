@@ -25,6 +25,7 @@ class Enlist extends Fornt
             header("Location:user/getwxinfo");
             exit();
         }
+        var_dump(session('openid'));
 
         $area = model('Area');
         $area = $area->select();
