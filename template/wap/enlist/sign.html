@@ -264,7 +264,7 @@
     function sign(){
         var name = $("#name").val();//姓名
         var phone = $("#phone").val();//电话
-        var cno = $("#cno").val();//身份证号
+        var card = $("#cno").val();//身份证号
 
         if(!name){
             alert('姓名不能为空');
@@ -292,24 +292,20 @@
         var activity_id = '';//活动id
         var coupon = $("#yhq_code").val();//优惠券
         var inviter = $("#code").val();//邀请人 推荐码
-        var payment = '';//实付款
-        var unpaid = '';//未付款
-        var pay_type ='';//缴费类型
+        var pay_type = $('input:radio[name="other"]:checked').val();//缴费类型
 
 
 
         $.post("{$web_path}/enlist/sign", {
                 name:name,
                 phone:phone,
-                cno:cno,
+                card:card,
                 payable:payable,
                 grade_id:grade_id,
                 area_id:area_id,
                 activity_id:activity_id,
                 coupon:coupon,
                 inviter:inviter,
-                payment:payment,
-                unpaid:unpaid,
                 pay_type:pay_type
             }, function(data){
                 data=eval("("+data+")");

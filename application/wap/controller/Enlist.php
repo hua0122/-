@@ -81,6 +81,9 @@ class Enlist extends Fornt
                 return json_encode(array("code"=>"400","msg"=>"身份证号码不能为空"));
             }
 
+            $data['payment'] = '';//实付款
+            $data['unpaid'] = '';//未付款
+
             $res = model("Student")->save($data);
             if($res){
                 return json_encode(array("code"=>"200","msg"=>"报名成功"),JSON_UNESCAPED_SLASHES);

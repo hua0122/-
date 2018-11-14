@@ -17,14 +17,15 @@ class User extends Fornt
         parent::__construct($request);
         $web_path = $_SERVER['SERVER_NAME'];
         $this->assign('web_path',"http://".$web_path);
-        if (empty(session('openid'))) {
-            header("Location:getwxinfo");
-            exit();
-        }
     }
 
     //个人中心
     public function index(){
+        if (empty(session('openid'))) {
+            header("Location:getwxinfo");
+            exit();
+        }
+
         $userwxinfo = model('WxUser')->where(array("openid"=>session('openid')))->find();
         $this->assign("userwxinfo",$userwxinfo);
 
