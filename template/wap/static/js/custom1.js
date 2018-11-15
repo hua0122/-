@@ -18,7 +18,7 @@ $(function () {
 //      height: window.innerHeight,
 //      direction: 'vertical'
 //  });
-	//getydxc();
+	getydxc();
 	
 });
 //微信配置
