@@ -10,8 +10,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
 #include_once $_SERVER['DOCUMENT_ROOT'] . '/system/system.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/l_db/drive/mysql.class.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/l_db/config/database.php';
-var_dump($_SERVER['DOCUMENT_ROOT'] . '/l_wx/config.php);
-exit;
 
 $wx = new Weixin_class();
 $db = DB::getDBClass();
