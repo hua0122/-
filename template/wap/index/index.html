@@ -36,8 +36,7 @@
     <link rel="stylesheet" type="text/css" href="__ROOT_PATH__/wap/static/css/new_add.css"/>
 
     <script src="__ROOT_PATH__/wap/static/js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="__ROOT_PATH__/wap/static/js/custom1.js" type="text/javascript" charset="utf-8"></script>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DBd897f58d7a63e585485e3dea011253"></script>
+    <!--<script src="__ROOT_PATH__/wap/static/js/custom1.js" type="text/javascript" charset="utf-8"></script>-->
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </head>
 
@@ -133,7 +132,7 @@
                         <li data-delay="5" data-src="5"
                             data-trans3d="tr6,tr17,tr22,tr23,tr29,tr27,tr32,tr34,tr35,tr53,tr54,tr62,tr63,tr4,tr13,tr45"
                             data-trans2d="tr3,tr8,tr12,tr19,tr22,tr25,tr27,tr29,tr31,tr34,tr35,tr38,tr39,tr41">
-                            <img src="{:get_cover($item['cover_id'],'path')}"/>
+                            <img src="{:get_cover($item['cover_id'],'path')}"  data-thumb="{:get_cover($item['cover_id'],'path')}"/>
                         </li>
                         {/volist}
 
@@ -142,7 +141,7 @@
                             data-trans3d="tr6,tr17,tr22,tr23,tr26,tr27,tr29,tr32,tr34,tr35,tr53,tr54,tr62,tr63,tr4,tr13"
                             data-trans2d="tr3,tr8,tr12,tr19,tr22,tr25,tr27,tr29,tr31,tr34,tr35,tr38,tr39,tr41">
                             <img src="__ROOT_PATH__/wap/static/images/blank.png"
-                                 data-src="{:get_cover($item['cover_id'],'path')}" data-thumb=""/>
+                                 data-src="{:get_cover($item['cover_id'],'path')}" data-thumb="{:get_cover($item['cover_id'],'path')}"/>
                         </li>
                         {/volist}
 

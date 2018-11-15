@@ -45,9 +45,6 @@ class Enlist extends Fornt
     //详情页
     public function detail(){
 
-        $web_path = $_SERVER['SERVER_NAME'];
-        $this->assign('web_path',"http://".$web_path);
-
         $id   = input('id', '', 'trim,intval');
         $grade = model('Grade');
         $info = $grade->join('sent_area ','sent_area.id = sent_grade.area_id','left')
