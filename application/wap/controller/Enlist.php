@@ -22,7 +22,7 @@ class Enlist extends Fornt
     //报名班级列表页
     public function index(){
         if (empty(session('openid'))) {
-            header("Location:user/getwxinfo");
+            header("Location:../user/getwxinfo");
             exit();
         }
 
