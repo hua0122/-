@@ -1,5 +1,9 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/global.php';
+session_start();
+
+define("ROOT_PATH", $_SERVER['DOCUMENT_ROOT']);
+//include_once $_SERVER['DOCUMENT_ROOT'] . '/global.php';
+
 $method = $_REQUEST['method'];
 include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/config.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
@@ -51,7 +55,7 @@ switch($method) {
 		
 	case 'getwxpz':
 		$timeStamp = intval(time()/10);
-		$url = $_SERVER[HTTP_REFERER];
+		$url = $_SERVER["HTTP_REFERER"];
 		//echo $url;
 		$nonceStr = $wx->getRandChar(15);
 		$signature = $wx->get_js_signature($nonceStr, $timeStamp, $url);
