@@ -286,12 +286,12 @@
         }
 
 
-        if(!cno){
+        if(!card){
             alert('身份证号码不能为空');
             return false;
         }
 
-        if(!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/).test(cno)){
+        if(!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/).test(card)){
             alert("身份证号码填写有误");
             return false;
         }
