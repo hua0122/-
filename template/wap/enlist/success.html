@@ -49,73 +49,17 @@
     </div>
     <div class="code">
         <ul>
+            {volist name="station" id="item"}
             <li>
                 <a href="">
                 <span class="left tit">
-                    <span class="station">大学城陈家桥体检站</span>
-                    <span class="dizhi">地址:陈家桥医院</span>
+                    <span class="station">{$item.name}</span>
+                    <span class="dizhi">地址:{$item.address}</span>
                 </span>
                 <span class="right address">距您3km <img src="__ROOT_PATH__/wap/static/images/map1.png" width="30"/></span>
                 </a>
             </li>
-
-            <li>
-                <a href="">
-                <span class="left tit">
-                    <span class="station">大学城陈家桥体检站</span>
-                    <span class="dizhi">地址:陈家桥医院</span>
-                </span>
-                    <span class="right address">距您3km <img src="__ROOT_PATH__/wap/static/images/map1.png" width="30"/></span>
-                </a>
-            </li>
-
-            <li>
-                <a href="">
-                <span class="left tit">
-                    <span class="station">大学城陈家桥体检站</span>
-                    <span class="dizhi">地址:陈家桥医院</span>
-                </span>
-                    <span class="right address">距您3km <img src="__ROOT_PATH__/wap/static/images/map1.png" width="30"/></span>
-                </a>
-            </li>
-            <li>
-                <a href="">
-                <span class="left tit">
-                    <span class="station">大学城陈家桥体检站</span>
-                    <span class="dizhi">地址:陈家桥医院</span>
-                </span>
-                    <span class="right address">距您3km <img src="__ROOT_PATH__/wap/static/images/map1.png" width="30"/></span>
-                </a>
-            </li>
-            <li>
-                <a href="">
-                <span class="left tit">
-                    <span class="station">大学城陈家桥体检站</span>
-                    <span class="dizhi">地址:陈家桥医院</span>
-                </span>
-                    <span class="right address">距您3km <img src="__ROOT_PATH__/wap/static/images/map1.png" width="30"/></span>
-                </a>
-            </li>
-
-            <li>
-                <a href="">
-                <span class="left tit">
-                    <span class="station">大学城陈家桥体检站</span>
-                    <span class="dizhi">地址:陈家桥医院</span>
-                </span>
-                    <span class="right address">距您3km <img src="__ROOT_PATH__/wap/static/images/map1.png" width="30"/></span>
-                </a>
-            </li>
-
-            <li>
-                <a href="">
-                <span class="left tit">
-                    <span class="station">大学城陈家桥体检站</span>
-                    <span class="dizhi">地址:陈家桥医院</span>
-                </span>
-                    <span class="right address">距您3km <img src="__ROOT_PATH__/wap/static/images/map1.png" width="30"/></span>
-                </a>
-            </li>
+            {/volist}
         </ul>
     </div>
 </div>
