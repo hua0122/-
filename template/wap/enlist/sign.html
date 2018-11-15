@@ -270,14 +270,32 @@
             alert('姓名不能为空');
             return false;
         }
+        if(!(/^[\u4e00-\u9fa5]{2,4}$/).test(name)){
+            alert("真实姓名填写有误");
+            return false;
+        }
+
+
         if(!phone){
             alert('联系电话不能为空');
             return false;
         }
+        if(!(/^1[34578]\d{9}$/.test(phone))){
+            alert("手机号码有误，请重填");
+            return false;
+        }
+
+
         if(!cno){
             alert('身份证号码不能为空');
             return false;
         }
+
+        if(!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/).test(cno)){
+            alert("身份证号码填写有误");
+            return false;
+        }
+
         if(!$('#color-input-red').is(':checked')) {
             alert('请先阅读并同意鼎吉驾校学车协议');
             return false;
@@ -297,7 +315,16 @@
         if(pay_type==1){
            payment = $(".total-count").text();//实付款
         }else if(pay_type==2){
-            payment = $("#deposit").val();
+            var deposit = $("#deposit").val();
+            if(!deposit){
+                alert('请输入定金');
+                return false;
+            }
+            if(deposit<300){
+                alert('定金不能低于300');
+                return false;
+            }
+            payment = deposit;
         }else{
             payment = 0;
         }
