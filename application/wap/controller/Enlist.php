@@ -90,7 +90,7 @@ class Enlist extends Fornt
                 $data['tuition_state'] = 1;//学费状态 1全款
             }else if($data['pay_type']==2){
                 //线上定金支付
-                $data['unpaid'] = $data['payable']-$data['payment']-$data['activity_id']-$data['coupon'];//未付款
+                $data['unpaid'] = intval($data['payable'])-intval($data['payment'])-intval($data['activity_id'])-intval($data['coupon']);//未付款
                 $data['tuition_state'] = 2;
             }else if($data['pay_type']==3||$data['pay_type']==4){
                 //线下全额支付 或者线下定金支付
