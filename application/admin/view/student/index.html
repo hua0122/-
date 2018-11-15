@@ -253,7 +253,14 @@
                     <td>{$item.payable}</td>
                     <td>{$item.payment}</td>
                     <td>{$item.unpaid}</td>
-                    <td>{$item.pay_date|date="Y-m-d H:i:s",###}</td>
+                    <td>
+                        {if condition="$item['pay_date'] eq null"}
+                            /
+                        {else}
+                            {$item.pay_date|date="Y-m-d H:i:s",###}
+                        {/if}
+
+                    </td>
                     <td>{$item.payee}</td>
                     <td>{$item.remark}</td>
                     <td>
