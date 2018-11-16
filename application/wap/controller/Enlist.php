@@ -21,16 +21,18 @@ class Enlist extends Fornt
 
     //报名班级列表页
     public function index(){
-        if (empty(session('openid'))) {
+        /*if (empty(session('openid'))) {
             header("Location:../user/getwxinfo");
             exit();
-        }
+        }*/
 
         $area = model('Area');
-        $area = $area->select();
+        $area = $area->where(array("status"=>0))->select();
+
+
 
         $grade = model('Grade');
-        $grade = $grade->where(array('area_id'=>'1'))->select();
+        $grade = $grade->where(array('area_id'=>'1',"status"=>0))->select();
 
         //banner图
         $where = array("category_id"=>8);

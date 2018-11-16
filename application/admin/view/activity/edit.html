@@ -78,14 +78,72 @@
             <div class="form-group">
                 <label class="col-lg-2 control-label">活动类型</label>
                 <div class="col-lg-10 col-sm-10">
-                    <select class="form-control" name="type" id="type" style="width:auto;">
-                        <option value="1" {if isset($info['type']) && $info['type']==1}selected{/if}>加</option>
-                        <option value="2" {if isset($info['type']) && $info['type']==2}selected{/if}>减</option>
-                    </select>
+                        <input type="hidden" value="{$info.type}" name="type"/>
+                        <input type="hidden" value="{$info.what}" name="what"/>
+
+                        {if isset($info['type']) && $info['type']==1}
+                            {if isset($info['what']) && $info['what']==1}
+                            <input type="text" readonly value="报名送(钱)" style="border:none;padding-top: 5px"/>
+                            {/if}
+
+                            {if isset($info['what']) && $info['what']==2}
+                            <input type="text" readonly value="报名送(物)" style="border:none;padding-top: 5px"/>
+                            {/if}
+                        {/if}
+                        {if isset($info['type']) && $info['type']==2}
+                            <input type="text" readonly value="团报送" style="border:none;padding-top: 5px"/>
+                        {/if}
+                        {if isset($info['type']) && $info['type']==3}
+                         <input type="text" readonly value="报名加钱送物" style="border:none;padding-top: 5px"/>
+                        {/if}
+
                     <div class="help-block"></div>
                 </div>
             </div>
 
+                {if isset($info['type']) && $info['type']==2 }
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">两人团优惠金额</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="two_amount" id="two_amount" value="{$info.two_amount}" style="width: 80%">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">三人团优惠金额</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="three_amount" id="three_amount" value="{$info.three_amount}" style="width: 80%">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">五人团优惠金额</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="five_amount" id="five_amount" value="{$info.five_amount}" style="width: 80%">
+                    </div>
+                </div>
+                {/if}
+
+
+
+            {if condition="$info['type'] eq 1 && $info['what'] eq 1 || $info['type'] eq 3"}
+            <div class="form-group" id="jine">
+                <label class="col-lg-2 control-label">金额</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" name="amount" id="amount" value="{$info.amount}" style="width: 80%">
+
+                </div>
+            </div>
+            {/if}
+
+            {if condition="$info['type'] eq 1 && $info['what'] eq 2"}
+            <div class="form-group" id="wupin">
+                <label class="col-lg-2 control-label">物品名称</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" name="gift" id="gift" value="{$info.gift}" style="width: 80%">
+
+                </div>
+            </div>
+            {/if}
 
             <div class="form-group">
                 <label class="col-lg-2 control-label">活动名称</label>
@@ -99,22 +157,6 @@
                 <label class="col-lg-2 control-label">活动介绍</label>
                 <div class="col-lg-10">
                     <textarea class="form-control" name="description" id="description">{$info.description}</textarea>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-lg-2 control-label">活动金额</label>
-                <div class="col-lg-10">
-                    <input type="text" class="form-control" name="amount" id="amount" value="{$info.amount}" style="width: 80%">
-
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-lg-2 control-label">物品名称</label>
-                <div class="col-lg-10">
-                    <input type="text" class="form-control" name="gift" id="gift" value="{$info.gift}" style="width: 80%">
-
                 </div>
             </div>
 
@@ -175,10 +217,12 @@
 <script type="text/javascript">
     function check(){
         if(!$("#name").val()){
-            alert("场地名称不能为空！");
+            alert("名称不能为空！");
             return false;
         }
     }
 
+</script>
 
-    {/block}
+
+{/block}

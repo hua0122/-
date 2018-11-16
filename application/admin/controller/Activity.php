@@ -14,16 +14,19 @@ class Activity extends Admin
     public function index() {
         $map = array();
 
-        $status = input('status','','trim,intval');//场地状态
+        $status = input('status','','trim,intval');//状态
         if(!empty($status)){
             if($status==2){
-                $map['status']='0';
+                //上线状态  下线时间大于当前时间
+                $map['downline_time'] = array('gt',time());
+
+
             }else{
-                $map['status'] = $status;
+                $map['downline_time'] = array('lt',time());
             }
 
         }else{
-            $map['status']='0';
+            $map['downline_time'] = array('gt',time());
         }
 
         $order = "id desc";
@@ -36,6 +39,7 @@ class Activity extends Admin
         $this->assign($data);
 
         $this->assign("list",$list);
+        $this->assign("status",$status);
         $this->setMeta("活动管理");
         return $this->fetch();
     }
@@ -48,6 +52,13 @@ class Activity extends Admin
             $data = input('post.');
             if(empty($data['name'])){
                 return $this->error("活动名称不能为空！");
+            }
+
+            if(empty($data['icon'])){
+                return $this->error("活动图标不能为空！");
+            }
+            if(empty($data['description'])){
+                return $this->error("活动介绍不能为空！");
             }
 
             $data['online_time'] = strtotime($data['online_time']);
@@ -89,6 +100,13 @@ class Activity extends Admin
                 return $this->error("名称不能为空！");
             }
 
+            if(empty($data['icon'])){
+                return $this->error("活动图标不能为空！");
+            }
+            if(empty($data['description'])){
+                return $this->error("活动介绍不能为空！");
+            }
+
             $data['online_time'] = strtotime($data['online_time']);
             $data['downline_time'] = strtotime($data['downline_time']);
 
@@ -117,6 +135,26 @@ class Activity extends Admin
     }
 
 
+    //立即下线活动
+    public function status(){
+
+        $id     = $this->getArrayParam('id');
+        if (!$id) {
+            return $this->error("非法操作！");
+        }
+
+        $map['id'] = array('IN', $id);
+        $result    = db('Activity')->where($map)->setField('downline_time', time());
+        if ($result) {
+            return $this->success("设置成功！");
+        } else {
+            return $this->error("设置失败！");
+        }
+    }
+
+
+
+
     //优惠券列表页
     public function coupon(){
         $map = array();
@@ -124,14 +162,18 @@ class Activity extends Admin
         $status = input('status','','trim,intval');//状态
         if(!empty($status)){
             if($status==2){
-                $map['status']='0';
+                //上线状态  下线时间大于当前时间
+                $map['downline_time'] = array('gt',time());
+
+
             }else{
-                $map['status'] = $status;
+                $map['downline_time'] = array('lt',time());
             }
 
         }else{
-            $map['status']='0';
+            $map['downline_time'] = array('gt',time());
         }
+
 
         $order = "id desc";
         $list  = db('Coupon')->where($map)->order($order)->paginate(10);

@@ -166,6 +166,13 @@
         margin-right: 10px;
         display: block;
     }
+    .col-xs-3{
+        width:20%;
+    }
+    .nav-bar-item img{
+        height: 50px;
+    }
+
 
 </style>
 <body>
@@ -195,6 +202,9 @@
         <div class="col-xs-3 nav-bar-item">
             <a href="{$web_path}/page/index/id/9"><img src="__ROOT_PATH__/wap/static/images/qbcd.png"/><i>常见问题</i></a>
         </div>
+        <div class="col-xs-3 nav-bar-item">
+            <a href=""><img src="__ROOT_PATH__/wap/static/images/vrxc.png"/><i>体检申请</i></a>
+        </div>
 
     </div>
 
@@ -215,7 +225,7 @@
         <h1 class="col-xs-12" id="select-city">
             <div class="form-group">
                 <img src="__ROOT_PATH__/wap/static/images/map.png" width="20"/>
-                <span style="color:#0baae4;" id="text">大学城</span>
+                <span style="color:#0baae4;" id="text">  </span>
                 <span style="color:#0baae4;float: right"> > </span>
             </div>
         </h1>
@@ -288,6 +298,8 @@
             $("#text").html(text);
 
         });
+        var t = $('input:radio[name="city"]:first').html();
+        $("#text").html(t);
 
 
 

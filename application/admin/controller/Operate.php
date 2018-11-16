@@ -301,21 +301,18 @@ class Operate extends Admin
             if ($data) {
                 $result = $link->save($data, array('id' => $data['id']));
                 if ($result) {
-
                     //修改首页展示图
-                    $pic['cover_id'] = input('cover_id','','trim,intval');
-                    $pic1['cover_id1'] = input('cover_id1','','trim,intval');
-                    $pic2['cover_id2'] = input('cover_id2','','trim,intval');
-                    $pic3['cover_id3'] = input('cover_id3','','trim,intval');
-                    $pic4['cover_id4'] = input('cover_id4','','trim,intval');
+                    $pic = input('cover_id','','trim,intval');
+                    $pic1= input('cover_id1','','trim,intval');
+                    $pic2= input('cover_id2','','trim,intval');
+                    $pic3= input('cover_id3','','trim,intval');
+                    $pic4= input('cover_id4','','trim,intval');
 
-                    model("Document")->where(array('id'=>21))->setField($pic);
-                    model("Document")->where(array('id'=>22))->setField($pic1);
-                    model("Document")->where(array('id'=>23))->setField($pic2);
-                    model("Document")->where(array('id'=>24))->setField($pic3);
-                    model("Document")->where(array('id'=>25))->setField($pic4);
-
-
+                    model("Document")->where(array('id'=>21))->setField('cover_id',$pic);
+                    model("Document")->where(array('id'=>22))->setField('cover_id',$pic1);
+                    model("Document")->where(array('id'=>23))->setField('cover_id',$pic2);
+                    model("Document")->where(array('id'=>24))->setField('cover_id',$pic3);
+                    model("Document")->where(array('id'=>25))->setField('cover_id',$pic4);
 
                     return $this->success("修改成功！", url('Operate/about'));
                 } else {
@@ -423,17 +420,17 @@ class Operate extends Admin
                 if ($result) {
 
                     //修改首页展示图
-                    $pic['cover_id'] = input('cover_id','','trim,intval');
-                    $pic1['cover_id1'] = input('cover_id1','','trim,intval');
-                    $pic2['cover_id2'] = input('cover_id2','','trim,intval');
-                    $pic3['cover_id3'] = input('cover_id3','','trim,intval');
-                    $pic4['cover_id4'] = input('cover_id4','','trim,intval');
+                    $pic= input('cover_id','','trim,intval');
+                    $pic1 = input('cover_id1','','trim,intval');
+                    $pic2 = input('cover_id2','','trim,intval');
+                    $pic3 = input('cover_id3','','trim,intval');
+                    $pic4 = input('cover_id4','','trim,intval');
 
-                    model("Document")->where(array('id'=>26))->setField($pic);
-                    model("Document")->where(array('id'=>27))->setField($pic1);
-                    model("Document")->where(array('id'=>28))->setField($pic2);
-                    model("Document")->where(array('id'=>29))->setField($pic3);
-                    model("Document")->where(array('id'=>30))->setField($pic4);
+                    model("Document")->where(array('id'=>26))->setField('cover_id',$pic);
+                    model("Document")->where(array('id'=>27))->setField('cover_id',$pic1);
+                    model("Document")->where(array('id'=>28))->setField('cover_id',$pic2);
+                    model("Document")->where(array('id'=>29))->setField('cover_id',$pic3);
+                    model("Document")->where(array('id'=>30))->setField('cover_id',$pic4);
 
 
                     return $this->success("修改成功！", url('Operate/coach'));
@@ -491,17 +488,17 @@ class Operate extends Admin
                 if ($result) {
 
                     //修改首页展示图
-                    $pic['cover_id'] = input('cover_id','','trim,intval');
-                    $pic1['cover_id1'] = input('cover_id1','','trim,intval');
-                    $pic2['cover_id2'] = input('cover_id2','','trim,intval');
-                    $pic3['cover_id3'] = input('cover_id3','','trim,intval');
-                    $pic4['cover_id4'] = input('cover_id4','','trim,intval');
+                    $pic = input('cover_id','','trim,intval');
+                    $pic1 = input('cover_id1','','trim,intval');
+                    $pic2 = input('cover_id2','','trim,intval');
+                    $pic3 = input('cover_id3','','trim,intval');
+                    $pic4 = input('cover_id4','','trim,intval');
 
-                    model("Document")->where(array('id'=>31))->setField($pic);
-                    model("Document")->where(array('id'=>32))->setField($pic1);
-                    model("Document")->where(array('id'=>33))->setField($pic2);
-                    model("Document")->where(array('id'=>34))->setField($pic3);
-                    model("Document")->where(array('id'=>35))->setField($pic4);
+                    model("Document")->where(array('id'=>31))->setField('cover_id',$pic);
+                    model("Document")->where(array('id'=>32))->setField('cover_id',$pic1);
+                    model("Document")->where(array('id'=>33))->setField('cover_id',$pic2);
+                    model("Document")->where(array('id'=>34))->setField('cover_id',$pic3);
+                    model("Document")->where(array('id'=>35))->setField('cover_id',$pic4);
 
 
                     return $this->success("修改成功！", url('Operate/team'));
@@ -560,17 +557,17 @@ class Operate extends Admin
                 if ($result) {
 
                     //修改首页展示图
-                    $pic['cover_id'] = input('cover_id','','trim,intval');
-                    $pic1['cover_id1'] = input('cover_id1','','trim,intval');
-                    $pic2['cover_id2'] = input('cover_id2','','trim,intval');
-                    $pic3['cover_id3'] = input('cover_id3','','trim,intval');
-                    $pic4['cover_id4'] = input('cover_id4','','trim,intval');
+                    $pic= input('cover_id','','trim,intval');
+                    $pic1 = input('cover_id1','','trim,intval');
+                    $pic2 = input('cover_id2','','trim,intval');
+                    $pic3 = input('cover_id3','','trim,intval');
+                    $pic4 = input('cover_id4','','trim,intval');
 
-                    model("Document")->where(array('id'=>36))->setField($pic);
-                    model("Document")->where(array('id'=>37))->setField($pic1);
-                    model("Document")->where(array('id'=>38))->setField($pic2);
-                    model("Document")->where(array('id'=>39))->setField($pic3);
-                    model("Document")->where(array('id'=>40))->setField($pic4);
+                    model("Document")->where(array('id'=>36))->setField('cover_id',$pic);
+                    model("Document")->where(array('id'=>37))->setField('cover_id',$pic1);
+                    model("Document")->where(array('id'=>38))->setField('cover_id',$pic2);
+                    model("Document")->where(array('id'=>39))->setField('cover_id',$pic3);
+                    model("Document")->where(array('id'=>40))->setField('cover_id',$pic4);
 
                     return $this->success("修改成功！", url('Operate/student'));
                 } else {
