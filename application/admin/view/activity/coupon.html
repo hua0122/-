@@ -24,7 +24,7 @@
         </div>
         <div class="pull-right">
             <a class="btn btn-primary" href="{:url('coupon_add')}">新 增</a>
-            <button class="btn btn-danger ajax-post" target-form="ids" url="{:url('status?status=0')}" >下线</button>
+            <button class="btn btn-danger ajax-post" target-form="ids" url="{:url('status')}" >下线</button>
             <!--<button class="btn btn-default ajax-post" target-form="ids" url="{:url('status?status=1')}">禁 用</button>
             <button class="btn btn-danger ajax-post confirm" url="{:url('delete')}" target-form="ids">删 除</button>-->
         </div>
@@ -60,7 +60,6 @@
                     <th>上线时间</th>
                     <th>下线时间</th>
                     <th>报名人数</th>
-                    <th>状态</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -77,18 +76,13 @@
                     <td>{$item['downline_time']|date="Y-m-d H:i:s",###}</td>
                     <td>{$item['number']}</td>
                     <td>
-                        {if condition=" $item['status'] eq 0 "}
-                        <span class="label label-primary">上线</span>
-                        {else /}
-                        <span class="label label-danger">下线</span>
-                        {/if}
-                    </td>
-                    <td>
 
                         <a href="{:url('code?id='.$item['id'])}" class="btn btn-info">券码管理</a>
 
-
-                        <!--<a href="{:url('delete?id='.$item['id'])}" class="confirm ajax-get table-link">删除</a>-->
+                        {if $status==1}
+                        {else}
+                        <a href="{:url('code_status?id='.$item['id'])}" class="btn btn-danger ajax-get">立即下线</a>
+                        {/if}
                     </td>
                 </tr>
                 {/volist}

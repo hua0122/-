@@ -118,6 +118,7 @@
                 <div>
                     <input type="text" name="code" id="code" placeholder="请输入推荐码">
                 </div>
+                <div id="referral"></div>
             </div>
             <div class="modal-body">
                 <div>
@@ -137,7 +138,7 @@
         <div class="row">
             {volist name="activity" id="item"}
             <div class="modal-body">
-                <input type="hidden" value="{$item.id}" name="activity_id">
+                <input type="radio" value="{$item.id}" name="activity_id" style="width: 25px;">
                 <div><img src="{:get_cover($item['icon'],'path')}" width="83" height="83" /> <br/>{$item.name}</div>
                 <div><span>{$item.description}</span></div>
             </div>
@@ -150,6 +151,7 @@
                 <div>
                     <input type="text" name="code" id="yhq_code" placeholder="如果你有优惠券请输入优惠券编码">
                 </div>
+                <div id="coupon"></div>
             </div>
             <div class="modal-body yhq">
                 <div>
@@ -190,6 +192,63 @@
 
 
 <script>
+    //优惠券确认
+    $("#yhq").click(function(){
+        $(".jts").hide();
+        //do something
+        var code = $("#yhq_code").val();
+        if(code){
+            $.post("{$web_path}/enlist/yhq_code",{code:code},function (data) {
+                data=eval("("+data+")");
+                if(data.code=="400"){
+                    alert("优惠券不正确,请重新输入");
+                    $("#yhq_code").val("");
+                }else{
+                    $("#coupon").html('<input type="hidden" name="coupon_id" id="coupon_id" value="'+data.res.id+'"/>');
+                    var count = parseFloat($(".total-count").html()-data.res.amount).toFixed(2);
+                    $(".total-count").html(count);
+                    $("#yhq").attr('disabled',true);
+                }
+
+            });
+        }
+
+    });
+
+    //推荐码确认
+    $("#confirm").click(function(){
+        $(".dialog_open").hide();
+        //do something 查询推荐码是否有效
+        var code = $("#code").val();
+        $.post("{$web_path}/enlist/referral",{code:code},function(data){
+            data=eval("("+data+")");
+            if(data.code=="400"){
+                alert(data.msg);
+                $("#code").val("");
+            }else{
+                $("#referral").html('<input type="hidden" name="inviter" id="inviter" value="'+data.res.id+'"/>');
+
+            }
+        });
+
+
+    });
+
+    //活动选择
+    $('input:radio[name="activity_id"]').change(function(){
+        var activity = this.value;
+        $.post("{$web_path}/enlist/activity",{activity_id:activity},function(data){
+            data=eval("("+data+")");
+            if(data.code=="400"){
+                alert(data.msg);
+            }else{
+                var count = parseFloat("{$grade.price}"-data.res.amount).toFixed(2);
+                $(".total-count").html(count);
+            }
+        });
+
+    });
+
     function dr_submit() {
        $(".dialog_open").show();
 
@@ -205,14 +264,10 @@
 
 
    $(function(){
-       $("#confirm").click(function(){
-           $(".dialog_open").hide();
-           //do something
-       });
-       $("#yhq").click(function () {
+       $(".jts .c_alert_mask").click(function(){
            $(".jts").hide();
-           //do something
        });
+
 
        $("#confirm-other").click(function(){
            $(".other").hide();
@@ -221,7 +276,7 @@
             //全款支付
            if(check_val==1){
                 var tem='<span>费用合计</span>' +
-                    '<span class="count right"> <span class="total-count">3280</span>元</span>';
+                    '<span class="count right"> <span class="total-count">{$grade.price}</span>元</span>';
                $("#total").html(tem);
                $(".sign .total").css('height','45');
            }
@@ -244,6 +299,9 @@
 
 
            //do something
+
+
+
        });
 
    });
@@ -307,9 +365,9 @@
         var grade_id = $("#grade_id").val();//班级id
         var area_id = $("#area_id").val();//场地id
 
-        var activity_id = '';//活动id
-        var coupon = $("#yhq_code").val();//优惠券
-        var inviter = $("#code").val();//邀请人 推荐码
+        var activity_id = $('input:radio[name="activity_id"]:checked').val();//活动id
+        var coupon = $("#coupon_id").val();//优惠券
+        var inviter = $("#inviter").val();//邀请人 推荐码
         var pay_type = $('input:radio[name="other"]:checked').val();//缴费类型
         var payment ="";
         if(pay_type==1){

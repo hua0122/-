@@ -135,7 +135,7 @@ class Activity extends Admin
     }
 
 
-    //立即下线活动
+    //立即下线
     public function status(){
 
         $id     = $this->getArrayParam('id');
@@ -145,6 +145,23 @@ class Activity extends Admin
 
         $map['id'] = array('IN', $id);
         $result    = db('Activity')->where($map)->setField('downline_time', time());
+        if ($result) {
+            return $this->success("设置成功！");
+        } else {
+            return $this->error("设置失败！");
+        }
+    }
+
+    //立即下线活动
+    public function code_status(){
+
+        $id     = $this->getArrayParam('id');
+        if (!$id) {
+            return $this->error("非法操作！");
+        }
+
+        $map['id'] = array('IN', $id);
+        $result    = db('Coupon')->where($map)->setField('downline_time', time());
         if ($result) {
             return $this->success("设置成功！");
         } else {

@@ -225,7 +225,7 @@
         <h1 class="col-xs-12" id="select-city">
             <div class="form-group">
                 <img src="__ROOT_PATH__/wap/static/images/map.png" width="20"/>
-                <span style="color:#0baae4;" id="text">  </span>
+                <span style="color:#0baae4;" id="text">{$area_name.name}</span>
                 <span style="color:#0baae4;float: right"> > </span>
             </div>
         </h1>
@@ -298,9 +298,6 @@
             $("#text").html(text);
 
         });
-        var t = $('input:radio[name="city"]:first').html();
-        $("#text").html(t);
-
 
 
 
@@ -348,7 +345,7 @@
 
         function get_list(city){
             $.ajax({
-                url: '../enlist/ajax_list',
+                url: '{$web_path}/enlist/ajax_list',
                 type: 'post',
                 dataType: 'json',
                 data: {city:city},

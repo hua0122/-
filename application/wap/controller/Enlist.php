@@ -29,7 +29,8 @@ class Enlist extends Fornt
         $area = model('Area');
         $area = $area->where(array("status"=>0))->select();
 
-
+        $area_name = model('Area')->find(1);
+        $this->assign('area_name',$area_name);
 
         $grade = model('Grade');
         $grade = $grade->where(array('area_id'=>'1',"status"=>0))->select();
@@ -61,12 +62,57 @@ class Enlist extends Fornt
     //班级ajax列表
     public function ajax_list(){
         $area_id = input('city', '', 'trim,intval');
-        $where = array("area_id"=>$area_id);
+        $where = array("area_id"=>$area_id,"status"=>0);
         $grade = model('Grade');
         $res = $grade->where($where)->select();
-
         echo json_encode($res);
+    }
 
+    //优惠券ajax
+    public function yhq_code(){
+        //查询优惠券是否有效
+        $code  = input('code','','htmlspecialchars,trim');
+        if(!empty($code)){
+            $res = model("Code")->where(array("code"=>$code))->find();
+            if($res){
+                echo json_encode(array("code"=>"200","msg"=>"有效","res"=>$res));
+            }else{
+                echo json_encode(array("code"=>"400","msg"=>"无效"));
+            }
+        }
+
+
+    }
+    //推荐码ajax
+    public function referral(){
+        //查询推荐码是否有效
+        $code = input('code','','htmlspecialchars,trim');
+        if(!empty($code)){
+            $res = db('Department')->where(array("code"=>$code))->find();
+            if($res){
+                echo json_encode(array("code"=>"200","msg"=>"有效","res"=>$res));
+            }else{
+                $res = db('Person')->where(array("code"=>$code))->find();
+                if($res){
+                    echo json_encode(array("code"=>"200","msg"=>"有效","res"=>$res));
+                }else{
+                    echo json_encode(array("code"=>"400","msg"=>"推荐码无效,请重新输入"));
+                }
+            }
+        }
+    }
+    //活动 ajax
+    public function activity(){
+        //查询活动优惠金额
+        $activity_id = input('activity_id','','trim,intval');
+        if(!empty($activity_id)){
+            $res = db("Activity")->find($activity_id);
+            if($res){
+                echo json_encode(array("code"=>"200","msg"=>"有效","res"=>$res));
+            }else{
+                echo json_encode(array("code"=>"400","msg"=>"活动不存在或已下线"));
+            }
+        }
     }
 
 
