@@ -538,10 +538,10 @@ body {
 	height: 82px;
 }
 .success .ok{
-	background: url(../../../img/ok.png);
+	background: url(../images/ok.png);
 }
 .success .no{
-	background: url(../../../img/no.png);
+	background: url(../images/no.png);
 }
 .success h1{
 	margin-top: 20px;
