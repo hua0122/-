@@ -270,6 +270,8 @@ class Enlist extends Fornt
                 }
                 if (empty(session("openid"))) {
                     $code = -1;
+                    $msg = "错误";
+                    $content ="";
                 }
                 echo json_encode(array('code' => $code, 'msg' => $msg, 'content' => $content), JSON_UNESCAPED_UNICODE);
 
