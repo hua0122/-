@@ -227,23 +227,13 @@ class Enlist extends Fornt
 
             $wx = new \Weixin_class();
 
-            $data = $_POST['data'];
+            $data = input('post.');
 
-            $price = $_GET['money'];
+            $price = input('money');
+            $data['openid'] = session("openid");
+            $data['create_time'] = time();
 
-            $name = $data['name'];
-            $phone = $data['phone'];
-            $station_id = $data['station_id'];
-
-            $tj_data = array(
-                "openid" => session("openid"),
-                "name" => $name,
-                "phone" => $phone,
-                "station_id" => $station_id,
-                "create_time" => time(),
-            );
-
-            $res = model("Apply")->save($tj_data);
+            $res = model("Apply")->save($data);
 
             $insert_id = model("Apply")->getLastInsID();
 
