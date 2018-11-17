@@ -95,11 +95,11 @@ class Student extends Admin
             ->join('sent_grade','sent_grade.id=sent_student.grade_id','left')
             ->join('sent_area','sent_area.id=sent_student.area_id','left')
             ->join('sent_activity','sent_activity.id=sent_student.activity_id','left')
-            ->join('sent_person','sent_person.uid=sent_student.inviter','left')
+            ->join('sent_person','sent_person.id=sent_student.inviter','left')
             ->join('sent_department','sent_department.id=sent_person.department_id','left')
             ->join('sent_code','sent_code.id=sent_student.coupon','left')
             ->join('sent_coupon','sent_coupon.id=sent_code.coupon_id','left')
-            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name,sent_activity.name as activity_name,sent_person.username,sent_department.title as partner_name,sent_code.code,sent_coupon.name as coupon_name,sent_coupon.amount as coupon_amount')
+            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name,sent_activity.name as activity_name,sent_activity.gift,sent_activity.amount as activity_amount,sent_person.username,sent_department.title as partner_name,sent_code.code,sent_coupon.name as coupon_name,sent_coupon.amount as coupon_amount')
             ->where($map)->order($order)->paginate(10);
 
         $data = array(

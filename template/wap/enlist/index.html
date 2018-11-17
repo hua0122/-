@@ -203,7 +203,7 @@
             <a href="{$web_path}/page/index/id/9"><img src="__ROOT_PATH__/wap/static/images/qbcd.png"/><i>常见问题</i></a>
         </div>
         <div class="col-xs-3 nav-bar-item">
-            <a href=""><img src="__ROOT_PATH__/wap/static/images/vrxc.png"/><i>体检申请</i></a>
+            <a href="javascript:" onclick="test()"><img src="__ROOT_PATH__/wap/static/images/vrxc.png"/><i>体检申请</i></a>
         </div>
 
     </div>
@@ -266,18 +266,19 @@
 </body>
 <script charset="GBK" src="http://map.qq.com/api/js?v=2.exp"></script>
 <script>
-    $(function(){
-        /*$(":radio").click(function(){
-                 var id = $(this).val();
-                 var href = "/index.php?do=enlist_details&coach=&id="+id;
-                 $("#next").attr("href",href);
+    function test(){
+        $.post("{$web_path}/enlist/get_sign",function(data){
+            data = eval("("+data+")");
+            if(data.code=="400"){
+                alert(data.msg);
+            }else{
+                location.href="{$web_path}/enlist/test";
+            }
         });
-        
-        $("#next").click(function(){
-                if($('input:radio[name="class"]:checked').val()==null){
-                    alert("请选择一个班级");
-                }
-        });*/
+    }
+
+
+    $(function(){
         $("#select-city").click(function(){
             $(".dialog_open").show();
         });

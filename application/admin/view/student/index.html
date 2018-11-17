@@ -228,7 +228,10 @@
                     <td>{$item.grade_name}</td>
                     <td>{$item.price}</td>
                     <td>{$item.area_name}</td>
-                    <td>{$item.activity_name}</td>
+                    <td>
+                        {$item.activity_name}{$item.activity_amount}
+                        {if $item.gift}({$item.gift}){/if}
+                    </td>
                     <td>
                         {if condition="$item['coupon'] eq null"}
                             /

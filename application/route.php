@@ -36,6 +36,8 @@ return array(
     'enlist/yhq_code'   => 'wap/enlist/yhq_code',//优惠券
     'enlist/referral'   => 'wap/enlist/referral',//推荐码
     'enlist/activity'   => 'wap/enlist/activity',//活动
+    'enlist/test'   => 'wap/enlist/test',//申请体检
+    'enlist/get_sign'   => 'wap/enlist/get_sign',//获取报名信息
     'user/index'   => 'wap/user/index',//个人中心
     'user/study'   => 'wap/user/study',//学习中心
     'user/feedback'   => 'wap/user/feedback',//投诉建议
