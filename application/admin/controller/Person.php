@@ -60,10 +60,10 @@ class Person extends Admin {
         //$map['sent_person.status'] = array('egt', 0);
 
 		
-		$order = "uid desc";
+		$order = "id desc";
 		$list  = model('Person')
 		->join('sent_department','sent_person.department_id=sent_department.id','left')
-		->field('sent_person.uid,sent_person.username,sent_person.email,sent_person.mobile,sent_person.sex,sent_person.create_time,sent_person.status,sent_person.department_id,sent_person.status,sent_department.title,sent_person.code,sent_person.number')
+		->field('sent_person.id,sent_person.username,sent_person.email,sent_person.mobile,sent_person.sex,sent_person.create_time,sent_person.status,sent_person.department_id,sent_person.status,sent_department.title,sent_person.code,sent_person.number')
 		->where($map)
 		->order($order)->paginate(15);
 

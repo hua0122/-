@@ -28,21 +28,22 @@ class User extends Base{
 	public $editfield = array(
 		array('name'=>'uid','type'=>'hidden'),
 		array('name'=>'username','title'=>'用户名','type'=>'readonly','help'=>''),
-		array('name'=>'nickname','title'=>'昵称','type'=>'text','help'=>''),
+		array('name'=>'nickname','title'=>'姓名','type'=>'text','help'=>''),
 		array('name'=>'password','title'=>'密码','type'=>'password','help'=>'为空时则不修改'),
-		array('name'=>'sex','title'=>'性别','type'=>'select','option'=>array('0'=>'保密','1'=>'男','2'=>'女'),'help'=>''),
-		array('name'=>'email','title'=>'邮箱','type'=>'text','help'=>'用户邮箱，用于找回密码等安全操作'),
+		//array('name'=>'sex','title'=>'性别','type'=>'select','option'=>array('0'=>'保密','1'=>'男','2'=>'女'),'help'=>''),
+		//array('name'=>'email','title'=>'邮箱','type'=>'text','help'=>'用户邮箱，用于找回密码等安全操作'),
 		array('name'=>'mobile','title'=>'联系电话','type'=>'text','help'=>''),
-		array('name'=>'score','title'=>'用户积分','type'=>'text','help'=>''),
-		array('name'=>'signature','title'=>'用户签名','type'=>'textarea','help'=>''),
+		//array('name'=>'score','title'=>'用户积分','type'=>'text','help'=>''),
+		//array('name'=>'signature','title'=>'用户签名','type'=>'textarea','help'=>''),
 		array('name'=>'status','title'=>'状态','type'=>'select','option'=>array('0'=>'禁用','1'=>'启用'),'help'=>''),
 	);
 
 	public $addfield = array(
-		array('name'=>'username','title'=>'用户名','type'=>'text','help'=>'用户名会作为默认的昵称'),
+        array('name'=>'nickname','title'=>'姓名','type'=>'text','help'=>'真实姓名或昵称'),
+        array('name'=>'mobile','title'=>'电话','type'=>'text','help'=>'请填写真实有效的手机号码'),
+		array('name'=>'username','title'=>'用户名','type'=>'text','help'=>'登录账号'),
 		array('name'=>'password','title'=>'密码','type'=>'password','help'=>'用户密码不能少于6位'),
 		array('name'=>'repassword','title'=>'确认密码','type'=>'password','help'=>'确认密码'),
-		array('name'=>'email','title'=>'邮箱','type'=>'text','help'=>'用户邮箱，用于找回密码等安全操作'),
 	);
     
 	public $useredit = array(
@@ -126,12 +127,13 @@ class User extends Base{
 	 * 用户注册
 	 * @param  integer $user 用户信息数组
 	 */
-	function register($username, $password, $repassword, $email, $isautologin = true){
+	function register($username, $password, $repassword, $nickname,$mobile,$isautologin = true){
 		$data['username'] = $username;
 		$data['salt'] = rand_string(6);
 		$data['password'] = $password;
 		$data['repassword'] = $repassword;
-		$data['email'] = $email;
+		$data['nickname'] = $nickname;
+		$data['mobile'] = $mobile;
 		$result = $this->validate(true)->save($data);
 		if ($result) {
 			$data['uid'] = $this->data['uid'];

@@ -14,11 +14,12 @@ class User extends Admin {
 
 	/**
 	 * 管理员管理首页
-	 * @author 麦当苗儿 <zuojiazi@vip.qq.com>
+	 * @author
 	 */
 	public function index() {
 		$nickname      = input('nickname');
 		$map['status'] = array('egt', 0);
+		$map['uid'] = array('gt',1);
 		if (is_numeric($nickname)) {
 			$map['uid|nickname'] = array(intval($nickname), array('like', '%' . $nickname . '%'), '_multi' => true);
 		} else {
@@ -46,7 +47,7 @@ class User extends Admin {
 		if (IS_POST) {
 			$data = $this->request->param();
 			//创建注册管理员
-			$result = $model->register($data['username'], $data['password'], $data['repassword'], $data['email'], false);
+			$result = $model->register($data['username'], $data['password'], $data['repassword'], $data['nickname'],$data['mobile'], false);
 			if ($result) {
 				return $this->success('管理员添加成功！', url('admin/user/index'));
 			} else {
@@ -120,7 +121,7 @@ class User extends Admin {
 					$access->save($add);
 				}
 			}
-			return $this->success("设置成功！");
+			return $this->success("设置成功！",url('admin/user/index'));
 		} else {
 			$uid  = input('id', '', 'trim,intval');
 			$row  = $group::select();

@@ -123,12 +123,45 @@
 							</li>
 						</ul>
 					</li>
-					<li class="visible-lg">
+
+					<li class="dropdown profile-dropdown hidden-sm hidden-xs">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-right: 0px">
+							<img src="__PUBLIC__/images/samples/scarlet-159.png" alt=""/>
+							<span class="hidden-xs">驾校切换</span> <b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-right">
+							<li>
+								<a href="{:url('admin/User/edit')}">
+									<i class="fa fa-user"></i>
+									驾校名称1
+								</a>
+							</li>
+							<li>
+								<a href="{:url('admin/User/editpwd')}">
+									<i class="fa fa-cog"></i>
+									驾校名称2
+								</a>
+							</li>
+							<li>
+								<a href="{:url('admin/index/logout')}">
+									<i class="fa fa-power-off"></i>
+									驾校名称3
+								</a>
+							</li>
+							<li>
+								<a href="{:config('WEB_SITE_URL')}" target="_blank">
+									<i class="fa fa-home"></i>
+									驾校名称4
+								</a>
+							</li>
+						</ul>
+					</li>
+					<!--<li class="visible-lg">
 						<a href="#" class="btn" onclick="helpIntro();">
 							<i class="fa fa-question-circle"></i>
 							操作指南
 						</a>
-					</li>
+					</li>-->
 				</ul>
 			</div>
 		</div>
