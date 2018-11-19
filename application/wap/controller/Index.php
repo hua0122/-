@@ -14,10 +14,10 @@ class Index extends Fornt {
 
 	//网站首页
 	public function index() {
-        if (empty(session('openid'))) {
+        /*if (empty(session('openid'))) {
             header("Location:../user/getwxinfo");
             exit();
-        }
+        }*/
 
         $web_path = $_SERVER['SERVER_NAME'];
         $this->assign('web_path',"http://".$web_path);

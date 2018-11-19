@@ -167,6 +167,7 @@ class Group extends Admin {
 			$group = $this->group->where(array('id' => $id))->find();
 
 			$map['module'] = $group['module'];
+			$map['status'] = 1;
 			$row           = db('AuthRule')->where($map)->order('id desc')->select();
 
 			$list = array();

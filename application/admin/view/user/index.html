@@ -15,20 +15,18 @@
 				<thead>
 					<tr>
 						<th>
-							<span>用户</span>
+							<span>姓名</span>
 						</th>
 						<th>
-							<span>Email</span>
+							<span>用户名</span>
 						</th>
 						<th>
-							<span>手机号码</span>
+							<span>电话</span>
 						</th>
 						<th>
-							<span>授权分组</span>
+							<span>所属角色</span>
 						</th>
-						<th>
-							<span>创建时间</span>
-						</th>
+
 						<th class="text-center">
 							<span>状态</span>
 						</th>
@@ -40,17 +38,16 @@
 					<tr>
 						<td>
 							<img src="{:avatar($item['uid'])}" alt=""/>
-							<a href="#" class="user-link">{$item['nickname']}</a>
-							<span class="user-subhead">{$item['username']}</span>
+							<a href="javascript:" class="user-link">{$item['nickname']}</a>
 						</td>
 						<td>
-							<span >{$item['email']}</span>
+							<span >{$item['username']}</span>
 						</td>
 						<td>
 							<span >{$item['mobile']}</span>
 						</td>
 						<td>{$item['group_list']|implode=',',###}</td>
-						<td>{$item['reg_time']|date='Y-m-d',###}</td>
+
 						<td class="text-center">
 							{if condition="$item['status']"}
 							<span class="label label-primary">启用</span>
@@ -59,13 +56,13 @@
 							{/if}
 						</td>
 						<td>
-							<a href="{:url('User/edit',array('id'=>$item['uid']))}" class="table-link" title="">
+							<a href="{:url('User/edit',array('id'=>$item['uid']))}" class="btn btn-info" title="">
 								编辑
 							</a>
-							<a href="{:url('User/auth',array('id'=>$item['uid']))}" class="table-link">
+							<a href="{:url('User/auth',array('id'=>$item['uid']))}" class="btn btn-success">
 								授权
 							</a>
-							<a href="{:url('User/del',array('id'=>$item['uid']))}" class="table-link confirm ajax-get">
+							<a href="{:url('User/del',array('id'=>$item['uid']))}" class="btn btn-danger confirm ajax-get">
 								删除
 							</a>
 						</td>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN"><head>
+<html lang="zh-CN">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -13,8 +14,10 @@
     <script src="__ROOT_PATH__/wap/static/js/jquery-2.2.3.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="__ROOT_PATH__/wap/static/js/custom1.js" type="text/javascript" charset="utf-8"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&amp;ak=DBd897f58d7a63e585485e3dea011253"></script>
-    <script type="text/javascript" src="http://api.map.baidu.com/getscript?v=2.0&amp;ak=DBd897f58d7a63e585485e3dea011253&amp;services=&amp;t=20181029172410"></script>
+    <script type="text/javascript"
+            src="http://api.map.baidu.com/api?v=2.0&amp;ak=DBd897f58d7a63e585485e3dea011253"></script>
+    <script type="text/javascript"
+            src="http://api.map.baidu.com/getscript?v=2.0&amp;ak=DBd897f58d7a63e585485e3dea011253&amp;services=&amp;t=20181029172410"></script>
 
     <link rel="stylesheet" type="text/css" href="__ROOT_PATH__/wap/static/css/normalize.css">
     <link rel="stylesheet" type="text/css" href="__ROOT_PATH__/wap/static/css/default.css">
@@ -54,7 +57,8 @@
 
     <div class="row address">
         <span>场地:<span><input type="hidden" name="class" id="area_id" value="{$grade.area_id}">{$grade.area_name}</span></span>
-        <span class="map right"><a href="javascript:" onclick="show_map()"><img src="__ROOT_PATH__/wap/static/images/map1.png" width="20"/> > </a></span>
+        <span class="map right"><a href="javascript:" onclick="show_map()"><img
+                src="__ROOT_PATH__/wap/static/images/map1.png" width="20"/> > </a></span>
     </div>
 
     <div class="row address" onclick="javascript:jts()">
@@ -82,16 +86,15 @@
         </div>
         <div class="xieyi">
             <span>
-                <input id="color-input-red" class="chat-button-location-radio-input" type="checkbox" name="color-input-red" value="#f0544d" />
-                <label  for="color-input-red"></label >
+                <input id="color-input-red" class="chat-button-location-radio-input" type="checkbox"
+                       name="color-input-red" value="#f0544d"/>
+                <label for="color-input-red"></label>
 
                 <span class="text">我已阅读并同意</span>
                 <span class="color"><a href="javascript:" onclick="xieyi()">《鼎吉驾校学车协议》</a> </span>
             </span>
             <span class="right" id="other" onclick="javascript:other()">其他</span></div>
     </div>
-
-
 
 
     <div class="row kong"></div>
@@ -139,7 +142,7 @@
             {volist name="activity" id="item"}
             <div class="modal-body">
                 <input type="radio" value="{$item.id}" name="activity_id" style="width: 25px;">
-                <div><img src="{:get_cover($item['icon'],'path')}" width="83" height="83" /> <br/>{$item.name}</div>
+                <div><img src="{:get_cover($item['icon'],'path')}" width="83" height="83"/> <br/>{$item.name}</div>
                 <div><span>{$item.description}</span></div>
             </div>
             {/volist}
@@ -147,18 +150,17 @@
         </div>
 
 
-            <div class="modal-body yhq">
-                <div>
-                    <input type="text" name="code" id="yhq_code" placeholder="如果你有优惠券请输入优惠券编码">
-                </div>
-                <div id="coupon"></div>
+        <div class="modal-body yhq">
+            <div>
+                <input type="text" name="code" id="yhq_code" placeholder="如果你有优惠券请输入优惠券编码">
             </div>
-            <div class="modal-body yhq">
-                <div>
-                    <input type="submit" id="yhq" class="confirm" value="确认">
-                </div>
+            <div id="coupon"></div>
+        </div>
+        <div class="modal-body yhq">
+            <div>
+                <input type="submit" id="yhq" class="confirm" value="确认">
             </div>
-
+        </div>
 
 
     </div>
@@ -172,7 +174,6 @@
         <div class="row">
             <div class="modal-body">
                 <div>
-                    <label><input type="radio" value="1" name="other" class="other-input" checked>全款支付</label>
                     <label><input type="radio" value="2" name="other" class="other-input">定金支付</label>
                     <label><input type="radio" value="3" name="other" class="other-input">线下支付</label>
                 </div>
@@ -189,25 +190,42 @@
 </div>
 
 
-
-
 <script>
+    /*
+       1. 取消与当前控件name 相同的所有控件的选中状态
+       2. 选中当前控件
+       3. 如果当前控件在点击前是选中状态，则点击后取消其选中状态
+       */
+    $('input:radio[name="other"]').click(function () {
+
+        //var domName = $(this).prop('name');//获取当前单选框控件name 属性值
+        var checkedState = $(this).prop("checked");//记录当前选中状态
+        alert(checkedState);
+        /*$("input:radio[name='other']").prop('checked', false);//1.
+        $(this).prop('checked', true);//2.
+        if (checkedState) {
+            alert(222);
+            $(this).prop('checked', false); //3.
+        }*/
+    });
+
+
     //优惠券确认
-    $("#yhq").click(function(){
+    $("#yhq").click(function () {
         $(".jts").hide();
         //do something
         var code = $("#yhq_code").val();
-        if(code){
-            $.post("{$web_path}/enlist/yhq_code",{code:code},function (data) {
-                data=eval("("+data+")");
-                if(data.code=="400"){
+        if (code) {
+            $.post("{$web_path}/enlist/yhq_code", {code: code}, function (data) {
+                data = eval("(" + data + ")");
+                if (data.code == "400") {
                     alert("优惠券不正确,请重新输入");
                     $("#yhq_code").val("");
-                }else{
-                    $("#coupon").html('<input type="hidden" name="coupon_id" id="coupon_id" value="'+data.res.id+'"/>');
-                    var count = parseFloat($(".total-count").html()-data.res.amount).toFixed(2);
+                } else {
+                    $("#coupon").html('<input type="hidden" name="coupon_id" id="coupon_id" value="' + data.res.id + '"/>');
+                    var count = parseFloat($(".total-count").html() - data.res.amount).toFixed(2);
                     $(".total-count").html(count);
-                    $("#yhq").attr('disabled',true);
+                    $("#yhq").attr('disabled', true);
                 }
 
             });
@@ -216,17 +234,17 @@
     });
 
     //推荐码确认
-    $("#confirm").click(function(){
+    $("#confirm").click(function () {
         $(".dialog_open").hide();
         //do something 查询推荐码是否有效
         var code = $("#code").val();
-        $.post("{$web_path}/enlist/referral",{code:code},function(data){
-            data=eval("("+data+")");
-            if(data.code=="400"){
+        $.post("{$web_path}/enlist/referral", {code: code}, function (data) {
+            data = eval("(" + data + ")");
+            if (data.code == "400") {
                 alert(data.msg);
                 $("#code").val("");
-            }else{
-                $("#referral").html('<input type="hidden" name="inviter" id="inviter" value="'+data.res.id+'"/>');
+            } else {
+                $("#referral").html('<input type="hidden" name="inviter" id="inviter" value="' + data.res.id + '"/>');
 
             }
         });
@@ -235,14 +253,14 @@
     });
 
     //活动选择
-    $('input:radio[name="activity_id"]').change(function(){
+    $('input:radio[name="activity_id"]').change(function () {
         var activity = this.value;
-        $.post("{$web_path}/enlist/activity",{activity_id:activity},function(data){
-            data=eval("("+data+")");
-            if(data.code=="400"){
+        $.post("{$web_path}/enlist/activity", {activity_id: activity}, function (data) {
+            data = eval("(" + data + ")");
+            if (data.code == "400") {
                 alert(data.msg);
-            }else{
-                var count = parseFloat("{$grade.price}"-data.res.amount).toFixed(2);
+            } else {
+                var count = parseFloat("{$grade.price}" - data.res.amount).toFixed(2);
                 $(".total-count").html(count);
             }
         });
@@ -250,115 +268,113 @@
     });
 
     function dr_submit() {
-       $(".dialog_open").show();
+        $(".dialog_open").show();
 
     }
 
-    function jts(){
+    function jts() {
         $(".jts").show();
     }
 
-    function other(){
+    function other() {
         $(".other").show();
     }
 
 
-   $(function(){
-       $(".jts .c_alert_mask").click(function(){
-           $(".jts").hide();
-       });
+    $(function () {
+        $(".jts .c_alert_mask").click(function () {
+            $(".jts").hide();
+        });
 
 
-       $("#confirm-other").click(function(){
-           $(".other").hide();
+        $("#confirm-other").click(function () {
+            $(".other").hide();
 
-           var check_val = $('input:radio[name="other"]:checked').val();
+            var check_val = $('input:radio[name="other"]:checked').val();
             //全款支付
-           if(check_val==1){
-                var tem='<span>费用合计</span>' +
+            if (check_val == 1) {
+                var tem = '<span>费用合计</span>' +
                     '<span class="count right"> <span class="total-count">{$grade.price}</span>元</span>';
-               $("#total").html(tem);
-               $(".sign .total").css('height','45');
-           }
-           //定金支付
-           if(check_val==2){
-               var template ='<div class="left djzf" style="padding-top: 0px;"><span>费用合计<span class="xf">您可以先付定金抢占名额</span></span></div>' +
-                   '<div class="right djzf"><span class="count right"> <input type="text" name="deposit" id="deposit" placeholder="300-{$grade.price}">元(定金)</span></div>';
+                $("#total").html(tem);
+                $(".sign .total").css('height', '45');
+            }
+            //定金支付
+            if (check_val == 2) {
+                var template = '<div class="left djzf" style="padding-top: 0px;"><span>费用合计<span class="xf">您可以先付定金抢占名额</span></span></div>' +
+                    '<div class="right djzf"><span class="count right"> <input type="text" name="deposit" id="deposit" placeholder="300-{$grade.price}">元(定金)</span></div>';
 
                 $("#total").html(template);
-                $(".sign .total").css('height','70');
-           }
-           //线下支付
-           if(check_val==3){
-               var tem='<span>费用合计</span>' +
-                   '<span class="count right"> 0元</span>';
-               $("#total").html(tem);
-               $(".sign .total").css('height','45');
-           }
+                $(".sign .total").css('height', '70');
+            }
+            //线下支付
+            if (check_val == 3) {
+                var tem = '<span>费用合计</span>' +
+                    '<span class="count right"> 0元</span>';
+                $("#total").html(tem);
+                $(".sign .total").css('height', '45');
+            }
 
 
-
-           //do something
-
+            //do something
 
 
-       });
+        });
 
-   });
-    function xieyi(){
+    });
+
+    function xieyi() {
         var name = $("#name").val();
         var phone = $("#phone").val();
         var cno = $("#cno").val();
 
-        $.post("{$web_path}/enlist/agreement",{name:name,phone:phone,cno:cno},function (data) {
-            if(data){
-                location.href="{$web_path}/enlist/agreement";
+        $.post("{$web_path}/enlist/agreement", {name: name, phone: phone, cno: cno}, function (data) {
+            if (data) {
+                location.href = "{$web_path}/enlist/agreement";
             }
 
         });
 
     }
 
-    function sign(){
+    function sign() {
         var name = $("#name").val();//姓名
         var phone = $("#phone").val();//电话
         var card = $("#cno").val();//身份证号
 
-        if(!name){
+        if (!name) {
             alert('姓名不能为空');
             return false;
         }
-        if(!(/^[\u4e00-\u9fa5]{2,4}$/).test(name)){
+        if (!(/^[\u4e00-\u9fa5]{2,4}$/).test(name)) {
             alert("真实姓名填写有误");
             return false;
         }
 
 
-        if(!phone){
+        if (!phone) {
             alert('联系电话不能为空');
             return false;
         }
-        if(!(/^1[34578]\d{9}$/.test(phone))){
+        if (!(/^1[34578]\d{9}$/.test(phone))) {
             alert("手机号码有误，请重填");
             return false;
         }
 
 
-        if(!card){
+        if (!card) {
             alert('身份证号码不能为空');
             return false;
         }
 
-        if(!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/).test(card)){
+        if (!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/).test(card)) {
             alert("身份证号码填写有误");
             return false;
         }
 
-        if(!$('#color-input-red').is(':checked')) {
+        if (!$('#color-input-red').is(':checked')) {
             alert('请先阅读并同意鼎吉驾校学车协议');
             return false;
         }
-
 
 
         var payable = $("#payable").text();//应付款
@@ -369,51 +385,49 @@
         var coupon = $("#coupon_id").val();//优惠券
         var inviter = $("#inviter").val();//邀请人 推荐码
         var pay_type = $('input:radio[name="other"]:checked').val();//缴费类型
-        var payment ="";
-        if(pay_type==1){
-           payment = $(".total-count").text();//实付款
-        }else if(pay_type==2){
+        var payment = "";
+        if (pay_type == 1) {
+            payment = $(".total-count").text();//实付款
+        } else if (pay_type == 2) {
             var deposit = $("#deposit").val();
-            if(!deposit){
+            if (!deposit) {
                 alert('请输入定金');
                 return false;
             }
-            if(deposit<300){
+            if (deposit < 300) {
                 alert('定金不能低于300');
                 return false;
             }
             payment = deposit;
-        }else{
+        } else {
             payment = 0;
         }
 
         $.post("{$web_path}/enlist/sign", {
-                name:name,
-                phone:phone,
-                card:card,
-                payable:payable,
-                grade_id:grade_id,
-                area_id:area_id,
-                activity_id:activity_id,
-                coupon:coupon,
-                inviter:inviter,
-                pay_type:pay_type,
-                payment:payment
-            }, function(data){
-                data=eval("("+data+")");
-                if(data.code=="200"){
-                    console.log(data);
-                    alert(data.msg);
-                    location.href="{$web_path}/enlist/success";
-                }else{
-                    alert(data.msg);
-                }
+            name: name,
+            phone: phone,
+            card: card,
+            payable: payable,
+            grade_id: grade_id,
+            area_id: area_id,
+            activity_id: activity_id,
+            coupon: coupon,
+            inviter: inviter,
+            pay_type: pay_type,
+            payment: payment
+        }, function (data) {
+            data = eval("(" + data + ")");
+            if (data.code == "200") {
+                console.log(data);
+                alert(data.msg);
+                location.href = "{$web_path}/enlist/success";
+            } else {
+                alert(data.msg);
+            }
 
         });
 
     }
-
-
 
 
     /*
@@ -474,7 +488,6 @@
     }
 */
 </script>
-
 
 
 </body>

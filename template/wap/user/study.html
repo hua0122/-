@@ -90,6 +90,8 @@
 <body>
 <!--[if lt IE 9]>对不起，浏览器版本太低~！<![endif]-->
 <div class="container study">
+    {if $info}
+
     <div class="row video">
         <a id="address" href="/">
             <div class="img-left">
@@ -152,7 +154,24 @@
             <p class="b">体检码申请时间<span class="span-right1">{$code.create_time|date="Y-m-d H:i:s",###}</span></p>
         </div>
     </div>
+    {else}
+    <div class="row cue">
+        <h1 class="col-xs-12">提示</h1>
+        <p class="col-xs-12">您还未报名，请先报名</p>
+    </div>
 
+    <div class="kong row"></div>
+
+    <div class="row pay-btn">
+        <div class="col-xs-6">
+            <a href="{$web_path}/enlist/index">请先报名</a>
+        </div>
+        <div class="col-xs-6">
+            <a href="{$web_path}">返回首页</a>
+        </div>
+    </div>
+    {/if}
+</div>
 </body>
 </html>
 
