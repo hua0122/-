@@ -17,6 +17,17 @@ class Index extends Admin {
 		return $this->fetch();
 	}
 
+    /**
+     * 设置学校ID COOKIE
+     */
+    public function public_set_schoolid() {
+        $schoolid = input('schoolid','','trim,intval');
+        $schoolid = isset($schoolid) && intval($schoolid) ? intval($schoolid) : exit('0');
+        cookie("schoolid",$schoolid);
+        exit('1');
+    }
+
+
 	public function login($username = '', $password = '', $verify = '') {
 		if (IS_POST) {
 			if (!$username || !$password) {
@@ -79,4 +90,5 @@ class Index extends Admin {
 			return $this->fetch('public/edit');
 		}
 	}
+
 }

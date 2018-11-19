@@ -1,0 +1,45 @@
+{extend name="public/base"/}
+{block name="body"}
+<div class="main-box clearfix">
+	<header class="main-box-header clearfix">
+		<div class="pull-left">
+			<h2>{$meta_title}</h2>
+		</div>
+		<div class="pull-right">
+			
+		</div>
+	</header>
+	<div class="main-box-body clearfix">
+		<form method="post" class="form form-horizontal">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th class="col-lg-2 text-right">驾校</th>
+						<th>设置</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="list" id="item"}
+					<tr>
+						<td class="info col-lg-2 text-right"></td>
+						<td class="col-lg-10 text-left">
+							<div class="radio radio-nice radio-inline">
+							<input type="radio" name="school_id" value="{$item['id']}" id="{$item['id']}" {if condition="$item['id'] eq $user['school_id']"}checked{/if} />
+							<label for="{$item['id']}">{$item['name']}</label>
+							</div>
+						</td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<input type="hidden" name="uid" value="{$uid}">
+					<button type="submit" class="btn btn-success submit-btn ajax-post" target-form="form">确认提交</button>
+					<button class="btn btn-danger btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{/block}

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2018 �?11 �?17 �?06:57
+-- 生成日期: 2018 �?11 �?17 �?10:12
 -- 服务器版本: 5.5.53
 -- PHP 版本: 5.5.38
 
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `sent_action_log` (
   KEY `action_ip_ix` (`action_ip`),
   KEY `action_id_ix` (`action_id`),
   KEY `user_id_ix` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表' AUTO_INCREMENT=200 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表' AUTO_INCREMENT=201 ;
 
 --
 -- 转存表中的数据 `sent_action_log`
@@ -281,7 +281,8 @@ INSERT INTO `sent_action_log` (`id`, `action_id`, `user_id`, `action_ip`, `model
 (196, 10, 1, 2130706433, 'Menu', 56, '操作url：/admin/menu/edit/id/56.html', 1, 1542011336),
 (197, 10, 1, 2130706433, 'Menu', 60, '操作url：/admin/menu/edit/id/60.html', 1, 1542071874),
 (198, 10, 1, 2130706433, 'Menu', 10, '操作url：/admin/menu/edit/id/10.html', 1, 1542158544),
-(199, 10, 1, 2130706433, 'Menu', 22, '操作url：/admin/menu/edit/id/22.html', 1, 1542158557);
+(199, 10, 1, 2130706433, 'Menu', 22, '操作url：/admin/menu/edit/id/22.html', 1, 1542158557),
+(200, 10, 1, 2130706433, 'Menu', 55, '操作url：/admin/menu/edit/id/55.html', 1, 1542447735);
 
 -- --------------------------------------------------------
 
@@ -623,6 +624,7 @@ INSERT INTO `sent_auth_group_access` (`uid`, `group_id`) VALUES
 (1, 2),
 (2, 2),
 (3, 1),
+(7, 2),
 (14, 2);
 
 -- --------------------------------------------------------
@@ -642,7 +644,7 @@ CREATE TABLE IF NOT EXISTS `sent_auth_rule` (
   `condition` varchar(300) NOT NULL DEFAULT '' COMMENT '规则附加条件',
   PRIMARY KEY (`id`),
   KEY `module` (`module`,`status`,`type`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=39 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=69 ;
 
 --
 -- 转存表中的数据 `sent_auth_rule`
@@ -652,41 +654,71 @@ INSERT INTO `sent_auth_rule` (`id`, `module`, `type`, `name`, `title`, `group`, 
 (1, 'admin', 2, 'admin/index/index', '后台首页', '首页管理', 1, ''),
 (2, 'admin', 2, 'admin/form/index', '自定义表单', '物资管理管理', 0, ''),
 (3, 'admin', 2, 'admin/addons/hooks', '钩子列表', '扩展管理', 0, ''),
-(4, 'admin', 2, 'admin/addons/index', '插件列表', '系统扩展管理', 1, ''),
-(5, 'admin', 2, 'admin/ad/index', '广告管理', '运营管理', 1, ''),
-(6, 'admin', 2, 'admin/link/index', '友链管理', '物资管理管理', 1, ''),
-(7, 'admin', 2, 'admin/action/log', '行为日志', '会员管理', 1, ''),
-(8, 'admin', 2, 'admin/action/index', '行为列表', '会员管理', 1, ''),
-(9, 'admin', 2, 'admin/group/access', '权限管理', '会员管理', 1, ''),
-(10, 'admin', 2, 'admin/group/index', '角色管理', '会员管理', 1, ''),
-(11, 'admin', 2, 'admin/user/index', '帐号管理', '人员系统管理', 1, ''),
-(12, 'admin', 2, 'admin/model/index', '模型管理', '内容管理', 1, ''),
-(13, 'admin', 2, 'admin/category/index', '栏目管理', '内容管理', 1, ''),
-(14, 'admin', 2, 'admin/seo/index', 'SEO设置', '系统管理', 1, ''),
-(15, 'admin', 2, 'admin/database/index?type=import', '数据恢复', '系统管理', 1, ''),
-(16, 'admin', 2, 'admin/database/index?type=export', '数据备份', '系统管理', 1, ''),
-(17, 'admin', 2, 'admin/channel/index', '导航管理', '系统管理', 1, ''),
-(18, 'admin', 2, 'admin/menu/index', '菜单管理', '系统扩展管理', 1, ''),
-(19, 'admin', 2, 'admin/config/group', '配置管理', '系统管理', 1, ''),
+(4, 'admin', 2, 'admin/addons/index', '插件列表', '系统扩展管理', 0, ''),
+(5, 'admin', 2, 'admin/ad/index', '广告管理', '其他管理', 0, ''),
+(6, 'admin', 2, 'admin/link/index', '友链管理', '物资管理管理', 0, ''),
+(7, 'admin', 2, 'admin/action/log', '行为日志', '会员管理', 0, ''),
+(8, 'admin', 2, 'admin/action/index', '行为列表', '会员管理', 0, ''),
+(9, 'admin', 2, 'admin/group/access', '权限管理', '权限管理', 1, ''),
+(10, 'admin', 2, 'admin/group/index', '角色管理', '权限管理', 1, ''),
+(11, 'admin', 2, 'admin/user/index', '帐号管理', '权限管理', 1, ''),
+(12, 'admin', 2, 'admin/model/index', '模型管理', '内容管理', 0, ''),
+(13, 'admin', 2, 'admin/category/index', '栏目管理', '内容管理', 0, ''),
+(14, 'admin', 2, 'admin/seo/index', 'SEO设置', '系统管理', 0, ''),
+(15, 'admin', 2, 'admin/database/index?type=import', '数据恢复', '系统管理', 0, ''),
+(16, 'admin', 2, 'admin/database/index?type=export', '数据备份', '系统管理', 0, ''),
+(17, 'admin', 2, 'admin/channel/index', '导航管理', '系统管理', 0, ''),
+(18, 'admin', 2, 'admin/menu/index', '菜单管理', '其他管理', 0, ''),
+(19, 'admin', 2, 'admin/config/group', '配置管理', '系统管理', 0, ''),
 (20, 'admin', 2, 'admin/index/clear', '更新缓存', '首页管理', 1, ''),
-(21, 'admin', 1, 'admin/config/add', '配置添加', '系统管理', 1, ''),
-(22, 'admin', 2, 'admin/content/index', '内容列表', '内容管理', 1, ''),
-(23, 'admin', 2, 'admin/content/add', '内容添加', '内容管理', 1, ''),
-(24, 'admin', 1, 'admin/content/edit', '内容编辑', '内容管理', 1, ''),
-(25, 'admin', 1, 'admin/content/del', '内容删除', '内容管理', 1, ''),
-(26, 'admin', 1, 'admin/content/status', '内容设置状态', '内容管理', 1, ''),
-(27, 'admin', 1, 'admin/category/add', '栏目添加', '内容管理', 1, ''),
-(28, 'admin', 1, 'admin/category/edit', '栏目编辑', '内容管理', 1, ''),
-(29, 'admin', 1, 'admin/category/editable', '栏目单字编辑', '内容管理', 1, ''),
-(30, 'admin', 1, 'admin/category/remove', '栏目删除', '内容管理', 1, ''),
-(31, 'admin', 1, 'admin/category/merge', '栏目合并', '内容管理', 1, ''),
-(32, 'admin', 1, 'admin/category/move', '栏目移动', '内容管理', 1, ''),
-(33, 'admin', 1, 'admin/category/status', '栏目状态', '内容管理', 1, ''),
-(34, 'admin', 2, 'admin/seo/rewrite', '伪静态规则', '系统管理', 1, ''),
-(35, 'admin', 2, 'admin/config/themes', '主题管理', '系统管理', 1, ''),
-(36, 'admin', 2, 'admin/goods/index', '物料管理', '物资管理管理', 1, ''),
-(37, 'admin', 2, 'admin/borrow/index', '归还记录', '物资管理管理', 1, ''),
-(38, 'admin', 2, 'admin/department/index', '部门管理', '人员系统管理', 1, '');
+(21, 'admin', 1, 'admin/config/add', '配置添加', '系统管理', 0, ''),
+(22, 'admin', 2, 'admin/content/index', '内容列表', '内容管理', 0, ''),
+(23, 'admin', 2, 'admin/content/add', '内容添加', '内容管理', 0, ''),
+(24, 'admin', 1, 'admin/content/edit', '内容编辑', '内容管理', 0, ''),
+(25, 'admin', 1, 'admin/content/del', '内容删除', '内容管理', 0, ''),
+(26, 'admin', 1, 'admin/content/status', '内容设置状态', '内容管理', 0, ''),
+(27, 'admin', 1, 'admin/category/add', '栏目添加', '内容管理', 0, ''),
+(28, 'admin', 1, 'admin/category/edit', '栏目编辑', '内容管理', 0, ''),
+(29, 'admin', 1, 'admin/category/editable', '栏目单字编辑', '内容管理', 0, ''),
+(30, 'admin', 1, 'admin/category/remove', '栏目删除', '内容管理', 0, ''),
+(31, 'admin', 1, 'admin/category/merge', '栏目合并', '内容管理', 0, ''),
+(32, 'admin', 1, 'admin/category/move', '栏目移动', '内容管理', 0, ''),
+(33, 'admin', 1, 'admin/category/status', '栏目状态', '内容管理', 0, ''),
+(34, 'admin', 2, 'admin/seo/rewrite', '伪静态规则', '系统管理', 0, ''),
+(35, 'admin', 2, 'admin/config/themes', '主题管理', '系统管理', 0, ''),
+(36, 'admin', 2, 'admin/goods/index', '物料管理', '物资管理', 0, ''),
+(37, 'admin', 2, 'admin/borrow/index', '借用记录', '物资管理', 0, ''),
+(38, 'admin', 2, 'admin/department/index', '团队列表', '团队管理', 1, ''),
+(39, 'admin', 2, 'admin/borrow/back', '归还记录', '物资管理', 1, ''),
+(40, 'admin', 2, 'admin/person/index', '队员列表', '团队管理', 1, ''),
+(41, 'admin', 2, 'admin/area/index', '场地列表', '驾校架构', 1, ''),
+(42, 'admin', 2, 'admin/grade/index', '班别列表', '驾校架构', 1, ''),
+(43, 'admin', 2, 'admin/operate/index', 'banner图', '运营管理', 1, ''),
+(44, 'admin', 2, 'admin/operate/about', '走进鼎吉', '运营管理', 1, ''),
+(45, 'admin', 2, 'admin/operate/beautiful', '发现最美鼎吉', '运营管理', 1, ''),
+(46, 'admin', 2, 'admin/operate/coach', '教练风采', '运营管理', 1, ''),
+(47, 'admin', 2, 'admin/operate/team', '团队风采', '运营管理', 1, ''),
+(48, 'admin', 2, 'admin/operate/student', '学员风采', '运营管理', 1, ''),
+(49, 'admin', 2, 'admin/operate/activity', '最新活动', '运营管理', 1, ''),
+(50, 'admin', 2, 'admin/operate/banner', 'banner图', '运营管理', 1, ''),
+(51, 'admin', 2, 'admin/operate/agreement', '学车协议', '运营管理', 1, ''),
+(52, 'admin', 2, 'admin/operate/flow', '科目一学习预约流程', '运营管理', 1, ''),
+(53, 'admin', 2, 'admin/operate/pay', '约考缴费流程', '运营管理', 1, ''),
+(54, 'admin', 2, 'admin/student/index', '学员列表', '学员管理', 1, ''),
+(55, 'admin', 2, 'admin/partner/index', '合伙人申请', '其他管理', 1, ''),
+(56, 'admin', 2, '', '学车协议', '其他管理', 0, ''),
+(57, 'admin', 2, 'admin/feedback/index', '意见建议', '其他管理', 1, ''),
+(58, 'admin', 2, 'admin/activity/index', '活动列表', '活动管理', 1, ''),
+(59, 'admin', 2, 'admin/activity/coupon', '优惠券列表', '活动管理', 1, ''),
+(60, 'admin', 2, 'admin/protect/index', '资源保护', '保护系统', 1, ''),
+(61, 'admin', 2, 'admin/protect/develop', '开发记录', '保护系统管理', 1, ''),
+(62, 'admin', 2, 'admin/code/index', '体检码列表', '体检码管理', 1, ''),
+(63, 'admin', 2, 'admin/code/outfit', '体检机构列表', '体检码管理', 1, ''),
+(64, 'admin', 2, 'admin/code/apply', '体检申请列表', '体检码管理', 1, ''),
+(65, 'admin', 2, 'admin/operate/process', '学车流程', '运营管理', 1, ''),
+(66, 'admin', 2, 'admin/operate/service', '优势服务', '运营管理', 1, ''),
+(67, 'admin', 2, 'admin/operate/ensure', '学车保障', '运营管理', 1, ''),
+(68, 'admin', 2, 'admin/operate/question', '常见问题', '运营管理', 1, '');
 
 -- --------------------------------------------------------
 
@@ -1982,18 +2014,18 @@ CREATE TABLE IF NOT EXISTS `sent_member` (
   `last_login_ip` bigint(20) NOT NULL DEFAULT '0' COMMENT '最后登录IP',
   `last_login_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后登录时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '会员状态',
+  `school_id` int(11) NOT NULL COMMENT '所属驾校ID',
   PRIMARY KEY (`uid`),
   KEY `status` (`status`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='会员表' AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='会员表' AUTO_INCREMENT=8 ;
 
 --
 -- 转存表中的数据 `sent_member`
 --
 
-INSERT INTO `sent_member` (`uid`, `username`, `password`, `nickname`, `email`, `mobile`, `sex`, `birthday`, `qq`, `score`, `signature`, `pos_province`, `pos_city`, `pos_district`, `pos_community`, `salt`, `login`, `reg_ip`, `reg_time`, `last_login_ip`, `last_login_time`, `status`) VALUES
-(1, 'admin', '9d98696a650b7bd9c90f057023951aa3', 'admin', 'admin@admin.com', NULL, 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'nPdbMU', 62, 0, 1489650033, 2130706433, 1542436429, 1),
-(2, 'test', 'd7c7432365423cc3b473c9e4ac7bc45a', '', 'test@16.com', NULL, 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'BpsVQg', 0, 0, 1497422004, 0, 1497422004, 1),
-(3, 'xkxkxk', '100faf20849f8192835a72da157ba09c', '', '123@qq.com', '13594855872', 1, '0000-00-00', '', 60, 'dasdasd', 0, 0, 0, 0, 'dQJbmu', 0, 0, 1498803351, 0, 1499135716, 1);
+INSERT INTO `sent_member` (`uid`, `username`, `password`, `nickname`, `email`, `mobile`, `sex`, `birthday`, `qq`, `score`, `signature`, `pos_province`, `pos_city`, `pos_district`, `pos_community`, `salt`, `login`, `reg_ip`, `reg_time`, `last_login_ip`, `last_login_time`, `status`, `school_id`) VALUES
+(1, 'admin', '9d98696a650b7bd9c90f057023951aa3', 'admin', 'admin@admin.com', NULL, 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'nPdbMU', 65, 0, 1489650033, 2130706433, 1542446477, 1, 0),
+(7, 'ceshi1', '5974ae0695d1a339c54c9992e2d01d9d', '测试1', NULL, '13594855871', 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'eJDHFA', 0, 0, 1542446502, 0, 1542446502, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -2014,7 +2046,11 @@ CREATE TABLE IF NOT EXISTS `sent_member_extend` (
 INSERT INTO `sent_member_extend` (`uid`, `education`) VALUES
 (1, 0),
 (2, 0),
-(3, 0);
+(3, 0),
+(4, 0),
+(5, 0),
+(6, 0),
+(7, 0);
 
 -- --------------------------------------------------------
 
@@ -2153,7 +2189,7 @@ INSERT INTO `sent_menu` (`id`, `title`, `type`, `icon`, `pid`, `sort`, `url`, `h
 (52, '保护系统', 'admin', 'fa fa-key', 0, 0, 'admin/protect/index', 0, '', '', 0, 0),
 (53, '体检码', 'admin', 'fa fa-code', 0, 0, 'admin/code/index', 0, '', '', 0, 0),
 (54, '合伙人申请', 'admin', 'fa fa-user', 6, 0, 'admin/partner/index', 0, '', '其他', 0, 0),
-(55, '学车协议', 'admin', 'fa fa-edit', 6, 0, '', 0, '', '其他', 0, 0),
+(55, '学车协议', 'admin', 'fa fa-edit', 6, 0, '', 1, '', '其他', 0, 0),
 (56, '意见建议', 'admin', 'fa fa-comment', 6, 0, 'admin/feedback/index', 0, '', '其他', 0, 0),
 (57, '活动列表', 'admin', 'fa fa-list', 35, 0, 'admin/activity/index', 0, '', '活动管理', 0, 0),
 (58, '优惠券列表', 'admin', 'fa fa-list', 35, 0, 'admin/activity/coupon', 0, '', '优惠券管理', 0, 0),
@@ -2483,6 +2519,27 @@ CREATE TABLE IF NOT EXISTS `sent_rewrite` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='伪静态表' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `sent_school`
+--
+
+CREATE TABLE IF NOT EXISTS `sent_school` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL COMMENT '名称',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- 转存表中的数据 `sent_school`
+--
+
+INSERT INTO `sent_school` (`id`, `name`) VALUES
+(1, '驾校名称1'),
+(2, '驾校名称2'),
+(3, '驾校名称3');
 
 -- --------------------------------------------------------
 

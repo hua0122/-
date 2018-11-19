@@ -18,6 +18,11 @@ class User extends Admin {
 	 */
 	public function index() {
 		$nickname      = input('nickname');
+        $school_id = cookie("schoolid");
+        if(isset($school_id)){
+            $map['school_id'] = $school_id;
+        }
+
 		$map['status'] = array('egt', 0);
 		$map['uid'] = array('gt',1);
 		if (is_numeric($nickname)) {
@@ -27,7 +32,9 @@ class User extends Admin {
 		}
 
 		$order = "uid desc";
-		$list  = model('User')->where($map)->order($order)->paginate(15);
+		$list  = model('User')
+            ->join('sent_school','sent_school.id=sent_member.school_id','left')
+            ->where($map)->order($order)->paginate(15);
 
 		$data = array(
 			'list' => $list,
@@ -144,6 +151,35 @@ class User extends Admin {
 			return $this->fetch();
 		}
 	}
+
+    //分配驾校
+    public function school() {
+        $school = model("School");
+        if (IS_POST) {
+            $uid = input('uid', '', 'trim,intval');
+            $school_id = input('school_id','','trim,intval');
+            $res = model("User")->where(array("uid"=>$uid))->setField("school_id",$school_id);
+            if($res){
+                return $this->success("设置成功！",url('admin/user/index'));
+            }else{
+                return $this->error('设置失败');
+            }
+
+
+        } else {
+            $uid  = input('id', '', 'trim,intval');
+            $list = $school->select();
+            $user = model('User')->find($uid);
+            $data = array(
+                'user'      =>$user,
+                'uid'       => $uid,
+                'list'      => $list,
+            );
+            $this->assign($data);
+            $this->setMeta("驾校设置");
+            return $this->fetch();
+        }
+    }
 
 	/**
 	 * 获取某个管理员的信息

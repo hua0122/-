@@ -15,6 +15,7 @@ class Operate extends Admin
     public function __construct(Request $request = null)
     {
         parent::__construct($request);
+        $this->schoolid = cookie("schoolid");
         $time = time();
 
         $this->assign('time',$time);
@@ -23,6 +24,9 @@ class Operate extends Admin
     public function index(){
         $order = "id desc";
         $where = [];
+        if(isset($this->schoolid)){
+            $where['school_id'] = $this->schoolid;
+        }
         $where['category_id '] = 1;
         $list = db('Document')->where($where)->order($order)->select();
 
@@ -55,6 +59,11 @@ class Operate extends Admin
                 return $this->error("缩略图不能为空！");
             }
 
+            if($this->schoolid){
+                $data['school_id'] = $this->schoolid;
+            }else{
+                $data['school_id'] = 1;
+            }
 
 
             if ($data) {
@@ -90,6 +99,12 @@ class Operate extends Admin
             }
             if(empty($data['cover_id'])){
                 return $this->error("缩略图不能为空！");
+            }
+
+            if($this->schoolid){
+                $data['school_id'] = $this->schoolid;
+            }else{
+                $data['school_id'] = 1;
             }
 
 
@@ -128,6 +143,12 @@ class Operate extends Admin
             }
             if(empty($data['cover_id'])){
                 return $this->error("缩略图不能为空！");
+            }
+
+            if($this->schoolid){
+                $data['school_id'] = $this->schoolid;
+            }else{
+                $data['school_id'] = 1;
             }
 
 

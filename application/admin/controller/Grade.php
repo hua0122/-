@@ -8,8 +8,15 @@
 
 namespace app\admin\controller;
 use app\common\controller\Admin;
+use think\Request;
 
 class Grade extends Admin {
+
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->schoolid = cookie("schoolid");
+    }
 
     /**
      * 班别管理
@@ -17,6 +24,11 @@ class Grade extends Admin {
      */
     public function index() {
         $map = array();
+
+        if(isset($this->schoolid)){
+            $map['school_id'] = $this->schoolid;
+        }
+
 
         $area_id = input('area_id', '', 'trim,intval'); //场地ID
         if(!empty($area_id)){

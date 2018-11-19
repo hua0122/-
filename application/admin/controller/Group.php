@@ -19,11 +19,16 @@ class Group extends Admin {
 		parent::_initialize();
 		$this->group = model('AuthGroup');
 		$this->rule  = model('AuthRule');
+        $this->schoolid = cookie("schoolid");
 	}
 
 	//会员分组首页控制器
 	public function index($type = 'admin') {
 		$map['module'] = $type;
+
+        if(isset($this->schoolid)){
+            $map['school_id'] = $this->schoolid;
+        }
 
 		$list = db('AuthGroup')->where($map)->order('id desc')->paginate(10);
 

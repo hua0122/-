@@ -8,15 +8,27 @@
 
 namespace app\admin\controller;
 use app\common\controller\Admin;
+use think\Request;
 
 class Student extends Admin
 {
+    public $schoolid;
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->schoolid = cookie("schoolid");
+    }
+
     /**
      * 学员管理
      */
     public function index(){
         $this->setMeta("学员管理");
         $map = array();
+        if(isset($this->schoolid)){
+            $map['sent_student.school_id'] = $this->schoolid;
+        }
+
 
         $keyword = input('keyword','', 'htmlspecialchars,trim');
         if(!empty($keyword)){
@@ -100,7 +112,7 @@ class Student extends Admin
             ->join('sent_code','sent_code.id=sent_student.coupon','left')
             ->join('sent_coupon','sent_coupon.id=sent_code.coupon_id','left')
             ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name,sent_activity.name as activity_name,sent_activity.gift,sent_activity.amount as activity_amount,sent_person.username,sent_department.title as partner_name,sent_code.code,sent_coupon.name as coupon_name,sent_coupon.amount as coupon_amount')
-            ->where($map)->order($order)->paginate(10);
+            ->where($map)->order($order)->paginate(5);
 
         $data = array(
             'list' => $list,

@@ -134,6 +134,13 @@ class User extends Base{
 		$data['repassword'] = $repassword;
 		$data['nickname'] = $nickname;
 		$data['mobile'] = $mobile;
+        $school_id = cookie("schoolid");
+		if(isset($school_id)){
+            $data['school_id'] =  $school_id;
+        }else{
+            $data['school_id'] = 1;
+        }
+
 		$result = $this->validate(true)->save($data);
 		if ($result) {
 			$data['uid'] = $this->data['uid'];

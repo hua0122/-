@@ -1,8 +1,16 @@
 <?php
 namespace app\admin\controller;
 use app\common\controller\Admin;
+use think\Request;
 
 class Area extends Admin {
+
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->schoolid = cookie("schoolid");
+    }
+
 
     /**
      * 场地管理
@@ -10,6 +18,11 @@ class Area extends Admin {
      */
     public function index() {
         $map = array();
+
+        if(isset($this->schoolid)){
+            $map['school_id'] = $this->schoolid;
+        }
+
 
         $status = input('status','','trim,intval');//场地状态
         if(!empty($status)){
@@ -53,6 +66,11 @@ class Area extends Admin {
                 return $this->error("场地封面图不能为空！");
             }
 
+            if($this->schoolid){
+                $data['school_id'] = $this->schoolid;
+            }else{
+                $data['school_id'] = 1;
+            }
 
 
 

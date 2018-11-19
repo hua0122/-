@@ -57,6 +57,28 @@ class Admin extends Base {
 			//菜单设置
 			$this->setMenu();
 			$this->setMeta();
+
+
+            if (IS_ROOT) {
+                //学校设置
+                $school = db("School")->select();
+                $this->assign("school",$school);
+                //默认学校
+                $school_id = cookie("schoolid");
+                if (isset($school_id)) {
+                    $school_default = db("School")->find($school_id);
+                    $this->assign('school_default', $school_default);
+                } else {
+                    $school_default = db("School")->find(1);
+                    $this->assign('school_default', $school_default);
+                }
+            }else{
+                $this->assign("school","");
+                $member = db("Member")->find(session("user_auth.uid"));
+                $school_default = db("School")->find($member['school_id']);
+                $this->assign('school_default', $school_default);
+            }
+
 		}
 	}
 
@@ -223,4 +245,6 @@ class Admin extends Base {
 	protected function setMeta($title = '') {
 		$this->assign('meta_title', $title);
 	}
+
+
 }
