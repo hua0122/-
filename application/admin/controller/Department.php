@@ -9,8 +9,15 @@
 
 namespace app\admin\controller;
 use app\common\controller\Admin;
+use think\Request;
 
 class Department extends Admin {
+
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->schoolid = cookie("schoolid");
+    }
 
 	/**
 	 * 团队管理首页
@@ -18,6 +25,10 @@ class Department extends Admin {
 	 */
 	public function index() {
 		$map = array();
+
+        if(isset($this->schoolid)){
+            $map['school_id'] = $this->schoolid;
+        }
 
         $keyword = input('keyword','', 'htmlspecialchars,trim');
         if(!empty($keyword)){

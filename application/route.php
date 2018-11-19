@@ -22,6 +22,7 @@ return array(
 
     'admin/login'    => 'admin/index/login',
     'admin/logout'   => 'admin/index/logout',
+    'admin/public_set_schoolid'   => 'admin/index/public_set_schoolid',
 
 
     'wap'   => 'wap/index/index',

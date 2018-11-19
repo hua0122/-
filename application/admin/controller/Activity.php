@@ -8,11 +8,22 @@
 
 namespace app\admin\controller;
 use app\common\controller\Admin;
+use think\Request;
 
 class Activity extends Admin
 {
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->schoolid = cookie("schoolid");
+    }
+
     public function index() {
         $map = array();
+
+        if(isset($this->schoolid)){
+            $map['school_id'] = $this->schoolid;
+        }
 
         $status = input('status','','trim,intval');//状态
         if(!empty($status)){
@@ -63,6 +74,12 @@ class Activity extends Admin
 
             $data['online_time'] = strtotime($data['online_time']);
             $data['downline_time'] = strtotime($data['downline_time']);
+
+            if($this->schoolid){
+                $data['school_id'] = $this->schoolid;
+            }else{
+                $data['school_id'] = 1;
+            }
 
             if ($data) {
 
@@ -176,6 +193,10 @@ class Activity extends Admin
     public function coupon(){
         $map = array();
 
+        if(isset($this->schoolid)){
+            $map['school_id'] = $this->schoolid;
+        }
+
         $status = input('status','','trim,intval');//状态
         if(!empty($status)){
             if($status==2){
@@ -219,6 +240,12 @@ class Activity extends Admin
 
             $data['online_time'] = strtotime($data['online_time']);
             $data['downline_time'] = strtotime($data['downline_time']);
+
+            if($this->schoolid){
+                $data['school_id'] = $this->schoolid;
+            }else{
+                $data['school_id'] = 1;
+            }
 
             if ($data) {
 

@@ -8,13 +8,21 @@
 
 namespace app\admin\controller;
 use app\common\controller\Admin;
+use think\Request;
 
 class Partner extends Admin
 {
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->schoolid = cookie("schoolid");
+    }
 
     public function index() {
         $map = array();
-
+        if(isset($this->schoolid)){
+            $map['school_id'] = $this->schoolid;
+        }
 
         $order = "id desc";
         $list  = db('Partner')->where($map)->order($order)->paginate(10);

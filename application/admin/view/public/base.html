@@ -123,45 +123,42 @@
 							</li>
 						</ul>
 					</li>
-
-					<li class="dropdown profile-dropdown hidden-sm hidden-xs">
+					{if $school}
+					<li class="dropdown profile-dropdown hidden-sm hidden-xs tab_web">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-right: 0px">
 							<img src="__PUBLIC__/images/samples/scarlet-159.png" alt=""/>
-							<span class="hidden-xs">驾校切换</span> <b class="caret"></b>
+							<span class="hidden-xs">{$school_default.name}</span> <b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-right">
+
+							{volist name="school" id="item"}
 							<li>
-								<a href="{:url('admin/User/edit')}">
-									<i class="fa fa-user"></i>
-									驾校名称1
-								</a>
-							</li>
-							<li>
-								<a href="{:url('admin/User/editpwd')}">
+								<a href="javascript:school_select('{$item.id}','{$item.name}')">
 									<i class="fa fa-cog"></i>
-									驾校名称2
+									{$item.name}
 								</a>
 							</li>
-							<li>
-								<a href="{:url('admin/index/logout')}">
-									<i class="fa fa-power-off"></i>
-									驾校名称3
-								</a>
-							</li>
-							<li>
-								<a href="{:config('WEB_SITE_URL')}" target="_blank">
-									<i class="fa fa-home"></i>
-									驾校名称4
-								</a>
-							</li>
+							{/volist}
 						</ul>
 					</li>
-					<!--<li class="visible-lg">
-						<a href="#" class="btn" onclick="helpIntro();">
-							<i class="fa fa-question-circle"></i>
-							操作指南
-						</a>
-					</li>-->
+					{else}
+					{/if}
+
+					<script>
+                        function school_select(id,name) {
+                            $(".tab_web span").html(name);
+                            $.post("{:url('admin/index/public_set_schoolid')}",{schoolid:id},function(data){
+                                if (data==1){
+                                    window.location.reload();
+                                    window.location.reload();
+                                    //$.get("?m=admin&c=index&a=public_menu_left&menuid=0&parentid="+$("#bigid").val(), function(data){$('.top_menu').remove();$('#top_menu').prepend(data)});
+                                }
+                            });
+
+                        }
+
+					</script>
+
 				</ul>
 			</div>
 		</div>
