@@ -43,7 +43,7 @@ class User extends Admin {
 			'page' => $list->render(),
 		);
 		$this->assign($data);
-		$this->setMeta('管理员信息');
+		$this->setMeta('账号信息');
 		return $this->fetch();
 	}
 
@@ -58,7 +58,7 @@ class User extends Admin {
 			//创建注册管理员
 			$result = $model->register($data['username'], $data['password'], $data['repassword'], $data['nickname'],$data['mobile'], false);
 			if ($result) {
-				return $this->success('管理员添加成功！', url('admin/user/index'));
+				return $this->success('账号添加成功！', url('admin/user/index'));
 			} else {
 				return $this->error($model->getError());
 			}
@@ -67,7 +67,7 @@ class User extends Admin {
 				'keyList' => $model->addfield,
 			);
 			$this->assign($data);
-			$this->setMeta("添加管理员");
+			$this->setMeta("添加账号");
 			return $this->fetch('public/edit');
 		}
 	}
@@ -96,7 +96,7 @@ class User extends Admin {
 				'keyList' => $model->editfield,
 			);
 			$this->assign($data);
-			$this->setMeta("编辑管理员");
+			$this->setMeta("编辑账号");
 			return $this->fetch('public/edit');
 		}
 	}
@@ -110,7 +110,7 @@ class User extends Admin {
 		//获取管理员信息
 		$find = $this->getUserinfo($uid);
 		model('User')->where(array('uid' => $uid))->delete();
-		return $this->success('删除管理员成功！');
+		return $this->success('删除账号成功！');
 	}
 
 	public function auth() {
@@ -149,7 +149,7 @@ class User extends Admin {
 				'list'      => $list,
 			);
 			$this->assign($data);
-			$this->setMeta("管理员分组");
+			$this->setMeta("账号分组");
 			return $this->fetch();
 		}
 	}

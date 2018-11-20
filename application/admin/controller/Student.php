@@ -107,7 +107,7 @@ class Student extends Admin
             ->join('sent_grade','sent_grade.id=sent_student.grade_id','left')
             ->join('sent_area','sent_area.id=sent_student.area_id','left')
             ->join('sent_activity','sent_activity.id=sent_student.activity_id','left')
-            
+
             ->join('sent_person','sent_person.id=sent_student.inviter','left')
             ->join('sent_department','sent_department.id=sent_person.department_id','left')
 
