@@ -146,14 +146,26 @@ class Enlist extends Fornt
                 //线上全额支付
                 $data['unpaid'] = 0;//未付款
                 $data['tuition_state'] = 1;//学费状态 1全款
-            } else if ($data['pay_type'] == 2) {
-                //线上定金支付
-                $data['unpaid'] = intval($data['payable']) - intval($data['payment']) - intval($data['activity_id']) - intval($data['coupon']);//未付款
-                $data['tuition_state'] = 2;
-            } else if ($data['pay_type'] == 3 || $data['pay_type'] == 4) {
-                //线下全额支付 或者线下定金支付
-                $data['unpaid'] = $data['payable'] - $data['activity_id'] - $data['coupon'];
-                $data['tuition_state'] = 2;
+            } else if ($data['pay_type'] == 2||$data['pay_type'] == 3||$data['pay_type'] == 4) {
+                //活动减免 优惠券减免
+                if(isset($data['activity_id'])&&$data['coupon']){
+                    //线上定金支付 //未付款
+                    $data['unpaid'] = intval($data['payable']) - intval($data['payment']) - intval($data['activity_id']) - intval($data['coupon']);
+                }elseif (isset($data['activity_id'])){
+                    //线上定金支付 //未付款
+                    $data['unpaid'] = intval($data['payable']) - intval($data['payment']) - intval($data['activity_id']);
+
+                }elseif (isset($data['coupon'])){
+                    //线上定金支付 //未付款
+                    $data['unpaid'] = intval($data['payable']) - intval($data['payment']) - intval($data['coupon']);
+
+                }
+                else{
+                    //线上定金支付 //未付款
+                    $data['unpaid'] = intval($data['payable']) - intval($data['payment']);
+                }
+
+                $data['tuition_state'] = 2; //学费状态 2欠费
             } else {
                 //缴费类型不对
                 return json_encode(array("code" => "400", "msg" => "缴费类型不对"));
