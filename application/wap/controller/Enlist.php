@@ -178,11 +178,11 @@ class Enlist extends Fornt
             $res = model("Student")->save($data);
             if ($res) {
                 $openid = session("openid");
-                //$total_fee = $data['payment'] * 100;
-                $total_fee = 0.01 * 100;
+                $total_fee = $data['payment'] * 100;
+
 
                 if (!empty($total_fee) && $total_fee > 0 && !empty($openid)) {
-
+                    $total_fee = 0.01 * 100;
                     include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
                     $wx = new \Weixin_class();
                     $msg = "我们会在两个工作日内联系您，请保持手机畅通，耐心等待，谢谢！";
