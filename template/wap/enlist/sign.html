@@ -463,8 +463,12 @@
 
 
 
+            }else if(data.code=="2000"){
+                alert(data.msg);
+                location.href = "{$web_path}/enlist/sign_success";
             } else {
                 alert(data.msg);
+                location.href = "{$web_path}/enlist/sign_fail";
             }
 
         });
