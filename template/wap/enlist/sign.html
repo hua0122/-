@@ -422,7 +422,48 @@
             if (data.code == "200") {
                 console.log(data);
                 alert(data.msg);
-                location.href = "{$web_path}/enlist/success";
+                //location.href = "{$web_path}/enlist/success";
+
+                wx.config({
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId:     data.content.appId, // 必填，公众号的唯一标识
+                    timestamp: data.content.timestamp, // 必填，生成签名的时间戳
+                    nonceStr: data.content.nonceStr, // 必填，生成签名的随机串
+                    signature: data.content.signature,// 必填，签名，见附录1
+                    jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                });
+                var title = "鼎吉驾校";
+                var link = "http:/ydxctrue.yidianxueche.cn/client/";
+                var imgUrl = "http:/ydxctrue.yidianxueche.cn/client/";
+                var desc = "鼎吉驾校";
+                var type = "";
+                var dataUrl = "";
+                wx.ready(function(){
+                    console.log(data);
+                    wx.chooseWXPay({
+                        appId : data.content.appId ,     //公众号名称，由商户传入
+                        timestamp :  data.content.timestamp,         //时间戳，自1970年以来的秒数
+                        nonceStr : data.content.nonceStr, //随机串
+                        package : data.content.package,
+                        signType : "MD5",         //微信签名方式：
+                        paySign : data.content.paySign, //微信签名
+                        success: function (res){
+                            //alert(res.msg);
+                            window.location.href = "{$web_path}/enlist/success";
+                        },
+                        cancel:function(res){　　　　　　　　　　　　　　// 支付取消回调函数
+                            window.location.href = "{$web_path}/enlist/fail";
+                        },
+                        fail: function(res){　　　　　　　　　　　　　　// 支付失败回调函数
+                            window.location.href = "{$web_path}/enlist/fail";
+                        }
+                    });
+                });
+
+                localStorage.hurl = "";
+
+
+
             } else {
                 alert(data.msg);
             }

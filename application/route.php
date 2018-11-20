@@ -28,9 +28,6 @@ return array(
     'wap'   => 'wap/index/index',
     'enlist/index'   => 'wap/enlist/index',//报名
     'enlist/detail'   => 'wap/enlist/detail',//报名
-    'page/index'   => 'wap/page/index',//单页详情
-    'page/detail'   => 'wap/page/detail',//单页详情 返回首页发现最美鼎吉
-
     'enlist/ajax_list'   => 'wap/enlist/ajax_list',//班别信息
     'enlist/sign'   => 'wap/enlist/sign',//报名信息
     'enlist/success'   => 'wap/enlist/cg',//报名成功
@@ -42,6 +39,11 @@ return array(
     'enlist/get_sign'   => 'wap/enlist/get_sign',//获取报名信息
     'enlist/pay_success'   => 'wap/enlist/pay_success',//支付成功
     'enlist/pay_fail'   => 'wap/enlist/pay_fail',//支付失败
+    'enlist/update_order_status'   => 'wap/enlist/update_order_status',//报名信息支付成功回调函数
+    'enlist/update_tjorder_status'   => 'wap/enlist/update_tjorder_status',//体检申请支付成功回调函数
+
+    'page/index'   => 'wap/page/index',//单页详情
+    'page/detail'   => 'wap/page/detail',//单页详情 返回首页发现最美鼎吉
 
 
     'user/index'   => 'wap/user/index',//个人中心

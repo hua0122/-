@@ -13,20 +13,23 @@ $res = $wx->orderquery($out_trade_no);
 //var_dump($res);
 if ('SUCCESS' == $res->return_code && 'SUCCESS' == $res->trade_state) {
 	
-	if ('ydnew' == substr($out_trade_no, 0, 5)) {
-		$url = "http://ydxctrue.yidianxueche.cn/index.php?do=update_order_status&sn=".$out_trade_no;
+	if ('dj' == substr($out_trade_no, 0, 2)) {
+		//$url = "http://ydxctrue.yidianxueche.cn/index.php?do=update_order_status&sn=".$out_trade_no;
+        $url = "http://ceshi.yidianxueche.cn/enlist/update_order_status&sn=".$out_trade_no;
+
 		file_get_contents($url);
 		echo "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
 		exit();
-	} else if('tjnew' == substr($out_trade_no, 0, 5)){
-		$url = "http://ydxctrue.yidianxueche.cn/index.php?do=update_tjorder_status&sn=".$out_trade_no;
+	} else if('tj' == substr($out_trade_no, 0, 2)){
+		//$url = "http://ydxctrue.yidianxueche.cn/index.php?do=update_tjorder_status&sn=".$out_trade_no;
+        $url = "http://ceshi.yidianxueche.cn/enlist/update_tjorder_status&sn=".$out_trade_no;
 		file_get_contents($url);
 		echo "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
 		exit();
 	}
 	
 	//处理票
-	include_once $_SERVER['DOCUMENT_ROOT'] . '/l_db/drive/mysql.class.php';
+	/*include_once $_SERVER['DOCUMENT_ROOT'] . '/l_db/drive/mysql.class.php';
 	include_once $_SERVER['DOCUMENT_ROOT'] . '/l_db/config/database.php';
 	$db = DB::getDBClass();
 	//查询记录
@@ -45,7 +48,7 @@ if ('SUCCESS' == $res->return_code && 'SUCCESS' == $res->trade_state) {
 			echo "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
 			exit();
 		}
-	}
+	}*/
 }
 //file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/l_wx/wxpay.txt", json_encode($postObj));
 //$wx->orderquery($out_trade_no);

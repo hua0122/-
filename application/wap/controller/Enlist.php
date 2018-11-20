@@ -163,11 +163,34 @@ class Enlist extends Fornt
             $data['sign_date'] = time();//报名时间
             $data['openId'] = session('openid');
             $data['sn'] = "dj_" . rand_string(20);//订单编号
-
-
             $res = model("Student")->save($data);
             if ($res) {
-                return json_encode(array("code" => "200", "msg" => "报名成功"), JSON_UNESCAPED_SLASHES);
+                $openid = session("openid");
+                $total_fee = $data['payment'] * 100;
+                if (!empty($total_fee) && $total_fee > 0 && !empty($openid)) {
+
+                    include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
+                    $wx = new \Weixin_class();
+                    $msg = "我们会在两个工作日内联系您，请保持手机畅通，耐心等待，谢谢！";
+                    $unifiedOrderResult = $wx->unifiedorder($total_fee, $openid, '驾校学车', $data['sn']);
+                    //var_dump($unifiedOrderResult);
+                    $timeStamp = intval(time() / 10);
+                    $url = $_SERVER["HTTP_REFERER"];
+                    //echo $url;
+                    $nonceStr = $wx->getRandChar(15);
+                    //echo $url;
+                    $signature = $wx->get_js_signature($nonceStr, $timeStamp, $url);
+                    //var_dump($unifiedOrderResult);exit();
+                    $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
+                    $data = array("timeStamp" => $timeStamp, "nonceStr" => $nonceStr,
+                        "package" => $package, "signType" => "MD5", "appId" => 'wx09e39aed7d3c3912');
+
+                    $paySign = $wx->get_signature($data);
+                    $content = array('package' => $package, 'paySign' => $paySign, 'appId' => 'wx09e39aed7d3c3912', 'timestamp' => $timeStamp, 'nonceStr' => $nonceStr, 'signature' => $signature);
+
+                }
+
+                return json_encode(array("code" => "200", "msg" => "报名成功",'content' => $content), JSON_UNESCAPED_SLASHES);
             } else {
                 return json_encode(array("code" => "400", "msg" => "报名失败"), JSON_UNESCAPED_SLASHES);
             }
@@ -191,7 +214,7 @@ class Enlist extends Fornt
 
     }
 
-    //报名成功页面
+    //支付成功页面
     public function cg()
     {
 
@@ -201,6 +224,18 @@ class Enlist extends Fornt
 
 
         return $this->fetch("template/wap/enlist/success.html");
+    }
+
+    //报名成功页面
+    public function sign_cg()
+    {
+
+        //体检站展示
+        $station = model("Station")->select();
+        $this->assign("station", $station);
+
+
+        return $this->fetch("template/wap/enlist/sign_success.html");
     }
 
 
@@ -307,6 +342,127 @@ class Enlist extends Fornt
     //支付失败回调函数
     public function pay_fail(){
         return $this->fetch("template/wap/enlist/pay_fail.html");
+    }
+
+    //支付成功之后 修改体检申请表信息
+    public function update_tjorder_status(){
+
+        $sn =$_GET['sn'];
+        if (empty($sn)) {
+            exit();
+        }
+        $updt = array("is_pay"=>1,"pay_time"=>time());
+
+        $where = array("sn"=>$sn);
+        model("Apply")->save($updt,$where);
+        //查询订单的体检站和电话号码
+        $apply =model("Apply")->field('sent_apply.*,sent_station.outfit_id')
+            ->join('sent_station','sent_station.id=sent_apply.station_id','left')
+            ->where($where)->find();
+        //查询未分配的体检码
+        $code_info = model("Test")->where(array("status"=>0,"outfit_id"=>$apply['outfit_id']))->limit(0,1)->select();
+        $code_id = $code_info[0]['id'];
+        $is_use = array('status'=>1,"username"=>$apply['name'],"phone"=>$apply['phone']);
+        $where = array('id'=>$code_id);
+        //print_r($code_info); exit;
+        //修改体检码表的使用状态 修改为已分配
+        model('Test')->save($is_use,$where);
+        $where = array("sn"=>$sn);
+        //赋值体检申请表里面的体检码
+        model("Apply")->where($where)->setField('code_id',$code_id);
+
+
+    }
+
+    //支付成功后 修改报名信息表信息
+    public function update_order_status(){
+
+
+        $sn =$_GET['sn'];
+        if (empty($sn)) {
+            exit();
+        }
+
+        $sign = model("Student")->where(array("sn"=>$sn))->find();
+        if ($sign['is_pay'] == 1) {
+            exit();
+        }
+
+        $updt = array("is_pay"=>1,"pay_date"=>time());
+
+        $where = array("sn"=>$sn);
+
+        //修改学员报名表的支付状态
+        model("Student")->save($updt,$where);
+
+
+
+        /*//更新成功推荐人数
+        if(!empty($sign['inv'])){
+            $captain = $_TGLOBAL['db']->getrow("SELECT * FROM ".tname('captain')." WHERE id=".$sign['inv']);
+            if(!empty($captain)){
+                $_TGLOBAL['db']->query('UPDATE '.tname('captain')." SET success_num=success_num+1 WHERE id='".$sign['inv']."'");
+            }
+        }
+
+
+
+        if(!empty($sign['inv'])){
+            $captain = $_TGLOBAL['db']->getrow("SELECT * FROM ".tname('captain')." WHERE id=".$sign['inv']);
+
+            if(!empty($captain['cptid'])){ //如果有上级，就显示队员和队员的上级（合伙人）；否则只显示合伙人
+                $sign['duiyuan_name'] = $captain['name'];
+                $duiyuan = $_TGLOBAL['db']->getrow("SELECT * FROM ".tname('captain')." WHERE id=".$captain['cptid']);
+                $sign['captain_name'] = $duiyuan['name'];
+            } else {
+                $sign['captain_name'] = $captain['name']; //显示合伙人
+                $sign['duiyuan_name'] = '无';
+            }
+        }*/
+
+        include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
+        $wx = new Weixin_class();
+
+
+        //组装发送消息内容
+        $content = '学员姓名：'.$sign['name'].' , 电话：'.$sign['mobile'].' , 身份证号：'.$sign['cardno'].
+            ' , 地址：'.$sign['area'].' , 成交合伙人：'.$sign['captain_name'].' , 成交队员：'.$sign['duiyuan_name'].
+            ' , 时间：'.date("Y-m-d H:i:s",$sign['paydate']);
+        $data1 = array(
+            'touser' => 'o2l0cwjjem5xNUH5Is9fUec_jhEE',
+            'msgtype'=> 'text',
+            'text' 	 => array('content'=>$content)
+        );
+
+        $data2 = array(
+            'touser' => 'o2l0cwj6bKfp1IlK60lL6exB-sA0',
+            'msgtype'=> 'text',
+            'text' 	 => array('content'=>$content)
+        );
+
+        $data3 = array(
+            'touser' => 'o2l0cwspBtFyXaNYxggTQEaqPFAM',
+            'msgtype'=> 'text',
+            'text' 	 => array('content'=>$content)
+        );
+
+        $data4 = array(
+            'touser' => 'o2l0cwkgaEOA7AA5yKvn7zi6cngo',
+            'msgtype'=> 'text',
+            'text' 	 => array('content'=>$content)
+        );
+
+        $data5 = array(
+            'touser' => 'o2l0cwi5RqbVJFvht-vyOIzcDCs0',
+            'msgtype'=> 'text',
+            'text' 	 => array('content'=>$content)
+        );
+
+        $res1 = $wx->send_msg($data1);
+        $res2 = $wx->send_msg($data2);
+        $res3 = $wx->send_msg($data3);
+        $res4 = $wx->send_msg($data4);
+        $res5 = $wx->send_msg($data5);
     }
 
 
