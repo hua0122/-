@@ -30,7 +30,10 @@ return array(
     'enlist/detail'   => 'wap/enlist/detail',//报名
     'enlist/ajax_list'   => 'wap/enlist/ajax_list',//班别信息
     'enlist/sign'   => 'wap/enlist/sign',//报名信息
-    'enlist/success'   => 'wap/enlist/cg',//报名成功
+    'enlist/success'   => 'wap/enlist/cg',//支付成功
+    'enlist/fail'   => 'wap/enlist/fail',//支付失败
+    'enlist/sign_fail'   => 'wap/enlist/sign_fail',//报名失败
+    'enlist/sign_success'   => 'wap/enlist/sign_success',//报名成功
     'enlist/agreement'   => 'wap/enlist/agreement',//学车协议
     'enlist/yhq_code'   => 'wap/enlist/yhq_code',//优惠券
     'enlist/referral'   => 'wap/enlist/referral',//推荐码
