@@ -148,7 +148,7 @@ class Enlist extends Fornt
                 $data['tuition_state'] = 1;//学费状态 1全款
             } else if ($data['pay_type'] == 2||$data['pay_type'] == 3||$data['pay_type'] == 4) {
                 //活动减免 优惠券减免
-                if(isset($data['activity_id'])&&$data['coupon']){
+                if(isset($data['activity_id'])&&isset($data['coupon'])){
                     //线上定金支付 //未付款
                     $data['unpaid'] = intval($data['payable']) - intval($data['payment']) - intval($data['activity_id']) - intval($data['coupon']);
                 }elseif (isset($data['activity_id'])){
