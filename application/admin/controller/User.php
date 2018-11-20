@@ -21,6 +21,8 @@ class User extends Admin {
         $school_id = cookie("schoolid");
         if(isset($school_id)){
             $map['school_id'] = $school_id;
+        }else{
+            $map['school_id'] = 1;
         }
 
 		$map['status'] = array('egt', 0);

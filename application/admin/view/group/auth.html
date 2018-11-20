@@ -14,7 +14,7 @@
 	</header>
 	<div class="main-box-body clearfix">
 
-
+<!--
 		<link rel="stylesheet" href="__PUBLIC__/css/zTreeStyle/zTreeStyle.css" type="text/css">
 		<script type="text/javascript" src="__PUBLIC__/js/jquery.ztree.core.js"></script>
 		<script type="text/javascript" src="__PUBLIC__/js/jquery.ztree.excheck.js"></script>
@@ -34,12 +34,14 @@
 
             var zNodes =[
                 { id:1, pId:0, name:"鼎吉驾校", open:true},
+
                 { id:11, pId:1, name:"随意勾选 1-1", open:true},
                 { id:111, pId:11, name:"随意勾选 1-1-1"},
                 { id:112, pId:11, name:"随意勾选 1-1-2"},
                 { id:12, pId:1, name:"随意勾选 1-2", open:true},
                 { id:121, pId:12, name:"随意勾选 1-2-1"},
                 { id:122, pId:12, name:"随意勾选 1-2-2"},
+
                 { id:2, pId:0, name:"驾校名称2", checked:true, open:true},
                 { id:21, pId:2, name:"随意勾选 2-1"},
                 { id:22, pId:2, name:"随意勾选 2-2", open:true},
@@ -53,14 +55,14 @@
                 $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 
             });
-            //-->
+            //--
 		</SCRIPT>
 
 		<div class="zTreeDemoBackground left">
 			<ul id="treeDemo" class="ztree"></ul>
 		</div>
 
-
+-->
 
 
 
@@ -69,15 +71,15 @@
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th class="col-lg-2 text-right">分组</th>
+							<th class="col-lg-2 text-right"><input type="checkbox" name="" id="all"/>鼎吉驾校</th>
 							<th>权限</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="j_tb">
 						{volist name="list" id="node"}
 						<tr>
-							<td class="info col-lg-2 text-right">{$key}</td>
-							<td class="col-lg-10 text-left">
+							<td class="info col-lg-2 text-right"><input type="checkbox" name="" class="jx_all"/>{$key}</td>
+							<td class="col-lg-10 text-left jx_tb">
 								{volist name="node" id="item"}
 								<div class="checkbox-nice checkbox-inline">
 								<input type="checkbox" name="rule[]" value="{$item['id']}" id="{$item['name']}" {if in_array($item['id'],$auth_list)}checked{/if} />
@@ -114,4 +116,39 @@
 		</div>
 	</div>
 </div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    var checkboxs =$("#j_tb input");
+	$("#all").click(function(){
+
+        for (var i = 0; i < checkboxs.length; i++) {
+            var checkbox = checkboxs[i];
+            checkbox.checked = this.checked;
+        }
+
+    });
+    for (var i = 0; i < checkboxs.length; i++) {
+        checkboxs[i].onclick = function() {
+            var isCheckedAll = true;
+            for (var i = 0; i < checkboxs.length; i++) {
+                if (!checkboxs[i].checked) {
+                    isCheckedAll = false;
+                    break;
+                }
+            }
+            all.checked = isCheckedAll;
+        };
+    }
+    //选中某行的
+    $(".jx_all").click(function(){
+        var checkboxss = $(this).parent('td').next().find("input");
+        for (var i = 0; i < checkboxss.length; i++) {
+            var checkbox = checkboxss[i];
+            checkbox.checked = this.checked;
+        }
+
+	});
+</script>
+
 {/block}

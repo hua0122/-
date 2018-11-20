@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2018 �?11 �?19 �?10:11
+-- 生成日期: 2018 �?11 �?17 �?10:12
 -- 服务器版本: 5.5.53
 -- PHP 版本: 5.5.38
 
@@ -307,7 +307,6 @@ CREATE TABLE IF NOT EXISTS `sent_activity` (
   `five_amount` int(11) NOT NULL COMMENT '五人团优惠金额',
   `tels` varchar(200) NOT NULL COMMENT '团报人电话号码',
   `what` tinyint(4) NOT NULL COMMENT '送啥(1:钱 2:物)',
-  `school_id` smallint(6) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='活动管理' AUTO_INCREMENT=8 ;
 
@@ -315,11 +314,11 @@ CREATE TABLE IF NOT EXISTS `sent_activity` (
 -- 转存表中的数据 `sent_activity`
 --
 
-INSERT INTO `sent_activity` (`id`, `name`, `amount`, `gift`, `online_time`, `downline_time`, `number`, `status`, `description`, `type`, `icon`, `two_amount`, `three_amount`, `five_amount`, `tels`, `what`, `school_id`) VALUES
-(4, '报名立减', 200, '', 1542331215, 1543543203, 0, 0, '直接报名可享受\r\n200元学费减免', 1, 82, 3, 0, 0, '', 1, 1),
-(5, '团报优惠', 0, '', 1542333428, 1543543203, 0, 0, '两人团减免100元\r\n三人团减免200元\r\n五人团减免300元', 2, 83, 100, 200, 300, '', 1, 1),
-(6, '加就送', 200, '跑步机', 1542334023, 1543543203, 0, 0, '报名加200元赠送\r\n价值888元跑步机', 3, 84, 0, 0, 0, '', 2, 1),
-(7, '送优惠券', 0, '优惠券', 1542334273, 1542334273, 0, 0, '报名就送优惠券', 1, 84, 0, 0, 0, '', 2, 1);
+INSERT INTO `sent_activity` (`id`, `name`, `amount`, `gift`, `online_time`, `downline_time`, `number`, `status`, `description`, `type`, `icon`, `two_amount`, `three_amount`, `five_amount`, `tels`, `what`) VALUES
+(4, '报名立减', 200, '', 1542331215, 1543543203, 0, 0, '直接报名可享受\r\n200元学费减免', 1, 82, 3, 0, 0, '', 1),
+(5, '团报优惠', 0, '', 1542333428, 1543543203, 0, 0, '两人团减免100元\r\n三人团减免200元\r\n五人团减免300元', 2, 83, 100, 200, 300, '', 1),
+(6, '加就送', 200, '跑步机', 1542334023, 1543543203, 0, 0, '报名加200元赠送\r\n价值888元跑步机', 3, 84, 0, 0, 0, '', 2),
+(7, '送优惠券', 0, '优惠券', 1542334273, 1542334273, 0, 0, '报名就送优惠券', 1, 84, 0, 0, 0, '', 2);
 
 -- --------------------------------------------------------
 
@@ -456,7 +455,6 @@ CREATE TABLE IF NOT EXISTS `sent_area` (
   `lng` varchar(20) NOT NULL COMMENT '场地经度',
   `thumb` varchar(200) NOT NULL COMMENT '封面图',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态 0：启用 1：禁用',
-  `school_id` smallint(6) NOT NULL DEFAULT '1' COMMENT '学校ID',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='场地管理表' AUTO_INCREMENT=6 ;
@@ -465,12 +463,12 @@ CREATE TABLE IF NOT EXISTS `sent_area` (
 -- 转存表中的数据 `sent_area`
 --
 
-INSERT INTO `sent_area` (`id`, `name`, `address`, `lat`, `lng`, `thumb`, `status`, `school_id`) VALUES
-(1, '大学城一号训练基地', '陈家桥轻轨站1号出口', '29.567507', '106.559614', '1', 0, 1),
-(2, '南岸', '南岸', '29.567507', '106.559614', '54', 0, 1),
-(3, '北碚', '北碚XXX', '29.57002', '106.434282', '6', 1, 1),
-(4, '北碚一号训练基地(西大、重师)', '北碚', '', '', '12', 1, 1),
-(5, '沙坪坝', '沙坪坝', '29.579067', '106.60611', '52', 0, 1);
+INSERT INTO `sent_area` (`id`, `name`, `address`, `lat`, `lng`, `thumb`, `status`) VALUES
+(1, '大学城一号训练基地', '陈家桥轻轨站1号出口', '29.567507', '106.559614', '1', 0),
+(2, '南岸', '南岸', '29.567507', '106.559614', '54', 0),
+(3, '北碚', '北碚XXX', '29.57002', '106.434282', '6', 1),
+(4, '北碚一号训练基地(西大、重师)', '北碚', '', '', '12', 1),
+(5, '沙坪坝', '沙坪坝', '29.579067', '106.60611', '52', 0);
 
 -- --------------------------------------------------------
 
@@ -593,7 +591,6 @@ CREATE TABLE IF NOT EXISTS `sent_auth_group` (
   `description` varchar(80) NOT NULL DEFAULT '' COMMENT '描述信息',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '用户组状态：为1正常，为0禁用,-1为删除',
   `rules` varchar(500) NOT NULL DEFAULT '' COMMENT '用户组拥有的规则id，多个规则 , 隔开',
-  `school_id` smallint(6) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
@@ -601,9 +598,9 @@ CREATE TABLE IF NOT EXISTS `sent_auth_group` (
 -- 转存表中的数据 `sent_auth_group`
 --
 
-INSERT INTO `sent_auth_group` (`id`, `module`, `type`, `title`, `description`, `status`, `rules`, `school_id`) VALUES
-(1, 'admin', '1', '编辑', '编辑，针对内容进行管理', 1, '2,1', 1),
-(2, 'admin', '1', '管理员', '管理员', 1, '20,1,11', 1);
+INSERT INTO `sent_auth_group` (`id`, `module`, `type`, `title`, `description`, `status`, `rules`) VALUES
+(1, 'admin', '1', '编辑', '编辑，针对内容进行管理', 1, '2,1'),
+(2, 'admin', '1', '管理员', '管理员', 1, '21,20,14,12,3,19,18,17,16,15,13,1');
 
 -- --------------------------------------------------------
 
@@ -628,7 +625,6 @@ INSERT INTO `sent_auth_group_access` (`uid`, `group_id`) VALUES
 (2, 2),
 (3, 1),
 (7, 2),
-(8, 2),
 (14, 2);
 
 -- --------------------------------------------------------
@@ -889,7 +885,7 @@ CREATE TABLE IF NOT EXISTS `sent_code` (
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态（0:未使用 1:已使用）',
   `coupon_id` int(11) NOT NULL COMMENT '优惠券id',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='优惠券码' AUTO_INCREMENT=35 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='优惠券码' AUTO_INCREMENT=28 ;
 
 --
 -- 转存表中的数据 `sent_code`
@@ -922,14 +918,7 @@ INSERT INTO `sent_code` (`id`, `code`, `amount`, `status`, `coupon_id`) VALUES
 (24, 'RUdSeGjLXg', 200, 0, 4),
 (25, 'owRpeODkTs', 200, 0, 4),
 (26, 'irmcjfKRFq', 200, 0, 4),
-(27, 'jcwZaotsmd', 200, 0, 4),
-(28, 'sAOdKTNHmB', 300, 0, 5),
-(29, 'ZvngIDfUke', 300, 0, 5),
-(30, 'ycunDpdbBM', 300, 0, 5),
-(31, 'HeWYucfqLn', 300, 0, 5),
-(32, 'zoevUKsFDg', 300, 0, 5),
-(33, 'gDXsVvPrBL', 200, 0, 6),
-(34, 'JjewDktCnR', 200, 0, 6);
+(27, 'jcwZaotsmd', 200, 0, 4);
 
 -- --------------------------------------------------------
 
@@ -1014,21 +1003,18 @@ CREATE TABLE IF NOT EXISTS `sent_coupon` (
   `downline_time` int(11) NOT NULL COMMENT '下线时间',
   `number` int(11) NOT NULL COMMENT '报名人数',
   `status` int(11) NOT NULL COMMENT '状态 1:上线 0:下线',
-  `school_id` smallint(6) NOT NULL DEFAULT '1' COMMENT '学校ID',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='优惠券管理' AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='优惠券管理' AUTO_INCREMENT=5 ;
 
 --
 -- 转存表中的数据 `sent_coupon`
 --
 
-INSERT INTO `sent_coupon` (`id`, `name`, `code`, `amount`, `total`, `use`, `online_time`, `downline_time`, `number`, `status`, `school_id`) VALUES
-(1, '双11优惠券', '', 100, 10, 0, 1541752733, 1542011933, 0, 0, 1),
-(2, '双11优惠券', '', 200, 5, 0, 1541752774, 1542011974, 0, 0, 1),
-(3, '双11优惠券', '', 500, 2, 0, 1541752814, 1542012014, 0, 0, 1),
-(4, '双12优惠券', '', 200, 10, 0, 1542335973, 1543339796, 0, 0, 1),
-(5, '测试1', '', 300, 5, 0, 1542612863, 1543545023, 0, 0, 1),
-(6, '测试2', '', 200, 2, 0, 1542612891, 1543543251, 0, 0, 2);
+INSERT INTO `sent_coupon` (`id`, `name`, `code`, `amount`, `total`, `use`, `online_time`, `downline_time`, `number`, `status`) VALUES
+(1, '双11优惠券', '', 100, 10, 0, 1541752733, 1542011933, 0, 0),
+(2, '双11优惠券', '', 200, 5, 0, 1541752774, 1542011974, 0, 0),
+(3, '双11优惠券', '', 500, 2, 0, 1541752814, 1542012014, 0, 0),
+(4, '双12优惠券', '', 200, 10, 0, 1542335973, 1543339796, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1046,7 +1032,6 @@ CREATE TABLE IF NOT EXISTS `sent_department` (
   `phone` varchar(15) NOT NULL COMMENT '电话',
   `number` int(11) NOT NULL COMMENT '招生人数',
   `total` int(11) NOT NULL COMMENT '团队总招生人数',
-  `school_id` smallint(6) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='部门表' AUTO_INCREMENT=8 ;
 
@@ -1054,14 +1039,14 @@ CREATE TABLE IF NOT EXISTS `sent_department` (
 -- 转存表中的数据 `sent_department`
 --
 
-INSERT INTO `sent_department` (`id`, `title`, `pid`, `status`, `remark`, `code`, `phone`, `number`, `total`, `school_id`) VALUES
-(1, '团队6', 0, 0, '', '123456', '', 0, 0, 1),
-(2, '团队5', 0, 0, '', '', '', 0, 0, 1),
-(3, '团队4', 0, 0, '', '', '', 0, 0, 1),
-(4, '团队3', 0, 0, '', '', '', 0, 0, 1),
-(5, '团队2', 0, 0, '', '', '', 0, 0, 1),
-(6, '团队1', 0, 0, '', '', '13594855872', 0, 0, 1),
-(7, '团队7', 0, 0, '', '', '13594855872', 0, 0, 1);
+INSERT INTO `sent_department` (`id`, `title`, `pid`, `status`, `remark`, `code`, `phone`, `number`, `total`) VALUES
+(1, '团队6', 0, 0, '', '123456', '', 0, 0),
+(2, '团队5', 0, 0, '', '', '', 0, 0),
+(3, '团队4', 0, 0, '', '', '', 0, 0),
+(4, '团队3', 0, 0, '', '', '', 0, 0),
+(5, '团队2', 0, 0, '', '', '', 0, 0),
+(6, '团队1', 0, 0, '', '', '13594855872', 0, 0),
+(7, '团队7', 0, 0, '', '', '13594855872', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1649,7 +1634,6 @@ CREATE TABLE IF NOT EXISTS `sent_document` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '数据状态',
-  `school_id` smallint(6) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_category_status` (`category_id`,`status`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='文档模型基础表' AUTO_INCREMENT=44 ;
@@ -1658,36 +1642,36 @@ CREATE TABLE IF NOT EXISTS `sent_document` (
 -- 转存表中的数据 `sent_document`
 --
 
-INSERT INTO `sent_document` (`id`, `uid`, `name`, `title`, `category_id`, `description`, `model_id`, `position`, `link_id`, `cover_id`, `display`, `deadline`, `attach`, `view`, `comment`, `extend`, `level`, `is_top`, `create_time`, `update_time`, `status`, `school_id`) VALUES
-(5, 1, '', '首页bannner图1', 1, '', 3, 1, 0, 15, 0, 1463648554, 0, 2, 0, 0, 0, 0, 1463648554, 1541052788, 1, 1),
-(17, 1, '', '报名即可参加万人电音节', 2, '', 2, 1, 0, 20, 0, 1541054302, 0, 2, 0, 0, 0, 0, 1541054302, 1541054356, 2, 1),
-(16, 1, '', '内页banner图3', 8, '', 3, 1, 0, 19, 0, 1541053749, 0, 0, 0, 0, 0, 0, 1541053749, 1541053771, 1, 1),
-(15, 1, '', '内页banner图2', 8, '', 3, 1, 0, 18, 0, 1541053722, 0, 0, 0, 0, 0, 0, 1541053722, 1541053743, 1, 1),
-(14, 1, '', '内页banner图1', 8, '', 3, 1, 0, 17, 0, 1541053612, 0, 0, 0, 0, 0, 0, 1541053612, 1541053635, 1, 1),
-(13, 1, '', '首页banner图2', 1, '', 4, 1, 0, 16, 0, 1541574418, 0, 0, 0, 0, 0, 0, 0, 1541574417, 1, 1),
-(18, 1, '', '发现最美鼎吉1', 9, '', 3, 1, 0, 21, 0, 1541055138, 0, 0, 0, 0, 0, 0, 1541055138, 1541055163, 1, 1),
-(19, 1, '', '发现最美鼎吉2', 9, '', 3, 1, 0, 22, 0, 1541055169, 0, 0, 0, 0, 0, 0, 1541055169, 1541055189, 1, 1),
-(20, 1, '', '发现最美鼎吉3', 9, '', 3, 1, 0, 72, 0, 1541574338, 0, 0, 0, 0, 0, 0, 0, 1541574337, 1, 1),
-(21, 1, '', '走进鼎吉1', 3, '', 3, 1, 0, 68, 0, 1541562483, 0, 0, 0, 0, 0, 0, 1541056368, 1541562483, 1, 1),
-(22, 1, '', '走进鼎吉2', 3, '', 3, 1, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 1541056794, 1541562483, 1, 1),
-(23, 1, '', '走进鼎吉3', 3, '', 3, 1, 0, 26, 0, 1541562483, 0, 0, 0, 0, 0, 0, 1541056819, 1541562483, 1, 1),
-(24, 1, '', '走进鼎吉4', 3, '', 3, 1, 0, 27, 0, 0, 0, 0, 0, 0, 0, 0, 1541056839, 1541562483, 1, 1),
-(25, 1, '', '走进鼎吉5', 3, '', 3, 1, 0, 99, 0, 1541562483, 0, 0, 0, 0, 0, 0, 1541056867, 1541562483, 1, 1),
-(26, 1, '', '教练风采1', 10, '', 3, 1, 0, 29, 0, 1541057950, 0, 0, 0, 0, 0, 0, 1541057950, 1541057969, 1, 1),
-(27, 1, '', '教练风采2', 10, '', 3, 1, 0, 30, 0, 1541057974, 0, 0, 0, 0, 0, 0, 1541057974, 1541057988, 1, 1),
-(28, 1, '', '教练风采3', 10, '', 3, 1, 0, 31, 0, 1541057992, 0, 0, 0, 0, 0, 0, 1541057992, 1541058007, 1, 1),
-(29, 1, '', '教练风采4', 10, '', 3, 1, 0, 32, 0, 1541058012, 0, 0, 0, 0, 0, 0, 1541058012, 1541058042, 1, 1),
-(30, 1, '', '教练风采5', 10, '', 3, 1, 0, 33, 0, 1541058058, 0, 0, 0, 0, 0, 0, 1541058058, 1541058075, 1, 1),
-(31, 1, '', '团队风采1', 11, '', 3, 1, 0, 91, 0, 1541572048, 0, 0, 0, 0, 0, 0, 1541058400, 1541572048, 1, 1),
-(32, 1, '', '团队风采2', 11, '', 3, 1, 0, 35, 0, 0, 0, 0, 0, 0, 0, 0, 1541058426, 1541572048, 1, 1),
-(33, 1, '', '团队风采3', 11, '', 3, 1, 0, 36, 0, 1541572048, 0, 0, 0, 0, 0, 0, 1541058446, 1541572048, 1, 1),
-(34, 1, '', '团队风采4', 11, '', 3, 1, 0, 37, 0, 0, 0, 0, 0, 0, 0, 0, 1541058469, 1541572048, 1, 1),
-(35, 1, '', '团队风采5', 11, '', 3, 1, 0, 38, 0, 1541572048, 0, 0, 0, 0, 0, 0, 1541058495, 1541572048, 1, 1),
-(36, 1, '', '学员风采1', 12, '', 3, 1, 0, 39, 0, 1541058524, 0, 0, 0, 0, 0, 0, 1541058524, 1541058538, 1, 1),
-(37, 1, '', '学员风采2', 12, '', 3, 1, 0, 40, 0, 1541058542, 0, 0, 0, 0, 0, 0, 1541058542, 1541058555, 1, 1),
-(38, 1, '', '学员风采3', 12, '', 3, 1, 0, 41, 0, 1541058564, 0, 0, 0, 0, 0, 0, 1541058564, 1541058577, 1, 1),
-(39, 1, '', '学员风采4', 12, '', 3, 1, 0, 42, 0, 1541058581, 0, 0, 0, 0, 0, 0, 1541058581, 1541058598, 1, 1),
-(40, 1, '', '学员风采5', 12, '', 3, 1, 0, 101, 0, 1541058602, 0, 0, 0, 0, 0, 0, 1541058602, 1541058615, 1, 1);
+INSERT INTO `sent_document` (`id`, `uid`, `name`, `title`, `category_id`, `description`, `model_id`, `position`, `link_id`, `cover_id`, `display`, `deadline`, `attach`, `view`, `comment`, `extend`, `level`, `is_top`, `create_time`, `update_time`, `status`) VALUES
+(5, 1, '', '首页bannner图1', 1, '', 3, 1, 0, 15, 0, 1463648554, 0, 2, 0, 0, 0, 0, 1463648554, 1541052788, 1),
+(17, 1, '', '报名即可参加万人电音节', 2, '', 2, 1, 0, 20, 0, 1541054302, 0, 2, 0, 0, 0, 0, 1541054302, 1541054356, 2),
+(16, 1, '', '内页banner图3', 8, '', 3, 1, 0, 19, 0, 1541053749, 0, 0, 0, 0, 0, 0, 1541053749, 1541053771, 1),
+(15, 1, '', '内页banner图2', 8, '', 3, 1, 0, 18, 0, 1541053722, 0, 0, 0, 0, 0, 0, 1541053722, 1541053743, 1),
+(14, 1, '', '内页banner图1', 8, '', 3, 1, 0, 17, 0, 1541053612, 0, 0, 0, 0, 0, 0, 1541053612, 1541053635, 1),
+(13, 1, '', '首页banner图2', 1, '', 4, 1, 0, 16, 0, 1541574418, 0, 0, 0, 0, 0, 0, 0, 1541574417, 1),
+(18, 1, '', '发现最美鼎吉1', 9, '', 3, 1, 0, 21, 0, 1541055138, 0, 0, 0, 0, 0, 0, 1541055138, 1541055163, 1),
+(19, 1, '', '发现最美鼎吉2', 9, '', 3, 1, 0, 22, 0, 1541055169, 0, 0, 0, 0, 0, 0, 1541055169, 1541055189, 1),
+(20, 1, '', '发现最美鼎吉3', 9, '', 3, 1, 0, 72, 0, 1541574338, 0, 0, 0, 0, 0, 0, 0, 1541574337, 1),
+(21, 1, '', '走进鼎吉1', 3, '', 3, 1, 0, 68, 0, 1541562483, 0, 0, 0, 0, 0, 0, 1541056368, 1541562483, 1),
+(22, 1, '', '走进鼎吉2', 3, '', 3, 1, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 1541056794, 1541562483, 1),
+(23, 1, '', '走进鼎吉3', 3, '', 3, 1, 0, 26, 0, 1541562483, 0, 0, 0, 0, 0, 0, 1541056819, 1541562483, 1),
+(24, 1, '', '走进鼎吉4', 3, '', 3, 1, 0, 27, 0, 0, 0, 0, 0, 0, 0, 0, 1541056839, 1541562483, 1),
+(25, 1, '', '走进鼎吉5', 3, '', 3, 1, 0, 99, 0, 1541562483, 0, 0, 0, 0, 0, 0, 1541056867, 1541562483, 1),
+(26, 1, '', '教练风采1', 10, '', 3, 1, 0, 29, 0, 1541057950, 0, 0, 0, 0, 0, 0, 1541057950, 1541057969, 1),
+(27, 1, '', '教练风采2', 10, '', 3, 1, 0, 30, 0, 1541057974, 0, 0, 0, 0, 0, 0, 1541057974, 1541057988, 1),
+(28, 1, '', '教练风采3', 10, '', 3, 1, 0, 31, 0, 1541057992, 0, 0, 0, 0, 0, 0, 1541057992, 1541058007, 1),
+(29, 1, '', '教练风采4', 10, '', 3, 1, 0, 32, 0, 1541058012, 0, 0, 0, 0, 0, 0, 1541058012, 1541058042, 1),
+(30, 1, '', '教练风采5', 10, '', 3, 1, 0, 33, 0, 1541058058, 0, 0, 0, 0, 0, 0, 1541058058, 1541058075, 1),
+(31, 1, '', '团队风采1', 11, '', 3, 1, 0, 91, 0, 1541572048, 0, 0, 0, 0, 0, 0, 1541058400, 1541572048, 1),
+(32, 1, '', '团队风采2', 11, '', 3, 1, 0, 35, 0, 0, 0, 0, 0, 0, 0, 0, 1541058426, 1541572048, 1),
+(33, 1, '', '团队风采3', 11, '', 3, 1, 0, 36, 0, 1541572048, 0, 0, 0, 0, 0, 0, 1541058446, 1541572048, 1),
+(34, 1, '', '团队风采4', 11, '', 3, 1, 0, 37, 0, 0, 0, 0, 0, 0, 0, 0, 1541058469, 1541572048, 1),
+(35, 1, '', '团队风采5', 11, '', 3, 1, 0, 38, 0, 1541572048, 0, 0, 0, 0, 0, 0, 1541058495, 1541572048, 1),
+(36, 1, '', '学员风采1', 12, '', 3, 1, 0, 39, 0, 1541058524, 0, 0, 0, 0, 0, 0, 1541058524, 1541058538, 1),
+(37, 1, '', '学员风采2', 12, '', 3, 1, 0, 40, 0, 1541058542, 0, 0, 0, 0, 0, 0, 1541058542, 1541058555, 1),
+(38, 1, '', '学员风采3', 12, '', 3, 1, 0, 41, 0, 1541058564, 0, 0, 0, 0, 0, 0, 1541058564, 1541058577, 1),
+(39, 1, '', '学员风采4', 12, '', 3, 1, 0, 42, 0, 1541058581, 0, 0, 0, 0, 0, 0, 1541058581, 1541058598, 1),
+(40, 1, '', '学员风采5', 12, '', 3, 1, 0, 101, 0, 1541058602, 0, 0, 0, 0, 0, 0, 1541058602, 1541058615, 1);
 
 -- --------------------------------------------------------
 
@@ -1771,7 +1755,6 @@ CREATE TABLE IF NOT EXISTS `sent_feedback` (
   `content` text NOT NULL COMMENT '内容',
   `create_time` int(11) NOT NULL COMMENT '提交时间',
   `status` tinyint(4) NOT NULL COMMENT '状态(0:未处理 1：已处理)',
-  `school_id` smallint(6) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='意见建议' AUTO_INCREMENT=18 ;
 
@@ -1779,24 +1762,24 @@ CREATE TABLE IF NOT EXISTS `sent_feedback` (
 -- 转存表中的数据 `sent_feedback`
 --
 
-INSERT INTO `sent_feedback` (`id`, `name`, `phone`, `content`, `create_time`, `status`, `school_id`) VALUES
-(1, '何雪莲', '13167876373', '快速报名', 2147483647, 1, 1),
-(2, '何雪莲', '13167876373', '快速报名', 2147483647, 0, 1),
-(3, '', '', '', 1542095476, 0, 1),
-(4, '', '', '报名第三方的手', 1542095796, 0, 1),
-(5, '', '', '测试', 1542096170, 0, 1),
-(6, '', '', '测试11', 1542096197, 0, 1),
-(7, '', '', '测试22', 1542096284, 0, 1),
-(8, '', '', '123', 1542096316, 1, 1),
-(9, '', '', '456', 1542096420, 0, 1),
-(10, '', '', '测试时', 1542096495, 0, 1),
-(11, '', '', 'ccc', 1542096682, 0, 1),
-(12, '', '', '测试', 1542096907, 0, 1),
-(13, '', '', '455555', 1542097011, 0, 1),
-(14, '', '', '7567', 1542097070, 0, 1),
-(15, '', '', '666', 1542097090, 0, 1),
-(16, '', '', '撒艾弗森', 1542097134, 0, 1),
-(17, '', '', '8888', 1542097205, 0, 1);
+INSERT INTO `sent_feedback` (`id`, `name`, `phone`, `content`, `create_time`, `status`) VALUES
+(1, '何雪莲', '13167876373', '快速报名', 2147483647, 1),
+(2, '何雪莲', '13167876373', '快速报名', 2147483647, 0),
+(3, '', '', '', 1542095476, 0),
+(4, '', '', '报名第三方的手', 1542095796, 0),
+(5, '', '', '测试', 1542096170, 0),
+(6, '', '', '测试11', 1542096197, 0),
+(7, '', '', '测试22', 1542096284, 0),
+(8, '', '', '123', 1542096316, 1),
+(9, '', '', '456', 1542096420, 0),
+(10, '', '', '测试时', 1542096495, 0),
+(11, '', '', 'ccc', 1542096682, 0),
+(12, '', '', '测试', 1542096907, 0),
+(13, '', '', '455555', 1542097011, 0),
+(14, '', '', '7567', 1542097070, 0),
+(15, '', '', '666', 1542097090, 0),
+(16, '', '', '撒艾弗森', 1542097134, 0),
+(17, '', '', '8888', 1542097205, 0);
 
 -- --------------------------------------------------------
 
@@ -2034,17 +2017,15 @@ CREATE TABLE IF NOT EXISTS `sent_member` (
   `school_id` int(11) NOT NULL COMMENT '所属驾校ID',
   PRIMARY KEY (`uid`),
   KEY `status` (`status`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='会员表' AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='会员表' AUTO_INCREMENT=8 ;
 
 --
 -- 转存表中的数据 `sent_member`
 --
 
 INSERT INTO `sent_member` (`uid`, `username`, `password`, `nickname`, `email`, `mobile`, `sex`, `birthday`, `qq`, `score`, `signature`, `pos_province`, `pos_city`, `pos_district`, `pos_community`, `salt`, `login`, `reg_ip`, `reg_time`, `last_login_ip`, `last_login_time`, `status`, `school_id`) VALUES
-(1, 'admin', '9d98696a650b7bd9c90f057023951aa3', 'admin', 'admin@admin.com', NULL, 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'nPdbMU', 67, 0, 1489650033, 2130706433, 1542614746, 1, 0),
-(7, 'ceshi1', '5974ae0695d1a339c54c9992e2d01d9d', '测试1', NULL, '13594855871', 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'eJDHFA', 0, 0, 1542446502, 0, 1542446502, 1, 2),
-(8, 'ceshi2', 'a8cc6a272a2dd7138ca9bed802c123d6', '测试2', NULL, '13594855872', 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'GaRsJA', 3, 0, 1542611532, 2130706433, 1542616181, 1, 1),
-(9, 'ceshi3', 'f4530d20a0f15bacb09cfd7e3a5cc604', '测试3', NULL, '13594855873', 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'TVvmXn', 0, 0, 1542611568, 0, 1542611568, 1, 2);
+(1, 'admin', '9d98696a650b7bd9c90f057023951aa3', 'admin', 'admin@admin.com', NULL, 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'nPdbMU', 65, 0, 1489650033, 2130706433, 1542446477, 1, 0),
+(7, 'ceshi1', '5974ae0695d1a339c54c9992e2d01d9d', '测试1', NULL, '13594855871', 0, '0000-00-00', '', 0, NULL, 0, 0, 0, 0, 'eJDHFA', 0, 0, 1542446502, 0, 1542446502, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -2069,9 +2050,7 @@ INSERT INTO `sent_member_extend` (`uid`, `education`) VALUES
 (4, 0),
 (5, 0),
 (6, 0),
-(7, 0),
-(8, 0),
-(9, 0);
+(7, 0);
 
 -- --------------------------------------------------------
 
@@ -2279,7 +2258,6 @@ CREATE TABLE IF NOT EXISTS `sent_outfit` (
   `name` varchar(50) NOT NULL COMMENT '名称',
   `address` varchar(100) NOT NULL COMMENT '地址',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态（0:禁用 1:启用）',
-  `school_id` smallint(6) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='体检机构' AUTO_INCREMENT=5 ;
 
@@ -2287,11 +2265,11 @@ CREATE TABLE IF NOT EXISTS `sent_outfit` (
 -- 转存表中的数据 `sent_outfit`
 --
 
-INSERT INTO `sent_outfit` (`id`, `name`, `address`, `status`, `school_id`) VALUES
-(1, '红十字协会', '红十字协会', 1, 1),
-(2, '建设医院', '建设医院', 1, 1),
-(3, '陈家桥医院', '陈家桥医院11213', 1, 1),
-(4, '红十字北碚', '红十字北碚', 1, 1);
+INSERT INTO `sent_outfit` (`id`, `name`, `address`, `status`) VALUES
+(1, '红十字协会', '红十字协会', 1),
+(2, '建设医院', '建设医院', 1),
+(3, '陈家桥医院', '陈家桥医院11213', 1),
+(4, '红十字北碚', '红十字北碚', 1);
 
 -- --------------------------------------------------------
 
@@ -2308,7 +2286,6 @@ CREATE TABLE IF NOT EXISTS `sent_page` (
   `content` text,
   `create_time` int(11) DEFAULT NULL,
   `update_time` int(11) DEFAULT NULL,
-  `school_id` smallint(6) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='单页' AUTO_INCREMENT=14 ;
 
@@ -2316,20 +2293,20 @@ CREATE TABLE IF NOT EXISTS `sent_page` (
 -- 转存表中的数据 `sent_page`
 --
 
-INSERT INTO `sent_page` (`id`, `uid`, `title`, `model_id`, `cover_id`, `content`, `create_time`, `update_time`, `school_id`) VALUES
-(1, 0, '走进鼎吉', 4, 53, '<p>走进鼎吉</p>', 1541572764, 1542339380, 1),
-(2, 0, '发现最美鼎吉', 4, 0, '<p>发现最美鼎吉1</p>', 1540951806, 1540977206, 1),
-(3, 0, '教练风采', 4, 0, '<p>教练风采</p>', 1540951830, 1542338360, 1),
-(4, 0, '团队风采', 4, 0, '<p>团队风采</p>', 1540951849, 1542338395, 1),
-(10, 0, '科目一学习预约流程', 4, 0, '<p style="white-space: normal; text-align: center;"><span style="font-size: 24px;">科目一学习方法以及预约流程</span></p><p style="white-space: normal; text-align: center;">西培学堂网址：<span style="text-decoration-line: underline; color: rgb(255, 0, 0);"><a href="http://www.cqxpxt.com/" style="color: rgb(255, 0, 0);">http://www.cqxpxt.com/</a></span></p><p style="white-space: normal; text-align: center;">点击可访问</p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">一、学习方法</p><p style="white-space: normal; text-indent: 2em;">科目一理论学习为6+16模式，前边6个小时需要在西培学堂指定培训点进行面授上课，中途不能离开，并且为人脸识别认证；6个小时学习完毕之后后边16个小时可在网络上边进行学习，也可在课堂进行面授学习</p><p style="white-space: normal; text-indent: 2em;"><br/></p><p style="text-indent: 0em; white-space: normal;">二、预约流程</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503832882696801.png" title="1503832882696801.png" alt="blob.png"/></p><p style="white-space: normal; text-indent: 2em;">请您在首页右上方“用户登录”输入您的身份证号码，初始密码是身份证号码的后6位数字。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503834101496624.png" title="1503834101496624.png" alt="1503834101496624.png" width="350" height="113"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503832938997982.png" title="1503832938997982.png" alt="1503832938997982.png" width="380" height="1"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503833678767163.png" title="1503833678767163.png" alt="blob.png"/></p><p style="white-space: normal; text-indent: 2em;">如果您是第一次登录，您将直接进入<span style="color: rgb(84, 141, 212);">“面授预约”</span>，首先，请您选择参加面授的地点。选择面授地点后，请选择参加面授的日期、时间、班次、教室。</p><p style="white-space: normal; text-indent: 2em;">如果您参加完6个学时面授培训以后，仍然选择课堂学习，请您点击<span style="color: rgb(84, 141, 212);">“面授预约”</span>，选择参加面授的地点，然后选择参加面授的<span style="color: rgb(84, 141, 212);">日期、时间、班次、教室。</span></p><p style="white-space: normal; text-indent: 2em;">预约面授成功后，系统会发送短信至您的手机。</p><p style="white-space: normal; text-indent: 2em;">您可以点击“课程表下载”，下载查看相关课程安排。<br/><span style="color: rgb(255, 0, 0);">特别提示：</span></p><p style="white-space: normal; text-indent: 2em;"><span style="text-indent: 2em;">1、“网上学习面授班”为参加网络学习前的6个学时的面授培训内容。选择在网络教学平台学习的学员或第一次参加培训的学员请预约“网上学习面授班”班次。</span><br/></p><p style="white-space: normal; text-indent: 2em;">2、如果您已参加完成“网上学习面授班”培训后，仍选择线下课堂学习，请预约“课堂学习面授班”班次。</p><p style="white-space: normal; text-indent: 2em;">3、面授学习均需提前一天预约。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503834781810896.png" title="1503834781810896.png" alt="1503834781810896.png" width="350" height="214"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503834847892086.png" title="1503834847892086.png" alt="1503834847892086.png" width="350" height="192"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835032173018.png" title="1503835032173018.png" alt="1503835032173018.png" width="350" height="161"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835040362644.png" title="1503835040362644.png" alt="1503835040362644.png" width="350" height="150"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835048839473.png" title="1503835048839473.png" alt="1503835048839473.png" width="350" height="89"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835056316138.png" title="1503835056316138.png" alt="1503835056316138.png" width="350" height="1"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835063956735.png" title="1503835063956735.png" alt="blob.png"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal; text-indent: 2em;">当您参加满6个学时的面授培训以后，您的手机将收到短信提示，您再次登录后，点击右上方“理论学习” 然后再点击右侧的“点击学习”就能进入教学视频播放界面。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835249551632.png" title="1503835249551632.png" alt="1503835249551632.png" width="350" height="134"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835268952765.png" title="1503835268952765.png" alt="1503835268952765.png" width="350" height="84"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835286648926.png" title="1503835286648926.png" alt="1503835286648926.png" width="350" height="1"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835314157577.png" title="1503835314157577.png" alt="blob.png"/></p><p style="white-space: normal; text-indent: 2em;"><span style="color: rgb(255, 0, 0);">因学习计时需进行人像验证，在您学习前，请您查看是否正确安装摄像头。</span></p><p style="white-space: normal;"><span style="color: rgb(84, 141, 212);">1、摄像头购买指导：</span></p><p style="text-indent: 0em; white-space: normal;">如果台式电脑未安装摄像头，可以在实体店买或者网上买。<br/>摄像头规格参数：<br/>Usb：2.0接口以上<br/>视像分辨率：640*480<br/>驱动：免驱</p><p style="white-space: normal;"><span style="color: rgb(84, 141, 212);">2、摄像头安装指导：</span><br/>(1)、请将摄像头的USB插口插到您的电脑主机USB接口（如果您长期使用，建议插在主机后面板上面。）</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835488784051.png" title="1503835488784051.png" alt="1503835488784051.png" width="350" height="218"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">(2)、初次使用时，安装如下图。<br/>摄像头插到usb接口弹出的提示：</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835617878608.png" title="1503835617878608.png" alt="1503835617878608.png" width="350" height="82"/></p><p style="white-space: normal;">(3)、安装成功：</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835623404295.png" title="1503835623404295.png" alt="1503835623404295.png" width="350" height="109"/></p><p style="white-space: normal;">(4)、安装成功后，点击右下角的小图标，会显示——可以使用字样。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835629293128.png" title="1503835629293128.png" alt="1503835629293128.png" width="350" height="211"/></p><p style="white-space: normal;">(5)、最后，调试一下视频设备，看看如何吧！<br/>（注：在Win7中，视频画面需要第三方软件才可以显示，所以我们可以在QQ中来查看设备工作状态，在QQ面板中打开视频调试。）</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835641828020.png" title="1503835641828020.png" alt="1503835641828020.png" width="350" height="414"/></p><p style="white-space: normal;">(6)、切换到视频设置中，等待几秒后你应该会看到视频画面。显示视频设备启动成功，并且可以看到画面。这时，您刷新“理论学习”界面就可以进行视频验证了。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835648561869.png" title="1503835648561869.png" alt="1503835648561869.png" width="350" height="284"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835679203366.png" title="1503835679203366.png" alt="1503835679203366.png" width="350" height="1"/></p><p style="white-space: normal;"><img width="804" height="1" src="http://ydxc.yooyor.com/ydxc/admin/ueditor/themes/default/images/spacer.gif" alt="http://static.cqxp.cqxpxt.com/img/xxzl/img2.png"/><br/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835668756189.png" title="1503835668756189.png" alt="blob.png"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835686985369.png" title="1503835686985369.png" alt="1503835686985369.png" width="350" height="119"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835691702513.png" title="1503835691702513.png" alt="1503835691702513.png" width="350" height="106"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835695456367.png" title="1503835695456367.png" alt="1503835695456367.png" width="350" height="165"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835701545103.png" title="1503835701545103.png" alt="1503835701545103.png" width="350" height="23"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835708519390.png" title="1503835708519390.png" alt="1503835708519390.png" width="350" height="1"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835712163555.png" title="1503835712163555.png" alt="blob.png"/></p><p style="white-space: normal;">考题练习：在参加科目一考试前，您可以在西培学堂进行考题练习。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835718233496.png" title="1503835718233496.png" alt="1503835718233496.png" width="350" height="116"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835723321769.png" title="1503835723321769.png" alt="1503835723321769.png" width="350" height="135"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835733536003.png" title="1503835733536003.png" alt="1503835733536003.png" width="350" height="1"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835738281549.png" title="1503835738281549.png" alt="blob.png"/></p><p style="white-space: normal; text-align: center;"><span style="color: rgb(84, 141, 212);">(一）查看学时</span></p><p style="white-space: normal;">您可以在<span style="color: rgb(255, 0, 0);">“理论学习”</span>界面看见自己的学时完成情况<br/>也可以进入<span style="color: rgb(255, 0, 0);">“个人中心”</span>查看自己的学习情况。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835746603331.png" title="1503835746603331.png" alt="1503835746603331.png" width="350" height="257"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835750379091.png" title="1503835750379091.png" alt="1503835750379091.png" width="350" height="232"/></p><p style="white-space: normal; text-align: center;"><span style="color: rgb(84, 141, 212);">(二）修改，忘记密码</span></p><p style="white-space: normal;">如果需要修改密码，请进入<span style="color: rgb(255, 0, 0);">“个人中心”</span>选择“修改密码”。<br/>如果忘记密码，1、您可以在首页“用户登录”下方点击<span style="color: rgb(255, 0, 0);">“忘记密码”</span>，核对相关信息后，<br/>我们会将您的密码以短信方式发送到您的手机；2、您可以拨打<span style="color: rgb(255, 0, 0);">4001025505</span>客服电话，<br/>客服人员核对相关信息后，将您的密码重置为<span style="color: rgb(255, 0, 0);">初始密码</span>。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835759999893.png" title="1503835759999893.png" alt="1503835759999893.png" width="350" height="214"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835766985940.png" title="1503835766985940.png" alt="1503835766985940.png" width="350" height="149"/></p><p style="white-space: normal; text-align: center;"><span style="color: rgb(84, 141, 212);">(三）学习疑问或投诉意见</span></p><p style="white-space: normal;">(1)、您可以点击右侧的<span style="color: rgb(255, 0, 0);">“在线提问”</span>通过<span style="color: rgb(255, 0, 0);">“我要提问”</span>将相关问题反馈给我们， 我们将及时给您回复，您可在<span style="color: rgb(255, 0, 0);">“我的提问”</span>中看见回复情况。<br/>(2)、您可以点击右侧的<span style="color: rgb(255, 0, 0);">“联系我们”</span>，教学内容问题可通过“在线教师”与线上教师沟通； 其它问题可通过<span style="color: rgb(255, 0, 0);">“在线客服”</span>或者拨打<span style="color: rgb(255, 0, 0);">400-102-5505</span>客服电话与我们联系，您反馈的问题， 我们将及时给您回复。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835772479999.png" title="1503835772479999.png" alt="1503835772479999.png" width="350" height="213"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835777271104.png" title="1503835777271104.png" alt="1503835777271104.png" width="350" height="229"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835782885455.png" title="1503835782885455.png" alt="1503835782885455.png" width="350" height="179"/></p><p><br/></p>', 1541556118, 1541556118, 1),
-(11, 0, '学车协议', 4, 0, '<p>学车协议123</p>', 1541555774, 1541555774, 1),
-(12, 0, '约考缴费流程', 4, 0, '<p style="white-space: normal; text-align: center;"><span style="font-size: 24px;">约考缴费流程</span></p><p style="white-space: normal;">&nbsp;</p><p style="white-space: normal;"><span style="font-size: 18px;">1. 约考流程</span></p><p style="white-space: normal;"><span style="color: rgb(255, 0, 0);">输入约考统一网址:&nbsp;</span><a href="http://cq.122.gov.cn/" target="_blank"><span style="color: rgb(255, 0, 0);">http://cq.122.gov.cn/</span></a><span style="color: rgb(255, 0, 0);">&nbsp;&nbsp;</span>(点击可访问)</p><p style="white-space: normal;">点击个人登录, 登录名为身份证号码,密码为收到的重庆交巡警平台发出六位数字的初始密码(短信接收)</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893237325713.png" title="1503893237325713.png" alt="1503893237325713.png" width="350" height="192"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893243289005.png" title="1503893243289005.png" alt="1503893243289005.png" width="350" height="187"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">如若密码遗失,选择找回密码,填写身份证和姓名并填写验证码重置密码即可</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893261863998.png" title="1503893261863998.png" alt="1503893261863998.png" width="350" height="184"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893265290504.png" title="1503893265290504.png" alt="1503893265290504.png" width="350" height="186"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893269689372.png" title="1503893269689372.png" alt="1503893269689372.png" width="350" height="172"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">1)&nbsp;&nbsp;&nbsp; 点击驾驶证业务</p><p style="white-space: normal;">2)&nbsp;&nbsp;&nbsp; 点击在线办理</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893282115754.png" title="1503893282115754.png" alt="1503893282115754.png" width="350" height="382"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">3)&nbsp;&nbsp;&nbsp; 选择考试科目，点击下一步</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893287615801.png" title="1503893287615801.png" alt="1503893287615801.png" width="350" height="193"/></p><p style="white-space: normal;">&nbsp;</p><p style="white-space: normal;">4)&nbsp;&nbsp;&nbsp; 点击阅读并同意</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893293540965.png" title="1503893293540965.png" alt="1503893293540965.png" width="350" height="338"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">5)&nbsp;&nbsp;&nbsp; 选择考试时间段并选择考场，具体考场和教练员沟通,点击查询</p><p style="white-space: normal;"><br/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893315117034.png" title="1503893315117034.png" alt="1503893315117034.png" width="350" height="119"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">6)&nbsp; 选择考试日和当天考试的场次,具体和驾校和教练员沟通, 这里会提示当天考试总人数和预约人数，可选择场次或更换场次</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893344321345.png" title="1503893344321345.png" alt="1503893344321345.png" width="350" height="336"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">7)&nbsp;&nbsp;&nbsp; 这里先验证当时登录报名填写的手机号码，然后点击提交预约申请信息，约考完毕</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893353327725.png" title="1503893353327725.png" alt="1503893353327725.png" width="350" height="242"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;"><strong><span style="font-size: 20px; color: rgb(255, 0, 0);">2. 缴考试费流程</span></strong></p><p style="white-space: normal;"><strong><span style="font-size: 20px; color: rgb(255, 0, 0);"><br/></span></strong></p><p style="white-space: normal;">输入考试缴费统一网站：<span style="text-decoration-line: underline; color: rgb(255, 0, 0);">http://</span><a href="http://www.ggjfw.com/" style="color: rgb(255, 0, 0);">www.ggjfw.com</a>&nbsp;(点击可访问)（网上缴费不能使用支付宝和微信支付只能使用网银和绑定手机号码的银行卡）</p><p style="white-space: normal;">1)&nbsp;&nbsp;&nbsp; 选择重庆</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893364372087.png" title="1503893364372087.png" alt="1503893364372087.png" width="350" height="305"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">2)&nbsp;&nbsp;&nbsp; 选择车管所网上缴费平台</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893374122230.png" title="1503893374122230.png" alt="1503893374122230.png" width="350" height="196"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">3)&nbsp;&nbsp;&nbsp; 选择驾管业务网上缴费</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893379927407.png" title="1503893379927407.png" alt="1503893379927407.png" width="350" height="275"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">4)&nbsp;&nbsp;&nbsp; 完善个人信息之后点击申请查询（注意不要点击申请缴费）</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893384365248.png" title="1503893384365248.png" alt="1503893384365248.png" width="350" height="289"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">5)&nbsp;&nbsp;&nbsp; 如没有缴费记录则点击申请缴费</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893389241078.png" title="1503893389241078.png" alt="1503893389241078.png" width="350" height="122"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">6)&nbsp;&nbsp;&nbsp; 点击同意</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893396515147.png" title="1503893396515147.png" alt="1503893396515147.png" width="350" height="256"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">7)&nbsp;&nbsp;&nbsp; 先选择科目考试，然后选择考试科目，比如科目一科目二，然后提交订单</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893404963275.png" title="1503893404963275.png" alt="1503893404963275.png" width="350" height="258"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">8)&nbsp;&nbsp;&nbsp; 核对信息无误之后点击确认并缴费</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893412539437.png" title="1503893412539437.png" alt="1503893412539437.png" width="350" height="257"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">9)&nbsp;&nbsp;&nbsp; 输入网银所绑定的手机号码并填写手机验证码</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893419839356.png" title="1503893419839356.png" alt="1503893419839356.png" width="350" height="227"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">10)&nbsp;&nbsp;&nbsp;&nbsp; 核对无误之后点击下一步</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893426695615.png" title="1503893426695615.png" alt="1503893426695615.png" width="350" height="172"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">11)&nbsp;&nbsp;&nbsp;&nbsp; 点击去付款</p><p style="white-space: normal;">&nbsp;</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893431279173.png" title="1503893431279173.png" alt="1503893431279173.png" width="350" height="232"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">12)&nbsp;&nbsp;&nbsp;&nbsp; 输入银行卡号之后点击下一步</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893436913596.png" title="1503893436913596.png" alt="1503893436913596.png" width="350" height="226"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">13)&nbsp;&nbsp;&nbsp;&nbsp; 完善信息之后点击付款</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893440580978.png" title="1503893440580978.png" alt="1503893440580978.png" width="350" height="223"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">14)&nbsp;&nbsp;&nbsp;&nbsp; 缴费完毕，点击返回商户可检查缴费信息</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893447805722.png" title="1503893447805722.png" alt="1503893447805722.png" width="350" height="237"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">15)&nbsp;&nbsp;&nbsp;&nbsp; 付款成功回执信息</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893457415224.png" title="1503893457415224.png" alt="1503893457415224.png" width="350" height="166"/></p><p><br/></p>', 1541556314, 1541556314, 1),
-(5, 0, '学员风采', 4, 0, '<p>学员风采</p>', 1540971904, 1542339508, 1),
-(6, 0, '学车流程', 4, 0, '<p>学车流程09</p>', 1541555840, 1541555840, 1),
-(7, 0, '优势服务', 4, 0, '<p>优势服务90</p>', 1541555832, 1541555832, 1),
-(8, 0, '学车保障', 4, 0, '<p>学车保障789</p>', 1541555824, 1541555824, 1),
-(9, 0, '常见问题', 4, 0, '<p>常见问题456</p>', 1541555815, 1541555815, 1),
-(13, 0, '报名即可参加万人电音节', 4, 71, '<p>最新活动11</p>', 1541572887, 1541572887, 1);
+INSERT INTO `sent_page` (`id`, `uid`, `title`, `model_id`, `cover_id`, `content`, `create_time`, `update_time`) VALUES
+(1, 0, '走进鼎吉', 4, 53, '<p>走进鼎吉</p>', 1541572764, 1542339380),
+(2, 0, '发现最美鼎吉', 4, 0, '<p>发现最美鼎吉1</p>', 1540951806, 1540977206),
+(3, 0, '教练风采', 4, 0, '<p>教练风采</p>', 1540951830, 1542338360),
+(4, 0, '团队风采', 4, 0, '<p>团队风采</p>', 1540951849, 1542338395),
+(10, 0, '科目一学习预约流程', 4, 0, '<p style="white-space: normal; text-align: center;"><span style="font-size: 24px;">科目一学习方法以及预约流程</span></p><p style="white-space: normal; text-align: center;">西培学堂网址：<span style="text-decoration-line: underline; color: rgb(255, 0, 0);"><a href="http://www.cqxpxt.com/" style="color: rgb(255, 0, 0);">http://www.cqxpxt.com/</a></span></p><p style="white-space: normal; text-align: center;">点击可访问</p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">一、学习方法</p><p style="white-space: normal; text-indent: 2em;">科目一理论学习为6+16模式，前边6个小时需要在西培学堂指定培训点进行面授上课，中途不能离开，并且为人脸识别认证；6个小时学习完毕之后后边16个小时可在网络上边进行学习，也可在课堂进行面授学习</p><p style="white-space: normal; text-indent: 2em;"><br/></p><p style="text-indent: 0em; white-space: normal;">二、预约流程</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503832882696801.png" title="1503832882696801.png" alt="blob.png"/></p><p style="white-space: normal; text-indent: 2em;">请您在首页右上方“用户登录”输入您的身份证号码，初始密码是身份证号码的后6位数字。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503834101496624.png" title="1503834101496624.png" alt="1503834101496624.png" width="350" height="113"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503832938997982.png" title="1503832938997982.png" alt="1503832938997982.png" width="380" height="1"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503833678767163.png" title="1503833678767163.png" alt="blob.png"/></p><p style="white-space: normal; text-indent: 2em;">如果您是第一次登录，您将直接进入<span style="color: rgb(84, 141, 212);">“面授预约”</span>，首先，请您选择参加面授的地点。选择面授地点后，请选择参加面授的日期、时间、班次、教室。</p><p style="white-space: normal; text-indent: 2em;">如果您参加完6个学时面授培训以后，仍然选择课堂学习，请您点击<span style="color: rgb(84, 141, 212);">“面授预约”</span>，选择参加面授的地点，然后选择参加面授的<span style="color: rgb(84, 141, 212);">日期、时间、班次、教室。</span></p><p style="white-space: normal; text-indent: 2em;">预约面授成功后，系统会发送短信至您的手机。</p><p style="white-space: normal; text-indent: 2em;">您可以点击“课程表下载”，下载查看相关课程安排。<br/><span style="color: rgb(255, 0, 0);">特别提示：</span></p><p style="white-space: normal; text-indent: 2em;"><span style="text-indent: 2em;">1、“网上学习面授班”为参加网络学习前的6个学时的面授培训内容。选择在网络教学平台学习的学员或第一次参加培训的学员请预约“网上学习面授班”班次。</span><br/></p><p style="white-space: normal; text-indent: 2em;">2、如果您已参加完成“网上学习面授班”培训后，仍选择线下课堂学习，请预约“课堂学习面授班”班次。</p><p style="white-space: normal; text-indent: 2em;">3、面授学习均需提前一天预约。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503834781810896.png" title="1503834781810896.png" alt="1503834781810896.png" width="350" height="214"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503834847892086.png" title="1503834847892086.png" alt="1503834847892086.png" width="350" height="192"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835032173018.png" title="1503835032173018.png" alt="1503835032173018.png" width="350" height="161"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835040362644.png" title="1503835040362644.png" alt="1503835040362644.png" width="350" height="150"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835048839473.png" title="1503835048839473.png" alt="1503835048839473.png" width="350" height="89"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835056316138.png" title="1503835056316138.png" alt="1503835056316138.png" width="350" height="1"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835063956735.png" title="1503835063956735.png" alt="blob.png"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal; text-indent: 2em;">当您参加满6个学时的面授培训以后，您的手机将收到短信提示，您再次登录后，点击右上方“理论学习” 然后再点击右侧的“点击学习”就能进入教学视频播放界面。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835249551632.png" title="1503835249551632.png" alt="1503835249551632.png" width="350" height="134"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835268952765.png" title="1503835268952765.png" alt="1503835268952765.png" width="350" height="84"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835286648926.png" title="1503835286648926.png" alt="1503835286648926.png" width="350" height="1"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835314157577.png" title="1503835314157577.png" alt="blob.png"/></p><p style="white-space: normal; text-indent: 2em;"><span style="color: rgb(255, 0, 0);">因学习计时需进行人像验证，在您学习前，请您查看是否正确安装摄像头。</span></p><p style="white-space: normal;"><span style="color: rgb(84, 141, 212);">1、摄像头购买指导：</span></p><p style="text-indent: 0em; white-space: normal;">如果台式电脑未安装摄像头，可以在实体店买或者网上买。<br/>摄像头规格参数：<br/>Usb：2.0接口以上<br/>视像分辨率：640*480<br/>驱动：免驱</p><p style="white-space: normal;"><span style="color: rgb(84, 141, 212);">2、摄像头安装指导：</span><br/>(1)、请将摄像头的USB插口插到您的电脑主机USB接口（如果您长期使用，建议插在主机后面板上面。）</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835488784051.png" title="1503835488784051.png" alt="1503835488784051.png" width="350" height="218"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">(2)、初次使用时，安装如下图。<br/>摄像头插到usb接口弹出的提示：</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835617878608.png" title="1503835617878608.png" alt="1503835617878608.png" width="350" height="82"/></p><p style="white-space: normal;">(3)、安装成功：</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835623404295.png" title="1503835623404295.png" alt="1503835623404295.png" width="350" height="109"/></p><p style="white-space: normal;">(4)、安装成功后，点击右下角的小图标，会显示——可以使用字样。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835629293128.png" title="1503835629293128.png" alt="1503835629293128.png" width="350" height="211"/></p><p style="white-space: normal;">(5)、最后，调试一下视频设备，看看如何吧！<br/>（注：在Win7中，视频画面需要第三方软件才可以显示，所以我们可以在QQ中来查看设备工作状态，在QQ面板中打开视频调试。）</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835641828020.png" title="1503835641828020.png" alt="1503835641828020.png" width="350" height="414"/></p><p style="white-space: normal;">(6)、切换到视频设置中，等待几秒后你应该会看到视频画面。显示视频设备启动成功，并且可以看到画面。这时，您刷新“理论学习”界面就可以进行视频验证了。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835648561869.png" title="1503835648561869.png" alt="1503835648561869.png" width="350" height="284"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835679203366.png" title="1503835679203366.png" alt="1503835679203366.png" width="350" height="1"/></p><p style="white-space: normal;"><img width="804" height="1" src="http://ydxc.yooyor.com/ydxc/admin/ueditor/themes/default/images/spacer.gif" alt="http://static.cqxp.cqxpxt.com/img/xxzl/img2.png"/><br/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835668756189.png" title="1503835668756189.png" alt="blob.png"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835686985369.png" title="1503835686985369.png" alt="1503835686985369.png" width="350" height="119"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835691702513.png" title="1503835691702513.png" alt="1503835691702513.png" width="350" height="106"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835695456367.png" title="1503835695456367.png" alt="1503835695456367.png" width="350" height="165"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835701545103.png" title="1503835701545103.png" alt="1503835701545103.png" width="350" height="23"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835708519390.png" title="1503835708519390.png" alt="1503835708519390.png" width="350" height="1"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835712163555.png" title="1503835712163555.png" alt="blob.png"/></p><p style="white-space: normal;">考题练习：在参加科目一考试前，您可以在西培学堂进行考题练习。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835718233496.png" title="1503835718233496.png" alt="1503835718233496.png" width="350" height="116"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835723321769.png" title="1503835723321769.png" alt="1503835723321769.png" width="350" height="135"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835733536003.png" title="1503835733536003.png" alt="1503835733536003.png" width="350" height="1"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835738281549.png" title="1503835738281549.png" alt="blob.png"/></p><p style="white-space: normal; text-align: center;"><span style="color: rgb(84, 141, 212);">(一）查看学时</span></p><p style="white-space: normal;">您可以在<span style="color: rgb(255, 0, 0);">“理论学习”</span>界面看见自己的学时完成情况<br/>也可以进入<span style="color: rgb(255, 0, 0);">“个人中心”</span>查看自己的学习情况。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835746603331.png" title="1503835746603331.png" alt="1503835746603331.png" width="350" height="257"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835750379091.png" title="1503835750379091.png" alt="1503835750379091.png" width="350" height="232"/></p><p style="white-space: normal; text-align: center;"><span style="color: rgb(84, 141, 212);">(二）修改，忘记密码</span></p><p style="white-space: normal;">如果需要修改密码，请进入<span style="color: rgb(255, 0, 0);">“个人中心”</span>选择“修改密码”。<br/>如果忘记密码，1、您可以在首页“用户登录”下方点击<span style="color: rgb(255, 0, 0);">“忘记密码”</span>，核对相关信息后，<br/>我们会将您的密码以短信方式发送到您的手机；2、您可以拨打<span style="color: rgb(255, 0, 0);">4001025505</span>客服电话，<br/>客服人员核对相关信息后，将您的密码重置为<span style="color: rgb(255, 0, 0);">初始密码</span>。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835759999893.png" title="1503835759999893.png" alt="1503835759999893.png" width="350" height="214"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835766985940.png" title="1503835766985940.png" alt="1503835766985940.png" width="350" height="149"/></p><p style="white-space: normal; text-align: center;"><span style="color: rgb(84, 141, 212);">(三）学习疑问或投诉意见</span></p><p style="white-space: normal;">(1)、您可以点击右侧的<span style="color: rgb(255, 0, 0);">“在线提问”</span>通过<span style="color: rgb(255, 0, 0);">“我要提问”</span>将相关问题反馈给我们， 我们将及时给您回复，您可在<span style="color: rgb(255, 0, 0);">“我的提问”</span>中看见回复情况。<br/>(2)、您可以点击右侧的<span style="color: rgb(255, 0, 0);">“联系我们”</span>，教学内容问题可通过“在线教师”与线上教师沟通； 其它问题可通过<span style="color: rgb(255, 0, 0);">“在线客服”</span>或者拨打<span style="color: rgb(255, 0, 0);">400-102-5505</span>客服电话与我们联系，您反馈的问题， 我们将及时给您回复。</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835772479999.png" title="1503835772479999.png" alt="1503835772479999.png" width="350" height="213"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835777271104.png" title="1503835777271104.png" alt="1503835777271104.png" width="350" height="229"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170827/1503835782885455.png" title="1503835782885455.png" alt="1503835782885455.png" width="350" height="179"/></p><p><br/></p>', 1541556118, 1541556118),
+(11, 0, '学车协议', 4, 0, '<p>学车协议123</p>', 1541555774, 1541555774),
+(12, 0, '约考缴费流程', 4, 0, '<p style="white-space: normal; text-align: center;"><span style="font-size: 24px;">约考缴费流程</span></p><p style="white-space: normal;">&nbsp;</p><p style="white-space: normal;"><span style="font-size: 18px;">1. 约考流程</span></p><p style="white-space: normal;"><span style="color: rgb(255, 0, 0);">输入约考统一网址:&nbsp;</span><a href="http://cq.122.gov.cn/" target="_blank"><span style="color: rgb(255, 0, 0);">http://cq.122.gov.cn/</span></a><span style="color: rgb(255, 0, 0);">&nbsp;&nbsp;</span>(点击可访问)</p><p style="white-space: normal;">点击个人登录, 登录名为身份证号码,密码为收到的重庆交巡警平台发出六位数字的初始密码(短信接收)</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893237325713.png" title="1503893237325713.png" alt="1503893237325713.png" width="350" height="192"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893243289005.png" title="1503893243289005.png" alt="1503893243289005.png" width="350" height="187"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">如若密码遗失,选择找回密码,填写身份证和姓名并填写验证码重置密码即可</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893261863998.png" title="1503893261863998.png" alt="1503893261863998.png" width="350" height="184"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893265290504.png" title="1503893265290504.png" alt="1503893265290504.png" width="350" height="186"/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893269689372.png" title="1503893269689372.png" alt="1503893269689372.png" width="350" height="172"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">1)&nbsp;&nbsp;&nbsp; 点击驾驶证业务</p><p style="white-space: normal;">2)&nbsp;&nbsp;&nbsp; 点击在线办理</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893282115754.png" title="1503893282115754.png" alt="1503893282115754.png" width="350" height="382"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">3)&nbsp;&nbsp;&nbsp; 选择考试科目，点击下一步</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893287615801.png" title="1503893287615801.png" alt="1503893287615801.png" width="350" height="193"/></p><p style="white-space: normal;">&nbsp;</p><p style="white-space: normal;">4)&nbsp;&nbsp;&nbsp; 点击阅读并同意</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893293540965.png" title="1503893293540965.png" alt="1503893293540965.png" width="350" height="338"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">5)&nbsp;&nbsp;&nbsp; 选择考试时间段并选择考场，具体考场和教练员沟通,点击查询</p><p style="white-space: normal;"><br/></p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893315117034.png" title="1503893315117034.png" alt="1503893315117034.png" width="350" height="119"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">6)&nbsp; 选择考试日和当天考试的场次,具体和驾校和教练员沟通, 这里会提示当天考试总人数和预约人数，可选择场次或更换场次</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893344321345.png" title="1503893344321345.png" alt="1503893344321345.png" width="350" height="336"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">7)&nbsp;&nbsp;&nbsp; 这里先验证当时登录报名填写的手机号码，然后点击提交预约申请信息，约考完毕</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893353327725.png" title="1503893353327725.png" alt="1503893353327725.png" width="350" height="242"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;"><strong><span style="font-size: 20px; color: rgb(255, 0, 0);">2. 缴考试费流程</span></strong></p><p style="white-space: normal;"><strong><span style="font-size: 20px; color: rgb(255, 0, 0);"><br/></span></strong></p><p style="white-space: normal;">输入考试缴费统一网站：<span style="text-decoration-line: underline; color: rgb(255, 0, 0);">http://</span><a href="http://www.ggjfw.com/" style="color: rgb(255, 0, 0);">www.ggjfw.com</a>&nbsp;(点击可访问)（网上缴费不能使用支付宝和微信支付只能使用网银和绑定手机号码的银行卡）</p><p style="white-space: normal;">1)&nbsp;&nbsp;&nbsp; 选择重庆</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893364372087.png" title="1503893364372087.png" alt="1503893364372087.png" width="350" height="305"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">2)&nbsp;&nbsp;&nbsp; 选择车管所网上缴费平台</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893374122230.png" title="1503893374122230.png" alt="1503893374122230.png" width="350" height="196"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">3)&nbsp;&nbsp;&nbsp; 选择驾管业务网上缴费</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893379927407.png" title="1503893379927407.png" alt="1503893379927407.png" width="350" height="275"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">4)&nbsp;&nbsp;&nbsp; 完善个人信息之后点击申请查询（注意不要点击申请缴费）</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893384365248.png" title="1503893384365248.png" alt="1503893384365248.png" width="350" height="289"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">5)&nbsp;&nbsp;&nbsp; 如没有缴费记录则点击申请缴费</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893389241078.png" title="1503893389241078.png" alt="1503893389241078.png" width="350" height="122"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">6)&nbsp;&nbsp;&nbsp; 点击同意</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893396515147.png" title="1503893396515147.png" alt="1503893396515147.png" width="350" height="256"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">7)&nbsp;&nbsp;&nbsp; 先选择科目考试，然后选择考试科目，比如科目一科目二，然后提交订单</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893404963275.png" title="1503893404963275.png" alt="1503893404963275.png" width="350" height="258"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">8)&nbsp;&nbsp;&nbsp; 核对信息无误之后点击确认并缴费</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893412539437.png" title="1503893412539437.png" alt="1503893412539437.png" width="350" height="257"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">9)&nbsp;&nbsp;&nbsp; 输入网银所绑定的手机号码并填写手机验证码</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893419839356.png" title="1503893419839356.png" alt="1503893419839356.png" width="350" height="227"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">10)&nbsp;&nbsp;&nbsp;&nbsp; 核对无误之后点击下一步</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893426695615.png" title="1503893426695615.png" alt="1503893426695615.png" width="350" height="172"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">11)&nbsp;&nbsp;&nbsp;&nbsp; 点击去付款</p><p style="white-space: normal;">&nbsp;</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893431279173.png" title="1503893431279173.png" alt="1503893431279173.png" width="350" height="232"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">12)&nbsp;&nbsp;&nbsp;&nbsp; 输入银行卡号之后点击下一步</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893436913596.png" title="1503893436913596.png" alt="1503893436913596.png" width="350" height="226"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">13)&nbsp;&nbsp;&nbsp;&nbsp; 完善信息之后点击付款</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893440580978.png" title="1503893440580978.png" alt="1503893440580978.png" width="350" height="223"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">14)&nbsp;&nbsp;&nbsp;&nbsp; 缴费完毕，点击返回商户可检查缴费信息</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893447805722.png" title="1503893447805722.png" alt="1503893447805722.png" width="350" height="237"/></p><p style="white-space: normal;"><br/></p><p style="white-space: normal;">15)&nbsp;&nbsp;&nbsp;&nbsp; 付款成功回执信息</p><p style="white-space: normal; text-align: center;"><img src="http://ydxctrue.yidianxueche.cn/ueditor/php/upload/image/20170828/1503893457415224.png" title="1503893457415224.png" alt="1503893457415224.png" width="350" height="166"/></p><p><br/></p>', 1541556314, 1541556314),
+(5, 0, '学员风采', 4, 0, '<p>学员风采</p>', 1540971904, 1542339508),
+(6, 0, '学车流程', 4, 0, '<p>学车流程09</p>', 1541555840, 1541555840),
+(7, 0, '优势服务', 4, 0, '<p>优势服务90</p>', 1541555832, 1541555832),
+(8, 0, '学车保障', 4, 0, '<p>学车保障789</p>', 1541555824, 1541555824),
+(9, 0, '常见问题', 4, 0, '<p>常见问题456</p>', 1541555815, 1541555815),
+(13, 0, '报名即可参加万人电音节', 4, 71, '<p>最新活动11</p>', 1541572887, 1541572887);
 
 -- --------------------------------------------------------
 
@@ -2343,7 +2320,6 @@ CREATE TABLE IF NOT EXISTS `sent_partner` (
   `phone` varchar(15) NOT NULL COMMENT '电话',
   `school` varchar(50) NOT NULL COMMENT '学校',
   `create_time` int(11) NOT NULL COMMENT '申请时间',
-  `school_id` smallint(6) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='合伙人申请列表' AUTO_INCREMENT=2 ;
 
@@ -2351,8 +2327,8 @@ CREATE TABLE IF NOT EXISTS `sent_partner` (
 -- 转存表中的数据 `sent_partner`
 --
 
-INSERT INTO `sent_partner` (`id`, `name`, `phone`, `school`, `create_time`, `school_id`) VALUES
-(1, '刘恩瑞', '18315067756', '重庆电子工程职业学院', 1540978129, 1);
+INSERT INTO `sent_partner` (`id`, `name`, `phone`, `school`, `create_time`) VALUES
+(1, '刘恩瑞', '18315067756', '重庆电子工程职业学院', 1540978129);
 
 -- --------------------------------------------------------
 
@@ -2561,7 +2537,7 @@ CREATE TABLE IF NOT EXISTS `sent_school` (
 --
 
 INSERT INTO `sent_school` (`id`, `name`) VALUES
-(1, '鼎吉驾校'),
+(1, '驾校名称1'),
 (2, '驾校名称2'),
 (3, '驾校名称3');
 
@@ -2647,7 +2623,6 @@ CREATE TABLE IF NOT EXISTS `sent_student` (
   `pay_type` tinyint(4) NOT NULL COMMENT '缴费类型（1：线上全款支付 2：线上定金支付 3：线下全款支付 4：线下定金支付）',
   `payee` int(11) DEFAULT NULL COMMENT '收款人',
   `remark` varchar(300) DEFAULT NULL COMMENT '收款备注',
-  `school_id` smallint(6) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='学员管理表' AUTO_INCREMENT=14 ;
 
@@ -2655,20 +2630,20 @@ CREATE TABLE IF NOT EXISTS `sent_student` (
 -- 转存表中的数据 `sent_student`
 --
 
-INSERT INTO `sent_student` (`id`, `name`, `phone`, `card`, `grade_id`, `area_id`, `activity_id`, `coupon`, `inviter`, `sign_date`, `pay_date`, `status`, `tuition_state`, `payable`, `payment`, `unpaid`, `openId`, `sn`, `pay_type`, `payee`, `remark`, `school_id`) VALUES
-(1, '张三', '13594855879', '500236199101226203', 4, 1, '1,2', 1, 4, 1234567890, 1234567890, 1, 1, '111.00', '111.00', '0.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC4', 'dj_15368421461PCtrZCq', 1, NULL, '已确认全部付完', 1),
-(2, '李四', '13594855878', '500236199101226204', 7, 1, '1', 3, 5, 1234567890, 1234567890, 1, 1, '111.00', '111.00', '0.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC4', 'dj_15368421461PCtrZCw', 1, NULL, '已确认全部付清', 1),
-(3, '王二', '13594855877', '500236199101226202', 4, 2, '1', NULL, 6, 1234567890, 1234567890, 1, 2, '111.00', '50.00', '61.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC3', 'dj_15368421461PCtrZCp', 2, NULL, '微信支付50', 1),
-(4, '王三', '13594855871', '500236199101226201', 11, 3, '1', 16, 7, 1234567890, 1234567890, 1, 2, '3480.00', '0.00', '2980.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC1', 'dj_15368421461PCtrZCo', 3, NULL, '', 1),
-(5, '123', '2321', '', 11, 1, '', 0, 0, 0, 0, 1, 0, '3480.00', '0.00', '0.00', '', '', 0, NULL, NULL, 1),
-(6, '123', '2321', '', 11, 1, '', 0, 0, 0, 0, 1, 0, '3480.00', '0.00', '0.00', '', '', 0, NULL, NULL, 1),
-(7, 'fdg', 'fdgdg', 'fdgdfgfg', 11, 1, '', 0, 0, 1542185725, 0, 1, 0, '3480.00', '0.00', '0.00', '', '', 1, NULL, NULL, 1),
-(8, 'ggg', 'ggg', 'gggg', 11, 1, '', 0, 0, 1542186112, 0, 1, 0, '3480.00', '0.00', '0.00', '', 'dj_qpDCGxBUGOJEePjAFpLv', 1, NULL, NULL, 1),
-(9, 'fh', 'fghf', 'gfhfg', 11, 1, '', 0, 0, 1542186168, 0, 1, 0, '3480.00', '0.00', '0.00', '', 'dj_NRtekOgvBXyTmGWYHbUH', 1, NULL, NULL, 1),
-(10, '676', '6767', '676', 11, 1, '', 0, 0, 1542186208, 0, 1, 0, '3480.00', '3480.00', '0.00', '', 'dj_ybGcxVrlnWrBmWzLlCaV', 1, NULL, NULL, 1),
-(11, 'ccc', 'ccc', 'ccc', 11, 1, '', 0, 0, 1542186332, 0, 1, 1, '3480.00', '3480.00', '0.00', '', 'dj_corOZbSOYPZsyJyGknvm', 1, NULL, NULL, 1),
-(12, 'ccc', 'ccc', 'ccc', 11, 1, '', 0, 0, 1542186404, 0, 1, 1, '3480.00', '3480.00', '0.00', '', 'dj_cxXhHKkIlAzjxDKnHiYi', 1, NULL, NULL, 1),
-(13, '测试', '13594855687', '500236199701226213', 11, 1, '4', 1, 1, 1542356314, NULL, 1, 1, '3480.00', '3180.00', '0.00', NULL, 'dj_NcMAPIwYVqVLQIMJZmwG', 1, NULL, NULL, 1);
+INSERT INTO `sent_student` (`id`, `name`, `phone`, `card`, `grade_id`, `area_id`, `activity_id`, `coupon`, `inviter`, `sign_date`, `pay_date`, `status`, `tuition_state`, `payable`, `payment`, `unpaid`, `openId`, `sn`, `pay_type`, `payee`, `remark`) VALUES
+(1, '张三', '13594855879', '500236199101226203', 4, 1, '1,2', 1, 4, 1234567890, 1234567890, 1, 1, '111.00', '111.00', '0.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC4', 'dj_15368421461PCtrZCq', 1, NULL, '已确认全部付完'),
+(2, '李四', '13594855878', '500236199101226204', 7, 1, '1', 3, 5, 1234567890, 1234567890, 1, 1, '111.00', '111.00', '0.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC4', 'dj_15368421461PCtrZCw', 1, NULL, '已确认全部付清'),
+(3, '王二', '13594855877', '500236199101226202', 4, 2, '1', NULL, 6, 1234567890, 1234567890, 1, 2, '111.00', '50.00', '61.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC3', 'dj_15368421461PCtrZCp', 2, NULL, '微信支付50'),
+(4, '王三', '13594855871', '500236199101226201', 11, 3, '1', 16, 7, 1234567890, 1234567890, 1, 2, '3480.00', '0.00', '2980.00', 'o2l0cwgiEglPnZKRmOc8b9SWOBC1', 'dj_15368421461PCtrZCo', 3, NULL, ''),
+(5, '123', '2321', '', 11, 1, '', 0, 0, 0, 0, 1, 0, '3480.00', '0.00', '0.00', '', '', 0, NULL, NULL),
+(6, '123', '2321', '', 11, 1, '', 0, 0, 0, 0, 1, 0, '3480.00', '0.00', '0.00', '', '', 0, NULL, NULL),
+(7, 'fdg', 'fdgdg', 'fdgdfgfg', 11, 1, '', 0, 0, 1542185725, 0, 1, 0, '3480.00', '0.00', '0.00', '', '', 1, NULL, NULL),
+(8, 'ggg', 'ggg', 'gggg', 11, 1, '', 0, 0, 1542186112, 0, 1, 0, '3480.00', '0.00', '0.00', '', 'dj_qpDCGxBUGOJEePjAFpLv', 1, NULL, NULL),
+(9, 'fh', 'fghf', 'gfhfg', 11, 1, '', 0, 0, 1542186168, 0, 1, 0, '3480.00', '0.00', '0.00', '', 'dj_NRtekOgvBXyTmGWYHbUH', 1, NULL, NULL),
+(10, '676', '6767', '676', 11, 1, '', 0, 0, 1542186208, 0, 1, 0, '3480.00', '3480.00', '0.00', '', 'dj_ybGcxVrlnWrBmWzLlCaV', 1, NULL, NULL),
+(11, 'ccc', 'ccc', 'ccc', 11, 1, '', 0, 0, 1542186332, 0, 1, 1, '3480.00', '3480.00', '0.00', '', 'dj_corOZbSOYPZsyJyGknvm', 1, NULL, NULL),
+(12, 'ccc', 'ccc', 'ccc', 11, 1, '', 0, 0, 1542186404, 0, 1, 1, '3480.00', '3480.00', '0.00', '', 'dj_cxXhHKkIlAzjxDKnHiYi', 1, NULL, NULL),
+(13, '测试', '13594855687', '500236199701226213', 11, 1, '4', 1, 1, 1542356314, NULL, 1, 1, '3480.00', '3180.00', '0.00', NULL, 'dj_NcMAPIwYVqVLQIMJZmwG', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
