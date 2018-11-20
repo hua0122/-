@@ -203,7 +203,7 @@ class Enlist extends Fornt
                     $content = array('package' => $package, 'paySign' => $paySign, 'appId' => 'wx09e39aed7d3c3912', 'timestamp' => $timeStamp, 'nonceStr' => $nonceStr, 'signature' => $signature);
                     return json_encode(array("code" => "200", "msg" => "支付成功",'content' => $content), JSON_UNESCAPED_SLASHES);
                 }else{
-                    return json_encode(array("code" => "2000", "msg" => "报名成功",'content' => $content), JSON_UNESCAPED_SLASHES);
+                    return json_encode(array("code" => "2000", "msg" => "报名成功"), JSON_UNESCAPED_SLASHES);
                 }
 
 
