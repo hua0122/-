@@ -166,7 +166,9 @@ class Enlist extends Fornt
             $res = model("Student")->save($data);
             if ($res) {
                 $openid = session("openid");
-                $total_fee = $data['payment'] * 100;
+                //$total_fee = $data['payment'] * 100;
+                $total_fee = 0.01 * 100;
+
                 if (!empty($total_fee) && $total_fee > 0 && !empty($openid)) {
 
                     include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
@@ -225,9 +227,13 @@ class Enlist extends Fornt
 
         return $this->fetch("template/wap/enlist/success.html");
     }
+    //支付失败
+    public function fail(){
+        return $this->fetch("template/wap/enlist/fail.html");
+    }
 
     //报名成功页面
-    public function sign_cg()
+    public function sign_success()
     {
 
         //体检站展示
@@ -236,6 +242,12 @@ class Enlist extends Fornt
 
 
         return $this->fetch("template/wap/enlist/sign_success.html");
+    }
+
+    //报名失败
+    public function sign_fail(){
+
+        return $this->fetch("template/wap/enlist/sign_fail.html");
     }
 
 
