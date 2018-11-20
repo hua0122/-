@@ -37,8 +37,6 @@ class User extends Fornt
     //学习中心
     public function study()
     {
-        //先判断是否有报名  没有报名就直接提示
-
         $study = model('Student');
         $info = $study
             ->join('sent_grade', 'sent_grade.id=sent_student.grade_id', 'left')
@@ -54,6 +52,7 @@ class User extends Fornt
                 ->join('sent_station', 'sent_station.id=sent_apply.station_id', 'left')
                 ->field('sent_apply.*,sent_test.code,sent_test.verify,sent_station.name as station_name,sent_station.address,sent_station.lng,sent_station.lat')
                 ->where(array("openid" => session("openid")))
+                ->order("create_time desc")
                 ->find();
             $this->assign('code', $code);
 
