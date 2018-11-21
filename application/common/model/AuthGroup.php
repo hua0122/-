@@ -42,7 +42,28 @@ class AuthGroup extends Base{
 		if ($data['id']) {
 			$result = $this->save($data, array('id'=>$data['id']));
 		}else{
-			$result = $this->save($data);
+
+            $school_id = cookie('schoolid');
+            if(isset($school_id)){
+                $data['school_id'] = $school_id;
+            }else{
+                $data['school_id'] = 1;
+            }
+
+            if(empty($data['title'])){
+                $this->error = "用户组名称不能为空";
+                return false;
+            }
+
+            $result = $this->save($data);
+            //添加分组详情 有多少个学校添加多少行记录
+            $school = db("School")->select();
+            foreach ($school as $k=>$v){
+                $data_list[$k]['school_id'] = $v['id'];
+                $data_list[$k]['group_id'] = $this->getLastInsID();
+            }
+            db("AuthGroupDetail")->insertAll($data_list);
+
 		}
 		if (false !== $result) {
 			return true;

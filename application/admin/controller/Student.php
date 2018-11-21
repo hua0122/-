@@ -27,6 +27,8 @@ class Student extends Admin
         $map = array();
         if(isset($this->schoolid)){
             $map['sent_student.school_id'] = $this->schoolid;
+        }else{
+            $map['sent_student.school_id'] = 1;
         }
 
 
@@ -103,7 +105,7 @@ class Student extends Admin
 
         $order = "id desc";
 
-        $list  = db('Student')
+        $list  = db("Student")
             ->join('sent_grade','sent_grade.id=sent_student.grade_id','left')
             ->join('sent_area','sent_area.id=sent_student.area_id','left')
             ->join('sent_activity','sent_activity.id=sent_student.activity_id','left')
@@ -113,13 +115,15 @@ class Student extends Admin
 
             ->join('sent_code','sent_code.id=sent_student.coupon','left')
             ->join('sent_coupon','sent_coupon.id=sent_code.coupon_id','left')
-            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name,sent_activity.name as activity_name,sent_activity.gift,sent_activity.amount as activity_amount,sent_person.username,sent_department.title as partner_name,sent_code.code,sent_coupon.name as coupon_name,sent_coupon.amount as coupon_amount')
+            ->join('sent_member','sent_member.uid=sent_student.payee','left')
+            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name,sent_activity.name as activity_name,sent_activity.gift,sent_activity.amount as activity_amount,sent_person.username,sent_department.title as partner_name,sent_code.code,sent_coupon.name as coupon_name,sent_coupon.amount as coupon_amount,sent_member.nickname as payee_name')
             ->where($map)->order($order)->paginate(5);
 
         $data = array(
             'list' => $list,
             'page' => $list->render(),
         );
+
         $this->assign($data);
         $this->assign('status',$status);
         $this->assign('grade_id',$grade_id);
@@ -261,5 +265,24 @@ class Student extends Admin
         header('Cache-Control: max-age=0');
         $objWriter -> save('php://output');
 
+    }
+
+
+
+    //收款编辑字段
+    public function editable() {
+        $pk     = input('pk', '', 'trim,intval');
+        //$name   = input('name', '', 'trim');
+        $value  = input('value', '', 'trim');
+        db("Student")->where(array('id' => $pk))->setInc("payment", $value);
+        db("Student")->where(array('id' => $pk))->setDec("unpaid", $value);
+        $user_id = session("user_auth.uid");
+        $result = db("Student")->where(array('id' => $pk))->setField('payee',$user_id);
+
+        if ($result) {
+            return $this->success("收款成功！",url('admin/student/index'));
+        } else {
+            return $this->error("收款失败！");
+        }
     }
 }
