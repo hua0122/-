@@ -158,9 +158,20 @@ class Group extends Admin {
 				db('AuthExtend')->where(array('group_id' => $id))->delete();
 				$extend_result = db('AuthExtend')->insertAll($extend_data);
 			}
+
 			if ($rule) {
-				$rules       = implode(',', $rule);
-				$rule_result = $this->group->where(array('id' => $id))->setField('rules', $rules);
+                foreach($rule as $k=>$v){
+                    $rules       = implode(',', $v);
+                    $rule_result = $this->group->where(array('id' => $id,'school_id'=>$k))->setField('rules', $rules);
+                    $select = db("AuthGroupDetail")->where(array("group_id"=>$id,'school_id'=>$k))->find();
+                    if($select){
+                        db("AuthGroupDetail")->where(array("group_id"=>$id,'school_id'=>$k))->setField('rules',$rules);
+                    }else{
+                        db("AuthGroupDetail")->insert(array("group_id"=>$id,"school_id"=>$k,"rules"=>$rules));
+                    }
+
+                }
+
 			}
 
 			if ($rule_result !== false || $extend_result !== false) {
@@ -169,7 +180,20 @@ class Group extends Admin {
 				return $this->error("授权失败！");
 			}
 		} else {
-			$group = $this->group->where(array('id' => $id))->find();
+            $school_id = cookie("school_id");
+		    if(isset($school_id)){
+                $school_id = cookie("school_id");
+            }else{
+                $school_id=1;
+            }
+
+
+			$group = $this->group->where(array('id' => $id,"school_id"=>$school_id))->find();
+			$group_list = db("AuthGroupDetail")->where(array("group_id"=>$id))->select();
+
+			foreach ($group_list as $k=>$v){
+			    $group_list[$v['school_id']] = explode(',', $v['rules']);
+            }
 
 			$map['module'] = $group['module'];
 			$map['status'] = 1;
@@ -191,6 +215,8 @@ class Group extends Admin {
 				'model'       => $model,
 				'extend_auth' => $extend_auth,
 				'auth_list'   => explode(',', $group['rules']),
+				'group_list'   => $group_list,
+				'school_id'    =>$group['school_id'],
 				'id'          => $id,
 			);
 			$this->assign($data);

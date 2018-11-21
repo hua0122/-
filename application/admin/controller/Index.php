@@ -60,6 +60,7 @@ class Index extends Admin {
 	public function logout() {
 		$user = model('User');
 		$user->logout();
+		cookie("schoolid","");
 		$this->redirect('admin/index/login');
 	}
 

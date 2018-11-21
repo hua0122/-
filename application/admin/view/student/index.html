@@ -201,7 +201,7 @@
                     <th>欠费</th>
                     <th>缴费时间</th>
                     <th>收款人</th>
-                    <th>收款备注</th>
+                    <!--<th>收款备注</th>-->
                     <th>状态</th>
                     <th>操作</th>
                 </tr>
@@ -264,8 +264,8 @@
                         {/if}
 
                     </td>
-                    <td>{$item.payee}</td>
-                    <td>{$item.remark}</td>
+                    <td>{$item.payee_name}</td>
+                    <!--<td>{$item.remark}</td>-->
                     <td>
                         {if condition=" $item['status'] eq 0 "}
                         <span class="label label-danger">退学</span>
@@ -282,8 +282,11 @@
                         {else/}
                         <a href="{:url('status?id='.$item['id'].'&status=1')}" class="btn btn-success ajax-get">正常</a>
                         {/if}
-                        <a href="#" class="editable btn btn-info" data-id="{$item['id']}" data-name="title" data-type="text" data-pk="{$item['id']}" data-url="{:url('editable')}">收款</a>
 
+                        {if condition="$item['tuition_state']==2"}
+                        <a href="#" class="editable btn btn-info" data-id="{$item['id']}" data-name="title" data-type="text" data-pk="{$item['id']}"></a>
+                        {else}
+                       {/if}
                         <!--<a href="{:url('delete?id='.$item['id'])}" class="confirm ajax-get table-link">删除</a>-->
                     </td>
                 </tr>
@@ -307,28 +310,50 @@
         $.fn.editable.defaults.mode = 'popup';
         $.fn.editableform.buttons = '<button type="submit" class="btn btn-success editable-submit btn-mini"><i class="fa fa-check-square-o fa-white"></i></button>' +
             '<button type="button" class="btn editable-cancel btn-mini"><i class="fa fa-times"></i></button>';
-        $('.editable').editable();
-        //搜索功能
-        $("#search").click(function () {
-            var url = $(this).attr('url');
-            var query = $('.search-form').find('input').serialize();
-            query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g, '');
-            query = query.replace(/^&/g, '');
-            if (url.indexOf('?') > 0) {
-                url += '&' + query;
-            } else {
-                url += '?' + query;
-            }
-            window.location.href = url;
-        });
-        //回车搜索
-        $(".search-input").keyup(function (e) {
-            if (e.keyCode === 13) {
-                $("#search").click();
-                return false;
+        /*$('.editable').editable();*/
+
+        $('.editable').editable({
+            type: "text",                //编辑框的类型。支持text|textarea|select|date|checklist等
+            title: "金额",              //编辑框的标题
+            disabled: false,             //是否禁用编辑
+            emptytext: "收款",          //空值的默认文本
+            mode: "popup",              //编辑框的模式：支持popup和inline两种模式，默认是popup
+            validate: function (value) { //字段验证
+                if (!$.trim(value)) {
+                    return '不能为空';
+                }
+            },
+            url:function(params){
+                return updateValue(params,$(this));
             }
         });
+
+        function updateValue(params,ele){
+            $.ajax({
+                type: "post",
+                url: "{:url('editable')}",
+                data: {name:params.name,value:params.value,pk:params.pk},
+                dataType: 'json',
+                success: function (result) {
+                    console.log(result)
+                    //更新editable内存对象值，如果不加，那么再次点编辑的时候，输入框显示的值不是转小写字母的值，而是最初输入的原值
+                    //ele.editable('setValue',result.newValue);
+                    //更新页面上的显示值
+                    //ele.html(result.newValue);
+                    alert("收款成功");
+                    location.reload();
+                },
+                error: function () {
+                    Ewin.alert('服务器繁忙，请稍后重试');
+                },
+                complete: function () {
+                }
+            });
+
+        }
+
     });
+
 </script>
 
 <script type="text/javascript">

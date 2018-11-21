@@ -68,22 +68,27 @@
 
 		<div class="table-responsive clearfix">
 			<form action="" class="form" method="post">
+
+				{volist name="school" id="school_item"}
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th class="col-lg-2 text-right"><input type="checkbox" name="" id="all"/>鼎吉驾校</th>
+							<th class="col-lg-2 text-right"><input type="checkbox" value="{$school_item.id}" name="school_id" class="all"/>{$school_item.name}</th>
 							<th>权限</th>
+							<th align="right"><a href="javascript:" class="show-div">展开</a> </th>
 						</tr>
 					</thead>
-					<tbody id="j_tb">
+					<tbody class="j_tb" style="display: none;">
 						{volist name="list" id="node"}
 						<tr>
 							<td class="info col-lg-2 text-right"><input type="checkbox" name="" class="jx_all"/>{$key}</td>
 							<td class="col-lg-10 text-left jx_tb">
 								{volist name="node" id="item"}
 								<div class="checkbox-nice checkbox-inline">
-								<input type="checkbox" name="rule[]" value="{$item['id']}" id="{$item['name']}" {if in_array($item['id'],$auth_list)}checked{/if} />
-								<label for="{$item['name']}">{$item['title']}</label>
+
+									<input type="checkbox" name="rule[{$school_item['id']}][]" value="{$item['id']}" {if in_array($item['id'],$group_list[$school_item['id']])}checked{/if} id="{$item['name']}-{$school_item['id']}"  />
+
+								<label for="{$item['name']}-{$school_item['id']}">{$item['title']}</label>
 								</div>
 								{/volist}
 							</td>
@@ -102,6 +107,8 @@
 						</tr>-->
 					</tbody>
 				</table>
+				{/volist}
+
 
 
 
@@ -119,27 +126,18 @@
 {/block}
 {block name="script"}
 <script type="text/javascript">
-    var checkboxs =$("#j_tb input");
-	$("#all").click(function(){
 
+	$(".all").click(function(){
+        var checkboxs = $(this).parent().parent().parent().next().find('input');
+        console.log($(this).parent().parent().parent());
         for (var i = 0; i < checkboxs.length; i++) {
             var checkbox = checkboxs[i];
             checkbox.checked = this.checked;
         }
 
     });
-    for (var i = 0; i < checkboxs.length; i++) {
-        checkboxs[i].onclick = function() {
-            var isCheckedAll = true;
-            for (var i = 0; i < checkboxs.length; i++) {
-                if (!checkboxs[i].checked) {
-                    isCheckedAll = false;
-                    break;
-                }
-            }
-            all.checked = isCheckedAll;
-        };
-    }
+
+
     //选中某行的
     $(".jx_all").click(function(){
         var checkboxss = $(this).parent('td').next().find("input");
@@ -148,6 +146,16 @@
             checkbox.checked = this.checked;
         }
 
+	});
+
+
+    $(".show-div").click(function(){
+        $(this).parent().parent().parent('thead').next().animate({height: 'toggle', opacity: 'toggle'}, "slow");
+        if($(this).html()=="展开"){
+            $(this).html("收缩");
+		}else{
+            $(this).html("展开");
+		}
 	});
 </script>
 

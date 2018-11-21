@@ -54,9 +54,16 @@ class Admin extends Base {
 					}
 				}
 			}
-			//菜单设置
-			$this->setMenu();
-			$this->setMeta();
+            //菜单设置
+            $this->setMenu();
+
+			/*if(IS_ROOT){
+                //菜单设置
+                $this->setMenu();
+            }else{
+			    //其他人员菜单设置
+                $this->setOtherMenu();
+            }*/
 
 
             if (IS_ROOT) {
@@ -78,6 +85,8 @@ class Admin extends Base {
                 $school_default = db("School")->find($member['school_id']);
                 $this->assign('school_default', $school_default);
             }
+
+            $this->setMeta();
 
 		}
 	}
@@ -189,8 +198,67 @@ class Admin extends Base {
 				}
 			}
 		}
+
+
 		$this->assign('__menu__', $menu);
 	}
+
+    protected function setOtherMenu() {
+        $hover_url  = $this->request->module() . '/' . $this->request->controller();
+        $controller = $this->url;
+        $menu       = array(
+            'main'  => array(),
+            'child' => array(),
+        );
+        $where['pid']  = 0;
+        $where['hide'] = 0;
+        $where['type'] = 'admin';
+        if (!config('develop_mode')) {
+            // 是否开发者模式
+            $where['is_dev'] = 0;
+        }
+        $row = db('menu')->field('id,title,url,icon,"" as style')->where($where)->select();
+        foreach ($row as $key => $value) {
+            //此处用来做权限判断
+            if (!IS_ROOT && !$this->checkRule($value['url'], 2, null)) {
+                unset($menu['main'][$value['id']]);
+                continue; //继续循环
+            }
+            if ($controller == $value['url']) {
+                $value['style'] = "active";
+            }
+            $menu['main'][$value['id']] = $value;
+        }
+
+        // 查找当前子菜单
+        $pid = db('menu')->where("pid !=0 AND url like '%{$hover_url}%'")->value('pid');
+        $id  = db('menu')->where("pid = 0 AND url like '%{$hover_url}%'")->value('id');
+        $pid = $pid ? $pid : $id;
+        if (strtolower($hover_url) == 'admin/content' || strtolower($hover_url) == 'admin/attribute') {
+            //内容管理菜单
+            $pid = db('menu')->where("pid =0 AND url like '%admin/category%'")->value('id');
+        }
+        if ($pid) {
+            $map['pid']  = $pid;
+            $map['hide'] = 0;
+            $map['type'] = 'admin';
+            $row         = db('menu')->field('id,title,url,icon,group,pid,"" as style')->where($map)->select();
+            foreach ($row as $key => $value) {
+                if (IS_ROOT || $this->checkRule($value['url'], 2, null)) {
+                    if ($controller == $value['url']) {
+                        $menu['main'][$value['pid']]['style'] = "active";
+                        $value['style']                       = "active";
+                    }
+                    $menu['child'][$value['group']][] = $value;
+                }
+            }
+        }
+
+
+        $this->assign('__menu__', $menu);
+    }
+
+
 
 	protected function getContentMenu() {
 		$model = \think\Loader::model('Model');
