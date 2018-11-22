@@ -289,7 +289,10 @@
                         {/if}
 
                         {if condition="$item['tuition_state']==2"}
+                        {if condition="$item['unpaid']==0"}
+                        {else}
                         <a href="#" class="editable btn btn-info" data-id="{$item['id']}" data-name="title" data-type="text" data-pk="{$item['id']}"></a>
+                        {/if}
                         {else}
                        {/if}
                         <!--<a href="{:url('delete?id='.$item['id'])}" class="confirm ajax-get table-link">删除</a>-->
