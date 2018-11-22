@@ -466,6 +466,9 @@
             }else if(data.code=="2000"){
                 alert(data.msg);
                 location.href = "{$web_path}/enlist/sign_success";
+            }else if(data.code=="500"){
+                alert(data.msg);
+                location.reload();
             } else {
                 alert(data.msg);
                 location.href = "{$web_path}/enlist/sign_fail";
