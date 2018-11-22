@@ -187,7 +187,7 @@ class Enlist extends Fornt
                 $data_user['name'] = $data['name'];
                 $data_user['phone'] = $data['phone'];
                 $where['openid']  = session("openid");
-                model("member")->save($data_user,$where);
+                model("Wxuser")->save($data_user,$where);
 
 
                 $openid = session("openid");
