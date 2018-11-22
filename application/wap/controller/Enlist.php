@@ -171,6 +171,12 @@ class Enlist extends Fornt
                 return json_encode(array("code" => "400", "msg" => "缴费类型不对"));
             }
 
+            //查询是否报名  不能重复报名
+            $is_have = model("Student")->where(array("openId"=>session('openid')))->find();
+            if($is_have){
+                return json_encode(array("code" => "400", "msg" => "不能重复报名"), JSON_UNESCAPED_SLASHES);
+            }
+
 
             $data['sign_date'] = time();//报名时间
             $data['openId'] = session('openid');
