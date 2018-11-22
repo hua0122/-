@@ -102,19 +102,28 @@ class Grade extends Admin {
             $data['create_time'] = $data['update_time'] = time();
 
             if ($data) {
-                if(session('cid')){
-                    $cid = session('cid');
-                }else{
-                    $cid = 0;
-                }
+
                 //版本号
                 $y=substr(date("Y"),2,2);
 
-                $data['version'] = $y.date("md").sprintf("%03d", $cid+1)."_v0.1";
-                $data['cid'] = sprintf("%03d", $cid+1);
-                $result = $Area->save($data);
-                session("cid",$cid+1);
+                //先查询最新版本
+                $new = model('Grade')->order("create_time desc")->limit(0,1)->find();
+                if($new){
+                    $data['cid'] =  round($new['cid']+0.1,1);
+                    if(is_int($data['cid'])){
+                        $data['version'] = $y.date("mdHis")."_v".$data['cid'].".0";
+                    }else{
+                        $data['version'] = $y.date("mdHis")."_v".$data['cid'];
+                    }
 
+                }else{
+                    $data['cid'] = "0.1";
+                    $data['version'] = $y.date("mdHis")."_v0.1";
+                }
+
+
+
+                $result = $Area->save($data);
                 if ($result) {
                     return $this->success("添加成功！", url('Grade/index'));
                 } else {
@@ -168,17 +177,26 @@ class Grade extends Admin {
                 //如果内容改变 则改变版本号
                 $old_content = $link->where(array("id"=>$id))->find();
 
-
-                //查询编号相同的最新版本号
-                $zx_version = $link->where(array("cid"=>$old_content['cid']))->order("update_time desc")->find();
-
                 if($old_content['type']!=$data['type']||$old_content['price']!=$data['price']||$old_content['content']!=$data['content']||$old_content['notice']!=$data['notice']){
                     //既要保存历史内容，又要添加新内容(把该条信息下线，添加新的内容)
                     $link->where(array('id' => $data['id']))->setField('status', '1');
                     unset($data['id']);
-                    $len = strlen(stristr($zx_version['version'],'.'))-1;
-                    $v = substr($zx_version['version'],strlen($data['version'])- $len,$len);
-                    $data['version'] =substr($zx_version['version'],0,9)."_v0.".($v+1);
+                    //版本号
+                    $y=substr(date("Y"),2,2);
+                    //先查询最新版本
+                    $new = model('Grade')->order("create_time desc")->limit(0,1)->find();
+                    if($new){
+                        $data['cid'] =  round($new['cid']+0.1,1);
+                        if(is_int($data['cid'])){
+                            $data['version'] = $y.date("mdHis")."_v".$data['cid'].".0";
+                        }else{
+                            $data['version'] = $y.date("mdHis")."_v".$data['cid'];
+                        }
+
+                    }else{
+                        $data['cid'] = "0.1";
+                        $data['version'] = $y.date("mdHis")."_v0.1";
+                    }
                     $result = $link->save($data);
                 }else{
                     $result = $link->save($data,array("id"=>$id));
@@ -245,5 +263,50 @@ class Grade extends Admin {
         } else {
             return $this->error("设置失败！");
         }
+    }
+
+
+    //上线
+    public function online(){
+        $link = model('Grade');
+        $id     = $this->getArrayParam('id');
+
+        //既要保存历史内容，又要添加新内容(把该条信息下线，添加新的内容)
+        $data = $link->find($id);
+
+        $data_new['name'] = $data['name'];
+        $data_new['type'] = $data['type'];
+        $data_new['price'] = $data['price'];
+        $data_new['content'] = $data['content'];
+        $data_new['notice'] = $data['notice'];
+        $data_new['status'] = 0;
+        $data_new['area_id'] = $data['area_id'];
+        $data_new['create_time'] = time();
+        $data_new['update_time'] = time();
+        //版本号
+        $y=substr(date("Y"),2,2);
+        //先查询最新版本
+        $new = model('Grade')->order("create_time desc")->limit(0,1)->find();
+
+        if($new){
+            $data_new['cid'] =  round($new['cid']+0.1,1);
+            if(is_int($data_new['cid'])){
+                $data_new['version'] = $y.date("mdHis")."_v".$data_new['cid'].".0";
+            }else{
+                $data_new['version'] = $y.date("mdHis")."_v".$data_new['cid'];
+            }
+
+        }else{
+            $data_new['cid'] = "0.1";
+            $data_new['version'] = $y.date("mdHis")."_v0.1";
+        }
+
+        $result = $link->save($data_new);
+        if ($result) {
+            return $this->success("设置成功！",url('Grade/index'));
+        } else {
+            return $this->error("设置失败！");
+        }
+
     }
 }
