@@ -216,7 +216,12 @@
                         {if condition="$item['payment']==0"}
                         <td style="background-color: red;text-align: center; color: #fff;">{$item['name']}</td>
                         {else}
-                        <td style="background-color: #FF8000; text-align: center">{$item['name']}</td>
+                            {if condition="$item['unpaid']==0"}
+                            <td align="center">{$item['name']}</td>
+                            {else}
+                            <td style="background-color: #FF8000; text-align: center">{$item['name']}</td>
+                            {/if}
+
                         {/if}
                     {else}
                     <td align="center">{$item['name']}</td>
