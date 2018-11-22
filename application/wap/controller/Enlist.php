@@ -183,6 +183,13 @@ class Enlist extends Fornt
             $data['sn'] = "dj_" . rand_string(20);//订单编号
             $res = model("Student")->save($data);
             if ($res) {
+                //保存姓名、电话到用户表
+                $data_user['name'] = $data['name'];
+                $data_user['phone'] = $data['phone'];
+                $where['openid']  = session("openid");
+                model("member")->save($data_user,$where);
+
+
                 $openid = session("openid");
                 $total_fee = $data['payment'] * 100;
 
