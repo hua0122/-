@@ -307,47 +307,57 @@ class Enlist extends Fornt
             $data['openid'] = session("openid");
             $data['create_time'] = time();
 
-            $res = model("Apply")->save($data);
+            //先查询是否已经申请过 如果已经申请过 多次申请需缴费  首次申请免费
+            $is_have = model("Apply")->where(array("openid"=>session("openid")))->find();
+            if($is_have){
+                $res = model("Apply")->save($data);
+                $insert_id = model("Apply")->getLastInsID();
+                if ($res) {
+                    $code = 0;
+                    $openid = session("openid");
+                    $sn = "tj_" . rand_string(20);//订单编号
+                    $total_fee = $price * 100;
+                    if (!empty($total_fee) && $total_fee > 0 && !empty($openid)) {
+                        $code = 1;
+                        $msg = "我们会在两个工作日内联系您，请保持手机畅通，耐心等待，谢谢！";
+                        $unifiedOrderResult = $wx->unifiedorder($total_fee, $openid, '驾校学车', $sn);
+                        //var_dump($unifiedOrderResult);
+                        $timeStamp = intval(time() / 10);
+                        $url = $_SERVER["HTTP_REFERER"];
+                        //echo $url;
+                        $nonceStr = $wx->getRandChar(15);
+                        //echo $url;
+                        $signature = $wx->get_js_signature($nonceStr, $timeStamp, $url);
+                        //var_dump($unifiedOrderResult);exit();
+                        $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
+                        $data = array("timeStamp" => $timeStamp, "nonceStr" => $nonceStr,
+                            "package" => $package, "signType" => "MD5", "appId" => 'wx09e39aed7d3c3912');
 
-            $insert_id = model("Apply")->getLastInsID();
+                        $paySign = $wx->get_signature($data);
+                        $content = array('package' => $package, 'paySign' => $paySign, 'appId' => 'wx09e39aed7d3c3912', 'timestamp' => $timeStamp, 'nonceStr' => $nonceStr, 'signature' => $signature);
 
+                        $sn = array("sn" => $sn);
+                        $where = array("id" => $insert_id);
 
-            if ($res) {
-                $code = 0;
-                $openid = session("openid");
-                $sn = "tj_" . rand_string(20);//订单编号
-                $total_fee = $price * 100;
-                if (!empty($total_fee) && $total_fee > 0 && !empty($openid)) {
-                    $code = 1;
-                    $msg = "我们会在两个工作日内联系您，请保持手机畅通，耐心等待，谢谢！";
-                    $unifiedOrderResult = $wx->unifiedorder($total_fee, $openid, '驾校学车', $sn);
-                    //var_dump($unifiedOrderResult);
-                    $timeStamp = intval(time() / 10);
-                    $url = $_SERVER["HTTP_REFERER"];
-                    //echo $url;
-                    $nonceStr = $wx->getRandChar(15);
-                    //echo $url;
-                    $signature = $wx->get_js_signature($nonceStr, $timeStamp, $url);
-                    //var_dump($unifiedOrderResult);exit();
-                    $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
-                    $data = array("timeStamp" => $timeStamp, "nonceStr" => $nonceStr,
-                        "package" => $package, "signType" => "MD5", "appId" => 'wx09e39aed7d3c3912');
+                        model("Apply")->save($sn,$where);
 
-                    $paySign = $wx->get_signature($data);
-                    $content = array('package' => $package, 'paySign' => $paySign, 'appId' => 'wx09e39aed7d3c3912', 'timestamp' => $timeStamp, 'nonceStr' => $nonceStr, 'signature' => $signature);
-
-                    $sn = array("sn" => $sn);
-                    $where = array("id" => $insert_id);
-
-                    model("Apply")->save($sn,$where);
+                    }
+                    if (empty(session("openid"))) {
+                        $code = -1;
+                        $msg = "错误";
+                        $content ="";
+                    }
+                    echo json_encode(array('code' => $code, 'msg' => $msg, 'content' => $content), JSON_UNESCAPED_UNICODE);
 
                 }
-                if (empty(session("openid"))) {
-                    $code = -1;
-                    $msg = "错误";
-                    $content ="";
+
+            }else{
+                $res = model("Apply")->save($data);
+                if($res){
+                    echo json_encode(array('code'=>'200','msg'=>'申请成功'),JSON_UNESCAPED_UNICODE);
+                }else{
+                    echo json_encode(array('code'=>'500','msg'=>'申请失败'),JSON_UNESCAPED_UNICODE);
                 }
-                echo json_encode(array('code' => $code, 'msg' => $msg, 'content' => $content), JSON_UNESCAPED_UNICODE);
 
             }
         } else {
@@ -355,22 +365,15 @@ class Enlist extends Fornt
             $station = model("Station")->select();
             $this->assign("station", $station);
 
+            //查询对应的openid是否已填写报名时的姓名和电话  如果没有则需填写
+            $is_have = model("WxUser")->where(array("openid"=>session("openid")))->find();
+            $this->assign("is_have",$is_have);
+
+
             return $this->fetch("template/wap/enlist/test.html");
         }
 
 
-    }
-
-    //查询报名信息是否存在 ajax
-    public function get_sign()
-    {
-        //查询报名信息
-        $res = db("Student")->where(array("openid" => session('openid')))->find();
-        if ($res) {
-            echo json_encode(array("code" => "200", "msg" => "已报名", "res" => $res));
-        } else {
-            echo json_encode(array("code" => "400", "msg" => "还未报名"));
-        }
     }
 
     //支付成功回调函数
@@ -457,7 +460,7 @@ class Enlist extends Fornt
                 $sign['captain_name'] = $captain['name']; //显示合伙人
                 $sign['duiyuan_name'] = '无';
             }
-        }*/
+        }
 
         include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
         $wx = new Weixin_class();
@@ -502,6 +505,8 @@ class Enlist extends Fornt
         $res3 = $wx->send_msg($data3);
         $res4 = $wx->send_msg($data4);
         $res5 = $wx->send_msg($data5);
+
+        */
     }
 
 

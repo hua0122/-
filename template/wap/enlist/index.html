@@ -203,25 +203,12 @@
             <a href="{$web_path}/page/index/id/9"><img src="__ROOT_PATH__/wap/static/images/qbcd.png"/><i>常见问题</i></a>
         </div>
         <div class="col-xs-3 nav-bar-item">
-            <a href="javascript:" onclick="test()"><img src="__ROOT_PATH__/wap/static/images/vrxc.png"/><i>体检申请</i></a>
+            <a href="{$web_path}/enlist/test"><img src="__ROOT_PATH__/wap/static/images/vrxc.png"/><i>体检申请</i></a>
         </div>
 
     </div>
 
     <div class="row mold">
-        <!--<h1 class="col-xs-12">
-            <div class="form-group">
-                <img src="/template/wap/public/__ROOT_PATH__/wap/static/images/map.png" width="20"/>
-                <select name="city" id="city" class="city pickout" placeholder="选择一个区域">
-                    <option selected data-icon="&spades;" value="1">大学城</option>
-                    <option data-icon="&diams;" value="2">南岸区</option>
-                    <option data-icon="&#9786;" value="3">北碚区</option>
-
-                </select>
-            </div>
-
-
-        </h1>-->
         <h1 class="col-xs-12" id="select-city">
             <div class="form-group">
                 <img src="__ROOT_PATH__/wap/static/images/map.png" width="20"/>
@@ -266,6 +253,7 @@
 </body>
 <script charset="GBK" src="http://map.qq.com/api/js?v=2.exp"></script>
 <script>
+    /*
     function test(){
         $.post("{$web_path}/enlist/get_sign",function(data){
             data = eval("("+data+")");
@@ -275,7 +263,7 @@
                 location.href="{$web_path}/enlist/test";
             }
         });
-    }
+    }*/
 
 
     $(function(){
