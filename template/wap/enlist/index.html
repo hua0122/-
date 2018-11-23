@@ -252,7 +252,7 @@
         <div class="col-xs-12" id="course_list">
             {volist name="grade" id="item"}
             <div class="col-xs-12">
-                <a href="/enlist/detail/id/{$item.id}">{$item.name}（C{$item.type}）<span class="right">{$item.price}</span></a>
+                <a href="/enlist/detail/id/{$item.id}">{$item.name}C{$item.type}<span class="right">{$item.price}</span></a>
             </div>
             {/volist}
 
@@ -361,7 +361,7 @@
                         for(var i=0;i<data.length;i++){
 
                             template += '<div class="col-xs-12">' +
-                                '<a href="/enlist/detail/id/'+data[i]['id']+'">'+data[i]['name']+'C('+data[i]['type']+')<span class="right">'+data[i]['price']+'</span></a>' +
+                                '<a href="/enlist/detail/id/'+data[i]['id']+'">'+data[i]['name']+'C'+data[i]['type']+'<span class="right">'+data[i]['price']+'</span></a>' +
                                 '</div>';
                         }
                         $("#course_list").append(template);
