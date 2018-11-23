@@ -224,7 +224,7 @@ class Student extends Admin
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$key,$value['id']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$key,$value['name']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,$value['phone']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$key,$value['card']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$key,$value['card'].=  ' ');
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$key,$value['grade_name']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$key,$value['price']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,$value['area_name']);
