@@ -236,7 +236,7 @@ class Student extends Admin
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$key,$value['payable']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$key,$value['payment']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$key,$value['unpaid']);
-            if($value['pay_date']=="NULL"){
+            if($value['pay_date']==null){
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$key,'/');
 
             }else{
@@ -252,7 +252,7 @@ class Student extends Admin
             }else{
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,'线下定金支付');
             }
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$key,$value['payee']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$key,$value['payee_name']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$key,$value['remark']);
             if($value['status']==0){
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$key,'退学');
