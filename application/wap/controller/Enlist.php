@@ -367,6 +367,8 @@ class Enlist extends Fornt
 
             //查询对应的openid是否已填写报名时的姓名和电话  如果没有则需填写
             $is_have = model("WxUser")->where(array("openid"=>session("openid")))->find();
+            var_dump($is_have);
+            exit;
             $this->assign("is_have",$is_have);
 
 
