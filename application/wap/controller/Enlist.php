@@ -361,7 +361,7 @@ class Enlist extends Fornt
                     //查询订单的体检站和电话号码
                     $apply =model("Apply")->field('sent_apply.*,sent_station.outfit_id')
                         ->join('sent_station','sent_station.id=sent_apply.station_id','left')
-                        ->find($insert_id);
+                        ->where(array("sent_apply.id"=>$insert_id))->find();
                     //查询未分配的体检码
                     $code_info = model("Test")->where(array("status"=>0,"outfit_id"=>$apply['outfit_id']))->limit(0,1)->select();
                     $code_id = $code_info[0]['id'];
