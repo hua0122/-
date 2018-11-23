@@ -60,16 +60,89 @@ class Department extends Admin {
 	//添加
 	public function add() {
 		$department = model('Department');
+
+		$person = model("Person");
 		if (IS_POST) {
-			$data = input('post.');
+
+            $data = input('post.');
 			if ($data) {
-				unset($data['id']);
-				$result = $department->save($data);
-				if ($result) {
-					return $this->success("添加成功！", url('Department/index'));
-				} else {
-					return $this->error($department->getError());
-				}
+                //导入excel表格
+
+                //接收前台文件
+                $ex = $_FILES["file"];
+                if(empty($ex['name'])){
+                    return $this->error("请选择文件");
+                }
+
+                //重设置文件名
+                $filename = time().substr($ex['name'],stripos($ex['name'],'.'));
+                $path = S_ROOT.'/uploads/excel/'.$filename;//设置移动路径
+                move_uploaded_file($ex['tmp_name'],$path);
+
+                $driveFile=PHP_EXCEL.'PHPExcel.php';
+                if(!file_exists($driveFile)){
+                    $res=array('code'=>'55','msg'=>'驱动文件不存在');
+                    return json_encode($res);
+                }
+                require_once($driveFile);
+                require_once(PHP_EXCEL.'PHPExcel/IOFactory.php');
+
+                //获取excel读取类
+                $objReader = \PHPExcel_IOFactory::createReader('Excel5');
+                //如果excel文件后缀名为.xls，导入这个类
+                $exts = explode('.',$ex['name'])[1];
+                if($exts=='xls'){
+                    $objReader = \PHPExcel_IOFactory::createReader('Excel5');
+                }elseif($exts=='xlsx'){
+                    $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+                }else{
+                    $objReader = \PHPExcel_IOFactory::createReader('Excel5');
+                }
+
+                //设置只读
+                $objReader->setReadDataOnly(true);
+                //加载需要读取的文件
+                $objPHPExcel = $objReader->load($path);
+                //获取单元格
+                $objWorksheet = $objPHPExcel->getActiveSheet();
+                //获取总的行数
+                $highestRow = $objWorksheet->getHighestRow();
+                //获取总的列数
+                $highestColumn = $objWorksheet->getHighestColumn();
+                //将字母列名变成数字列名
+                $highestColumnIndex = \PHPExcel_Cell::columnIndexFromString($highestColumn);
+                //定义
+                $excelData = array();
+                //循环获取数据
+                for($row = 1; $row <= $highestRow; $row++ ){
+                    $a = $objPHPExcel->getActiveSheet()->getCell("A".$row)->getValue();//获取A(姓名)列的值
+                    $b = $objPHPExcel->getActiveSheet()->getCell("B".$row)->getValue();//获取B(手机号)列的值
+                    $c = $objPHPExcel->getActiveSheet()->getCell("C".$row)->getValue();//获取C(合伙人)列的值
+
+                    if($c=="合伙人"){
+                        $sql ="insert into sent_department(title,phone) values('".$a."','".$b."')";
+                        $result = $department->execute($sql);
+
+                    }else{
+                        $last = $department->order("id desc")->find();
+                        $lastid = $last['id'];
+
+                        $sql1 = "insert into sent_person(username,mobile,department_id) values('".$a."','".$b."',".$lastid.")";
+                        $result = $person->execute($sql1);
+                    }
+
+                }
+                unlink($path);
+
+
+                if ($result) {
+                    return $this->success("添加成功！", url('Department/index'));
+                } else {
+
+                    return $this->error($department->getError());
+                }
+
+
 			} else {
 				return $this->error($department->getError());
 			}
