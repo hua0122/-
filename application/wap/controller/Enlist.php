@@ -307,6 +307,8 @@ class Enlist extends Fornt
             $data['openid'] = session("openid");
             $data['create_time'] = time();
 
+
+
             //先查询是否已经申请过 如果已经申请过 多次申请需缴费  首次申请免费
             $is_have = model("Apply")->where(array("openid"=>session("openid")))->find();
             if($is_have){
@@ -352,8 +354,26 @@ class Enlist extends Fornt
                 }
 
             }else{
+                $data['is_pay'] = "1";
                 $res = model("Apply")->save($data);
+                $insert_id = model("Apply")->getLastInsID();
                 if($res){
+                    //查询订单的体检站和电话号码
+                    $apply =model("Apply")->field('sent_apply.*,sent_station.outfit_id')
+                        ->join('sent_station','sent_station.id=sent_apply.station_id','left')
+                        ->find($insert_id);
+                    //查询未分配的体检码
+                    $code_info = model("Test")->where(array("status"=>0,"outfit_id"=>$apply['outfit_id']))->limit(0,1)->select();
+                    $code_id = $code_info[0]['id'];
+                    $is_use = array('status'=>1,"username"=>$apply['name'],"phone"=>$apply['phone']);
+                    $where = array('id'=>$code_id);
+                    //print_r($code_info); exit;
+                    //修改体检码表的使用状态 修改为已分配
+                    model('Test')->save($is_use,$where);
+                    //赋值体检申请表里面的体检码
+                    model("Apply")->where(array("id"=>$insert_id))->setField('code_id',$code_id);
+
+
                     echo json_encode(array('code'=>'200','msg'=>'申请成功'),JSON_UNESCAPED_UNICODE);
                 }else{
                     echo json_encode(array('code'=>'500','msg'=>'申请失败'),JSON_UNESCAPED_UNICODE);
@@ -367,7 +387,7 @@ class Enlist extends Fornt
 
             //查询对应的openid是否已填写报名时的姓名和电话  如果没有则需填写
             $is_have = model("WxUser")->where(array("openid"=>session("openid")))->find();
-           
+
             $this->assign("is_have",$is_have);
 
 
