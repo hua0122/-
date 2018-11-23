@@ -223,7 +223,7 @@ class Student extends Admin
             $key+=2;
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$key,$value['id']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$key,$value['name']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,$value['phone']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,$value['phone'].=  ' ');
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$key,$value['card'].=  ' ');
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$key,$value['grade_name']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$key,$value['price']);
@@ -236,7 +236,13 @@ class Student extends Admin
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$key,$value['payable']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$key,$value['payment']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$key,$value['unpaid']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$key,date("Y-m-d H:i:s",$value['pay_date']));
+            if($value['pay_date']=="NULL"){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$key,'/');
+
+            }else{
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$key,date("Y-m-d H:i:s",$value['pay_date']));
+
+            }
             if($value['pay_type']==1){
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,'线上全款支付');
             }elseif ($value['pay_type']==2){
