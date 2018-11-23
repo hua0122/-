@@ -365,7 +365,7 @@ class Enlist extends Fornt
                     //查询未分配的体检码
                     $code_info = model("Test")->where(array("status"=>0,"outfit_id"=>$apply['outfit_id']))->limit(0,1)->select();
                     $code_id = $code_info[0]['id'];
-                    $is_use = array('status'=>1,"username"=>$apply['name'],"phone"=>$apply['phone']);
+                    $is_use = array('status'=>1,"username"=>$apply['name'],"phone"=>$apply['phone'],"apply_time"=>time());
                     $where = array('id'=>$code_id);
                     //print_r($code_info); exit;
                     //修改体检码表的使用状态 修改为已分配
@@ -425,7 +425,7 @@ class Enlist extends Fornt
         //查询未分配的体检码
         $code_info = model("Test")->where(array("status"=>0,"outfit_id"=>$apply['outfit_id']))->limit(0,1)->select();
         $code_id = $code_info[0]['id'];
-        $is_use = array('status'=>1,"username"=>$apply['name'],"phone"=>$apply['phone']);
+        $is_use = array('status'=>1,"username"=>$apply['name'],"phone"=>$apply['phone'],"apply_time"=>time());
         $where = array('id'=>$code_id);
         //print_r($code_info); exit;
         //修改体检码表的使用状态 修改为已分配
