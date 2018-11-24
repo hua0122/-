@@ -192,22 +192,24 @@
 
 
 <script>
-    /*
-       1. 取消与当前控件name 相同的所有控件的选中状态
-       2. 选中当前控件
-       3. 如果当前控件在点击前是选中状态，则点击后取消其选中状态
-       */
-    $('input:radio[name="other"]').click(function () {
+    //点击选中 再次点击取消
+    $(function(){
+        $('input:radio').click(function(){
 
-        //var domName = $(this).prop('name');//获取当前单选框控件name 属性值
-        var checkedState = $(this).attr("checked");//记录当前选中状态
-        alert(checkedState);
-        /*$("input:radio[name='other']").prop('checked', false);//1.
-        $(this).prop('checked', true);//2.
-        if (checkedState) {
-            alert(222);
-            $(this).prop('checked', false); //3.
-        }*/
+            var domName = $(this).attr('name');
+
+            var $radio = $(this);
+            // if this was previously checked
+            if ($radio.data('waschecked') == true){
+                $radio.prop('checked', false);
+                $("input:radio[name='" + domName + "']").data('waschecked',false);
+                //$radio.data('waschecked', false);
+            } else {
+                $radio.prop('checked', true);
+                $("input:radio[name='" + domName + "']").data('waschecked',false);
+                $radio.data('waschecked', true);
+            }
+        });
     });
 
 
