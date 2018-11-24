@@ -200,7 +200,7 @@
     $('input:radio[name="other"]').click(function () {
 
         //var domName = $(this).prop('name');//获取当前单选框控件name 属性值
-        var checkedState = $(this).prop("checked");//记录当前选中状态
+        var checkedState = $(this).attr("checked");//记录当前选中状态
         alert(checkedState);
         /*$("input:radio[name='other']").prop('checked', false);//1.
         $(this).prop('checked', true);//2.
