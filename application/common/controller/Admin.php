@@ -91,6 +91,12 @@ class Admin extends Base {
 		}
 	}
 
+	//根据角色ID获取学校列表
+    protected function get_school(){
+
+    }
+
+
 	/**
 	 * 权限检测
 	 * @param string  $rule    检测的规则
