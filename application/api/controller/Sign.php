@@ -12,12 +12,6 @@ use app\common\controller\Api;
 
 class Sign extends Api
 {
-    public function __construct()
-    {
-        parent::__construct();
-        header("Access-Control-Allow-Origin: *");
-    }
-
     //获取banner图
     public function get_banner()
     {

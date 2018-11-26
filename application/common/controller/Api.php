@@ -15,6 +15,7 @@ class Api
 	protected $data;
 
 	public function __construct() {
+        header("Access-Control-Allow-Origin: *");
 		$this->data = array('code' => 0, 'msg' => '', 'time' => time(), 'data' => '');
 	}
 }

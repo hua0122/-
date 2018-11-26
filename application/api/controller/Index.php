@@ -3,11 +3,6 @@ namespace app\api\controller;
 use app\common\controller\Api;
 
 class Index extends Api{
-    public function __construct()
-    {
-        parent::__construct();
-        header("Access-Control-Allow-Origin: *");
-    }
 
     public function index(){
 
