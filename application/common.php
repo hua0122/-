@@ -1165,7 +1165,7 @@ function PyFirst($zh) {
 
 
 //操作成功：0.
-function success ( array &$data = NULL ) {
+function success (&$data = NULL ) {
     return json( ['status' => '200', 'msg' => 'ok', 'data' => $data] );
 }
 //操作失败：空数据

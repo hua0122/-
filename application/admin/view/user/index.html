@@ -26,9 +26,6 @@
 						<th>
 							<span>所属角色</span>
 						</th>
-						<th>
-							<span>所属驾校</span>
-						</th>
 
 						<th class="text-center">
 							<span>状态</span>
@@ -50,9 +47,7 @@
 							<span >{$item['mobile']}</span>
 						</td>
 						<td>{$item['group_list']|implode=',',###}</td>
-						<td>
-							<span >{$item['name']}</span>
-						</td>
+
 
 						<td class="text-center">
 							{if condition="$item['status']"}
@@ -67,9 +62,6 @@
 							</a>
 							<a href="{:url('User/auth',array('id'=>$item['uid']))}" class="btn btn-success">
 								角色
-							</a>
-							<a href="{:url('User/school',array('id'=>$item['uid']))}" class="btn btn-default">
-								驾校
 							</a>
 							<a href="{:url('User/del',array('id'=>$item['uid']))}" class="btn btn-danger confirm ajax-get">
 								删除

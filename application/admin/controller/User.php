@@ -18,12 +18,12 @@ class User extends Admin {
 	 */
 	public function index() {
 		$nickname      = input('nickname');
-        $school_id = cookie("schoolid");
+        /*$school_id = cookie("schoolid");
         if(isset($school_id)){
             $map['school_id'] = $school_id;
         }else{
             $map['school_id'] = 1;
-        }
+        }*/
 
 		$map['status'] = array('egt', 0);
 		$map['uid'] = array('gt',1);
@@ -35,7 +35,7 @@ class User extends Admin {
 
 		$order = "uid desc";
 		$list  = model('User')
-            ->join('sent_school','sent_school.id=sent_member.school_id','left')
+            //->join('sent_school','sent_school.id=sent_member.school_id','left')
             ->where($map)->order($order)->paginate(15);
 
 		$data = array(

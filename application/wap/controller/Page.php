@@ -16,7 +16,7 @@ class Page extends Fornt
     public function index(){
         $id   = $this->request->param('id');
         $model = model("Page");
-        $res = $model->where(array('id'=>$id))->find();
+        $res = $model->find($id);
         $this->assign('res',$res);
         $web_path = $_SERVER['SERVER_NAME'];
         $this->assign('web_path',$web_path);

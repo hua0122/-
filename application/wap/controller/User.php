@@ -73,6 +73,13 @@ class User extends Fornt
             if (empty($data['content'])) {
                 $this->error('内容不能为空');
             }
+            $openid = session("openid");
+            $user = db("WxUser")->where(array("openid"=>$openid))->find();
+
+            $data['name'] = $user['name'];
+            $data['phone'] = $user['phone'];
+
+
             $feedback = model('Feedback');
             if ($data) {
                 $res = $feedback->save($data);
