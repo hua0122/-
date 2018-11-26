@@ -13,6 +13,12 @@ use app\common\controller\Api;
 
 class User extends Api
 {
+    public function __construct()
+    {
+        parent::__construct();
+        header("Access-Control-Allow-Origin: *");
+    }
+
     //个人信息
     public function index(){
         if (empty(session('openid'))) {
