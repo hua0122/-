@@ -131,9 +131,9 @@
 						</a>
 						<ul class="dropdown-menu dropdown-menu-right">
 
-							{volist name="school" id="item"}
+							{volist name="school_list" id="item"}
 							<li>
-								<a href="javascript:school_select('{$item.id}','{$item.name}')">
+								<a href="javascript:school_select('{$item.school_id}','{$item.name}')">
 									<i class="fa fa-cog"></i>
 									{$item.name}
 								</a>

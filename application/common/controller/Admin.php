@@ -86,13 +86,28 @@ class Admin extends Base {
                 $this->assign('school_default', $school_default);
             }
 
+            $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+            $this->get_school($role_id['group_id']);
+
             $this->setMeta();
 
 		}
 	}
 
-	//根据角色ID获取学校列表
-    protected function get_school(){
+	/*
+	 * 根据角色ID获取学校列表
+	 */
+    protected function get_school($role_id){
+        $where = [];
+        $where['group_id'] = $role_id;
+        $where['rules'] = array('<>','');
+
+        $list = db("AuthGroupDetail")
+            ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+            ->field('sent_auth_group_detail.*,sent_school.name')
+            ->where($where)->select();
+        $this->assign("school_list",$list);
+
 
     }
 
