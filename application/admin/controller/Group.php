@@ -159,9 +159,20 @@ class Group extends Admin {
 				$extend_result = db('AuthExtend')->insertAll($extend_data);
 			}
 
+			//查询所有学校id
+            $school = db("School")->field('id')->select();
+			foreach ($school as $v1){
+                if(!isset($rule[$v1['id']])){
+                    $rule[$v1['id']] = [];
+                }
+
+            }
+
+
 			if ($rule) {
                 foreach($rule as $k=>$v){
                     $rules       = implode(',', $v);
+
                     $rule_result = $this->group->where(array('id' => $id,'school_id'=>$k))->setField('rules', $rules);
                     $select = db("AuthGroupDetail")->where(array("group_id"=>$id,'school_id'=>$k))->find();
                     if($select){

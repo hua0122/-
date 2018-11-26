@@ -81,7 +81,7 @@
 					<tbody class="j_tb" style="display: none;">
 						{volist name="list" id="node"}
 						<tr>
-							<td class="info col-lg-2 text-right"><input type="checkbox" name="" class="jx_all"/>{$key}</td>
+							<td class="info col-lg-2 text-right"><input type="checkbox" name="{$key}" class="jx_all"/>{$key}</td>
 							<td class="col-lg-10 text-left jx_tb">
 								{volist name="node" id="item"}
 								<div class="checkbox-nice checkbox-inline">
@@ -127,7 +127,7 @@
 {block name="script"}
 <script type="text/javascript">
 
-	$(".all").click(function(){
+    $(".all").click(function(){
         var checkboxs = $(this).parent().parent().parent().next().find('input');
         console.log($(this).parent().parent().parent());
         for (var i = 0; i < checkboxs.length; i++) {
@@ -136,6 +136,7 @@
         }
 
     });
+
 
 
     //选中某行的

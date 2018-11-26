@@ -106,6 +106,7 @@ class Admin extends Base {
             ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
             ->field('sent_auth_group_detail.*,sent_school.name')
             ->where($where)->select();
+
         $this->assign("school_list",$list);
 
 
