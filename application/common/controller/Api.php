@@ -9,7 +9,8 @@
 
 namespace app\common\controller;
 
-class Api {
+class Api
+{
 
 	protected $data;
 

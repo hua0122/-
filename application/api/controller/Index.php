@@ -3,13 +3,18 @@ namespace app\api\controller;
 use app\common\controller\Api;
 
 class Index extends Api{
+    public function __construct()
+    {
+        parent::__construct();
+        header("Access-Control-Allow-Origin: *");
+    }
+
     public function index(){
 
 	}
 
 	//获取首页banner
 	public function get_banner(){
-        header("Access-Control-Allow-Origin: *");
         $where = array("category_id"=>1);
         $where['school_id'] = input('school_id','','trim,intval');
         $banner = db("Document")
