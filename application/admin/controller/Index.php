@@ -49,22 +49,48 @@ class Index extends Admin {
 
        $role = db('AuthGroupAccess')->where(array("uid"=>session('user_auth.uid')))->find();
        $rule = db('AuthGroupDetail')->where(array("school_id"=>$schoolid,"group_id"=>$role['group_id']))->find();
-       return success($rule['rules']);
+
 
        foreach ($row as $key => $value) {
            //此处用来做权限判断
-           if (!IS_ROOT && !$this->checkRule($value['url'], 2, null)) {
+           if (!is_administrator()&& !$this->checkRule($value['url'], 2, null)) {
                unset($menu['main'][$value['id']]);
                continue; //继续循环
            }
-           var_dump($menu['main']);
 
-
-           /*if ($controller == $value['url']) {
+           if ($controller == $value['url']) {
                $value['style'] = "active";
            }
-           $menu['main'][$value['id']] = $value;*/
+           $menu['main'][$value['id']] = $value;
        }
+
+       // 查找当前子菜单
+       $pid = db('menu')->where("pid !=0 AND url like '%{$hover_url}%'")->value('pid');
+       $id  = db('menu')->where("pid = 0 AND url like '%{$hover_url}%'")->value('id');
+       $pid = $pid ? $pid : $id;
+       if (strtolower($hover_url) == 'admin/content' || strtolower($hover_url) == 'admin/attribute') {
+           //内容管理菜单
+           $pid = db('menu')->where("pid =0 AND url like '%admin/category%'")->value('id');
+       }
+       if ($pid) {
+           $map['pid']  = $pid;
+           $map['hide'] = 0;
+           $map['type'] = 'admin';
+           $row         = db('menu')->field('id,title,url,icon,group,pid,"" as style')->where($map)->select();
+           foreach ($row as $key => $value) {
+               if (is_administrator() || $this->checkRule($value['url'], 2, null)) {
+                   if ($controller == $value['url']) {
+                       $menu['main'][$value['pid']]['style'] = "active";
+                       $value['style']                       = "active";
+                   }
+                   $menu['child'][$value['group']][] = $value;
+               }
+           }
+       }
+
+
+
+       return success($menu);
 
 
 

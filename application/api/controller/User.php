@@ -95,6 +95,9 @@ class User extends Api
     //我的协议
     public function agreement(){
         $openid = session("openid");
+        if(empty($openid)){
+            return failLogin();
+        }
         $user = db("WxUser")->field("name,phone,card_id as card")->where(array("openid"=>$openid))->find();
 
         $where= [];

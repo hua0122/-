@@ -80,7 +80,7 @@
 				</ul>
 			</div>
 			<div class="collapse navbar-collapse" id="header-nav">
-				<ul class="nav navbar-nav">
+				<ul class="nav navbar-nav top_menu">
 					{volist name="__menu__['main']" id="item"}
 					<li class="{$item['style']}">
 						<a href="{$item['url']|url}">
@@ -150,29 +150,36 @@
                                 alert(data);
                                 console.log(data);
                                 if (data==1){
-                                    window.location.reload();
-                                    window.location.reload();
+                                    //window.location.reload();
+                                    //window.location.reload();
                                     //$.get("?m=admin&c=index&a=public_menu_left&menuid=0&parentid="+$("#bigid").val(), function(data){$('.top_menu').remove();$('#top_menu').prepend(data)});
 
 
 									$.post("{:url('admin/index/get_top_menu')}",{schoolid:id},function(data){
 
 									    console.log(data);
+									    if(data.status=='200'){
+									        alert(2222);
+                                            $(".navbar-nav").html(" ");
+									        console.log(data.data.main);
+									        console.log(data.data.main[1].title);
+                                            var html ="";
+                                            {volist name="__menu__['main']" id="item"}
+                                                html+=
+                                                    '<li class=" {$item.style}">' +
+                                                    '<a href="{$item.url}">' +
+                                                    '<i class="fa fa-{$item.icon}"></i>' +
+                                                    '<span>'+"{$item.title}"+'</span>' +
+                                                    '</a>' +
+                                                    '</li>';
+											{/volist}
 
-									   /* var html ="";
-									    for(var i=0;i<data.length;i++){
-                                            html+=
-                                                '<li class=" ">' +
-                                                '<a href=" ">' +
-                                                '<i class="fa fa- "></i>' +
-                                                '<span>  </span>' +
-                                                '</a>' +
-                                                '</li>';
-										}*/
 
 
+                                            $("#header-nav > ul.nav.navbar-nav.top_menu").html(html);
+										}
 
-									    $(".navbar-nav").html(html);
+
 									});
                                 }
                             });
