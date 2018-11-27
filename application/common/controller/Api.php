@@ -16,10 +16,6 @@ class Api
 
 	public function __construct() {
         header("Access-Control-Allow-Origin: *");
-        if (empty(session('openid'))) {
-            header("Location:user/getwxinfo");
-            exit();
-        }
 		$this->data = array('code' => 0, 'msg' => '', 'time' => time(), 'data' => '');
 	}
 }

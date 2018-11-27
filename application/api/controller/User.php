@@ -13,8 +13,13 @@ use app\common\controller\Api;
 
 class User extends Api
 {
+
     //个人信息
     public function index(){
+        if (empty(session('openid'))) {
+            header("Location:getwxinfo");
+            exit();
+        }
 
         $userwxinfo = model('WxUser')->where(array("openid" => session('openid')))->find();
 
@@ -28,6 +33,10 @@ class User extends Api
 
     //学习中心
     public function study(){
+        $openid = session("openid");
+        if(empty($openid)){
+            return failLogin();
+        }
 
         $study = model('Student');
         $info = $study
