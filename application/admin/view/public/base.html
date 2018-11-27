@@ -83,10 +83,10 @@
 				<ul class="nav navbar-nav">
 					{volist name="__menu__['main']" id="item"}
 					<li class="{$item['style']}">
-					<a href="{$item['url']|url}">
-						<i class="fa fa-{$item['icon']|default='file'}"></i>
-						<span>{$item['title']}</span>
-					</a>
+						<a href="{$item['url']|url}">
+							<i class="fa fa-{$item['icon']|default='file'}"></i>
+							<span>{$item['title']}</span>
+						</a>
 					</li>
 					{/volist}
 				</ul>
@@ -147,10 +147,31 @@
                         function school_select(id,name) {
                             $(".tab_web span").html(name);
                             $.post("{:url('admin/index/public_set_schoolid')}",{schoolid:id},function(data){
+                                alert(data);
+                                console.log(data);
                                 if (data==1){
                                     window.location.reload();
                                     window.location.reload();
                                     //$.get("?m=admin&c=index&a=public_menu_left&menuid=0&parentid="+$("#bigid").val(), function(data){$('.top_menu').remove();$('#top_menu').prepend(data)});
+
+
+									$.post("{:url('admin/index/get_top_menu')}",{schoolid:id},function(data){
+
+									    var html ="";
+									    for(var i=0;i<data.length;i++){
+                                            html+=
+                                                '<li class="{$item[\'style\']}">' +
+                                                '<a href="{$item[\'url\']|url}">' +
+                                                '<i class="fa fa-{$item[\'icon\']|default=\'file\'}"></i>' +
+                                                '<span>{$item[\'title\']}</span>' +
+                                                '</a>' +
+                                                '</li>';
+										}
+
+
+
+									    $(".navbar-nav").html(html);
+									});
                                 }
                             });
 

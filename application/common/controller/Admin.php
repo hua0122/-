@@ -16,11 +16,11 @@ class Admin extends Base {
 	public function _initialize() {
 		parent::_initialize();
 
-		if (!is_login() and !in_array($this->url, array('admin/index/login', 'admin/index/logout', 'admin/index/verify'))) {
+		if (!is_login() and !in_array($this->url, array('admin/index/login', 'admin/index/logout', 'admin/index/verify','admin/index/public_set_schoolid'))) {
 			$this->redirect('admin/index/login');
 		}
 
-		if (!in_array($this->url, array('admin/index/login', 'admin/index/logout', 'admin/index/verify'))) {
+		if (!in_array($this->url, array('admin/index/login', 'admin/index/logout', 'admin/index/verify','admin/index/public_set_schoolid'))) {
 
 			// 是否是超级管理员
 			define('IS_ROOT', is_administrator());
@@ -55,15 +55,15 @@ class Admin extends Base {
 				}
 			}
             //菜单设置
-            $this->setMenu();
+            //$this->setMenu();
 
-			/*if(IS_ROOT){
+			if(IS_ROOT){
                 //菜单设置
                 $this->setMenu();
             }else{
 			    //其他人员菜单设置
                 $this->setOtherMenu();
-            }*/
+            }
 
 
             if (IS_ROOT) {
@@ -252,6 +252,7 @@ class Admin extends Base {
             $menu['main'][$value['id']] = $value;
         }
 
+
         // 查找当前子菜单
         $pid = db('menu')->where("pid !=0 AND url like '%{$hover_url}%'")->value('pid');
         $id  = db('menu')->where("pid = 0 AND url like '%{$hover_url}%'")->value('id');
@@ -279,6 +280,7 @@ class Admin extends Base {
 
         $this->assign('__menu__', $menu);
     }
+
 
 
 

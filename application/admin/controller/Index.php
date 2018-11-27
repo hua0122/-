@@ -27,8 +27,44 @@ class Index extends Admin {
         exit('1');
     }
 
+    //根据学校id获取顶部菜单
+   public function get_top_menu(){
+       $schoolid = input('schoolid','','trim,intval');
+       $hover_url  = $this->request->module() . '/' . $this->request->controller();
+       $controller = $this->url;
 
-	public function login($username = '', $password = '', $verify = '') {
+       $menu       = array(
+           'main'  => array(),
+           'child' => array(),
+       );
+
+       $where['pid']  = 0;
+       $where['hide'] = 0;
+       $where['type'] = 'admin';
+       if (!config('develop_mode')) {
+           // 是否开发者模式
+           $where['is_dev'] = 0;
+       }
+       $row = db('menu')->field('id,title,url,icon,"" as style')->where($where)->select();
+       foreach ($row as $key => $value) {
+           //此处用来做权限判断
+           if (!IS_ROOT && !$this->checkRule($value['url'], 2, null)) {
+               unset($menu['main'][$value['id']]);
+               continue; //继续循环
+           }
+
+
+           /*if ($controller == $value['url']) {
+               $value['style'] = "active";
+           }
+           $menu['main'][$value['id']] = $value;*/
+       }
+
+
+
+   }
+
+    public function login($username = '', $password = '', $verify = '') {
 		if (IS_POST) {
 			if (!$username || !$password) {
 				return $this->error('用户名或者密码不能为空！', '');

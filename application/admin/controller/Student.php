@@ -25,6 +25,7 @@ class Student extends Admin
     public function index(){
         $this->setMeta("学员管理");
         $map = array();
+
         if(isset($this->schoolid)){
             $map['sent_student.school_id'] = $this->schoolid;
         }else{
