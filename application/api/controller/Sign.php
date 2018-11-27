@@ -109,6 +109,44 @@ class Sign extends Api
         }
     }
 
+    //查询优惠券是否有效
+    public function yhq_code()
+    {
+        $code = input('code', '', 'htmlspecialchars,trim');
+        if (!empty($code)) {
+            $res = model("Code")->where(array("code" => $code))->find();
+            if ($res) {
+                return success($res);
+            } else {
+                return emptyResult('无效');
+            }
+        }
+
+
+    }
+
+    //查询推荐码是否有效
+    public function referral()
+    {
+        $code = input('code', '', 'htmlspecialchars,trim');
+        if (!empty($code)) {
+            $res = db('Department')->where(array("code" => $code))->find();
+            if ($res) {
+                return success($res);
+            } else {
+                $res = db('Person')->where(array("code" => $code))->find();
+                if ($res) {
+                    return success($res);
+                } else {
+                    return emptyResult("推荐码无效,请重新输入");
+                }
+            }
+        }
+    }
+
+
+
+
     //我要报名
     public function submit_sign()
     {
