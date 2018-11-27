@@ -60,7 +60,7 @@ class User extends Api
         if($info){
             return success($data);
         }else{
-            return failMsg();
+            return emptyResult();
         }
     }
 
@@ -148,7 +148,7 @@ class User extends Api
                 model('WxUser')->save($sign);
             }
 
-            $url = "http://bmqdtest.yidianxueche.cn/user/index.html";
+            $url = "http://bmqdtest.yidianxueche.cn/index/index.html";
             header("Location:" . $url);
             exit();
         }
