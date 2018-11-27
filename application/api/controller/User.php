@@ -141,7 +141,7 @@ class User extends Api
                 model('WxUser')->save($sign);
             }
 
-            $url = "../mobile";
+            $url = "http://bmqdtest.yidianxueche.cn";
             header("Location:" . $url);
             exit();
         }
