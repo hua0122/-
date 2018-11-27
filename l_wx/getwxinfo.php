@@ -83,8 +83,13 @@ switch ($method) {//获取code
 				$url = "/user/getwxinfo?data=".$data;
 				header("Location:" . $url);
 				exit();
-				break; 
-		}
+				break;
+            case 'djjx_api':
+                $url = "api/user/getwxinfo?data=".$data;
+                header("Location:" . $url);
+                exit();
+                break;
+        }
 		
 		//var_dump($data);exit();
 		break;

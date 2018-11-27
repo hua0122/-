@@ -144,7 +144,7 @@ class User extends Api
            return success($sign);
         }
 
-        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=djjx";
+        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=djjx_api";
         header("Location:" . $url);
         exit();
     }
