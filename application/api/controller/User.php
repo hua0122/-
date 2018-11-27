@@ -33,7 +33,11 @@ class User extends Api
 
     //学习中心
     public function study(){
-        session("openid","o2l0cwkQxENh7euCIIORxCH1RYtY");
+        $openid = session("openid");
+        if(empty($openid)){
+            return failLogin();
+        }
+
         $study = model('Student');
         $info = $study
             ->join('sent_grade', 'sent_grade.id=sent_student.grade_id', 'left')
@@ -67,6 +71,9 @@ class User extends Api
             return failMsg('内容不能为空');
         }
         $openid = session("openid");
+        if(empty($openid)){
+            return failLogin();
+        }
         $user = db("WxUser")->where(array("openid"=>$openid))->find();
 
         $data['name'] = $user['name'];
