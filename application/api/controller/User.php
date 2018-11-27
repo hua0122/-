@@ -141,7 +141,7 @@ class User extends Api
                 model('WxUser')->save($sign);
             }
 
-           return success($sign);
+           return success($data);
         }
 
         $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=djjx_api";
