@@ -46,12 +46,18 @@ class Index extends Admin {
            $where['is_dev'] = 0;
        }
        $row = db('menu')->field('id,title,url,icon,"" as style')->where($where)->select();
+
+       $role = db('AuthGroupAccess')->where(array("uid"=>session('user_auth.uid')))->find();
+       $rule = db('AuthGroupDetail')->where(array("school_id"=>$schoolid,"group_id"=>$role['group_id']))->find();
+       return success($rule['rules']);
+
        foreach ($row as $key => $value) {
            //此处用来做权限判断
            if (!IS_ROOT && !$this->checkRule($value['url'], 2, null)) {
                unset($menu['main'][$value['id']]);
                continue; //继续循环
            }
+           var_dump($menu['main']);
 
 
            /*if ($controller == $value['url']) {
