@@ -120,7 +120,7 @@ class User extends Api
     public function getwxinfo()
     {
 
-        if (!empty($_REQUEST['data']) || !empty(session("openid"))) {
+        if (!empty($_REQUEST['data'])) {
             $data = $_REQUEST['data'];
             //echo $data;
             $data = json_decode($data, JSON_UNESCAPED_UNICODE);
@@ -147,6 +147,8 @@ class User extends Api
 
                 model('WxUser')->save($sign);
             }
+
+
 
             $url = "http://bmqdtest.yidianxueche.cn/index/index.html";
             header("Location:" . $url);
