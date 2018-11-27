@@ -119,6 +119,7 @@ class User extends Api
     //获取微信用户信息
     public function getwxinfo()
     {
+        var_dump( empty(session("openid")));
 
         if (!empty($_REQUEST['data'])) {
             $data = $_REQUEST['data'];
