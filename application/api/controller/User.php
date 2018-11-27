@@ -113,7 +113,7 @@ class User extends Api
     public function getwxinfo()
     {
 
-        if (!empty($_REQUEST['data']) || !empty(session("openid"))) {
+        if (!empty($_REQUEST['data']) && !empty(session("openid"))) {
             $data = $_REQUEST['data'];
             //echo $data;
             $data = json_decode($data, JSON_UNESCAPED_UNICODE);
