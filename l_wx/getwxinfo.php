@@ -85,7 +85,7 @@ switch ($method) {//获取code
 				exit();
 				break;
             case 'djjx_api':
-                $url = "api/user/getwxinfo?data=".$data;
+                $url = "/api/user/getwxinfo?data=".$data;
                 header("Location:" . $url);
                 exit();
                 break;
