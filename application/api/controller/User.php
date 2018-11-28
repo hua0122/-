@@ -131,7 +131,7 @@ class User extends Api
     {
         if (!empty($_REQUEST['data'])) {
             $data = $_REQUEST['data'];
-            echo $data;
+
             $data = json_decode($data, JSON_UNESCAPED_UNICODE);
             $data = json_decode($data);
 
@@ -142,7 +142,7 @@ class User extends Api
             }
             $info = model('WxUser')->where(array("openid" => $data->openid))->find();
 
-            var_dump($info);
+
 
             if (count($info) <= 0) {
                 $sign = array(
@@ -163,6 +163,7 @@ class User extends Api
                 echo '</script>';
                 session('openid',$data->openid);
             }
+            return success($data);
             exit();
 
             $url = "http://bmqdtest.yidianxueche.cn/index/index.html";
