@@ -17,8 +17,9 @@ class User extends Api
     //个人信息
     public function index(){
         if (empty(session('openid'))) {
-            header("Location:getwxinfo");
-            exit();
+            //header("Location:getwxinfo");
+            //exit();
+            return failLogin();
         }
 
         $userwxinfo = model('WxUser')->where(array("openid" => session('openid')))->find();
