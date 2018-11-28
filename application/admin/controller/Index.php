@@ -29,6 +29,7 @@ class Index extends Admin {
 
     //根据学校id获取顶部菜单
    public function get_top_menu(){
+       header("Content-type: text/html; charset=utf-8");
        $schoolid = input('schoolid','','trim,intval');
        $hover_url  = $this->request->module() . '/' . $this->request->controller();
        $controller = $this->url;
@@ -50,19 +51,18 @@ class Index extends Admin {
        $role = db('AuthGroupAccess')->where(array("uid"=>session('user_auth.uid')))->find();
        $rule = db('AuthGroupDetail')->where(array("school_id"=>$schoolid,"group_id"=>$role['group_id']))->find();
 
-
+       $rule = explode(',',$rule['rules']);
        foreach ($row as $key => $value) {
-           //此处用来做权限判断
-           if (!is_administrator()&& !$this->checkRule($value['url'], 2, null)) {
-               unset($menu['main'][$value['id']]);
-               continue; //继续循环
-           }
+          if(in_array($value['id'],$rule)){
+              $menu['main'][] = $value;
+          }
+
 
            if ($controller == $value['url']) {
                $value['style'] = "active";
            }
-           $menu['main'][$value['id']] = $value;
        }
+
 
        // 查找当前子菜单
        $pid = db('menu')->where("pid !=0 AND url like '%{$hover_url}%'")->value('pid');
@@ -88,12 +88,7 @@ class Index extends Admin {
            }
        }
 
-
-
        return success($menu);
-
-
-
    }
 
     public function login($username = '', $password = '', $verify = '') {

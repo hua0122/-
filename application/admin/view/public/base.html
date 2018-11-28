@@ -147,34 +147,26 @@
                         function school_select(id,name) {
                             $(".tab_web span").html(name);
                             $.post("{:url('admin/index/public_set_schoolid')}",{schoolid:id},function(data){
-                                alert(data);
-                                console.log(data);
+                                alert(id);
+
                                 if (data==1){
-                                    //window.location.reload();
-                                    //window.location.reload();
-                                    //$.get("?m=admin&c=index&a=public_menu_left&menuid=0&parentid="+$("#bigid").val(), function(data){$('.top_menu').remove();$('#top_menu').prepend(data)});
-
-
+                                    window.location.reload();
+                                    window.location.reload();
 									$.post("{:url('admin/index/get_top_menu')}",{schoolid:id},function(data){
-
-									    console.log(data);
 									    if(data.status=='200'){
-									        alert(2222);
-                                            $(".navbar-nav").html(" ");
-									        console.log(data.data.main);
-									        console.log(data.data.main[1].title);
+
+                                            $("#header-nav > ul.nav.navbar-nav.top_menu").html(" ");
+
                                             var html ="";
-                                            {volist name="__menu__['main']" id="item"}
+									        for(var i=0;i<data.data.main.length;i++){
                                                 html+=
-                                                    '<li class=" {$item.style}">' +
-                                                    '<a href="{$item.url}">' +
-                                                    '<i class="fa fa-{$item.icon}"></i>' +
-                                                    '<span>'+"{$item.title}"+'</span>' +
+                                                    '<li class="'+data.data.main[i]['style']+'">' +
+                                                    '<a href="../../'+data.data.main[i]['url']+'">' +
+                                                    '<i class="fa fa-'+data.data.main[i]['icon']+'"></i>' +
+                                                    '<span>'+data.data.main[i]['title']+'</span>' +
                                                     '</a>' +
                                                     '</li>';
-											{/volist}
-
-
+											}
 
                                             $("#header-nav > ul.nav.navbar-nav.top_menu").html(html);
 										}

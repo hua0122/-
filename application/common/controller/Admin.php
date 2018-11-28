@@ -80,9 +80,15 @@ class Admin extends Base {
                     $this->assign('school_default', $school_default);
                 }
             }else{
-                $this->assign("school","");
-                $member = db("Member")->find(session("user_auth.uid"));
-                $school_default = db("School")->find($member['school_id']);
+                $school_id = cookie("schoolid");
+                if (isset($school_id)) {
+                    $school_default = db("School")->find($school_id);
+                    $this->assign('school_default', $school_default);
+                } else {
+                    $member = db("Member")->find(session("user_auth.uid"));
+                    $school_default = db("School")->find($member['school_id']);
+                }
+
                 $this->assign('school_default', $school_default);
             }
 
