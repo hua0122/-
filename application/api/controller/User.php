@@ -168,6 +168,7 @@ class User extends Api
 
             $url = "http://bmqdtest.yidianxueche.cn/index/index.html?openid=".$data->openid;
             header("Location:" . $url);
+            exit;
 
 
         }
