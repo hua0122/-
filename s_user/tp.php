@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+header("Access-Control-Allow-Origin: *");
 define("ROOT_PATH", $_SERVER['DOCUMENT_ROOT']);
 //include_once $_SERVER['DOCUMENT_ROOT'] . '/global.php';
 

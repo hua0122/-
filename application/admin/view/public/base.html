@@ -147,7 +147,6 @@
                         function school_select(id,name) {
                             $(".tab_web span").html(name);
                             $.post("{:url('admin/index/public_set_schoolid')}",{schoolid:id},function(data){
-                                alert(id);
 
                                 if (data==1){
                                     window.location.reload();

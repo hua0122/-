@@ -39,16 +39,68 @@ class Admin extends Base {
 				} elseif (null === $access) {
 					$dynamic = $this->checkDynamic(); //检测分类栏目有关的各项动态权限
 					if ($dynamic === null) {
+
 						//检测访问权限
-						if (!$this->checkRule($this->url, array('in', '1,2'))) {
-							$this->error('未授权访问!');
+                        //如果驾校是默认为1的情况 就是原来的检测方式  如果是其他驾校  查询新表
+
+                        $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+
+                        $where['sent_auth_group_detail.group_id'] = $role_id['group_id'];
+                        $where['rules'] = array('<>','');
+                        $school= db("AuthGroupDetail")
+                            ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                            ->field('sent_auth_group_detail.*,sent_school.name')
+                            ->where($where)->select();
+
+                        if($school){
+                            foreach ($school as $k=>$v){
+                                if($v['school_id']==1){
+                                    if (!$this->checkRule($this->url, array('in', '1,2'))) {
+                                        $this->error('未授权访问!');
+                                    } else {
+                                        // 检测分类及内容有关的各项动态权限
+                                        $dynamic = $this->checkDynamic();
+                                        if (false === $dynamic) {
+                                            $this->error('未授权访问!');
+                                        }
+                                    }
+                                }else{
+                                    $where1['pid']  = 0;
+                                    $where1['hide'] = 0;
+                                    $where1['type'] = 'admin';
+                                    if (!config('develop_mode')) {
+                                        // 是否开发者模式
+                                        $where1['is_dev'] = 0;
+                                    }
+
+                                    $row = db('menu')->field('id,title,url,icon,"" as style')->where($where1)->select();
+                                    $rule = explode(',',$v['rules']);
+
+                                    foreach ($row as $key => $value) {
+                                        if(!in_array($value['id'],$rule)&&$value['url'] == $this->url){
+                                            $this->error('未授权访问!');
+                                        }
+
+                                    }
+
+                                }
+                            }
+                        }
+
+
+
+						/*if (!$this->checkRule($this->url, array('in', '1,2'))) {
+							//$this->error('未授权访问!');
 						} else {
 							// 检测分类及内容有关的各项动态权限
 							$dynamic = $this->checkDynamic();
 							if (false === $dynamic) {
 								$this->error('未授权访问!');
 							}
-						}
+						}*/
+
+
+
 					} elseif ($dynamic === false) {
 						$this->error('未授权访问!');
 					}
@@ -85,8 +137,14 @@ class Admin extends Base {
                     $school_default = db("School")->find($school_id);
                     $this->assign('school_default', $school_default);
                 } else {
-                    $member = db("Member")->find(session("user_auth.uid"));
-                    $school_default = db("School")->find($member['school_id']);
+                    $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+                    $where['group_id'] = $role_id['group_id'];
+                    $where['rules'] = array('<>','');
+                    $school_default = db("AuthGroupDetail")
+                        ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                        ->field('sent_auth_group_detail.*,sent_school.name')
+                        ->where($where)->find();
+
                 }
 
                 $this->assign('school_default', $school_default);
