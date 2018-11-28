@@ -142,6 +142,8 @@ class User extends Api
             }
             $info = model('WxUser')->where(array("openid" => $data->openid))->find();
 
+            var_dump($info);
+
             if (count($info) <= 0) {
                 $sign = array(
                     "openid"  => $data->openid,
@@ -155,16 +157,16 @@ class User extends Api
                 );
 
                 model('WxUser')->save($sign);
+
+                echo '<script language="javascript">';
+                echo 'localStorage.setItem("user_info",JSON.stringify('.json_encode($sign).'));';
+                echo '</script>';
+                session('openid',$data->openid);
             }
-
-            echo '<script language="javascript">';
-            echo 'localStorage.setItem("user_info",JSON.stringify('.json_encode($sign).'));';
-            echo '</script>';
-
 
             $url = "http://bmqdtest.yidianxueche.cn/index/index.html";
             header("Location:" . $url);
-            session('openid',$data->openid);
+
             exit();
         }
 
