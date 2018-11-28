@@ -93,7 +93,7 @@ switch ($method) {//获取code
                 break;
         }
 		
-		//var_dump($data);exit();
+		var_dump($data);exit();
 		break;
 		
 	case "getOpenId":
