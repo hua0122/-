@@ -21,6 +21,8 @@ class User extends Api
             exit();
         }
 
+        var_dump(session("user_info"));
+
         $userwxinfo = model('WxUser')->where(array("openid" => session('openid')))->find();
 
         if($userwxinfo){
