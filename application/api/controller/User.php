@@ -166,6 +166,10 @@ class User extends Api
             //return success($data);
             //exit();
 
+            echo '<script language="javascript">';
+            echo 'localStorage.setItem("openid",JSON.stringify('.$data->openid.'));';
+            echo '</script>';
+
             $url = "http://bmqdtest.yidianxueche.cn/index/index.html?openid=".$data->openid;
             header("Location:" . $url);
             exit;
