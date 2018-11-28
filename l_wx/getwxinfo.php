@@ -93,8 +93,8 @@ switch ($method) {//获取code
                 break;
         }
 		
-		var_dump($data);exit();
-		break;
+		//var_dump($data);exit();
+		//break;
 		
 	case "getOpenId":
 		$code = @$_REQUEST["code"];

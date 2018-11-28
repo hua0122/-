@@ -295,7 +295,7 @@ class Weixin_class {
 		$access_token = $access_token[0];
 		$codeurl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' .
 						APPID  . '&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect';
-		$data = file_get_contents($url);
+		$data = file_get_contents($codeurl);
 		$user_info = json_decode($data);
 		return $user_info;
 	}

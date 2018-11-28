@@ -158,15 +158,15 @@ class User extends Api
 
                 model('WxUser')->save($sign);
 
-                echo '<script language="javascript">';
-                echo 'localStorage.setItem("user_info",JSON.stringify('.json_encode($sign).'));';
-                echo '</script>';
-                session('openid',$data->openid);
+                //echo '<script language="javascript">';
+                //echo 'localStorage.setItem("user_info",JSON.stringify('.json_encode($sign).'));';
+                //echo '</script>';
+                //session('openid',$data->openid);
             }
-            return success($data);
-            exit();
+            //return success($data);
+            //exit();
 
-            $url = "http://bmqdtest.yidianxueche.cn/index/index.html";
+            $url = "http://bmqdtest.yidianxueche.cn/index/index.html?openid=".$data->openid;
             header("Location:" . $url);
 
 
