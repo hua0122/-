@@ -149,12 +149,10 @@
                             $.post("{:url('admin/index/public_set_schoolid')}",{schoolid:id},function(data){
 
                                 if (data==1){
-                                    window.location.reload();
-                                    window.location.reload();
 									$.post("{:url('admin/index/get_top_menu')}",{schoolid:id},function(data){
 									    if(data.status=='200'){
 
-                                            $("#header-nav > ul.nav.navbar-nav.top_menu").html(" ");
+                                            //$("#header-nav > ul.nav.navbar-nav.top_menu").html(" ");
 
                                             var html ="";
 									        for(var i=0;i<data.data.main.length;i++){
@@ -172,6 +170,9 @@
 
 
 									});
+                                    window.location.reload();
+                                    window.location.reload();
+
                                 }
                             });
 

@@ -50,12 +50,26 @@ class Index extends Admin {
 
        $role = db('AuthGroupAccess')->where(array("uid"=>session('user_auth.uid')))->find();
        $rule = db('AuthGroupDetail')->where(array("school_id"=>$schoolid,"group_id"=>$role['group_id']))->find();
-
+       //var_dump($rule['rules']);
+       //var_dump($row);
        $rule = explode(',',$rule['rules']);
        foreach ($row as $key => $value) {
-          if(in_array($value['id'],$rule)){
+          /*if(in_array($value['id'],$rule)){
               $menu['main'][] = $value;
-          }
+          }*/
+
+           $where2['module'] = "admin";
+           $where2['type'] = '2';
+
+           $row2 = db('auth_rule')->field('id,title,name')->where($where2)->select();
+           foreach ($row2 as $k2=>$v2){
+               if(in_array($v2['id'],$rule)){
+                   if($v2['name']==$value['url']){
+                       $menu['main'][] = $value;
+                   }
+               }
+           }
+
 
 
            if ($controller == $value['url']) {
@@ -123,7 +137,6 @@ class Index extends Admin {
 	public function logout() {
 		$user = model('User');
 		$user->logout();
-		cookie("schoolid","");
 		$this->redirect('admin/index/login');
 	}
 

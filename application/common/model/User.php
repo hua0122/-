@@ -186,6 +186,8 @@ class User extends Base{
 	public function logout(){
 		session('user_auth', null);
 		session('user_auth_sign', null);
+		cookie('schoolid',null);
+        setcookie('schoolid',null);
 	}
 
 	public function getInfo($uid){

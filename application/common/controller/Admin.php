@@ -65,41 +65,23 @@ class Admin extends Base {
                                         }
                                     }
                                 }else{
-                                    $where1['pid']  = 0;
-                                    $where1['hide'] = 0;
-                                    $where1['type'] = 'admin';
-                                    if (!config('develop_mode')) {
-                                        // 是否开发者模式
-                                        $where1['is_dev'] = 0;
-                                    }
+                                    $where1['module'] = "admin";
+                                    $where1['type'] = '2';
 
-                                    $row = db('menu')->field('id,title,url,icon,"" as style')->where($where1)->select();
+                                    $row = db('auth_rule')->field('id,title,name')->where($where1)->select();
                                     $rule = explode(',',$v['rules']);
 
                                     foreach ($row as $key => $value) {
-                                        if(!in_array($value['id'],$rule)&&$value['url'] == $this->url){
-                                            $this->error('未授权访问!');
+                                        if($this->url == $value['name']){
+                                            if(!in_array($value['id'],$rule)){
+                                                $this->error('未授权访问!');
+                                            }
                                         }
-
                                     }
 
                                 }
                             }
                         }
-
-
-
-						/*if (!$this->checkRule($this->url, array('in', '1,2'))) {
-							//$this->error('未授权访问!');
-						} else {
-							// 检测分类及内容有关的各项动态权限
-							$dynamic = $this->checkDynamic();
-							if (false === $dynamic) {
-								$this->error('未授权访问!');
-							}
-						}*/
-
-
 
 					} elseif ($dynamic === false) {
 						$this->error('未授权访问!');
@@ -112,13 +94,6 @@ class Admin extends Base {
 			if(IS_ROOT){
                 //菜单设置
                 $this->setMenu();
-            }else{
-			    //其他人员菜单设置
-                $this->setOtherMenu();
-            }
-
-
-            if (IS_ROOT) {
                 //学校设置
                 $school = db("School")->select();
                 $this->assign("school",$school);
@@ -131,7 +106,11 @@ class Admin extends Base {
                     $school_default = db("School")->find(1);
                     $this->assign('school_default', $school_default);
                 }
+
             }else{
+			    //其他人员菜单设置
+                $this->setOtherMenu();
+
                 $school_id = cookie("schoolid");
                 if (isset($school_id)) {
                     $school_default = db("School")->find($school_id);
@@ -149,6 +128,8 @@ class Admin extends Base {
 
                 $this->assign('school_default', $school_default);
             }
+
+
 
             $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
             $this->get_school($role_id['group_id']);
@@ -306,14 +287,42 @@ class Admin extends Base {
         $row = db('menu')->field('id,title,url,icon,"" as style')->where($where)->select();
         foreach ($row as $key => $value) {
             //此处用来做权限判断
-            if (!IS_ROOT && !$this->checkRule($value['url'], 2, null)) {
-                unset($menu['main'][$value['id']]);
-                continue; //继续循环
+            $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+
+            $where1['sent_auth_group_detail.group_id'] = $role_id['group_id'];
+            $where1['rules'] = array('<>','');
+            $school= db("AuthGroupDetail")
+                ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                ->field('sent_auth_group_detail.*,sent_school.name')
+                ->where($where1)->select();
+
+            if($school){
+                foreach ($school as $k=>$v){
+
+                    $rule = explode(',',$v['rules']);
+
+                    $where2['module'] = "admin";
+                    $where2['type'] = '2';
+
+                    $row2 = db('auth_rule')->field('id,title,name')->where($where2)->select();
+                    foreach ($row2 as $k2=>$v2){
+                        if(in_array($v2['id'],$rule)){
+                            if($v2['name']==$value['url']){
+                                $menu['main'][$value['id']] = $value;
+                            }
+                        }
+                    }
+
+
+                        if ($controller == $value['url']) {
+                            $value['style'] = "active";
+                        }
+
+                }
             }
-            if ($controller == $value['url']) {
-                $value['style'] = "active";
-            }
-            $menu['main'][$value['id']] = $value;
+
+
+
         }
 
 
