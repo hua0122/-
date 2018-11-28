@@ -60,6 +60,9 @@ switch ($method) {//获取code
 			
 		$user_info = file_get_contents($infourl);
 		$data= json_encode($user_info, JSON_UNESCAPED_UNICODE);
+		$_SESSION['openid'] = $user_info['openid'];
+
+		var_dump($user_info);
 		
 		switch($state) {
 			case 'addStudent':
