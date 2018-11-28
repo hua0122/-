@@ -21,8 +21,6 @@ class User extends Api
             exit();
         }
 
-        var_dump(session("user_info"));
-
         $userwxinfo = model('WxUser')->where(array("openid" => session('openid')))->find();
 
         if($userwxinfo){
@@ -162,6 +160,7 @@ class User extends Api
 
             $url = "http://bmqdtest.yidianxueche.cn/index/index.html";
             header("Location:" . $url);
+            session('openid',$data->openid);
             exit();
         }
 
