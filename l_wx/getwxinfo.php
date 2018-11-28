@@ -63,6 +63,8 @@ switch ($method) {//获取code
 		$_SESSION['openid'] = $user_info['openid'];
 
 		var_dump($user_info);
+		var_dump($_SESSION['openid']);
+		exit;
 		
 		switch($state) {
 			case 'addStudent':
