@@ -131,7 +131,7 @@ class User extends Api
     {
         if (!empty($_REQUEST['data'])) {
             $data = $_REQUEST['data'];
-            //echo $data;
+            echo $data;
             $data = json_decode($data, JSON_UNESCAPED_UNICODE);
             $data = json_decode($data);
 
@@ -163,11 +163,12 @@ class User extends Api
                 echo '</script>';
                 session('openid',$data->openid);
             }
+            exit();
 
             $url = "http://bmqdtest.yidianxueche.cn/index/index.html";
             header("Location:" . $url);
 
-            exit();
+
         }
 
         $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=djjx_api";
