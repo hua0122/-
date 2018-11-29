@@ -207,7 +207,7 @@ class User extends Api
         $data = file_get_contents($getaccessurl);
         $data = json_decode($data, true);
 
-        return success($data);
+        return $data;
     }
 
 
