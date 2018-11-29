@@ -174,16 +174,28 @@ class User extends Api
 
     public function get_code(){
         include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
-        $wx = new \Weixin_class();
+        //$wx = new \Weixin_class();
+        $openid = session('openid');
+        $code = input('code');
+        if($code){
+            $openid = $this->get_openid($code);
+        }
 
-        $redirect_uri="http://" . $_SERVER['HTTP_HOST']."/l_wx/getwxinfo.php?method=getOpenId";
-        $scope ="snsapi_base";
-        $state = "STATE";
-        $codeurl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' .
-            APPID  . '&redirect_uri='.
-            $redirect_uri .'&response_type=code&scope='.$scope.'&state=' .
-            $state . '#wechat_redirect';
-        header("Location:" . $codeurl);
+        if(empty($openid)){
+            $redirect_uri="http://" . $_SERVER['HTTP_HOST']."/api/user/get_code";
+            $scope ="snsapi_base";
+            $state = "STATE";
+            $codeurl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' .
+                APPID  . '&redirect_uri='.
+                $redirect_uri .'&response_type=code&scope='.$scope.'&state=' .
+                $state . '#wechat_redirect';
+            header("Location:" . $codeurl);
+        }else{
+            session('openid',$openid);
+        }
+
+        return $openid;
+
 
     }
 
