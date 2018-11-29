@@ -26,11 +26,49 @@ class Group extends Admin {
 	public function index($type = 'admin') {
 		$map['module'] = $type;
 
-        if(isset($this->schoolid)){
-            $map['school_id'] = $this->schoolid;
+        //当前页面的学校ID
+        $school_id = cookie("schoolid");
+        if(isset($school_id)){
+            $w['school_id'] = $school_id;
+        }else{
+
+            //根据角色ID查询当前学校ID
+            $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+            $where1['group_id'] = $role_id['group_id'];
+            $where1['rules'] = array('<>','');
+            $school_default = db("AuthGroupDetail")
+                ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                ->field('sent_auth_group_detail.*,sent_school.name')
+                ->where($where1)->find();
+            $w['school_id'] = $school_default['school_id'];
         }
 
 		$list = db('AuthGroup')->where($map)->order('id desc')->paginate(10);
+
+        //判断用户是否属于当前学校
+        if($list){
+            foreach ($list as $k=>$v){
+                //根据角色ID查询当前学校ID
+                $where['group_id'] = $v['id'];
+                $where['rules'] = array('<>','');
+                $school_default = db("AuthGroupDetail")
+                    ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                    ->field('sent_auth_group_detail.*,sent_school.name')
+                    ->where($where)->select();
+
+                $str = [];
+                foreach ($school_default as $k1=>$v1){
+                    $str[$k1] = $v1['school_id'];
+
+
+                }
+                if(!in_array($w['school_id'],$str)){
+                    unset($list[$k]);
+                }
+            }
+        }
+
+
 
 		$data = array(
 			'list' => $list,
