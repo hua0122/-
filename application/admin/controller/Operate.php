@@ -24,9 +24,25 @@ class Operate extends Admin
     public function index(){
         $order = "id desc";
         $where = [];
+
         if(isset($this->schoolid)){
             $where['school_id'] = $this->schoolid;
+        }else{
+
+            //根据角色ID查询当前学校ID
+            $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+            $map['group_id'] = $role_id['group_id'];
+            $map['rules'] = array('<>','');
+            $school_default = db("AuthGroupDetail")
+                ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                ->field('sent_auth_group_detail.*,sent_school.name')
+                ->where($map)->find();
+
+
+            $where['school_id'] = $school_default['school_id'];
         }
+
+
         $where['category_id '] = 1;
         $list = db('Document')->where($where)->order($order)->select();
 
@@ -38,6 +54,24 @@ class Operate extends Admin
     public function banner(){
         $order = "id desc";
         $where = [];
+        if(isset($this->schoolid)){
+            $where['school_id'] = $this->schoolid;
+        }else{
+
+            //根据角色ID查询当前学校ID
+            $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+            $map['group_id'] = $role_id['group_id'];
+            $map['rules'] = array('<>','');
+            $school_default = db("AuthGroupDetail")
+                ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                ->field('sent_auth_group_detail.*,sent_school.name')
+                ->where($map)->find();
+
+
+            $where['school_id'] = $school_default['school_id'];
+        }
+
+
         $where['category_id '] = 8;
         $list = db('Document')->where($where)->order($order)->select();
 
@@ -62,7 +96,19 @@ class Operate extends Admin
             if($this->schoolid){
                 $data['school_id'] = $this->schoolid;
             }else{
-                $data['school_id'] = 1;
+
+                //根据角色ID查询当前学校ID
+                $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+                $map['group_id'] = $role_id['group_id'];
+                $map['rules'] = array('<>','');
+                $school_default = db("AuthGroupDetail")
+                    ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                    ->field('sent_auth_group_detail.*,sent_school.name')
+                    ->where($map)->find();
+
+
+                $data['school_id'] = $school_default['school_id'];
+
             }
 
 
@@ -104,7 +150,19 @@ class Operate extends Admin
             if($this->schoolid){
                 $data['school_id'] = $this->schoolid;
             }else{
-                $data['school_id'] = 1;
+
+                //根据角色ID查询当前学校ID
+                $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+                $map['group_id'] = $role_id['group_id'];
+                $map['rules'] = array('<>','');
+                $school_default = db("AuthGroupDetail")
+                    ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                    ->field('sent_auth_group_detail.*,sent_school.name')
+                    ->where($map)->find();
+
+
+                $data['school_id'] = $school_default['school_id'];
+
             }
 
 
@@ -148,7 +206,19 @@ class Operate extends Admin
             if($this->schoolid){
                 $data['school_id'] = $this->schoolid;
             }else{
-                $data['school_id'] = 1;
+
+                //根据角色ID查询当前学校ID
+                $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+                $map['group_id'] = $role_id['group_id'];
+                $map['rules'] = array('<>','');
+                $school_default = db("AuthGroupDetail")
+                    ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                    ->field('sent_auth_group_detail.*,sent_school.name')
+                    ->where($map)->find();
+
+
+                $data['school_id'] = $school_default['school_id'];
+
             }
 
 
@@ -329,11 +399,11 @@ class Operate extends Admin
                     $pic3= input('cover_id3','','trim,intval');
                     $pic4= input('cover_id4','','trim,intval');
 
-                    model("Document")->where(array('id'=>21))->setField('cover_id',$pic);
-                    model("Document")->where(array('id'=>22))->setField('cover_id',$pic1);
-                    model("Document")->where(array('id'=>23))->setField('cover_id',$pic2);
-                    model("Document")->where(array('id'=>24))->setField('cover_id',$pic3);
-                    model("Document")->where(array('id'=>25))->setField('cover_id',$pic4);
+                    model("Document")->where(array('id'=>input('one_left_id')))->setField('cover_id',$pic);
+                    model("Document")->where(array('id'=>input('one_right_id')))->setField('cover_id',$pic1);
+                    model("Document")->where(array('id'=>input('two_left_id')))->setField('cover_id',$pic2);
+                    model("Document")->where(array('id'=>input('two_center_id')))->setField('cover_id',$pic3);
+                    model("Document")->where(array('id'=>input('two_right_id')))->setField('cover_id',$pic4);
 
                     return $this->success("修改成功！", url('Operate/about'));
                 } else {
@@ -344,23 +414,40 @@ class Operate extends Admin
             }
         } else {
 
-            $info = db('Page')->find(1);
+
+            //首页展示图
+            $w = array("category_id"=>3);
+            if(isset($this->schoolid)){
+                $w['school_id'] = $this->schoolid;
+            }else{
+
+                //根据角色ID查询当前学校ID
+                $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+                $where['group_id'] = $role_id['group_id'];
+                $where['rules'] = array('<>','');
+                $school_default = db("AuthGroupDetail")
+                    ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                    ->field('sent_auth_group_detail.*,sent_school.name')
+                    ->where($where)->find();
+                $w['school_id'] = $school_default['school_id'];
+            }
+
+            $info = db('Page')->where($w)->find();
             $data = array(
                 'info'    => $info,
             );
 
 
-            //首页展示图
-            $w = array("category_id"=>3);
-            $step = db("Document")->where($w)->find(21);
+
+            $step = db("Document")->where($w)->limit(0,1)->select();
             $this->assign("step",$step);
-            $step1 = db("Document")->where($w)->find(22);
+            $step1 = db("Document")->where($w)->limit(1,1)->select();
             $this->assign("step1",$step1);
-            $step2 = db("Document")->where($w)->find(23);
+            $step2 = db("Document")->where($w)->limit(2,1)->select();
             $this->assign("step2",$step2);
-            $step3 = db("Document")->where($w)->find(24);
+            $step3 = db("Document")->where($w)->limit(3,1)->select();
             $this->assign("step3",$step3);
-            $step4 = db("Document")->where($w)->find(25);
+            $step4 = db("Document")->where($w)->limit(4,1)->select();
             $this->assign("step4",$step4);
 
 
@@ -399,6 +486,8 @@ class Operate extends Admin
             }
         } else {
 
+
+
             $info = db('Page')->find(2);
             $data = array(
                 'info'    => $info,
@@ -408,6 +497,24 @@ class Operate extends Admin
             //首页滚动图
             $order = "id desc";
             $where = [];
+
+            if(isset($this->schoolid)){
+                $where['school_id'] = $this->schoolid;
+            }else{
+
+                //根据角色ID查询当前学校ID
+                $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+                $map['group_id'] = $role_id['group_id'];
+                $map['rules'] = array('<>','');
+                $school_default = db("AuthGroupDetail")
+                    ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                    ->field('sent_auth_group_detail.*,sent_school.name')
+                    ->where($map)->find();
+
+
+                $where['school_id'] = $school_default['school_id'];
+            }
+
             $where['category_id '] = 9;
             $list = db('Document')->where($where)->order($order)->select();
 

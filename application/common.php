@@ -1168,6 +1168,7 @@ function PyFirst($zh) {
 function success (&$data = NULL ) {
     return json( ['status' => '200', 'msg' => 'ok', 'data' => $data] );
 }
+
 //操作失败：空数据
 function emptyResult ( $msg = '无数据' ) {
     return getResponseMessage( '000', $msg );
@@ -1188,6 +1189,7 @@ function failLogin ( $msg = '您未在本设备登录' ) {
 function failMsg ( $msg = '操作失败' ) {
     return getResponseMessage( '10x', $msg );
 }
+
 
 /**
  * 获取 格式化的 响应消息.

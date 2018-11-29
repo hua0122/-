@@ -341,7 +341,7 @@ class Sign extends Api
                 model("Apply")->where(array("id"=>$insert_id))->setField('code_id',$code_id);
 
 
-                return success();
+                return json( ['status' => '2000', 'msg' => '申请成功'] );
             }else{
                 return failMsg("申请失败");
             }

@@ -126,18 +126,19 @@
                                             <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="cover_id" id="field_cover_id" value="{$step.cover_id}">
+                                    <input type="hidden" name="cover_id" id="field_cover_id" value="{$step[0]['cover_id']}">
+                                    <input type="hidden" name="one_left_id"  value="{$step[0]['id']}">
                                     <div id="fileList_cover_id" class="upload-file-list-info" style="width:200px;">
-                                        {if condition="$step['cover_id']"}
+                                        {if condition="$step[0]['cover_id']"}
                                         <li class="affix-list-item" id="WU_FILE_0">
                                             <div class="upload-file-info">
-                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_0" data-id="{$step.cover_id}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
+                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_0" data-id="{$step[0]['cover_id']}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
                                                 <span class="fname"></span>
                                                 <span class="fsize"></span>
                                                 <div class="clearfix"></div>
                                             </div>
                                             <div class="filebox image">
-                                                <img src="{:get_cover($step.cover_id,'path')}" class="img-responsive">
+                                                <img src="{:get_cover($step[0]['cover_id'],'path')}" class="img-responsive">
                                             </div>
                                         </li>
                                         {/if}
@@ -179,18 +180,19 @@
                                             <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="cover_id1" id="field_cover_id1" value="{$step1.cover_id}">
+                                    <input type="hidden" name="cover_id1" id="field_cover_id1" value="{$step1[0]['cover_id']}">
+                                    <input type="hidden" name="one_right_id"  value="{$step1[0]['id']}">
                                     <div id="fileList_cover_id1" class="upload-file-list-info" style="width:200px;">
-                                        {if condition="$step1['cover_id']"}
+                                        {if condition="$step1[0]['cover_id']"}
                                         <li class="affix-list-item" id="WU_FILE_01">
                                             <div class="upload-file-info">
-                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_01" data-id="{$step1.cover_id}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
+                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_01" data-id="{$step1[0]['cover_id']}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
                                                 <span class="fname"></span>
                                                 <span class="fsize"></span>
                                                 <div class="clearfix"></div>
                                             </div>
                                             <div class="filebox image">
-                                                <img src="{:get_cover($step1.cover_id,'path')}" class="img-responsive">
+                                                <img src="{:get_cover($step1[0]['cover_id'],'path')}" class="img-responsive">
                                             </div>
                                         </li>
                                         {/if}
@@ -233,18 +235,19 @@
                                             <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="cover_id2" id="field_cover_id2" value="{$step2.cover_id}">
+                                    <input type="hidden" name="cover_id2" id="field_cover_id2" value="{$step2[0]['cover_id']}">
+                                    <input type="hidden" name="two_left_id"  value="{$step2[0]['id']}">
                                     <div id="fileList_cover_id2" class="upload-file-list-info" style="width:200px;">
-                                        {if condition="$step2['cover_id']"}
+                                        {if condition="$step2[0]['cover_id']"}
                                         <li class="affix-list-item" id="WU_FILE_02">
                                             <div class="upload-file-info">
-                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_02" data-id="{$step2.cover_id}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
+                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_02" data-id="{$step2[0]['cover_id']}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
                                                 <span class="fname"></span>
                                                 <span class="fsize"></span>
                                                 <div class="clearfix"></div>
                                             </div>
                                             <div class="filebox image">
-                                                <img src="{:get_cover($step2.cover_id,'path')}" class="img-responsive">
+                                                <img src="{:get_cover($step2[0]['cover_id'],'path')}" class="img-responsive">
                                             </div>
                                         </li>
                                         {/if}
@@ -287,18 +290,19 @@
                                             <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="cover_id3" id="field_cover_id3" value="{$step3.cover_id}">
+                                    <input type="hidden" name="cover_id3" id="field_cover_id3" value="{$step3[0]['cover_id']}">
+                                    <input type="hidden" name="two_center_id"  value="{$step3[0]['id']}">
                                     <div id="fileList_cover_id3" class="upload-file-list-info" style="width:200px;">
-                                        {if condition="$step3['cover_id']"}
+                                        {if condition="$step3[0]['cover_id']"}
                                         <li class="affix-list-item" id="WU_FILE_03">
                                             <div class="upload-file-info">
-                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_03" data-id="{$step3.cover_id}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
+                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_03" data-id="{$step3[0]['cover_id']}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
                                                 <span class="fname"></span>
                                                 <span class="fsize"></span>
                                                 <div class="clearfix"></div>
                                             </div>
                                             <div class="filebox image">
-                                                <img src="{:get_cover($step3.cover_id,'path')}" class="img-responsive">
+                                                <img src="{:get_cover($step3[0]['cover_id'],'path')}" class="img-responsive">
                                             </div>
                                         </li>
                                         {/if}
@@ -342,18 +346,19 @@
                                             <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="cover_id4" id="field_cover_id4" value="{$step4.cover_id}">
+                                    <input type="hidden" name="cover_id4" id="field_cover_id4" value="{$step4[0]['cover_id']}">
+                                    <input type="hidden" name="two_right_id"  value="{$step4[0]['id']}">
                                     <div id="fileList_cover_id4" class="upload-file-list-info" style="width:200px;">
-                                        {if condition="$step4['cover_id']"}
+                                        {if condition="$step4[0]['cover_id']"}
                                         <li class="affix-list-item" id="WU_FILE_04">
                                             <div class="upload-file-info">
-                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_04" data-id="{$step4.cover_id}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
+                                                <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_04" data-id="{$step4[0]['cover_id']}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
                                                 <span class="fname"></span>
                                                 <span class="fsize"></span>
                                                 <div class="clearfix"></div>
                                             </div>
                                             <div class="filebox image">
-                                                <img src="{:get_cover($step4.cover_id,'path')}" class="img-responsive">
+                                                <img src="{:get_cover($step4[0]['cover_id'],'path')}" class="img-responsive">
                                             </div>
                                         </li>
                                         {/if}
