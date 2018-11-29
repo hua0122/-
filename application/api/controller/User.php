@@ -16,13 +16,12 @@ class User extends Api
 
     //个人信息
     public function index(){
-        if (empty(session('openid'))) {
-            //header("Location:getwxinfo");
-            //exit();
+        $openid = input('openid')?input('openid'):session("openid");
+        if (empty($openid)) {
             return failLogin();
         }
 
-        $userwxinfo = model('WxUser')->where(array("openid" => session('openid')))->find();
+        $userwxinfo = model('WxUser')->where(array("openid" => $openid))->find();
 
         if($userwxinfo){
             return success($userwxinfo);
@@ -34,7 +33,7 @@ class User extends Api
 
     //学习中心
     public function study(){
-        $openid = session("openid");
+        $openid = input('openid')?input('openid'):session("openid");
         if(empty($openid)){
             return failLogin();
         }
@@ -77,7 +76,7 @@ class User extends Api
         if (empty($data['content'])) {
             return failMsg('内容不能为空');
         }
-        $openid = session("openid");
+        $openid = input('openid')?input('openid'):session("openid");
         if(empty($openid)){
             return failLogin();
         }
@@ -101,7 +100,7 @@ class User extends Api
 
     //我的协议
     public function agreement(){
-        $openid = session("openid");
+        $openid = input('openid')?input('openid'):session("openid");
         if(empty($openid)){
             return failLogin();
         }
@@ -176,9 +175,30 @@ class User extends Api
     public function get_code(){
         include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
         $wx = new \Weixin_class();
-        return $wx->get_user_openid();
+
+        $redirect_uri="http://" . $_SERVER['HTTP_HOST']."/l_wx/getwxinfo.php?method=getOpenId";
+        $scope ="snsapi_base";
+        $state = "STATE";
+        $codeurl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' .
+            APPID  . '&redirect_uri='.
+            $redirect_uri .'&response_type=code&scope='.$scope.'&state=' .
+            $state . '#wechat_redirect';
+        header("Location:" . $codeurl);
 
     }
+
+    //根据code取openid
+    public function get_openid($code){
+        $getaccessurl = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.
+            APPID.'&secret='.APPSECRET.'&code='.$code.'&grant_type=authorization_code';
+
+        $data = file_get_contents($getaccessurl);
+        $data = json_decode($data, true);
+
+        return success($data);
+    }
+
+
 
 
 }

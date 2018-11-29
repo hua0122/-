@@ -197,10 +197,10 @@ class Sign extends Api
         if ($is_have) {
             return failMsg("不能重复报名");
         }
-
+        $openid = input('openid')?input('openid'):session("openid");
 
         $data['sign_date'] = time();//报名时间
-        $data['openId'] = session('openid');
+        $data['openId'] = $openid;
         $data['sn'] = "dj_" . rand_string(20);//订单编号
         $res = model("Student")->save($data);
         if ($res) {
@@ -208,11 +208,9 @@ class Sign extends Api
             $data_user['name'] = $data['name'];
             $data_user['phone'] = $data['phone'];
             $data_user['card_id'] = $data['card'];
-            $where['openid'] = session("openid");
+            $where['openid'] = $openid;
             model("WxUser")->save($data_user, $where);
 
-
-            $openid = session("openid");
             $total_fee = $data['payment'] * 100;
 
 
@@ -274,7 +272,7 @@ class Sign extends Api
         $data = input('post.');
 
         $price = input('money');
-        $data['openid'] = session("openid");
+        $data['openid'] = input('openid')?input('openid'):session("openid");
         $data['create_time'] = time();
 
 
