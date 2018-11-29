@@ -18,12 +18,6 @@ class User extends Admin {
 	 */
 	public function index() {
 		$nickname      = input('nickname');
-        /*$school_id = cookie("schoolid");
-        if(isset($school_id)){
-            $map['school_id'] = $school_id;
-        }else{
-            $map['school_id'] = 1;
-        }*/
 
 		$map['status'] = array('egt', 0);
 		$map['uid'] = array('gt',1);
@@ -37,6 +31,53 @@ class User extends Admin {
 		$list  = model('User')
             //->join('sent_school','sent_school.id=sent_member.school_id','left')
             ->where($map)->order($order)->paginate(15);
+
+
+		//当前页面的学校ID
+        $school_id = cookie("schoolid");
+        if(isset($school_id)){
+            $w['school_id'] = $school_id;
+        }else{
+
+            //根据角色ID查询当前学校ID
+            $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+            $where1['group_id'] = $role_id['group_id'];
+            $where1['rules'] = array('<>','');
+            $school_default = db("AuthGroupDetail")
+                ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                ->field('sent_auth_group_detail.*,sent_school.name')
+                ->where($where1)->find();
+            $w['school_id'] = $school_default['school_id'];
+        }
+
+
+
+        //判断用户是否属于当前学校
+		foreach ($list as $k=>$v){
+            //根据角色ID查询当前学校ID
+            $role_id = db('AuthGroupAccess')->where(array("uid"=>$v['uid']))->find();
+            $where['group_id'] = $role_id['group_id'];
+            $where['rules'] = array('<>','');
+            $school_default = db("AuthGroupDetail")
+                ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                ->field('sent_auth_group_detail.*,sent_school.name')
+                ->where($where)->select();
+
+            $str = [];
+            foreach ($school_default as $k1=>$v1){
+               $str[$k1] = $v1['school_id'];
+
+
+            }
+            if(!in_array($w['school_id'],$str)){
+                unset($list[$k]);
+            }
+        }
+
+
+
+
+
 
 		$data = array(
 			'list' => $list,

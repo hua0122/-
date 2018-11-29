@@ -695,13 +695,9 @@ class Operate extends Admin
                 return $this->error($link->getError());
             }
         } else {
-            $map  = array('id' => 6);
-            $info = db('Page')->where($map)->find();
 
-            $data = array(
-                'info'    => $info,
-            );
-            $this->assign($data);
+            $this->show_page(13);
+
             $this->setMeta("学车流程");
             return $this->fetch();
         }
@@ -735,13 +731,7 @@ class Operate extends Admin
                 return $this->error($link->getError());
             }
         } else {
-            $map  = array('id' => 7);
-            $info = db('Page')->where($map)->find();
-
-            $data = array(
-                'info'    => $info,
-            );
-            $this->assign($data);
+            $this->show_page(14);
             $this->setMeta("优势服务");
             return $this->fetch();
         }
@@ -774,13 +764,7 @@ class Operate extends Admin
                 return $this->error($link->getError());
             }
         } else {
-            $map  = array('id' => 8);
-            $info = db('Page')->where($map)->find();
-
-            $data = array(
-                'info'    => $info,
-            );
-            $this->assign($data);
+            $this->show_page(15);
             $this->setMeta("学车保障");
             return $this->fetch();
         }
@@ -814,13 +798,7 @@ class Operate extends Admin
                 return $this->error($link->getError());
             }
         } else {
-            $map  = array('id' => 9);
-            $info = db('Page')->where($map)->find();
-
-            $data = array(
-                'info'    => $info,
-            );
-            $this->assign($data);
+            $this->show_page(16);
             $this->setMeta("常见问题");
             return $this->fetch();
         }
@@ -994,6 +972,34 @@ class Operate extends Admin
         $this->assign("step4",$step4);
 
         $this->assign("info",$info);
+    }
+
+
+    //单页面切换展示
+    public function show_page($category_id){
+        if(isset($this->schoolid)){
+            $map['school_id'] = $this->schoolid;
+        }else{
+
+            //根据角色ID查询当前学校ID
+            $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+            $where['group_id'] = $role_id['group_id'];
+            $where['rules'] = array('<>','');
+            $school_default = db("AuthGroupDetail")
+                ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                ->field('sent_auth_group_detail.*,sent_school.name')
+                ->where($where)->find();
+
+
+            $map['school_id'] = $school_default['school_id'];
+        }
+        $map['category_id'] = $category_id;
+
+        $info = db('Page')->where($map)->find();
+
+        $this->assign("info",$info);
+
+
     }
 
 
