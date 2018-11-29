@@ -50,9 +50,9 @@ class User extends Api
                 $info[$k]['sign_date'] = date("Y-m-d H:i:s",$v['sign_date']);
                 $info[$k]['pay_date'] = date("Y-m-d H:i:s",$v['pay_date']);
             }
+        }else{
+            return failMsg('还未报名');
         }
-
-
 
         //体检信息查询
         $code = model('Apply')
@@ -62,6 +62,7 @@ class User extends Api
             ->where(array("openid" => session("openid")))
             ->order("create_time desc")
             ->find();
+
         $data = array("study"=>$info,"code"=>$code);
 
         if($info){
@@ -123,11 +124,17 @@ class User extends Api
             $content = db("Page")->where($where)->find(11);
         }
 
-        if($user&&$content){
-            $data = array("user"=>$user,"content"=>$content);
+        //查询该用户报名的班别
+        $grade = db("Student")->field('sent_grade.name,sent_grade.type')
+            ->join("sent_grade",'sent_grade.id=sent_student.grade_id','left')
+            ->where(array("openid"=>$openid))->find();
+
+
+        if($user&&$content&&$grade){
+            $data = array("user"=>$user,"content"=>$content,'grade'=>$grade);
             return success($data);
         }else{
-            return emptyResult();
+            return failMsg('还未报名,没有协议');
         }
 
 
