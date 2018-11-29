@@ -72,25 +72,33 @@ class User extends Api
 
     //投诉建议
     public function feedback(){
-        $data = input('post.');
+        $data['content'] = input('content');
+        $data['school_id'] = input('school_id');
         if (empty($data['content'])) {
             return failMsg('内容不能为空');
+        }
+        if (empty($data['school_id'])) {
+            return failMsg('学校ID不能为空');
         }
         $openid = input('openid')?input('openid'):session("openid");
         if(empty($openid)){
             return failLogin();
         }
+
+
         $user = db("WxUser")->where(array("openid"=>$openid))->find();
+        if($user){
+            $data['name'] = $user['name'];
+            $data['phone'] = $user['phone'];
+        }
 
-        $data['name'] = $user['name'];
-        $data['phone'] = $user['phone'];
 
-        $data['create_time'] = time();
+
         $feedback = model('Feedback');
         if ($data) {
             $res = $feedback->save($data);
             if ($res) {
-                return success();
+                return success($data);
             } else {
                 return failMsg();
 
