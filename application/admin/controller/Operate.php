@@ -393,17 +393,7 @@ class Operate extends Admin
                 $result = $link->save($data, array('id' => $data['id']));
                 if ($result) {
                     //修改首页展示图
-                    $pic = input('cover_id','','trim,intval');
-                    $pic1= input('cover_id1','','trim,intval');
-                    $pic2= input('cover_id2','','trim,intval');
-                    $pic3= input('cover_id3','','trim,intval');
-                    $pic4= input('cover_id4','','trim,intval');
-
-                    model("Document")->where(array('id'=>input('one_left_id')))->setField('cover_id',$pic);
-                    model("Document")->where(array('id'=>input('one_right_id')))->setField('cover_id',$pic1);
-                    model("Document")->where(array('id'=>input('two_left_id')))->setField('cover_id',$pic2);
-                    model("Document")->where(array('id'=>input('two_center_id')))->setField('cover_id',$pic3);
-                    model("Document")->where(array('id'=>input('two_right_id')))->setField('cover_id',$pic4);
+                    $this->update_pic();
 
                     return $this->success("修改成功！", url('Operate/about'));
                 } else {
@@ -414,44 +404,8 @@ class Operate extends Admin
             }
         } else {
 
-
             //首页展示图
-            $w = array("category_id"=>3);
-            if(isset($this->schoolid)){
-                $w['school_id'] = $this->schoolid;
-            }else{
-
-                //根据角色ID查询当前学校ID
-                $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
-                $where['group_id'] = $role_id['group_id'];
-                $where['rules'] = array('<>','');
-                $school_default = db("AuthGroupDetail")
-                    ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
-                    ->field('sent_auth_group_detail.*,sent_school.name')
-                    ->where($where)->find();
-                $w['school_id'] = $school_default['school_id'];
-            }
-
-            $info = db('Page')->where($w)->find();
-            $data = array(
-                'info'    => $info,
-            );
-
-
-
-            $step = db("Document")->where($w)->limit(0,1)->select();
-            $this->assign("step",$step);
-            $step1 = db("Document")->where($w)->limit(1,1)->select();
-            $this->assign("step1",$step1);
-            $step2 = db("Document")->where($w)->limit(2,1)->select();
-            $this->assign("step2",$step2);
-            $step3 = db("Document")->where($w)->limit(3,1)->select();
-            $this->assign("step3",$step3);
-            $step4 = db("Document")->where($w)->limit(4,1)->select();
-            $this->assign("step4",$step4);
-
-
-            $this->assign($data);
+            $this->show_pic(3);
             $this->setMeta("走进鼎吉");
             return $this->fetch();
         }
@@ -486,14 +440,6 @@ class Operate extends Admin
             }
         } else {
 
-
-
-            $info = db('Page')->find(2);
-            $data = array(
-                'info'    => $info,
-            );
-            $this->assign($data);
-
             //首页滚动图
             $order = "id desc";
             $where = [];
@@ -516,6 +462,15 @@ class Operate extends Admin
             }
 
             $where['category_id '] = 9;
+
+
+            $info = db('Page')->where($where)->find();
+            $data = array(
+                'info'    => $info,
+            );
+            $this->assign($data);
+
+
             $list = db('Document')->where($where)->order($order)->select();
 
             $this->assign('list',$list);
@@ -548,17 +503,7 @@ class Operate extends Admin
                 if ($result) {
 
                     //修改首页展示图
-                    $pic= input('cover_id','','trim,intval');
-                    $pic1 = input('cover_id1','','trim,intval');
-                    $pic2 = input('cover_id2','','trim,intval');
-                    $pic3 = input('cover_id3','','trim,intval');
-                    $pic4 = input('cover_id4','','trim,intval');
-
-                    model("Document")->where(array('id'=>26))->setField('cover_id',$pic);
-                    model("Document")->where(array('id'=>27))->setField('cover_id',$pic1);
-                    model("Document")->where(array('id'=>28))->setField('cover_id',$pic2);
-                    model("Document")->where(array('id'=>29))->setField('cover_id',$pic3);
-                    model("Document")->where(array('id'=>30))->setField('cover_id',$pic4);
+                    $this->update_pic();
 
 
                     return $this->success("修改成功！", url('Operate/coach'));
@@ -569,28 +514,13 @@ class Operate extends Admin
                 return $this->error($link->getError());
             }
         } else {
-            $info = db('Page')->find(3);
-            $data = array(
-                'info'    => $info,
-            );
-            $this->assign($data);
 
             //首页展示图
-            $w = array("category_id"=>10);
-            $step = db("Document")->where($w)->find(26);
-            $this->assign("step",$step);
-            $step1 = db("Document")->where($w)->find(27);
-            $this->assign("step1",$step1);
-            $step2 = db("Document")->where($w)->find(28);
-            $this->assign("step2",$step2);
-            $step3 = db("Document")->where($w)->find(29);
-            $this->assign("step3",$step3);
-            $step4 = db("Document")->where($w)->find(30);
-            $this->assign("step4",$step4);
+            $this->show_pic(10);
 
 
             $this->setMeta("教练风采");
-            return $this->fetch();
+            return $this->fetch('about');
         }
 
     }
@@ -616,17 +546,7 @@ class Operate extends Admin
                 if ($result) {
 
                     //修改首页展示图
-                    $pic = input('cover_id','','trim,intval');
-                    $pic1 = input('cover_id1','','trim,intval');
-                    $pic2 = input('cover_id2','','trim,intval');
-                    $pic3 = input('cover_id3','','trim,intval');
-                    $pic4 = input('cover_id4','','trim,intval');
-
-                    model("Document")->where(array('id'=>31))->setField('cover_id',$pic);
-                    model("Document")->where(array('id'=>32))->setField('cover_id',$pic1);
-                    model("Document")->where(array('id'=>33))->setField('cover_id',$pic2);
-                    model("Document")->where(array('id'=>34))->setField('cover_id',$pic3);
-                    model("Document")->where(array('id'=>35))->setField('cover_id',$pic4);
+                    $this->update_pic();
 
 
                     return $this->success("修改成功！", url('Operate/team'));
@@ -637,28 +557,14 @@ class Operate extends Admin
                 return $this->error($link->getError());
             }
         } else {
-            $info = db('Page')->find(4);
-            $data = array(
-                'info'    => $info,
-            );
-            $this->assign($data);
+
 
             //首页展示图
-            $w = array("category_id"=>11);
-            $step = db("Document")->where($w)->find(31);
-            $this->assign("step",$step);
-            $step1 = db("Document")->where($w)->find(32);
-            $this->assign("step1",$step1);
-            $step2 = db("Document")->where($w)->find(33);
-            $this->assign("step2",$step2);
-            $step3 = db("Document")->where($w)->find(34);
-            $this->assign("step3",$step3);
-            $step4 = db("Document")->where($w)->find(35);
-            $this->assign("step4",$step4);
+            $this->show_pic(11);
 
 
             $this->setMeta("团队风采");
-            return $this->fetch();
+            return $this->fetch("about");
         }
 
     }
@@ -685,17 +591,7 @@ class Operate extends Admin
                 if ($result) {
 
                     //修改首页展示图
-                    $pic= input('cover_id','','trim,intval');
-                    $pic1 = input('cover_id1','','trim,intval');
-                    $pic2 = input('cover_id2','','trim,intval');
-                    $pic3 = input('cover_id3','','trim,intval');
-                    $pic4 = input('cover_id4','','trim,intval');
-
-                    model("Document")->where(array('id'=>36))->setField('cover_id',$pic);
-                    model("Document")->where(array('id'=>37))->setField('cover_id',$pic1);
-                    model("Document")->where(array('id'=>38))->setField('cover_id',$pic2);
-                    model("Document")->where(array('id'=>39))->setField('cover_id',$pic3);
-                    model("Document")->where(array('id'=>40))->setField('cover_id',$pic4);
+                    $this->update_pic();
 
                     return $this->success("修改成功！", url('Operate/student'));
                 } else {
@@ -705,27 +601,13 @@ class Operate extends Admin
                 return $this->error($link->getError());
             }
         } else {
-            $info = db('Page')->find(5);
-            $data = array(
-                'info'    => $info,
-            );
-            $this->assign($data);
+
             //首页展示图
-            $w = array("category_id"=>12);
-            $step = db("Document")->where($w)->find(36);
-            $this->assign("step",$step);
-            $step1 = db("Document")->where($w)->find(37);
-            $this->assign("step1",$step1);
-            $step2 = db("Document")->where($w)->find(38);
-            $this->assign("step2",$step2);
-            $step3 = db("Document")->where($w)->find(39);
-            $this->assign("step3",$step3);
-            $step4 = db("Document")->where($w)->find(40);
-            $this->assign("step4",$step4);
+            $this->show_pic(12);
 
 
             $this->setMeta("学员风采");
-            return $this->fetch();
+            return $this->fetch('about');
         }
 
     }
@@ -756,7 +638,26 @@ class Operate extends Admin
                 return $this->error($link->getError());
             }
         } else {
-            $info = db('Page')->find(13);
+
+            if(isset($this->schoolid)){
+                $map['school_id'] = $this->schoolid;
+            }else{
+
+                //根据角色ID查询当前学校ID
+                $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+                $where['group_id'] = $role_id['group_id'];
+                $where['rules'] = array('<>','');
+                $school_default = db("AuthGroupDetail")
+                    ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                    ->field('sent_auth_group_detail.*,sent_school.name')
+                    ->where($where)->find();
+
+
+                $map['school_id'] = $school_default['school_id'];
+            }
+            $map['category_id'] = 2;
+
+            $info = db('Page')->where($map)->find();
 
             $data = array(
                 'info'    => $info,
@@ -1042,6 +943,57 @@ class Operate extends Admin
             return $this->fetch();
         }
 
+    }
+
+    //修改首页五个展示图
+
+    public function update_pic(){
+        $pic = input('cover_id','','trim,intval');
+        $pic1= input('cover_id1','','trim,intval');
+        $pic2= input('cover_id2','','trim,intval');
+        $pic3= input('cover_id3','','trim,intval');
+        $pic4= input('cover_id4','','trim,intval');
+
+        model("Document")->where(array('id'=>input('one_left_id')))->setField('cover_id',$pic);
+        model("Document")->where(array('id'=>input('one_right_id')))->setField('cover_id',$pic1);
+        model("Document")->where(array('id'=>input('two_left_id')))->setField('cover_id',$pic2);
+        model("Document")->where(array('id'=>input('two_center_id')))->setField('cover_id',$pic3);
+        model("Document")->where(array('id'=>input('two_right_id')))->setField('cover_id',$pic4);
+
+    }
+
+    //显示首页五个展示图
+    public function show_pic($category_id){
+        $w = array("category_id"=>$category_id);
+        if(isset($this->schoolid)){
+            $w['school_id'] = $this->schoolid;
+        }else{
+
+            //根据角色ID查询当前学校ID
+            $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+            $where['group_id'] = $role_id['group_id'];
+            $where['rules'] = array('<>','');
+            $school_default = db("AuthGroupDetail")
+                ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                ->field('sent_auth_group_detail.*,sent_school.name')
+                ->where($where)->find();
+            $w['school_id'] = $school_default['school_id'];
+        }
+
+        $info = db('Page')->where($w)->find();
+
+        $step = db("Document")->where($w)->limit(0,1)->select();
+        $this->assign("step",$step);
+        $step1 = db("Document")->where($w)->limit(1,1)->select();
+        $this->assign("step1",$step1);
+        $step2 = db("Document")->where($w)->limit(2,1)->select();
+        $this->assign("step2",$step2);
+        $step3 = db("Document")->where($w)->limit(3,1)->select();
+        $this->assign("step3",$step3);
+        $step4 = db("Document")->where($w)->limit(4,1)->select();
+        $this->assign("step4",$step4);
+
+        $this->assign("info",$info);
     }
 
 

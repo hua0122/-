@@ -44,11 +44,12 @@ class User extends Api
             ->join('sent_area', 'sent_area.id=sent_student.area_id', 'left')
             ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_grade.content,sent_area.address,sent_area.thumb,sent_area.lat,sent_area.lng')
             ->where(array("openid" => session("openid")))->find();
-
-        foreach ($info as $k=>$v){
-            $info[$k]['picurl'] = get_cover($v['thumb'],'path');
-            $info[$k]['sign_date'] = date("Y-m-d H:i:s",$v['sign_date']);
-            $info[$k]['pay_date'] = date("Y-m-d H:i:s",$v['pay_date']);
+        if($info){
+            foreach ($info as $k=>$v){
+                $info[$k]['picurl'] = get_cover($v['thumb'],'path');
+                $info[$k]['sign_date'] = date("Y-m-d H:i:s",$v['sign_date']);
+                $info[$k]['pay_date'] = date("Y-m-d H:i:s",$v['pay_date']);
+            }
         }
 
 

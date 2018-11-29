@@ -57,14 +57,11 @@
                         <input type="hidden" name="create_time" value="{$time}"/>
                         <input type="hidden" name="update_time" value="{$time}"/>
 
-                        <input type="hidden" name="category_id" value="1"/>
-
                         <input type="hidden" name="model_id" value="4"/>
-                        <input type="hidden" name="id" value="1"/>
 
                         <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
-                                <input type="hidden" name="id" value="1">
+                                <input type="hidden" name="id" value="{$info.id}">
                                 <button class="btn btn-success submit-btn ajax-post" type="submit" target-form="form-horizontal">确 定</button>
                                 <button class="btn btn-danger btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
                             </div>
