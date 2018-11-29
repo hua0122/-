@@ -104,7 +104,7 @@ class User extends Api
         if(empty($openid)){
             return failLogin();
         }
-        $user = db("WxUser")->field("name,phone,card_id as card")->where(array("openid"=>$openid))->find();
+        $user = db("WxUser")->field("name,phone,card_id as card,school_id")->where(array("openid"=>$openid))->find();
 
         $where= [];
         if($user['school_id']==1){
@@ -172,6 +172,7 @@ class User extends Api
     }
 
 
+    //获取code  并根据回调地址获取openid 及access_token
     public function get_code(){
         include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
         //$wx = new \Weixin_class();
@@ -208,6 +209,22 @@ class User extends Api
         $data = json_decode($data, true);
 
         return $data;
+    }
+
+
+    //根据openid获取用户信息
+    public function get_user_info(){
+
+        $data = $this->get_code();
+
+        $infourl = "https://api.weixin.qq.com/sns/userinfo?access_token=".$data['access_token'] .
+            "&openid=" . $data['openid'] . "&lang=zh_CN";
+
+        $user_info = file_get_contents($infourl);
+        $data= json_encode($user_info, JSON_UNESCAPED_UNICODE);
+
+        return $data;
+
     }
 
 
