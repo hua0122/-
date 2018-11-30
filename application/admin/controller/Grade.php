@@ -99,6 +99,10 @@ class Grade extends Admin {
             if(empty($data['notice'])){
                 return $this->error("学车须知不能为空！");
             }
+
+            $data['content'] = str_replace("\r\n","<br/>",$data['content']);
+            $data['notice'] = str_replace("\r\n","<br/>",$data['notice']);
+
             $data['create_time'] = $data['update_time'] = time();
 
             if ($data) {
@@ -171,6 +175,9 @@ class Grade extends Admin {
                 return $this->error("学车须知不能为空！");
             }
 
+            $data['content'] = str_replace("\r\n","<br/>",$data['content']);
+            $data['notice'] = str_replace("\r\n","<br/>",$data['notice']);
+
             if ($data) {
 
                 $data['update_time'] = time();
@@ -217,6 +224,9 @@ class Grade extends Admin {
                 ->join('sent_area ','sent_area.id = sent_grade.area_id','left')
                 ->field('sent_grade.*,sent_area.name as area_name')
                 ->where($map)->find();
+
+            $info['content'] = str_replace("<br/>","\r\n",$info['content']);
+            $info['notice'] = str_replace("<br/>","\r\n",$info['notice']);
 
             $data = array(
                 'keyList' => $link->keyList,
