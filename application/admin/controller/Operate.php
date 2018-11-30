@@ -111,7 +111,8 @@ class Operate extends Admin
 
             }
 
-            var_dump($data);
+            $data['create_time'] = time();
+            $data['update_time'] = time();
 
 
             if ($data) {
