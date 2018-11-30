@@ -111,10 +111,7 @@ class Operate extends Admin
 
             }
 
-            $data['create_time'] = time();
-            $data['update_time'] = time();
-
-
+         
             if ($data) {
 
                 $result = $document->save($data);
