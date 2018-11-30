@@ -111,7 +111,7 @@ class Operate extends Admin
 
             }
 
-         
+
             if ($data) {
 
                 $result = $document->save($data);
