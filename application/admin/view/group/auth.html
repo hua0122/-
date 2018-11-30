@@ -1,5 +1,6 @@
 {extend name="public/base"/}
 {block name="body"}
+
 <div class="main-box clearfix">
 	<header class="main-box-header clearfix">
 		<div class="pull-left">
@@ -73,7 +74,10 @@
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th class="col-lg-2 text-right"><input type="checkbox" value="{$school_item.id}" name="school_id" class="all"/>{$school_item.name}</th>
+							<th class="col-lg-2 text-right nice">
+									<input type="checkbox" value="{$school_item.id}" name="school_id" class="all"/>
+									{$school_item.name}
+							</th>
 							<th>权限</th>
 							<th align="right"><a href="javascript:" class="show-div">展开</a> </th>
 						</tr>
@@ -94,17 +98,7 @@
 							</td>
 						</tr>
 						{/volist}
-						<!--<tr>
-							<td class="info col-lg-2 text-right">模块</td>
-							<td class="col-lg-10 text-left">
-								{volist name="model" id="item"}
-								<div class="checkbox-nice checkbox-inline">
-								<input type="checkbox" name="extend_rule[2][]" value="{$item['id']}" id="{$item['name']}" {if in_array($item['id'],$extend_auth)}checked{/if} />
-								<label for="{$item['name']}">{$item['title']}</label>
-								</div>
-								{/volist}
-							</td>
-						</tr>-->
+
 					</tbody>
 				</table>
 				{/volist}
@@ -129,7 +123,7 @@
 
     $(".all").click(function(){
         var checkboxs = $(this).parent().parent().parent().next().find('input');
-        console.log($(this).parent().parent().parent());
+        //console.log($(this).parent().parent().parent());
         for (var i = 0; i < checkboxs.length; i++) {
             var checkbox = checkboxs[i];
             checkbox.checked = this.checked;
@@ -158,6 +152,69 @@
             $(this).html("展开");
 		}
 	});
+
+
+    //判断全选按钮下面的checkbox是否有被选中
+	$(function(){
+        var checkbox = $(".all");
+        console.log(checkbox);
+
+        for(var i=0;i<checkbox.length;i++){
+            var checkboxs = $(checkbox[i]).parent().parent().parent().next().find('input');
+			console.log(checkboxs.length);
+            var k =0;
+            for(var j=0;j<checkboxs.length;j++){
+                console.log($(checkboxs[j]).is(':checked'));
+                if($(checkboxs[j]).is(':checked')){
+                    k++;
+				}
+			}
+            console.log(k);
+            if(k<checkboxs.length&&k>0){
+                console.log($(checkbox[i]).prop('checked'));
+                $(checkbox[i]).attr("checked",'true');
+
+			}else if(k==checkboxs.length){
+                $(checkbox[i]).attr("checked",'true');
+			}
+			else{
+                $(checkbox[i]).removeAttr("checked");
+			}
+
+        }
+
+	});
+
+    $(function(){
+        var checkbox = $(".jx_all");
+        console.log(checkbox);
+
+        for(var i=0;i<checkbox.length;i++){
+            var checkboxs = $(checkbox[i]).parent().next().find('input');
+            console.log(checkboxs.length);
+            var k =0;
+            for(var j=0;j<checkboxs.length;j++){
+                console.log($(checkboxs[j]).is(':checked'));
+                if($(checkboxs[j]).is(':checked')){
+                    k++;
+                }
+            }
+            console.log(k);
+            if(k<checkboxs.length&&k>0){
+                console.log($(checkbox[i]).prop('checked'));
+                $(checkbox[i]).attr("checked",'true');
+
+            }else if(k==checkboxs.length){
+                $(checkbox[i]).attr("checked",'true');
+            }
+            else{
+                $(checkbox[i]).removeAttr("checked");
+            }
+
+        }
+
+    });
+
 </script>
 
 {/block}

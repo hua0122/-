@@ -211,7 +211,7 @@ class Group extends Admin {
                 foreach($rule as $k=>$v){
                     $rules       = implode(',', $v);
 
-                    $rule_result = $this->group->where(array('id' => $id,'school_id'=>$k))->setField('rules', $rules);
+                    $rule_result = $this->group->where(array('id' => $id))->setField('rules', $rules);
                     $select = db("AuthGroupDetail")->where(array("group_id"=>$id,'school_id'=>$k))->find();
                     if($select){
                         db("AuthGroupDetail")->where(array("group_id"=>$id,'school_id'=>$k))->setField('rules',$rules);
@@ -237,7 +237,9 @@ class Group extends Admin {
             }
 
 
-			$group = $this->group->where(array('id' => $id,"school_id"=>$school_id))->find();
+
+			$group = $this->group->where(array('id' => $id))->find();
+
 			$group_list = db("AuthGroupDetail")->where(array("group_id"=>$id))->select();
 
 			foreach ($group_list as $k=>$v){
@@ -265,7 +267,6 @@ class Group extends Admin {
 				'extend_auth' => $extend_auth,
 				'auth_list'   => explode(',', $group['rules']),
 				'group_list'   => $group_list,
-				'school_id'    =>$group['school_id'],
 				'id'          => $id,
 			);
 			$this->assign($data);
