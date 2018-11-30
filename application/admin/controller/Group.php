@@ -248,7 +248,7 @@ class Group extends Admin {
 
 			$map['module'] = $group['module'];
 			$map['status'] = 1;
-			$row           = db('AuthRule')->where($map)->order('id desc')->select();
+			$row           = db('AuthRule')->where($map)->order('id asc')->select();
 
 			$list = array();
 			foreach ($row as $key => $value) {

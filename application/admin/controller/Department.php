@@ -114,18 +114,26 @@ class Department extends Admin {
                 //定义
                 $excelData = array();
                 //循环获取数据
+                $lastid = '';
                 for($row = 1; $row <= $highestRow; $row++ ){
                     $a = $objPHPExcel->getActiveSheet()->getCell("A".$row)->getValue();//获取A(姓名)列的值
                     $b = $objPHPExcel->getActiveSheet()->getCell("B".$row)->getValue();//获取B(手机号)列的值
                     $c = $objPHPExcel->getActiveSheet()->getCell("C".$row)->getValue();//获取C(合伙人)列的值
 
                     if($c=="合伙人"){
-                        $sql ="insert into sent_department(title,phone) values('".$a."','".$b."')";
-                        $result = $department->execute($sql);
+                        //先查询导入的合伙人是否存在
+                        $is_have = db("Department")->where(array("phone"=>$b))->find();
+                        if(!$is_have){
+                            $sql ="insert into sent_department(title,phone) values('".$a."','".$b."')";
+                            $result = $department->execute($sql);
+                            $lastid = $department->getLastInsID();
+                        }else{
+                            $lastid = $is_have['id'];
+                        }
 
                     }else{
-                        $last = $department->order("id desc")->find();
-                        $lastid = $last['id'];
+                        //$last = $department->order("id desc")->find();
+                        //$lastid = $last['id'];
 
                         $sql1 = "insert into sent_person(username,mobile,department_id) values('".$a."','".$b."',".$lastid.")";
                         $result = $person->execute($sql1);
