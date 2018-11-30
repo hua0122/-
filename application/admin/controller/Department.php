@@ -28,7 +28,21 @@ class Department extends Admin {
 
         if(isset($this->schoolid)){
             $map['school_id'] = $this->schoolid;
+        }else{
+
+            //根据角色ID查询当前学校ID
+            $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+            $where['group_id'] = $role_id['group_id'];
+            $where['rules'] = array('<>','');
+            $school_default = db("AuthGroupDetail")
+                ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                ->field('sent_auth_group_detail.*,sent_school.name')
+                ->where($where)->find();
+
+
+            $map['school_id'] = $school_default['school_id'];
         }
+
 
         $keyword = input('keyword','', 'htmlspecialchars,trim');
         if(!empty($keyword)){
@@ -65,6 +79,24 @@ class Department extends Admin {
 		if (IS_POST) {
 
             $data = input('post.');
+
+            if(isset($this->schoolid)){
+                $map['school_id'] = $this->schoolid;
+            }else{
+
+                //根据角色ID查询当前学校ID
+                $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+                $where['group_id'] = $role_id['group_id'];
+                $where['rules'] = array('<>','');
+                $school_default = db("AuthGroupDetail")
+                    ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                    ->field('sent_auth_group_detail.*,sent_school.name')
+                    ->where($where)->find();
+
+
+                $map['school_id'] = $school_default['school_id'];
+            }
+
 			if ($data) {
                 //导入excel表格
 
@@ -124,7 +156,7 @@ class Department extends Admin {
                         //先查询导入的合伙人是否存在
                         $is_have = db("Department")->where(array("phone"=>$b))->find();
                         if(!$is_have){
-                            $sql ="insert into sent_department(title,phone) values('".$a."','".$b."')";
+                            $sql ="insert into sent_department(title,phone,school_id) values('".$a."','".$b."','".$map['school_id']."')";
                             $result = $department->execute($sql);
                             $lastid = $department->getLastInsID();
                         }else{
@@ -134,9 +166,13 @@ class Department extends Admin {
                     }else{
                         //$last = $department->order("id desc")->find();
                         //$lastid = $last['id'];
+                        //查询是否存在
+                        $is_h = db("Person")->where(array("mobile"=>$b))->find();
+                        if(!$is_h){
+                            $sql1 = "insert into sent_person(username,mobile,department_id) values('".$a."','".$b."',".$lastid.")";
+                            $result = $person->execute($sql1);
+                        }
 
-                        $sql1 = "insert into sent_person(username,mobile,department_id) values('".$a."','".$b."',".$lastid.")";
-                        $result = $person->execute($sql1);
                     }
 
                 }
