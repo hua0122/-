@@ -166,6 +166,25 @@
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DBd897f58d7a63e585485e3dea011253"></script>
 
 <script type="text/javascript">
+    function check(){
+        if(!$("#name").val()){
+            alert("场地名称不能为空！");
+            return false;
+        }
+        if(!$("#address").val()){
+            alert("场地地址不能为空！");
+            return false;
+        }
+        if(!$("#field_cover_id").val()){
+            alert("封面图不能为空！");
+            return false;
+        }
+        if($("#address").val().length>30){
+            alert("地址超出了字数范围,请修改");
+            return false;
+        }
+
+    }
 
     $(function(){
         // 百度地图API功能
@@ -241,25 +260,7 @@
     });
 
 
-    function check(){
-        if(!$("#name").val()){
-            alert("场地名称不能为空！");
-            return false;
-        }
-        if(!$("#address").val()){
-            alert("场地地址不能为空！");
-            return false;
-        }
-        if(!$("#field_cover_id").val()){
-            alert("封面图不能为空！");
-            return false;
-        }
-        if($("#address").val().length>30){
-            alert("地址超出了字数范围,请修改");
-            return false;
-        }
 
-    }
 </script>
 {/block}
 
