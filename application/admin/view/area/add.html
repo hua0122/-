@@ -156,6 +156,11 @@
             alert("封面图不能为空！");
             return false;
         }
+        if($("#address").val().length>30){
+            alert("地址超出了字数范围,请修改");
+            return false;
+		}
+
     }
 
 
