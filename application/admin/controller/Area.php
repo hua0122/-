@@ -65,11 +65,26 @@ class Area extends Admin {
             if(empty($data['thumb'])){
                 return $this->error("场地封面图不能为空！");
             }
+            if(strlen($data['address'])>30){
+                return $this->error("地址超出了字数范围，请修改!");
+            }
 
-            if($this->schoolid){
+
+            if(isset($this->schoolid)){
                 $data['school_id'] = $this->schoolid;
             }else{
-                $data['school_id'] = 1;
+
+                //根据角色ID查询当前学校ID
+                $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+                $where['group_id'] = $role_id['group_id'];
+                $where['rules'] = array('<>','');
+                $school_default = db("AuthGroupDetail")
+                    ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                    ->field('sent_auth_group_detail.*,sent_school.name')
+                    ->where($where)->find();
+
+
+                $data['school_id'] = $school_default['school_id'];
             }
 
 
@@ -124,6 +139,10 @@ class Area extends Admin {
 
             if(empty($data['thumb'])){
                 return $this->error("场地封面图不能为空！");
+            }
+
+            if(strlen($data['address'])>30){
+                return $this->error("地址超出了字数范围，请修改!");
             }
 
 
