@@ -60,7 +60,7 @@ class User extends Api
             ->join('sent_test', 'sent_test.id=sent_apply.code_id', 'left')
             ->join('sent_station', 'sent_station.id=sent_apply.station_id', 'left')
             ->field('sent_apply.*,sent_test.code,sent_test.verify,sent_station.name as station_name,sent_station.address,sent_station.lng,sent_station.lat')
-            ->where(array("openid" => session("openid")))
+            ->where(array("openid" => $openid))
             ->order("create_time desc")
             ->find();
 
