@@ -52,8 +52,11 @@
 						<th>所属场地</th>
 						<th>车型</th>
 						<th>价格</th>
-						<th>状态</th>
+						{if $item['status']==1}
+						{else}
 						<th>操作</th>
+						{/if}
+						<th>状态</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -72,26 +75,30 @@
 							{/if}
 						</td>
 						<td>{$item['price']}</td>
-						<td>
-							{if condition=" $item['status'] eq 0 "}
-							<span class="label label-primary">上线</span>
-							{else /}
-							<span class="label label-danger">下线</span>
-							{/if}
-						</td>
-						<td>
+
+
 							{if $item['status']==1}
 							{else}
-							<a href="{:url('edit?id='.$item['id'])}" class="btn btn-info">编辑</a>
+							<td>
+								<a href="{:url('edit?id='.$item['id'])}" class="btn btn-info">编辑</a>
+							</td>
 							{/if}
 
-							{if $item['status']}
+							<!--{if $item['status']}
 							<a href="{:url('online?id='.$item['id'])}" class="btn btn-success ajax-get">上线</a>
 							{else/}
 							<a href="{:url('status?id='.$item['id'].'&status=1')}" class="btn btn-danger ajax-get">下线</a>
 							{/if}
 							
-							<!--<a href="{:url('delete?id='.$item['id'])}" class="confirm ajax-get table-link">删除</a>-->
+							<a href="{:url('delete?id='.$item['id'])}" class="confirm ajax-get table-link">删除</a>-->
+
+
+						<td>
+							{if condition=" $item['status'] eq 0 "}
+							<a href="javascript:" onclick="set_status({$item['id']})"  class="btn btn-primary" title="设置下线">上线</a>
+							{else /}
+							<a href="javascript:" onclick="set_status1({$item['id']})"  class="btn btn-default" title="设置上线">下线</a>
+							{/if}
 						</td>
 					</tr>
 					{/volist}
@@ -101,4 +108,44 @@
 		</div>
 	</div>
 </div>
+{/block}
+{block name="script"}
+<script>
+    function set_status(id){
+        if(confirm("确定下线？")){
+            $.ajax({
+                type:"GET",
+                url:"status?id="+id+"&status=1",
+                dataType:"json",
+                success:function(data){
+                    location.reload();
+                },
+                error:function(e){
+
+                }
+            });
+        }else{
+            return false;
+        }
+    }
+
+    function set_status1(id){
+        if(confirm("确定上线？")){
+            $.ajax({
+                type:"GET",
+                url:"online?id="+id,
+                dataType:"json",
+                success:function(data){
+                    location.reload();
+                },
+                error:function(e){
+
+                }
+            });
+        }else{
+            return false;
+        }
+    }
+
+</script>
 {/block}
