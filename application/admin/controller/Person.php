@@ -170,7 +170,7 @@ class Person extends Admin {
 		if (IS_POST) {
 		$data = input('post.');
 			if ($data) {
-				$result = $model->save($data, array('uid' => $data['uid']));
+				$result = $model->save($data, array('id' => $data['id']));
 				if ($result) {
 					return $this->success("修改成功！", url('Person/index'));
 				} else {
