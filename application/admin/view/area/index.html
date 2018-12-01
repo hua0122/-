@@ -77,8 +77,8 @@
 						<th>地址</th>
 						<th>位置</th>
 						<th>封面图</th>
-						<th>状态</th>
 						<th>操作</th>
+						<th>状态</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -89,19 +89,13 @@
 						<td>{$item['name']}</td>
 						<td>{$item['address']}</td>
 						<td class="open_map">
-                            <img src="/public/images/map1.png"  style="cursor: pointer;">
+                            <img src="/public/images/map1.png"  style="cursor: pointer;width: 30px;height: 30px">
                             <input name="lng" readonly="readonly" type="hidden" size="11" class="lng" value="{$item['lng']}" style="border: none;">
                             <input name="lat" readonly="readonly" type="hidden" size="10" class="lat" value="{$item['lat']}" style="border: none;">
 
 						</td>
-						<td><img src="{:get_cover($item['thumb'],'path')}" width="50"/></td>
-						<td>
-							{if condition=" $item['status'] eq 0 "}
-							<a href="{:url('status?id='.$item['id'].'&status=1')}" class="btn btn-primary ajax-get" title="设置禁用">启用</a>
-							{else /}
-							<a href="{:url('status?id='.$item['id'].'&status=0')}" class="btn btn-default ajax-get" title="设置启用">禁用</a>
-							{/if}
-						</td>
+						<td><img src="{:get_cover($item['thumb'],'path')}" width="60"/></td>
+
 						<td>
 
 							<a href="{:url('edit?id='.$item['id'])}" class="btn btn-info">编辑</a>
@@ -114,7 +108,13 @@
 							
 							<!--<a href="{:url('delete?id='.$item['id'])}" class="confirm ajax-get table-link">删除</a>-->
 						</td>
-
+						<td>
+							{if condition=" $item['status'] eq 0 "}
+							<a href="javascript:" onclick="set_status({$item['id']})"  class="btn btn-primary" title="设置禁用">启用</a>
+							{else /}
+							<a href="javascript:" onclick="set_status1({$item['id']})"  class="btn btn-default" title="设置启用">禁用</a>
+							{/if}
+						</td>
 
 
 					</tr>
@@ -134,6 +134,42 @@
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DBd897f58d7a63e585485e3dea011253"></script>
 <script type="text/javascript">
+
+	function set_status(id){
+	    if(confirm("确定禁用？")){
+	        $.ajax({
+				type:"GET",
+				url:"status?id="+id+"&status=1",
+				dataType:"json",
+				success:function(data){
+					location.reload();
+				},
+				error:function(e){
+
+				}
+			});
+		}else{
+	        return false;
+		}
+	}
+
+    function set_status1(id){
+        if(confirm("确定启用？")){
+            $.ajax({
+                type:"GET",
+                url:"status?id="+id+"&status=0",
+                dataType:"json",
+                success:function(data){
+                    location.reload();
+                },
+                error:function(e){
+
+                }
+            });
+        }else{
+            return false;
+        }
+    }
 
     $(function(){
 

@@ -9,10 +9,16 @@
 
 namespace app\admin\controller;
 use app\common\controller\Admin;
-
+use think\Request;
 class Person extends Admin {
 
-	/**
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->schoolid = cookie("schoolid");
+    }
+
+    /**
 	 * 人员管理首页
 	 * @author
 	 */
@@ -59,13 +65,32 @@ class Person extends Admin {
 
         //$map['sent_person.status'] = array('egt', 0);
 
-		
-		$order = "id desc";
+        if(isset($this->schoolid)){
+            $map['school_id'] = $this->schoolid;
+        }else{
+
+            //根据角色ID查询当前学校ID
+            $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+            $where['group_id'] = $role_id['group_id'];
+            $where['rules'] = array('<>','');
+            $school_default = db("AuthGroupDetail")
+                ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                ->field('sent_auth_group_detail.*,sent_school.name')
+                ->where($where)->find();
+
+
+            $map['school_id'] = $school_default['school_id'];
+        }
+
+
+
+        $order = "id desc";
 		$list  = model('Person')
 		->join('sent_department','sent_person.department_id=sent_department.id','left')
 		->field('sent_person.id,sent_person.username,sent_person.email,sent_person.mobile,sent_person.sex,sent_person.create_time,sent_person.status,sent_person.department_id,sent_person.status,sent_department.title,sent_person.code,sent_person.number')
 		->where($map)
 		->order($order)->paginate(15);
+
 
 		$data = array(
 			'list' => $list,
