@@ -88,7 +88,9 @@ class Sign extends Api
         $where['school_id'] = input('school_id','','trim,intval');
         $res = db('Activity')->where($where)->limit(0, 3)->select();
         if($res){
-
+            foreach($res as $k=>$v){
+                $res[$k]['picurl'] = get_cover($v['icon'],"path") ;
+            }
 
             return success($res);
         }else{
