@@ -46,11 +46,11 @@ class User extends Api
             ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_grade.content,sent_area.address,sent_area.thumb,sent_area.lat,sent_area.lng,sent_activity.name as activity_name,sent_activity.amount as activity_amount,sent_activity.gift as activity_gift,sent_activity.type as activity_type,sent_activity.two_amount,sent_activity.three_amount,sent_activity.five_amount')
             ->where(array("openid" => $openid))->find();
         if($info){
-            foreach ($info as $k=>$v){
-                $info[$k]['picurl'] = get_cover($v['thumb'],'path');
-                $info[$k]['sign_date'] = date("Y-m-d H:i:s",$v['sign_date']);
-                $info[$k]['pay_date'] = date("Y-m-d H:i:s",$v['pay_date']);
-            }
+
+                $info['picurl'] = get_cover($info['thumb'],'path');
+                $info['sign_date'] = date("Y-m-d H:i:s",$info['sign_date']);
+                $info['pay_date'] = date("Y-m-d H:i:s",$info['pay_date']);
+
         }else{
             return failMsg('还未报名');
         }
