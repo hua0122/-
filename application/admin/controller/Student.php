@@ -162,7 +162,7 @@ class Student extends Admin
         $activity = db("Activity")->select();
         $this->assign("activity",$activity);
 
-        return $this->fetch();
+
     }
 
 
