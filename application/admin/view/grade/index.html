@@ -52,11 +52,13 @@
 						<th>所属场地</th>
 						<th>车型</th>
 						<th>价格</th>
-						{if $item['status']==1}
+						{if $status==1}
+						<th>状态</th>
 						{else}
 						<th>操作</th>
-						{/if}
 						<th>状态</th>
+						{/if}
+
 					</tr>
 				</thead>
 				<tbody>
