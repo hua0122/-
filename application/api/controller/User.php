@@ -42,7 +42,8 @@ class User extends Api
         $info = $study
             ->join('sent_grade', 'sent_grade.id=sent_student.grade_id', 'left')
             ->join('sent_area', 'sent_area.id=sent_student.area_id', 'left')
-            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_grade.content,sent_area.address,sent_area.thumb,sent_area.lat,sent_area.lng')
+            ->join('sent_activity','sent_activity.id=sent_student.activity_id','left')
+            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_grade.content,sent_area.address,sent_area.thumb,sent_area.lat,sent_area.lng,sent_activity.name as activity_name,sent_activity.amount as activity_amount,sent_activity.gift,sent_activity.type,sent_activity.two_amount,sent_activity.three_amount,sent_activity.five_amount')
             ->where(array("openid" => session("openid")))->find();
         if($info){
             foreach ($info as $k=>$v){
