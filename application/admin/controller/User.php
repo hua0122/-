@@ -62,16 +62,18 @@ class User extends Admin {
                 ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
                 ->field('sent_auth_group_detail.*,sent_school.name')
                 ->where($where)->select();
+            if($school_default){
+                $str = [];
+                foreach ($school_default as $k1=>$v1){
+                    $str[$k1] = $v1['school_id'];
 
-            $str = [];
-            foreach ($school_default as $k1=>$v1){
-               $str[$k1] = $v1['school_id'];
 
-
+                }
+                if(!in_array($w['school_id'],$str)){
+                    unset($list[$k]);
+                }
             }
-            if(!in_array($w['school_id'],$str)){
-                unset($list[$k]);
-            }
+
         }
 
 
