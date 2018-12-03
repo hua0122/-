@@ -193,13 +193,14 @@ class Sign extends Api
             //缴费类型不对
             return failMsg("缴费类型不对");
         }
+        $openid = input('openid')?input('openid'):session("openid");
 
         //查询是否报名  不能重复报名
-        $is_have = model("Student")->where(array("openId" => session('openid')))->find();
+        $is_have = model("Student")->where(array("openId" => $openid))->find();
         if ($is_have) {
             return failMsg("不能重复报名");
         }
-        $openid = input('openid')?input('openid'):session("openid");
+
 
         $data['sign_date'] = time();//报名时间
         $data['openId'] = $openid;
