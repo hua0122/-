@@ -237,12 +237,33 @@ class Group extends Admin {
 				return $this->error("授权失败！");
 			}
 		} else {
-            $school_id = cookie("school_id");
-		    if(isset($school_id)){
-                $school_id = cookie("school_id");
+		    //非超级管理员的时候 显示对应的驾校权限列表
+		    if(!is_administrator()){
+                $school_id = cookie('schoolid');
+                $w = [];
+                if(isset($school_id)){
+                    $school_id = cookie("schoolid");
+
+                }else{
+                    //根据角色ID查询当前学校ID
+                    $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+                    $where['group_id'] = $role_id['group_id'];
+                    $where['rules'] = array('<>','');
+                    $school_default = db("AuthGroupDetail")
+                        ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                        ->field('sent_auth_group_detail.*,sent_school.name')
+                        ->where($where)->find();
+
+
+                    $school_id = $school_default['school_id'];
+                }
+                $w['id'] = $school_id;
+
+                $school_list = db("School")->where($w)->select();
             }else{
-                $school_id=1;
+		        $school_list = db("School")->select();
             }
+
 
 
 
@@ -276,6 +297,7 @@ class Group extends Admin {
 				'auth_list'   => explode(',', $group['rules']),
 				'group_list'   => $group_list,
 				'id'          => $id,
+                'school'=>$school_list,
 			);
 			$this->assign($data);
 			$this->setMeta('授权');
