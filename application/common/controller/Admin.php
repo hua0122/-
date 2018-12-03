@@ -334,6 +334,7 @@ class Admin extends Base {
             //内容管理菜单
             $pid = db('menu')->where("pid =0 AND url like '%admin/category%'")->value('id');
         }
+
         if ($pid) {
             $map['pid']  = $pid;
             $map['hide'] = 0;
@@ -346,9 +347,18 @@ class Admin extends Base {
                         $value['style']                       = "active";
                     }
                     $menu['child'][$value['group']][] = $value;
+                }else{
+                    if ($controller == $value['url']) {
+                        $menu['main'][$value['pid']]['style'] = "active";
+                        $value['style']                       = "active";
+                    }
+                    $menu['child'][$value['group']][] = $value;
                 }
+
+
             }
         }
+
         $this->assign('__menu__', $menu);
     }
 
