@@ -69,7 +69,7 @@ class School extends Admin
                 $result = $school->save($data);
                 $school_id = $school->getLastInsID();
                 if ($result) {
-                    //添加学校的时候 要初始化数据 分别向document和page表新增数据
+                    //添加学校的时候 要初始化数据 分别向document和page表新增数据以保证运营管理正常
                     $map['category_id'] = array("in","(1,3,10,11,12)");
                     $map['school_id'] = "3";
                     $document = db("Document")->where($map)->select();
@@ -88,6 +88,15 @@ class School extends Admin
 
                     model("Document")->saveAll($document);
                     model("Page")->saveAll($page);
+
+                    //添加学校的时候 要初始化数据 保证权限管理正常
+                    $group = db("auth_group")->field('id')->select();
+                    $detail=[];
+                    foreach ($group as $k=>$v){
+                        $detail[$k]['group_id'] = $v['id'];
+                        $detail[$k]['school_id'] = $school_id;
+                    }
+                    model("AuthGroupDetail")->saveAll($detail);
 
 
                     return $this->success("添加成功！", url('School/index'));
