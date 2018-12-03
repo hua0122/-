@@ -211,10 +211,14 @@ class Group extends Admin {
 
 
 			if ($rule) {
+			    //111
+			    if(isset($rule[1])){
+                    $rules       = implode(',', $rule[1]);
+                    $rule_result = $this->group->where(array('id' => $id))->setField('rules', $rules);
+                }
+
                 foreach($rule as $k=>$v){
                     $rules       = implode(',', $v);
-
-                    $rule_result = $this->group->where(array('id' => $id))->setField('rules', $rules);
                     $select = db("AuthGroupDetail")->where(array("group_id"=>$id,'school_id'=>$k))->find();
                     if($select){
                         db("AuthGroupDetail")->where(array("group_id"=>$id,'school_id'=>$k))->setField('rules',$rules);
@@ -225,6 +229,7 @@ class Group extends Admin {
                 }
 
 			}
+
 
 			if ($rule_result !== false || $extend_result !== false) {
 				return $this->success("授权成功！", url('admin/group/index'));
