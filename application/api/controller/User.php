@@ -50,6 +50,7 @@ class User extends Api
                 $info['picurl'] = get_cover($info['thumb'],'path');
                 $info['sign_date'] = date("Y-m-d H:i:s",$info['sign_date']);
                 $info['pay_date'] = date("Y-m-d H:i:s",$info['pay_date']);
+                $info['wechat '] = "1423862202";//微信支付商户号
 
         }else{
             return failMsg('还未报名');

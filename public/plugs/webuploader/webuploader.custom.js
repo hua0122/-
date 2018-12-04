@@ -401,9 +401,9 @@
 		}
 		*/
 
-		thumb: {}, //配置生成缩略图的选项。
-		/**
-		* {
+		//thumb: {}, //配置生成缩略图的选项。
+		thumb:
+		{
 		width: 110,
 		height: 110,
 
@@ -411,7 +411,7 @@
 		quality: 70,
 
 		// 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
-		allowMagnify: true,
+		allowMagnify: false,
 
 		// 是否允许裁剪。
 		crop: true,
@@ -419,11 +419,11 @@
 		// 为空的话则保留原有图片格式。
 		// 否则强制转换成指定的类型。
 		type: 'image/jpeg'
-		}
-		*/
-		compress: {}, // {Object} [可选]         配置压缩的图片的选项。如果此选项为false, 则图片在上传前不进行压缩。
-		/**
-		* {
+		},
+
+		//compress: {}, // {Object} [可选]         配置压缩的图片的选项。如果此选项为false, 则图片在上传前不进行压缩。
+        compress:
+		 {
 		width: 1600,
 		height: 1600,
 
@@ -434,7 +434,7 @@
 		allowMagnify: false,
 
 		// 是否允许裁剪。
-		crop: false,
+		crop: true,
 
 		// 是否保留头部meta信息。
 		preserveHeaders: true,
@@ -444,9 +444,9 @@
 		noCompressIfLarger: false,
 
 		// 单位字节，如果图片大小小于此值，不会采用压缩。
-		compressSize: 0
-		}
-		*/
+		compressSize: 1024
+		},
+
 		auto: true, //设置为 true 后，不需要手动调用上传，有文件选择即开始上传。
 		runtimeOrder: 'html5,flash', //指定运行时启动顺序。默认会想尝试 html5 是否支持，如果支持则使用 html5, 否则则使用 flash.可以将此值设置成 flash，来强制使用 flash 运行时。
 		prepareNextFile: true, //是否允许在文件传输时提前把下一个文件准备好。 对于一个文件的准备工作比较耗时，比如图片压缩，md5序列化。 如果能提前在当前文件传输期处理，可以节省总体耗时。
