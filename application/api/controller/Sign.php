@@ -118,7 +118,7 @@ class Sign extends Api
     {
         $code = input('code', '', 'htmlspecialchars,trim');
         if (!empty($code)) {
-            $res = model("Code")->where(array("code" => $code))->find();
+            $res = model("Code")->where(array("code" => $code,"status"=>0))->find();
             if ($res) {
                 return success($res);
             } else {
@@ -216,6 +216,27 @@ class Sign extends Api
             //增加活动报名人数
             if($data['activity_id']){
                 model("Activity")->where(array("id"=>$data['activity_id']))->setInc('number',1);
+            }
+
+            //增加团队招生数
+            if($data['inviter']){
+                $res = db("Department")->find($data['inviter']);
+                if($res){
+                    model("Department")->where(array("id"=>$data['inviter']))->setInc('number',1);
+                    model("Department")->where(array("id"=>$data['inviter']))->setInc('total',1);
+                }else{
+                    $person = db("Person")->find($data['inviter']);
+                    if($person){
+                        model("Person")->where(array("id"=>$data['inviter']))->setInc('number',1);
+                        model("Department")->where(array("id"=>$person['department_id']))->setInc('total',1);
+                    }
+
+                }
+            }
+
+            //修改优惠券使用状态
+            if($data['coupon']){
+                model("Code")->where(array("id"=>$data['coupon']))->setField('status','1');
             }
 
 
@@ -359,17 +380,4 @@ class Sign extends Api
 
     }
 
-
-
-    //申请体检  获取用户报名信息
-    public function get_user(){
-        $openid = input('openid')?input('openid'):session("openid");
-        $is_have = model("WxUser")->where(array("openid"=>$openid))->find();
-        if($is_have){
-            return success($is_have);
-        }else{
-            return emptyResult();
-        }
-
-    }
 }
