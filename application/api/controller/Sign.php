@@ -291,7 +291,7 @@ class Sign extends Api
             $res = model("Apply")->save($data);
             $insert_id = model("Apply")->getLastInsID();
             if ($res) {
-                $openid = session("openid");
+                $openid = input('openid')?input('openid'):session("openid");
                 $sn = "tj_" . rand_string(20);//订单编号
                 $total_fee = $price * 100;
                 if (!empty($total_fee) && $total_fee > 0 && !empty($openid)) {
@@ -356,6 +356,20 @@ class Sign extends Api
 
         }
 
+
+    }
+
+
+
+    //申请体检  获取用户报名信息
+    public function get_user(){
+        $openid = input('openid')?input('openid'):session("openid");
+        $is_have = model("WxUser")->where(array("openid"=>$openid))->find();
+        if($is_have){
+            return success($is_have);
+        }else{
+            return emptyResult();
+        }
 
     }
 }

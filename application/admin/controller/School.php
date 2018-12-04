@@ -76,6 +76,7 @@ class School extends Admin
 
                     foreach ($document as $k=>$v){
                         unset($document[$k]['id']);
+                        unset($document[$k]['deadline']);
                         $document[$k]['school_id'] = $school_id;
                     }
 
