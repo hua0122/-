@@ -107,6 +107,14 @@ class Admin extends Base {
                     $this->assign('school_default', $school_default);
                 }
 
+                //
+
+                $list = db("School")->select();
+                foreach ($list as $k=>$v){
+                    $list[$k]['school_id'] = $v['id'];
+                }
+                $this->assign("school_list",$list);
+
             }else{
 			    //其他人员菜单设置
                 $this->setOtherMenu();
@@ -127,12 +135,14 @@ class Admin extends Base {
                 }
 
                 $this->assign('school_default', $school_default);
+
+                $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+                $this->get_school($role_id['group_id']);
             }
 
 
 
-            $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
-            $this->get_school($role_id['group_id']);
+
 
             $this->setMeta();
 
