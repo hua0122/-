@@ -63,7 +63,7 @@ class User extends Api
             ->field('sent_apply.*,sent_test.code,sent_test.verify,sent_station.name as station_name,sent_station.address,sent_station.lng,sent_station.lat')
             ->where(array("openid" => $openid))
             ->order("create_time desc")
-            ->find();
+            ->select();
 
         $data = array("study"=>$info,"code"=>$code);
 
