@@ -77,6 +77,8 @@ class School extends Admin
                     foreach ($document as $k=>$v){
                         unset($document[$k]['id']);
                         unset($document[$k]['deadline']);
+                        unset($document[$k]['create_time']);
+                        unset($document[$k]['update_time']);
                         $document[$k]['school_id'] = $school_id;
                     }
 
@@ -84,6 +86,8 @@ class School extends Admin
 
                     foreach ($page as $k=>$v){
                         unset($page[$k]['id']);
+                        unset($page[$k]['create_time']);
+                        unset($page[$k]['update_time']);
                         $page[$k]['school_id'] = $school_id;
                     }
 
