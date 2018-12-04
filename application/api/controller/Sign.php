@@ -213,6 +213,11 @@ class Sign extends Api
             $data_user['card_id'] = $data['card'];
             $where['openid'] = $openid;
             model("WxUser")->save($data_user, $where);
+            //增加活动报名人数
+            if($data['activity_id']){
+                model("Activity")->where(array("id"=>$data['activity_id']))->setInc('number',1);
+            }
+
 
             $total_fee = $data['payment'] * 100;
 
@@ -221,7 +226,7 @@ class Sign extends Api
                 $total_fee = 0.01 * 100;
                 include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
                 $wx = new \Weixin_class();
-                $msg = "我们会在两个工作日内联系您，请保持手机畅通，耐心等待，谢谢！";
+                //$msg = "我们会在两个工作日内联系您，请保持手机畅通，耐心等待，谢谢！";
                 $unifiedOrderResult = $wx->unifiedorder($total_fee, $openid, '驾校学车', $data['sn']);
                 //var_dump($unifiedOrderResult);
                 $timeStamp = intval(time() / 10);
