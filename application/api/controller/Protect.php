@@ -35,9 +35,10 @@ class Protect extends Api
             if(!$person){
                 return failMsg("电话号码不存在");
             }
+            $data = model("Person")->field('username,code,mobile as phone')->where(array("mobile"=>$tel))->find();
 
         }else{
-            $data = model("Department")->field('')->where(array("phone"=>$tel))->find();
+            $data = model("Department")->field('title as username,code,phone')->where(array("phone"=>$tel))->find();
         }
 
         $code = model("Msg")->where(array("code"=>$code,"tel"=>$tel))->find();
