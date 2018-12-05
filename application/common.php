@@ -1203,4 +1203,13 @@ function getResponseMessage ( $id, $msg ) {
     return json( ['status' => $id, 'msg' => $msg] );
 }
 
+//发送验证码
+function sent_code($to,$msgText){
+    $url = "http://121.199.15.121:8888/sms.aspx?action=send&userid=317&account=djjx&password=djjx123&mobile=".$to."&content=".$msgText."&sendTime=&extno=";
+    if (isset($url)) {
+        echo json_encode(simplexml_load_string(file_get_contents($url)));
+    }
+
+}
+
 

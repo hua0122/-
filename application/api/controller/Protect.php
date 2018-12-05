@@ -63,6 +63,9 @@ class Protect extends Api
         }
         $rand = rand_string(4,1);//生成随机数
 
+        sent_code($tel,"测试");
+
+
         $data['tel'] = $tel;
         $data['code'] = $rand;
         $res = model("Msg")->save($data);
