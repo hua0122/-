@@ -237,6 +237,7 @@
 			if (!self.options.uploadEvents.uploadSuccess) {
 				self.BDUploader.on('uploadSuccess', function(file, response) {
 					self.dump(file);
+					console.log(response);
 					//客户端完成上传，服务端返回错误信息
 					if (response.status == 0) {
 						$('#' + file.id).remove();
@@ -401,7 +402,7 @@
 		}
 		*/
 
-		thumb: {}, //配置生成缩略图的选项。
+		//thumb: {}, //配置生成缩略图的选项。
 		/*thumb:
 		{
 		width: 110,
@@ -421,8 +422,8 @@
 		type: 'image/jpeg'
 		},*/
 
-		//compress: {}, // {Object} [可选]         配置压缩的图片的选项。如果此选项为false, 则图片在上传前不进行压缩。
-        compress:
+		compress: {}, // {Object} [可选]         配置压缩的图片的选项。如果此选项为false, 则图片在上传前不进行压缩。
+        /*compress:
 		 {
 		width: 160,
 		height: 160,
@@ -445,7 +446,7 @@
 
 		// 单位字节，如果图片大小小于此值，不会采用压缩。
 		compressSize: 0
-		},
+		},*/
 
 		auto: true, //设置为 true 后，不需要手动调用上传，有文件选择即开始上传。
 		runtimeOrder: 'html5,flash', //指定运行时启动顺序。默认会想尝试 html5 是否支持，如果支持则使用 html5, 否则则使用 flash.可以将此值设置成 flash，来强制使用 flash 运行时。
