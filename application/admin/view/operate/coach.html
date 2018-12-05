@@ -145,7 +145,7 @@
                                     </div>
                                 </div>
                                 <script type="text/javascript">
-                                    uploadsize =  5;
+                                    uploadsize =  10;
                                     $(function(){
                                         $("#picker_cover_id").SentUploader({
                                                 fileNumLimit:1,
@@ -156,7 +156,31 @@
                                                 hiddenName: 'field_cover_id',
                                                 hiddenValType:1,
                                                 fileSingleSizeLimit:uploadsize*1024*1024,
-                                                closeX:true
+                                                closeX:true,
+                                                compress:
+                                                    {
+                                                        width: 498,
+                                                        height: 246,
+
+                                                        // 图片质量，只有type为`image/jpeg`的时候才有效。
+                                                        quality: 90,
+
+                                                        // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
+                                                        allowMagnify: false,
+
+                                                        // 是否允许裁剪。
+                                                        crop: true,
+
+                                                        // 是否保留头部meta信息。
+                                                        preserveHeaders: true,
+
+                                                        // 如果发现压缩后文件大小比原来还大，则使用原来图片
+                                                        // 此属性可能会影响图片自动纠正功能
+                                                        noCompressIfLarger: false,
+
+                                                        // 单位字节，如果图片大小小于此值，不会采用压缩。
+                                                        compressSize: 0
+                                                    },
                                             },
                                             {
                                                 fileType: 'service',
@@ -198,7 +222,7 @@
                                     </div>
                                 </div>
                                 <script type="text/javascript">
-                                    uploadsize =  5;
+                                    uploadsize =  10;
                                     $(function(){
                                         $("#picker_cover_id1").SentUploader({
                                                 fileNumLimit:1,
@@ -209,7 +233,31 @@
                                                 hiddenName: 'field_cover_id1',
                                                 hiddenValType:1,
                                                 fileSingleSizeLimit:uploadsize*1024*1024,
-                                                closeX:true
+                                                closeX:true,
+                                                compress:
+                                                    {
+                                                        width: 246,
+                                                        height: 246,
+
+                                                        // 图片质量，只有type为`image/jpeg`的时候才有效。
+                                                        quality: 90,
+
+                                                        // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
+                                                        allowMagnify: false,
+
+                                                        // 是否允许裁剪。
+                                                        crop: true,
+
+                                                        // 是否保留头部meta信息。
+                                                        preserveHeaders: true,
+
+                                                        // 如果发现压缩后文件大小比原来还大，则使用原来图片
+                                                        // 此属性可能会影响图片自动纠正功能
+                                                        noCompressIfLarger: false,
+
+                                                        // 单位字节，如果图片大小小于此值，不会采用压缩。
+                                                        compressSize: 0
+                                                    },
                                             },
                                             {
                                                 fileType: 'service',
@@ -252,7 +300,7 @@
                                     </div>
                                 </div>
                                 <script type="text/javascript">
-                                    uploadsize =  5;
+                                    uploadsize =  10;
                                     $(function(){
                                         $("#picker_cover_id2").SentUploader({
                                                 fileNumLimit:1,
@@ -263,7 +311,31 @@
                                                 hiddenName: 'field_cover_id2',
                                                 hiddenValType:1,
                                                 fileSingleSizeLimit:uploadsize*1024*1024,
-                                                closeX:true
+                                                closeX:true,
+                                                compress:
+                                                    {
+                                                        width: 246,
+                                                        height: 246,
+
+                                                        // 图片质量，只有type为`image/jpeg`的时候才有效。
+                                                        quality: 90,
+
+                                                        // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
+                                                        allowMagnify: false,
+
+                                                        // 是否允许裁剪。
+                                                        crop: true,
+
+                                                        // 是否保留头部meta信息。
+                                                        preserveHeaders: true,
+
+                                                        // 如果发现压缩后文件大小比原来还大，则使用原来图片
+                                                        // 此属性可能会影响图片自动纠正功能
+                                                        noCompressIfLarger: false,
+
+                                                        // 单位字节，如果图片大小小于此值，不会采用压缩。
+                                                        compressSize: 0
+                                                    },
                                             },
                                             {
                                                 fileType: 'service',
@@ -306,7 +378,7 @@
                                     </div>
                                 </div>
                                 <script type="text/javascript">
-                                    uploadsize =  5;
+                                    uploadsize =  10;
                                     $(function(){
                                         $("#picker_cover_id3").SentUploader({
                                                 fileNumLimit:1,
@@ -317,7 +389,31 @@
                                                 hiddenName: 'field_cover_id3',
                                                 hiddenValType:1,
                                                 fileSingleSizeLimit:uploadsize*1024*1024,
-                                                closeX:true
+                                                closeX:true,
+                                                compress:
+                                                    {
+                                                        width: 246,
+                                                        height: 246,
+
+                                                        // 图片质量，只有type为`image/jpeg`的时候才有效。
+                                                        quality: 90,
+
+                                                        // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
+                                                        allowMagnify: false,
+
+                                                        // 是否允许裁剪。
+                                                        crop: true,
+
+                                                        // 是否保留头部meta信息。
+                                                        preserveHeaders: true,
+
+                                                        // 如果发现压缩后文件大小比原来还大，则使用原来图片
+                                                        // 此属性可能会影响图片自动纠正功能
+                                                        noCompressIfLarger: false,
+
+                                                        // 单位字节，如果图片大小小于此值，不会采用压缩。
+                                                        compressSize: 0
+                                                    },
                                             },
                                             {
                                                 fileType: 'service',
@@ -361,7 +457,7 @@
                                     </div>
                                 </div>
                                 <script type="text/javascript">
-                                    uploadsize =  5;
+                                    uploadsize =  10;
                                     $(function(){
                                         $("#picker_cover_id4").SentUploader({
                                                 fileNumLimit:1,
@@ -372,7 +468,31 @@
                                                 hiddenName: 'field_cover_id4',
                                                 hiddenValType:1,
                                                 fileSingleSizeLimit:uploadsize*1024*1024,
-                                                closeX:true
+                                                closeX:true,
+                                                compress:
+                                                    {
+                                                        width: 246,
+                                                        height: 246,
+
+                                                        // 图片质量，只有type为`image/jpeg`的时候才有效。
+                                                        quality: 90,
+
+                                                        // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
+                                                        allowMagnify: false,
+
+                                                        // 是否允许裁剪。
+                                                        crop: true,
+
+                                                        // 是否保留头部meta信息。
+                                                        preserveHeaders: true,
+
+                                                        // 如果发现压缩后文件大小比原来还大，则使用原来图片
+                                                        // 此属性可能会影响图片自动纠正功能
+                                                        noCompressIfLarger: false,
+
+                                                        // 单位字节，如果图片大小小于此值，不会采用压缩。
+                                                        compressSize: 0
+                                                    },
                                             },
                                             {
                                                 fileType: 'service',
