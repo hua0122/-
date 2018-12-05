@@ -385,7 +385,7 @@
                     // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
                     allowMagnify: false,
                     // 是否允许裁剪。
-                    crop: false,
+                    crop: true,
                     // 是否保留头部meta信息。
                     preserveHeaders: true
                 }:false

@@ -16,10 +16,11 @@
                 <tr>
                     <th width="30"><input class="checkbox check-all" type="checkbox"></th>
                     <th width="60">ID</th>
-                    <th>姓名</th>
-                    <th>电话</th>
-                    <th>内容</th>
-                    <th>状态</th>
+                    <th>合伙人</th>
+                    <th>队员</th>
+                    <th>学员</th>
+                    <th>保护时间</th>
+                    <th>脱保时间</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -29,16 +30,10 @@
                     <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$item['id']}"></td>
                     <td>{$item['id']}</td>
                     <td>{$item['name']}</td>
-                    <td>{$item['phone']}</td>
-                    <td>{$item['content']}</td>
-                    <td>
-                        {if condition="$item['status']"}
-                        <span class="label label-success">已处理</span>
-                        {else}
-                        <span class="label label-default">未处理</span>
-                        {/if}
-
-                    </td>
+                    <td>{$item['person']}</td>
+                    <td>{$item['student']}</td>
+                    <td>{$item['protect_time']|date="Y-m-d H:i:s",###}</td>
+                    <td>{$item['deactivation_time']|date="Y-m-d H:i:s",###}</td>
                     <td>
                         {if $item['status']}
                         {else}
