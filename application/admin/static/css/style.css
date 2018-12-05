@@ -388,7 +388,7 @@ h1 small,h2 small,h3 small,h1 .small,h2 .small,h3 .small {
 	float:left;
 	display:block;
 	margin-right:3px;
-	font-size:em;
+	font-size:0.875em;
 }
 #header-nav .form-control {
 	border-radius:0;
@@ -400,8 +400,8 @@ h1 small,h2 small,h3 small,h1 .small,h2 .small,h3 .small {
 }
 #header-navbar .nav>li>a {
 	font-size:0.875em;
-	padding-left:18px;
-	padding-right:18px;
+	padding-left:15px;
+	padding-right:15px;
 	color:#484848;
 	border:none;
 	border-radius:0;
@@ -690,8 +690,9 @@ h1 small,h2 small,h3 small,h1 .small,h2 .small,h3 .small {
 	#nav-col {
 	position:relative;
 	width:auto;
+}
 }*/
-}#sidebar-nav {
+#sidebar-nav {
 	max-height:100%;
 	padding-left:0;
 	padding-right:0;

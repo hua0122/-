@@ -424,8 +424,8 @@
 		//compress: {}, // {Object} [可选]         配置压缩的图片的选项。如果此选项为false, 则图片在上传前不进行压缩。
         compress:
 		 {
-		width: 1600,
-		height: 1600,
+		width: 160,
+		height: 160,
 
 		// 图片质量，只有type为`image/jpeg`的时候才有效。
 		quality: 90,
