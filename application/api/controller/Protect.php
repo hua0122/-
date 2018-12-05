@@ -20,8 +20,8 @@ class Protect extends Api
     }
     //登录
     public function login(){
-        $tel = input('tel','','trim.intval');
-        $code = input('code','','trim.intval');
+        $tel = input('tel');
+        $code = input('code');
         if(empty($tel)){
             return failMsg('电话号码不能为空');
         }
