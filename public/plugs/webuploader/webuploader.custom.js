@@ -444,7 +444,7 @@
 		noCompressIfLarger: false,
 
 		// 单位字节，如果图片大小小于此值，不会采用压缩。
-		compressSize: 1024
+		compressSize: 0
 		},
 
 		auto: true, //设置为 true 后，不需要手动调用上传，有文件选择即开始上传。
