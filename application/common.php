@@ -1190,6 +1190,10 @@ function failMsg ( $msg = '操作失败' ) {
     return getResponseMessage( '10x', $msg );
 }
 
+//失败 返回数据
+function fail (&$data = NULL ,$msg ='ok') {
+    return json( ['status' => '500', 'msg' => $msg, 'data' => $data] );
+}
 
 /**
  * 获取 格式化的 响应消息.

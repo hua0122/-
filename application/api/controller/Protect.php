@@ -140,4 +140,68 @@ class Protect extends Api
 
     }
 
+    //意向资源保护
+    public function resource_add(){
+        $name = input('name');
+        $tel = input('tel');
+        $person = input('person');
+        if(empty($person)){
+            return failMsg('推荐人号码不能为空');
+        }
+        if(empty($tel)){
+            return failMsg('学员手机号码不能为空');
+        }
+        //查询学员是否已经被保护
+        $is_have = model("Protect")->where(array("tel"=>$tel))->find();
+        if($is_have){
+            return fail($is_have,"学员已经被保护");
+        }
+
+
+        $data['name'] = $name;
+        $data['person'] = $person;
+        $data['tel'] = $tel;
+        $data['protect_time'] = time();
+        $res = model("Protect")->save($data);
+        if($res){
+            return success($data);
+        }else{
+            return  failMsg('失败');
+        }
+    }
+
+
+    //开发记录添加
+    public function record_add(){
+        $name = input('name');//学员姓名
+        $tel = input('tel');//学员电话
+        $channel = input('channel');//资源获取途径
+        $progress = input('progress');//跟进进度
+        $deal_time = input('deal_time');//预计成交时间
+        $remark = input('remark');
+        $person = input('person');
+        if(empty($person)){
+            return failMsg('推荐人号码不能为空');
+        }
+
+        if(empty($tel)){
+            return failMsg('学员手机号码不能为空');
+        }
+        if(empty($channel)){
+            return failMsg('资源获取途径不能为空');
+        }
+
+        $data['person'] = $person;
+        $data['name'] = $name;
+        $data['tel'] = $tel;
+        $data['channel'] = $channel;
+        $data['deal_time'] = $deal_time;
+        $data['progress'] = $progress;
+        $data['remark'] = $remark;
+        $res = model('Develop')->save($data);
+
+
+
+    }
+
 }

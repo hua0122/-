@@ -17,7 +17,8 @@ class Protect extends Admin
 
 
         $order = "id desc";
-        $list  = db('Protect')->where($map)->order($order)->paginate(10);
+        $list  = db('Protect')
+            ->where($map)->order($order)->paginate(10);
 
         $data = array(
             'list' => $list,

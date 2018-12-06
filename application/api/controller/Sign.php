@@ -311,6 +311,12 @@ class Sign extends Api
         $data['openid'] = input('openid')?input('openid'):session("openid");
         $data['create_time'] = time();
 
+        //查询是否报名
+        $is_have = model("Student")->where(array("openId" => $data['openid']))->find();
+        if (!$is_have) {
+            return failMsg("还未报名,请先报名");
+        }
+
 
 
         //先查询是否已经申请过 如果已经申请过 多次申请需缴费  首次申请免费
