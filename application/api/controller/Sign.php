@@ -221,12 +221,12 @@ class Sign extends Api
             $where['openid'] = $openid;
             model("WxUser")->save($data_user, $where);
             //增加活动报名人数
-            if($data['activity_id']){
+            if(isset($data['activity_id'])){
                 model("Activity")->where(array("id"=>$data['activity_id']))->setInc('number',1);
             }
 
             //增加团队招生数
-            if($data['inviter']){
+            if(isset($data['inviter'])){
                 $res = db("Department")->find($data['inviter']);
                 if($res){
                     model("Department")->where(array("id"=>$data['inviter']))->setInc('number',1);
@@ -242,7 +242,7 @@ class Sign extends Api
             }
 
             //修改优惠券使用状态
-            if($data['coupon']){
+            if(isset($data['coupon'])){
                 model("Code")->where(array("id"=>$data['coupon']))->setField('status','1');
             }
 
