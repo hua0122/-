@@ -154,6 +154,13 @@ class Sign extends Api
     //我要报名
     public function submit_sign()
     {
+        $openid = input('openid')?input('openid'):session("openid");
+
+        if(empty($openid)){
+            return failMsg('请先登录');
+        }
+
+
         $data = input('post.');
         if (!$data['name']) {
             return failMsg("姓名不能为空");
@@ -193,7 +200,7 @@ class Sign extends Api
             //缴费类型不对
             return failMsg("缴费类型不对");
         }
-        $openid = input('openid')?input('openid'):session("openid");
+
 
         //查询是否报名  不能重复报名
         $is_have = model("Student")->where(array("openId" => $openid))->find();
