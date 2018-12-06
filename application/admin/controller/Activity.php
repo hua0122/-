@@ -332,4 +332,13 @@ class Activity extends Admin
         return $this->fetch();
 
     }
+
+    //查询报名人数
+
+    public function sign_num(){
+        $id   = input('id', '', 'trim,intval');
+        $res = model("Student")->where(array("activity_id"=>$id))->select();
+        $this->assign("list",$res);
+
+    }
 }

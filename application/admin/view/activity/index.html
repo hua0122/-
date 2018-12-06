@@ -98,7 +98,7 @@
                     <td>{$item['gift']}</td>
                     <td>{$item['online_time']|date='Y-m-d H:i:s',###}</td>
                     <td>{$item['downline_time']|date='Y-m-d H:i:s',###}</td>
-                    <td>{$item['number']}</td>
+                    <td><a href="{:url('student/index?activity_id='.$item['id'])}">{$item['number']}</a></td>
 
                     <td>
                         {if $status==1}

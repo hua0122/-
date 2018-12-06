@@ -94,6 +94,13 @@ class Protect extends Api
         $data['title'] = $username;
         $data['code'] = $code;
 
+        $d = model("Department")->where(array("code"=>$code))->find();
+        $p = model("Person")->where(array("code"=>$code))->find();
+        if($d||$p){
+            return failMsg("推荐码已存在");
+        }
+
+
         $data1['username'] = $username;
         $data1['code'] = $code;
         $res = model("Department")->save($data,array("phone"=>$tel));
