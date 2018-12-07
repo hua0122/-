@@ -97,7 +97,7 @@ class Protect extends Api
         $d = model("Department")->where(array("code"=>$code))->find();
         $p = model("Person")->where(array("code"=>$code))->find();
         if($d||$p){
-            return failMsg("推荐码已存在");
+            return failMsg("您下手慢了,试一试其他的吧",'301');
         }
 
 
@@ -139,6 +139,20 @@ class Protect extends Api
 
 
     }
+    //查询学员是否已经被保护
+    public function select_student(){
+        $tel = input('tel');
+        if(empty($tel)){
+            return failMsg('学员手机号码不能为空');
+        }
+        //查询学员是否已经被保护
+        $is_have = model("Protect")->where(array("tel"=>$tel))->find();
+        if($is_have){
+            return fail($is_have,"学员已经被保护");
+        }else{
+            return success();
+        }
+    }
 
     //意向资源保护
     public function resource_add(){
@@ -162,6 +176,7 @@ class Protect extends Api
         $data['person'] = $person;
         $data['tel'] = $tel;
         $data['protect_time'] = time();
+        $data['deactivation_time'] = '';//脱保时间规定
         $res = model("Protect")->save($data);
         if($res){
             return success($data);
@@ -196,10 +211,18 @@ class Protect extends Api
         $data['tel'] = $tel;
         $data['channel'] = $channel;
         $data['deal_time'] = $deal_time;
-        $data['progress'] = $progress;
         $data['remark'] = $remark;
         $res = model('Develop')->save($data);
+        $last_id = model('Develop')->getLastInsID();
+        if($res){
+            $data1['progress'] = $progress;
+            $data1['develop'] = $last_id;
+            model("Progress")->save($data1);
 
+            return success($data);
+        }else{
+            return  failMsg('失败');
+        }
 
 
     }
