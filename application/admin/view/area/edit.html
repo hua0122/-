@@ -244,18 +244,44 @@
         map.addOverlay(marker);             // 将标注添加到地图中
         marker.enableDragging();           // 可拖拽
         //跳动的动画
-        marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+        //marker.setAnimation(BMAP_ANIMATION_BOUNCE);
 
 
 		//点击事件监听
-        marker.addEventListener("click", function(){
+        /*marker.addEventListener("click", function(){
             this.openInfoWindow(infoWindow);
             //图片加载完毕重绘infowindow
             document.getElementById('imgDemo').onload = function (){
                 infoWindow.redraw();
             }
-        });
+        });*/
 
+
+        map.addEventListener("click", showInfo);
+
+        function showInfo(e) {
+            x = e.point.lng;   //获取鼠标当前点击的经纬度
+            y = e.point.lat;
+            console.log(x);
+            console.log(y);
+            if (x != "" && y != "") {
+                clearAll();  //清除地图上存在的标注
+                var point = new BMap.Point(x, y);
+                map.centerAndZoom(point);
+                marker = new BMap.Marker(point);  // 创建新的标注
+                map.addOverlay(marker);    //将标注添加到地图上
+            } else {
+                map.centerAndZoom("重庆", 12);
+            }
+            var point = new BMap.Point(x, y);  //获取当前地理名称
+            var gc = new BMap.Geocoder();
+            gc.getLocation(point, function (rs) {
+                var addComp = rs.addressComponents;
+                //alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+            });
+
+        }
+        function clearAll(e){ map.removeOverlay(marker); }
 
 
         $("#close").click(function(){
