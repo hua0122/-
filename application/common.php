@@ -1187,7 +1187,7 @@ function failLogin ( $msg = '您未在本设备登录' ) {
 }
 //操作失败：自定义失败消息
 function failMsg ( $msg = '操作失败',$status = '10x' ) {
-    return getResponseMessage($msg,$status );
+    return getResponseMessage($status,$msg);
 }
 
 //失败 返回数据
