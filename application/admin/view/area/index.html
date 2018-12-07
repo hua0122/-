@@ -17,25 +17,7 @@
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/plugs/board/board.min.css">
 {/block}
 {block name="body"}
-<div id="bd_map" style="display: block; position: fixed;width: 316px;left: 0px;bottom:0px;z-index: -2017;">
-    <table style="background-color:#f6f6f6;">
-        <tbody>
-        <tr>
-            <td colspan="2">
-                <div>
-                    <div class="aui_title" style="cursor: move;height: 28px;line-height: 27px;padding-top:0px;padding-right: 28px;padding-bottom: 0px;padding-left: 10px;font-weight: bold;">BaiduMap</div>
-                    <a class="aui_close" id="close" href="javascript:void(0);" style="padding: 0;top: 4px;right: 4px;width: 21px;line-height: 21px;font-size: 18px;color: #333333;overflow: hidden;display: block;position: absolute;text-decoration: none;outline: none;">×</a>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td style="padding-bottom: 0px;width: 700px;height: 430px;visibility: visible;">
-                <div id="l-map" style="display: block;width: 100%;margin: 0;padding: 0!important;height: 100%;"></div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+
 
 <div class="main-box clearfix">
 	<header class="main-box-header clearfix">
@@ -88,10 +70,31 @@
 						<td>{$item['id']}</td>
 						<td>{$item['name']}</td>
 						<td>{$item['address']}</td>
-						<td class="open_map">
+						<td class="open_map" style="position: relative">
                             <img src="/public/images/map1.png"  style="cursor: pointer;width: 30px;height: 30px">
                             <input name="lng" readonly="readonly" type="hidden" size="11" class="lng" value="{$item['lng']}" style="border: none;">
                             <input name="lat" readonly="readonly" type="hidden" size="10" class="lat" value="{$item['lat']}" style="border: none;">
+
+							<div class="bd_map" style="display: none; position: absolute;width: 300px;left: 0px;top:50px;z-index:-2017">
+								<table style="background-color:#f6f6f6;">
+									<tbody>
+									<tr>
+										<td colspan="2">
+											<div>
+												<div class="aui_title" style="cursor: move;height: 28px;line-height: 27px;padding-top:0px;padding-right: 28px;padding-bottom: 0px;padding-left: 10px;font-weight: bold;">BaiduMap</div>
+												<a class="aui_close" id="close" href="javascript:void(0);" style="padding: 0;top: 4px;right: 4px;width: 21px;line-height: 21px;font-size: 18px;color: #333333;overflow: hidden;display: block;position: absolute;text-decoration: none;outline: none;">×</a>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td style="padding-bottom: 0px;width: 300px;height: 300px;visibility: visible;">
+											<div id="l-map-{$item['id']}" class="l-map" style="display: block;width: 100%;margin: 0;padding: 0!important;height: 100%;"></div>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+
 
 						</td>
 						<td><img src="{:get_cover($item['thumb'],'path')}" width="60"/></td>
@@ -174,8 +177,9 @@
     $(function(){
 
         $(".open_map").hover(function(){
+            var id= $(this).find('.l-map').attr('id');
 
-            var map = new BMap.Map("l-map");
+            var map = new BMap.Map(id);
             var p_lng;
             var p_lat;
             p_lng = $(this).find('.lng').val();
@@ -190,14 +194,29 @@
                 p_lat = $(this).find('.lat').val();
             }
             var point = new BMap.Point(p_lng,p_lat);
-            map.centerAndZoom(point, 12);
+            map.centerAndZoom(point, 15);
             map.enableScrollWheelZoom(true);   //缩放地图
             var marker = new BMap.Marker(point);// 创建标注
             map.addOverlay(marker);             // 将标注添加到地图中
 
-            $("#bd_map").css("z-index",2017);
+            //$("#bd_map").css("z-index",2017);
+			$(this).find('.bd_map').css("z-index",99999);
+			$(this).find('.bd_map').css("display","block");
+
+            var loadCount = 1;
+            map.addEventListener("tilesloaded",function(){
+                if(loadCount == 1){
+                    map.setCenter(point);
+                }
+                loadCount = loadCount + 1;
+            });
+
+
+
         },function(){
-            $("#bd_map").css("z-index",-2017);
+            //$("#bd_map").css("z-index",-2017);
+            $(this).find('.bd_map').css("z-index",-2017);
+            $(this).find('.bd_map').css("display","none");
 		});
 
 
