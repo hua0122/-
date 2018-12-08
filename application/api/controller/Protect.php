@@ -149,18 +149,29 @@ class Protect extends Api
 
 
     }
-    //查询学员是否已经被保护
+    //查询学员是否已经被保护  可以同时保护30个  返回还可以添加多少人
     public function select_student(){
         $tel = input('tel');
         if(empty($tel)){
             return failMsg('学员手机号码不能为空');
         }
+        $person = input('person');
+        if(empty($person)){
+            return failLogin();
+        }
+
+        $total = model("Protect")->where(array("person"=>$person))->count();
+
+        $num = intval(30-$total);
+
         //查询学员是否已经被保护
         $is_have = model("Protect")->where(array("tel"=>$tel))->find();
+
         if($is_have){
             return fail($is_have,"学员已经被保护");
         }else{
-            return success();
+            array("num"=>$num);
+            return success($data);
         }
     }
 
