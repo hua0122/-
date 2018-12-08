@@ -279,8 +279,6 @@ class Protect extends Api
                     $deactivation[$k]['status'] = "超时脱保";
                 }elseif($v['status']==3){
                     $deactivation[$k]['status'] = "助攻脱保";
-                }else{
-                    $deactivation[$k]['status'] = "已脱保并成交";
                 }
 
             }
