@@ -1216,4 +1216,91 @@ function sent_code($to,$msgText){
 
 }
 
+function timeToChzh($time){
+    $t = time();
+    $start = mktime(0,0,0,date("m",$t),date("d",$t),date("Y",$t));//当天的开始时间
+    $end = mktime(23,59,59,date("m",$t),date("d",$t),date("Y",$t));//当天的结束时间
+    $monthstart = mktime(0, 0 , 0,date("m"),date("d")-date("w")+1,date("Y"));//当月开始时间
+    $monthend = mktime(23,59,59,date("m"),date("d")-date("w")+7,date("Y"));//当月结束时间
+    //昨天起至时间
+    $beginYesterday = mktime(0,0,0,date('m'),date('d')-1,date('y'));
+    $endYesterday = mktime(0,0,0,date('m'),date('d'),date('y'))-1;
+    //今天时间
+    if($time >= $start && $time <= $end){
+        return '今天'.date('H:i',$time);
+    }
+    //昨天
+    if($time >= $beginYesterday && $time <= $endYesterday){
+        return '昨天'.date('H:i',$time);
+    }
+    //周几
+    if($time >= $monthstart && $time <= $monthend){
+        return "周" . mb_substr( "日一二三四五六",date("w",$time),1,"utf-8" ).date('H:i',$time);
+    }
+    return date('m-d',$time);
+}
+
+
+function timeTo($list,$field){
+
+    $t = time();
+    $start = mktime(0,0,0,date("m",$t),date("d",$t),date("Y",$t));//当天的开始时间
+    $end = mktime(23,59,59,date("m",$t),date("d",$t),date("Y",$t));//当天的结束时间
+    $monthstart = mktime(0, 0 , 0,date("m"),date("d")-date("w")+1,date("Y"));//当月开始时间
+    $monthend = mktime(23,59,59,date("m"),date("d")-date("w")+7,date("Y"));//当月结束时间
+    //昨天起至时间
+    $beginYesterday = mktime(0,0,0,date('m'),date('d')-1,date('y'));
+    $endYesterday = mktime(0,0,0,date('m'),date('d'),date('y'))-1;
+
+    foreach ($list as $k=>$v){
+        unset($list[$k]);
+        //今天时间
+        if($v[$field] >= $start && $v[$field] <= $end){
+            $list['today'][$k] = $v;
+        }
+        //昨天
+        else if($v[$field] >= $beginYesterday && $v[$field] <= $endYesterday){
+            $list['yesterday'][$k] = $v;
+
+        }
+        //周几
+        else if($v[$field] >= $monthstart && $v[$field] <= $monthend){
+
+            if(mb_substr( "日一二三四五六",date("w",$v[$field]),1,"utf-8" )=="一"){
+                $list['monday'][$k]=$v;
+            }
+            else if(mb_substr( "日一二三四五六",date("w",$v[$field]),1,"utf-8" )=="二"){
+                $list['tuesday'][$k] = $v;
+            }
+            else if(mb_substr( "日一二三四五六",date("w",$v[$field]),1,"utf-8" )=="三"){
+                $list['wednesday'][$k] = $v;
+            }
+            else if(mb_substr( "日一二三四五六",date("w",$v[$field]),1,"utf-8" )=="四"){
+                $list['thursday'][$k] = $v;
+            }
+            else if(mb_substr( "日一二三四五六",date("w",$v[$field]),1,"utf-8" )=="五"){
+                $list['friday'][$k] = $v;
+            }
+            else if(mb_substr( "日一二三四五六",date("w",$v[$field]),1,"utf-8" )=="六"){
+                $list['saturday'][$k] = $v;
+            }
+            else{
+                $list['Sunday'][$k] = $v;
+            }
+
+
+
+        }else{
+            $list[date('m-d',$v[$field])][$k] = $v;
+        }
+
+
+
+    }
+
+    return $list;
+
+}
+
+
 

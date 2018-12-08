@@ -53,7 +53,7 @@ class User extends Api
                 $info['wechat'] = "1423862202";//微信支付商户号
 
         }else{
-            return failMsg('还未报名');
+            return emptyResult('还未报名');
         }
 
         //体检信息查询
