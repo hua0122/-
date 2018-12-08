@@ -457,7 +457,7 @@ class Protect extends Api
 
     //开发记录编辑
     public function develop_edit(){
-        $id = input('id','','trim.intval');
+        $id = input('id','','trim,intval');
         if(!$id){
             return failIncomplete();
         }
