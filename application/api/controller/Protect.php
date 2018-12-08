@@ -10,6 +10,7 @@ namespace app\api\controller;
 
 
 use app\common\controller\Api;
+use think\db;
 
 class Protect extends Api
 {
@@ -356,6 +357,7 @@ class Protect extends Api
         $data['two'] = input('two');
         $data['three'] = input('three');
         $data['develop_time'] = time();
+        $data['update_time'] = time();
         $res = model('Develop')->save($data);
 
         if($res){
@@ -509,6 +511,7 @@ class Protect extends Api
         $data['one'] = $one;
         $data['two'] = $two;
         $data['three'] = $three;
+        $data['update_time'] = time();
         $res = model('Develop')->save($data,array("id"=>$id));
 
         if($res){
@@ -553,4 +556,53 @@ class Protect extends Api
 
     }
 
+    //资源保护详细
+    public function protect_detail(){
+        $person = input('person');
+        if(empty($person)){
+            return failLogin();
+        }
+
+        //已保护
+        $data['total'] = model("Protect")->where(array("person"=>$person))->count();
+        //即将过期 36小时内过期
+        $sql = "select count(*) as num from sent_protect where person =".$person." and deactivation_time >NOW()-INTERVAL 36 HOUR";
+        $res = Db::query($sql);
+        $data['num'] = $res[0]['num'];
+
+        return success($data);
+    }
+
+    //开发记录详细
+    public function develop_detail(){
+        $person = input('person');
+        if(empty($person)){
+            return failLogin();
+        }
+
+        //已添加
+        $data['total'] = model("Develop")->where(array("person"=>$person))->count();
+
+        //待跟进(一周未跟进)
+        $sql = "select count(*) as num from sent_develop where person =".$person." and update_time >NOW()-INTERVAL 7*24 HOUR";
+        $res = Db::query($sql);
+        $data['num'] = $res[0]['num'];
+
+        return success($data);
+    }
+
+    //成交学员详细
+    public function deal_detail(){
+        $person = input('person');
+        if(empty($person)){
+            return failLogin();
+        }
+        //已成交 必含
+        $data['total']= model("Protect")->where(array("person"=>$person,"status"=>4))->count();
+
+        //下属成交 可选
+        $data['num'] ="";
+
+        return success($data);
+    }
 }
