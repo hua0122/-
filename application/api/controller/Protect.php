@@ -170,7 +170,7 @@ class Protect extends Api
         if($is_have){
             return fail($is_have,"学员已经被保护");
         }else{
-            array("num"=>$num);
+            $data['num'] = $num;
             return success($data);
         }
     }
