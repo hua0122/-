@@ -821,7 +821,7 @@ class Operate extends Admin
                 return $this->error("内容不能为空！");
             }
 
-
+            var_dump($data);
             if ($data) {
                 $result = $link->save($data, array('id' => $data['id']));
                 if ($result) {
