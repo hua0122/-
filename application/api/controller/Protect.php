@@ -248,14 +248,17 @@ class Protect extends Api
                 {
                     //今天
                     $list['today'][] = $v;
+                    $list['today']['time'] = "今天";
                 }else if($str_in_format==$str_tomorrow)
                 {
                     //明天
                     $list['tomorrow'][] = $v;
+                    $list['tomorrow']['time'] = "明天";
                 }else if($str_in_format==$str_afftertomorrow)
                 {
                     //后天
                     $list['afftertomorrow'][] = $v;
+                    $list['afftertomorrow']['time'] = "后天";
                 }else{
                     //echo "星期".$weekarray[date("w",strtotime($v['deactivation_time']))];
 
@@ -270,6 +273,23 @@ class Protect extends Api
 
             }
             $list = array_values($list);
+
+            foreach ($list as $k=>$v){
+                if($v){
+                    foreach ($v as $k1=>$v1){
+                        if(isset($v1)){
+                            if(isset($v1['deactivation_time'])){
+                                $list[$k][$k1]['deactivation_time'] = date("H:i:s",$v1['deactivation_time']);
+                            }
+
+
+                        }
+
+                    }
+
+                }
+            }
+
         }
 
 
@@ -480,11 +500,17 @@ class Protect extends Api
             return failLogin();
         }
 
-        $list = model("Protect")->where(array("status"=>4,"person"=>$person))->select();
+        $list = model("Protect")
+            ->field('sent_protect.*,sent_student.school_id,sent_school.name')
+            ->join('sent_student','sent_protect.tel=sent_student.phone','left')
+            ->join('sent_school','sent_school.id=sent_student.school_id','left')
+            ->where(array("sent_protect.status"=>4,"person"=>$person))->select();
+
         if($list){
             $list = timeTo($list,'deal_time');
 
             $list = array_values($list);
+
 
 
         }
@@ -503,7 +529,12 @@ class Protect extends Api
         $p = db("Person")->where(array("department_id"=>$d['id']))->select();
         $str = implode(',',array_column($p,'mobile'));
         $w['person'] = array("in","(".$str.")");
-        $list = db("Protect")->where($w)->select();
+        $list = db("Protect")
+            ->field('sent_protect.*,sent_student.school_id,sent_school.name')
+            ->join('sent_student','sent_protect.tel=sent_student.phone','left')
+            ->join('sent_school','sent_school.id=sent_student.school_id','left')
+            ->where($w)
+            ->select();
         if($list){
             $list = timeTo($list,'deal_time');
         }
