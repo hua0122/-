@@ -823,6 +823,8 @@ class Operate extends Admin
             $data['create_time'] = time();
             $data['update_time'] = time();
 
+            var_dump($data);
+            exit;
 
 
             if ($data) {
