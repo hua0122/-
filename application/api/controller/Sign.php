@@ -395,7 +395,18 @@ class Sign extends Api
 
     //申请体检页面 获取学员报名信息
     public function get_sign(){
+        $openid = input('openid')?input('openid'):session("openid");
 
+        if(empty($openid)){
+            return failMsg('请先登录');
+        }
+
+        $info = model("Student")->field('name,phone')->where(array("openid"=>$openid))->find();
+        if($info){
+            return success($info);
+        }else{
+            return emptyResult();
+        }
 
     }
 
