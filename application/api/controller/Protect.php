@@ -380,62 +380,10 @@ class Protect extends Api
         $map['person']= $person;
         $list = model("Develop")->where($map)->select();
         if($list){
-            $t = time();
-            $start = mktime(0,0,0,date("m",$t),date("d",$t),date("Y",$t));//当天的开始时间
-            $end = mktime(23,59,59,date("m",$t),date("d",$t),date("Y",$t));//当天的结束时间
-            $monthstart = mktime(0, 0 , 0,date("m"),date("d")-date("w")+1,date("Y"));//当月开始时间
-            $monthend = mktime(23,59,59,date("m"),date("d")-date("w")+7,date("Y"));//当月结束时间
-            //昨天起至时间
-            $beginYesterday = mktime(0,0,0,date('m'),date('d')-1,date('y'));
-            $endYesterday = mktime(0,0,0,date('m'),date('d'),date('y'))-1;
 
-            foreach ($list as $k=>$v){
-                unset($list[$k]);
-                //今天时间
-                if($v['develop_time'] >= $start && $v['develop_time'] <= $end){
-                    $list['today'][] = $v;
-                    //return '今天'.date('H:i',$v['develop_time']);
-                }
-                //昨天
-                else if($v['develop_time'] >= $beginYesterday && $v['develop_time'] <= $endYesterday){
-                    //return '昨天'.date('H:i',$v['develop_time']);
-                    $list['yesterday'][] = $v;
-                }
-                //周几
-                else if($v['develop_time'] >= $monthstart && $v['develop_time'] <= $monthend){
-                    //return "周" . mb_substr( "日一二三四五六",date("w",$v['develop_time']),1,"utf-8" ).date('H:i',$v['develop_time']);
-                    if(mb_substr( "日一二三四五六",date("w",$v['develop_time']),1,"utf-8" )=="一"){
-                        $list['monday'][]=$v;
-                    }
-                    if(mb_substr( "日一二三四五六",date("w",$v['develop_time']),1,"utf-8" )=="二"){
-                        $list['tuesday'][] = $v;
-                    }
-                    if(mb_substr( "日一二三四五六",date("w",$v['develop_time']),1,"utf-8" )=="三"){
-                        $list['wednesday'][] = $v;
-                    }
-                    if(mb_substr( "日一二三四五六",date("w",$v['develop_time']),1,"utf-8" )=="四"){
-                        $list['thursday'][] = $v;
-                    }
-                    if(mb_substr( "日一二三四五六",date("w",$v['develop_time']),1,"utf-8" )=="五"){
-                        $list['friday'][] = $v;
-                    }
-                    if(mb_substr( "日一二三四五六",date("w",$v['develop_time']),1,"utf-8" )=="六"){
-                        $list['saturday'][] = $v;
-                    }
-                    if(mb_substr( "日一二三四五六",date("w",$v['develop_time']),1,"utf-8" )=="日"){
-                        $list['Sunday'][] = $v;
-                    }
+            $list = timeTo($list,'develop_time');
 
-
-
-                }else{
-                    //return date('m-d',$v['develop_time']);
-                    $list[date('m月d日',$v['develop_time'])][] = $v;
-                }
-
-
-            }
-
+            $list = array_values($list);
         }
 
         return success($list);
@@ -531,6 +479,9 @@ class Protect extends Api
         $list = model("Protect")->where(array("status"=>4,"person"=>$person))->select();
         if($list){
             $list = timeTo($list,'deal_time');
+
+            $list = array_values($list);
+
 
         }
         return success($list);

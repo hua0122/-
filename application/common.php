@@ -1254,44 +1254,60 @@ function timeTo($list,$field){
 
     foreach ($list as $k=>$v){
         unset($list[$k]);
+        if($field=="deal_time"){
+            $v['deactivation_time'] = date("H:i:s",$v['deactivation_time']);
+            $v['protect_time'] = date("H:i:s",$v['protect_time']);
+        }
+
         //今天时间
         if($v[$field] >= $start && $v[$field] <= $end){
-            $list['today'][$k] = $v;
+            $list['today'][] = $v;
+            $list['today']['time'] = "今天";
         }
         //昨天
         else if($v[$field] >= $beginYesterday && $v[$field] <= $endYesterday){
-            $list['yesterday'][$k] = $v;
+            $list['yesterday'][] = $v;
+            $list['yesterday']['time'] = "昨天";
 
         }
         //周几
         else if($v[$field] >= $monthstart && $v[$field] <= $monthend){
 
             if(mb_substr( "日一二三四五六",date("w",$v[$field]),1,"utf-8" )=="一"){
-                $list['monday'][$k]=$v;
+                $list['monday'][]=$v;
+                $list['monday']['time']="周一";
             }
             else if(mb_substr( "日一二三四五六",date("w",$v[$field]),1,"utf-8" )=="二"){
-                $list['tuesday'][$k] = $v;
+                $list['tuesday'][] = $v;
+                $list['tuesday']['time'] = "周二";
             }
             else if(mb_substr( "日一二三四五六",date("w",$v[$field]),1,"utf-8" )=="三"){
-                $list['wednesday'][$k] = $v;
+                $list['wednesday'][] = $v;
+                $list['wednesday']['time'] = "周三";
             }
             else if(mb_substr( "日一二三四五六",date("w",$v[$field]),1,"utf-8" )=="四"){
-                $list['thursday'][$k] = $v;
+                $list['thursday'][] = $v;
+                $list['thursday']['time'] = "周四";
             }
             else if(mb_substr( "日一二三四五六",date("w",$v[$field]),1,"utf-8" )=="五"){
-                $list['friday'][$k] = $v;
+                $list['friday'][] = $v;
+                $list['friday']['time'] = "周五";
             }
             else if(mb_substr( "日一二三四五六",date("w",$v[$field]),1,"utf-8" )=="六"){
-                $list['saturday'][$k] = $v;
+                $list['saturday'][] = $v;
+                $list['saturday']['time'] = "周六";
             }
             else{
-                $list['Sunday'][$k] = $v;
+                $list['Sunday'][] = $v;
+                $list['Sunday']['time'] = "周日";
             }
 
 
 
         }else{
-            $list[date('m-d',$v[$field])][$k] = $v;
+
+            $list[date('m月d日',$v[$field])][] = $v;
+            $list[date('m月d日',$v[$field])]['time'] = date('m月d日',$v[$field]);
         }
 
 
