@@ -36,7 +36,17 @@
                     <td>{$item['protect_time']|date="Y-m-d H:i:s",###}</td>
                     <td>{$item['deactivation_time']|date="Y-m-d H:i:s",###}</td>
                     <td>
-                        {if condition="$item['status']"}
+                        {if condition="$item['status'] eq 0"}
+                        <span class="label label-primary">保护中</span>
+                        {elseif condition="$item['status'] eq 1"}
+                        <span class="label label-info">主动脱保</span>
+                        {elseif condition="$item['status'] eq 2"}
+                        <span class="label label-danger">超时脱保</span>
+                        {elseif condition="$item['status'] eq 3"}
+                        <span class="label label-warning">助攻脱保</span>
+                        {else}
+                        <span class="label label-success">已成交</span>
+                        {/if}
 
                     </td>
 
