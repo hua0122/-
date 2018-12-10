@@ -820,12 +820,6 @@ class Operate extends Admin
                 return $this->error("内容不能为空！");
             }
 
-            $data['create_time'] = time();
-            $data['update_time'] = time();
-
-            var_dump($data);
-            exit;
-
 
             if ($data) {
                 $result = $link->save($data, array('id' => $data['id']));
