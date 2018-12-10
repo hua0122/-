@@ -393,4 +393,10 @@ class Sign extends Api
 
     }
 
+    //申请体检页面 获取学员报名信息
+    public function get_sign(){
+
+
+    }
+
 }
