@@ -17,11 +17,35 @@ class Protect extends Admin
 
 
         $order = "id desc";
+
         $list  = db('Protect')
             ->where($map)->order($order)->paginate(10);
+        $data = $list->all();
+
+        if($data){
+            foreach ($data as $k=>$v){
+                //先查询电话号码是合伙人还是队员
+                $d = model("Department")->where(array("phone"=>$v['person']))->find();
+
+                if($d){
+                        $data[$k]['department'] = $d['title'];
+                        $data[$k]['person'] = '';
+
+                }else{
+                    $p = model("Person")
+                        ->field('sent_person.*,sent_department.title')
+                        ->join("sent_department",'sent_department.id=sent_person.department_id','left')
+                        ->where(array("mobile"=>$v['person']))->find();
+                    if($p){
+                        $data[$k]['department'] = $p['title'];
+                        $data[$k]['person'] = $p['username'];
+                    }
+                }
+            }
+        }
 
         $data = array(
-            'list' => $list,
+            'list' => $data,
             'page' => $list->render(),
         );
 
@@ -38,9 +62,34 @@ class Protect extends Admin
 
         $order = "id desc";
         $list  = db('Develop')->where($map)->order($order)->paginate(10);
+        $data = $list->all();
+
+        if($data){
+            foreach ($data as $k=>$v){
+                //先查询电话号码是合伙人还是队员
+                $d = model("Department")->where(array("phone"=>$v['person']))->find();
+
+                if($d){
+                    $data[$k]['department'] = $d['title'];
+                    $data[$k]['person'] = '';
+
+                }else{
+                    $p = model("Person")
+                        ->field('sent_person.*,sent_department.title')
+                        ->join("sent_department",'sent_department.id=sent_person.department_id','left')
+                        ->where(array("mobile"=>$v['person']))->find();
+                    if($p){
+                        $data[$k]['department'] = $p['title'];
+                        $data[$k]['person'] = $p['username'];
+                    }
+                }
+            }
+        }
+
+
 
         $data = array(
-            'list' => $list,
+            'list' => $data,
             'page' => $list->render(),
         );
 
@@ -48,5 +97,10 @@ class Protect extends Admin
 
         $this->setMeta("开发记录");
         return $this->fetch();
+    }
+
+    public function detail(){
+
+
     }
 }

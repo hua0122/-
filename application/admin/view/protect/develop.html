@@ -29,11 +29,12 @@
                 <tr>
                     <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$item['id']}"></td>
                     <td>{$item['id']}</td>
-                    <td>{$item['name']}</td>
+                    <td>{$item['department']}</td>
                     <td>{$item['person']}</td>
-                    <td>{$item['time']}</td>
-                    <td>{$item['process']}</td>
-                    <td><a href="">详情</a> </td>
+                    <td>{$item['name']}({$item['tel']})</td>
+                    <td>{$item['develop_time']|date="Y-m-d H:i:s",###}</td>
+                    <td>{$item['three']}</td>
+                    <td><a href="{:url('detail',array('id'=>$item['id']))}" class="btn btn-primary">详情</a> </td>
                 </tr>
                 {/volist}
                 </tbody>

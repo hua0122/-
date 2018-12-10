@@ -21,7 +21,7 @@
                     <th>学员</th>
                     <th>保护时间</th>
                     <th>脱保时间</th>
-                    <th>操作</th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -29,17 +29,12 @@
                 <tr>
                     <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$item['id']}"></td>
                     <td>{$item['id']}</td>
-                    <td>{$item['name']}</td>
+                    <td>{$item['department']}</td>
                     <td>{$item['person']}</td>
-                    <td>{$item['student']}</td>
+                    <td>{$item['name']}({$item['tel']})</td>
                     <td>{$item['protect_time']|date="Y-m-d H:i:s",###}</td>
                     <td>{$item['deactivation_time']|date="Y-m-d H:i:s",###}</td>
-                    <td>
-                        {if $item['status']}
-                        {else}
-                        <a href="{:url('dispose?id='.$item['id'])}" class="btn btn-success ajax-get">处理</a>
-                        {/if}
-                    </td>
+
                 </tr>
                 {/volist}
                 </tbody>
