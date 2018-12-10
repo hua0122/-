@@ -820,8 +820,7 @@ class Operate extends Admin
             if(empty($data['content'])){
                 return $this->error("内容不能为空！");
             }
-            $data['create_time'] = time();
-            $data['update_time'] = time();
+            var_dump($data);
 
 
 
