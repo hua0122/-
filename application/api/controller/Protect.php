@@ -169,6 +169,7 @@ class Protect extends Api
         $is_have = model("Protect")->where(array("tel"=>$tel))->find();
 
         if($is_have){
+
             return fail($is_have,"学员已经被保护");
         }else{
             $data['num'] = $num;
