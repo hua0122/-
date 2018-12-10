@@ -28,6 +28,9 @@ class Student extends Admin
 
         if(isset($this->schoolid)){
             $map['sent_student.school_id'] = $this->schoolid;
+            //根据角色id和学校id查询是否有收款权限
+            $sk = model("AuthGroupDetail")->where(array("group_id"=>$role_id['group_id'],"school_id"=>$this->schoolid))->find();
+
         }else{
 
             //根据角色ID查询当前学校ID
@@ -41,7 +44,19 @@ class Student extends Admin
 
 
             $map['sent_student.school_id'] = $school_default['school_id'];
+
+            //根据角色id和学校id查询是否有收款权限
+            $sk = model("AuthGroupDetail")->where(array("group_id"=>$role_id['group_id'],"school_id"=>$school_default['school_id']))->find();
+
         }
+
+        //根据角色id和学校id查询是否有收款权限
+        if(strstr($sk['rules'],'69')){
+            $is_sk = true;
+        }else{
+            $is_sk = false;
+        }
+        $this->assign("is_sk",$is_sk);
 
 
         $keyword = input('keyword','', 'htmlspecialchars,trim');
