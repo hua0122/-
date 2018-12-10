@@ -348,6 +348,66 @@ class Protect extends Api
         }
     }
 
+    //替换保护人员  修改原人员为主动脱保状态  添加现有人员
+    public function resource_replace(){
+        $id = input('id','','trim,intval');//要替换的人员id
+        $person = input('person');
+        $tel = input('tel');
+        $name = input('name');
+        if(!$id){
+            return failIncomplete();
+        }
+
+
+        if(empty($person)){
+            return failLogin();
+        }
+
+
+        if(empty($tel)){
+            return failMsg('学员手机号码不能为空');
+        }
+        //查询学员是否已经被保护
+        $is_have = model("Protect")->where(array("tel"=>$tel))->find();
+        if($is_have){
+            return fail($is_have,"学员已经被保护");
+        }
+
+
+        $data['name'] = $name;
+        $data['person'] = $person;
+        $data['tel'] = $tel;
+        $data['protect_time'] = time();
+        //脱保时间规定  2,3,9,10月(3*24)  4,5,6,7,8,11,12,1(5*24)
+        $m = date("m",time());
+        if($m==2||$m==3||$m==9||$m==10){
+            $deactivation_time = 3*24*3600;
+        }else{
+            $deactivation_time = 5*24*3600;
+        }
+
+        $data['deactivation_time'] = time()+$deactivation_time;
+
+
+        $res = model("Protect")->where(array("id"=>$id))->setField('status','1');
+        if($res){
+
+            $result = model("Protect")->save($data);
+            if($result){
+
+                return success();
+            }else{
+                return failMsg();
+            }
+
+        }else{
+            return failMsg();
+        }
+
+
+
+    }
+
 
     //开发记录添加
     public function develop_add(){
