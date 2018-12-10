@@ -100,7 +100,31 @@ class Protect extends Admin
     }
 
     public function detail(){
+        $id = input('id','','trim,intval');
+        $info = db('Develop')->find($id);
+        if($info){
+            //先查询电话号码是合伙人还是队员
+            $d = model("Department")->where(array("phone"=>$info['person']))->find();
+
+            if($d){
+                $info['department'] = $d['title'];
+                $info['person'] = '';
+
+            }else{
+                $p = model("Person")
+                    ->field('sent_person.*,sent_department.title')
+                    ->join("sent_department",'sent_department.id=sent_person.department_id','left')
+                    ->where(array("mobile"=>$info['person']))->find();
+                if($p){
+                    $info['department'] = $p['title'];
+                    $info['person'] = $p['username'];
+                }
+            }
+        }
 
 
+        $this->assign("info",$info);
+        $this->setMeta("开发记录详情");
+        return $this->fetch();
     }
 }

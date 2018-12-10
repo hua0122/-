@@ -299,11 +299,11 @@ class Protect extends Api
         if($deactivation){
             foreach ($deactivation as $k=>$v){
                 if($v['status'] == 1){
-                    $deactivation[$k]['status'] = "主动脱保";
+                    $deactivation[]['status'] = "主动脱保";
                 }elseif($v['status']==2){
-                    $deactivation[$k]['status'] = "超时脱保";
+                    $deactivation[]['status'] = "超时脱保";
                 }elseif($v['status']==3){
-                    $deactivation[$k]['status'] = "助攻脱保";
+                    $deactivation[]['status'] = "助攻脱保";
                 }else{
                     unset($deactivation[$k]);
                 }

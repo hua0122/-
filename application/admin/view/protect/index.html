@@ -21,6 +21,7 @@
                     <th>学员</th>
                     <th>保护时间</th>
                     <th>脱保时间</th>
+                    <th>状态</th>
 
                 </tr>
                 </thead>
@@ -34,6 +35,10 @@
                     <td>{$item['name']}({$item['tel']})</td>
                     <td>{$item['protect_time']|date="Y-m-d H:i:s",###}</td>
                     <td>{$item['deactivation_time']|date="Y-m-d H:i:s",###}</td>
+                    <td>
+                        {if condition="$item['status']"}
+
+                    </td>
 
                 </tr>
                 {/volist}
