@@ -260,6 +260,8 @@ class Protect extends Api
                     //echo "星期".$weekarray[date("w",strtotime($v['deactivation_time']))];
 
                     $list["星期".$weekarray[date("w",strtotime($v['deactivation_time']))]][] = $v;
+                    $list["星期".$weekarray[date("w",strtotime($v['deactivation_time']))]]['time'] = "星期".$weekarray[date("w",strtotime($v['deactivation_time']))];
+
 
                 }
 
@@ -267,7 +269,9 @@ class Protect extends Api
 
 
             }
+            $list = array_values($list);
         }
+
 
         //已脱保名单
         $w ['status'] = array("neq","0");
