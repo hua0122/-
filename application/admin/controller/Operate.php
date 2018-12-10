@@ -808,6 +808,7 @@ class Operate extends Admin
 
     //学生协议
     public function agreement(){
+
         $link = model('Page');
         $id   = input('id', '', 'trim,intval');
         if (IS_POST) {
@@ -819,6 +820,9 @@ class Operate extends Admin
             if(empty($data['content'])){
                 return $this->error("内容不能为空！");
             }
+            $data['create_time'] = time();
+            $data['update_time'] = time();
+
 
 
             if ($data) {
