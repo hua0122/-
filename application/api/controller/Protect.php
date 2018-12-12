@@ -619,7 +619,7 @@ class Protect extends Api
                     }
 
                 }
-                $list = array_values($list[$k]);
+                //$list = array_values($list[$k]);
 
                 $list['time'] = $v['time'];
 
