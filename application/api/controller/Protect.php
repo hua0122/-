@@ -596,12 +596,13 @@ class Protect extends Api
         var_dump($str);
 
         $w['person'] = array("in","(".$str.")");
-        $list = db("Protect")
+        $list = model("Protect")
             ->field('sent_protect.*,sent_student.school_id,sent_school.name')
             ->join('sent_student','sent_protect.tel=sent_student.phone','left')
             ->join('sent_school','sent_school.id=sent_student.school_id','left')
             ->where($w)
             ->select();
+        var_dump(model("Protect")->getLastSql());
         if($list){
             $list = timeTo($list,'deal_time');
         }
