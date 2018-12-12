@@ -626,7 +626,10 @@ class Protect extends Api
             }
 
             $list = array_values($list);
-            
+
+            foreach ($list as $k=>$v){
+                var_dump($k);
+            }
 
 
         }
