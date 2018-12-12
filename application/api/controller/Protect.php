@@ -591,7 +591,10 @@ class Protect extends Api
 
         $d = db("Department")->where(array("phone"=>$person))->find();
         $p = db("Person")->where(array("department_id"=>$d['id']))->select();
+        var_dump($p);
         $str = implode(',',array_column($p,'mobile'));
+        var_dump($str);
+
         $w['person'] = array("in","(".$str.")");
         $list = db("Protect")
             ->field('sent_protect.*,sent_student.school_id,sent_school.name')
