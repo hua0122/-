@@ -616,11 +616,12 @@ class Protect extends Api
                         $list[$k][$v1['person']]['person'] = $this->get_name($v1['person']);
 
                     }
-                    $list[$k][$v1['person']]['time'] = $v['time'];
+
+                    $list[$k]['time'] = $v['time'];
 
                 }
 
-                $list = array_values($list[$k]);
+                //$list = array_values($list[$k]);
 
             }
 
