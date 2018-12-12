@@ -589,6 +589,7 @@ class Protect extends Api
             return failLogin();
         }
 
+
         $d = db("Department")->where(array("phone"=>$person))->find();
         $p = db("Person")->where(array("department_id"=>$d['id']))->select();
         $str = implode(',',array_column($p,'mobile'));//团队下面所有队员的电话号码
@@ -610,6 +611,7 @@ class Protect extends Api
 
                     if(isset($v1['person'])){
                         $list[$k][$v1['person']][] = $v1;
+                        $list[$k]['person'] = $this->get_name($v1['person']);
                     }
                     $list[$k]['time'] = $v['time'];
 
@@ -623,6 +625,12 @@ class Protect extends Api
         }
         return success($list);
 
+    }
+
+    public function get_name($person){
+        //根据队员电话号码查询队员姓名
+        $res = model("Person")->where(array("mobile"=>$person))->find();
+        return $res['username'];
     }
 
     //资源保护详细
