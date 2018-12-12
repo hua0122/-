@@ -19,6 +19,13 @@ class Upload {
 		$config      = $this->$upload_type();
 		// 获取表单上传文件 例如上传了001.jpg
 		$file = request()->file('file');
+		var_dump($file);
+		exit;
+
+        $str = md5(uniqid(mt_rand(), true));//生成唯一ID
+        $zz = base64EncodeImage($houzhui,$dizhi,$str);
+        echo "data:image/webp;base64,".$zz;
+
 		$info = $file->move($config['rootPath'], true, false);
 
 		if ($info) {
@@ -31,6 +38,34 @@ class Upload {
 
 		echo json_encode($return);
 	}
+
+	//转换为webp格式
+    function base64EncodeImage($houzhui,$dizhi,$str)
+    {
+        switch ($houzhui) {
+            case 'image/png':
+                $im = imagecreatefrompng($dizhi);
+                break;
+            case 'image/gif':
+                $im = imagecreatefromgif($dizhi);
+                break;
+            case 'image/jpeg':
+                $im = imagecreatefromjpeg($dizhi);
+                break;
+            case 'image/jpg':
+                $im = imagecreatefromjpeg($dizhi);
+                break;
+            default:
+                exit("上传文件格式不正确");
+                break;
+        }
+        header("Content-type:image/webp");
+        imagewebp($im,'img/'.$str.'.webp');
+        imagedestroy($im);
+
+        return base64_encode(file_get_contents('img/'.$str.'.webp'));//先将文件写入字符串，在进行base64编码
+    }
+
 
 	/**
 	 * 图片上传

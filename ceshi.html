@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <title>图片(jpg,jpeg,png)转webp</title>
+    <style>
+        .center{
+            text-align: center;
+        }
+        .bt{
+            font-size: 25px;
+            font-weight: 700;
+        }
+        .xz{
+            color: red;
+        }
+        .loading{
+            display:none;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <p class="bt center">图片(jpg/jpeg/png)转webp格式</p>
+</section>
+<section class="center"><!-- 业务核心代码 -->
+    <form id="form1">
+        <input type="file" multiple name="file" accept="image/png,image/gif,image/jpg,image/jpeg">
+        <input type="button" value="提交" onclick="loadXMLDoc()" disabled="true">
+    </form>
+    <br>
+    <div>
+        <img class="loading" src="loading.gif" alt="loading" width="200" height="200">
+        <img id="myDiv" src="" width="300">
+        <p class="center"><a class="xz" id="xiazai" href="" download="webp.webp">点击下载</a>或者右击另存为，保存图片</p>
+    </div>
+</section>
+<script>
+    //设置未选择上传文件时，禁用提交按钮
+    var a = document.getElementsByTagName('input')[0];
+    var b = document.getElementsByTagName('input')[1];
+    a.oninput = function(){
+        if (a!=null&&a!="") {
+            b.disabled = false;
+        }
+    }
+    // ajax异步请求服务器
+    function loadXMLDoc()
+    {
+        var loading = document.getElementsByClassName('loading')[0];
+        loading.style.display = "inline";
+        var form=document.getElementById("form1");
+        var fd =new FormData(form);
+        var xmlhttp;
+        if (window.XMLHttpRequest)
+        {
+            //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+            xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {
+            // IE6, IE5 浏览器执行代码
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+                loading.style.display = "none";
+                document.getElementById("xiazai").href = xmlhttp.responseText;
+                document.getElementById("myDiv").src = xmlhttp.responseText;
+            }
+        }
+        xmlhttp.open("post","webp.php",true);
+        xmlhttp.send(fd);
+    }
+</script>
+</body>
+</html>
