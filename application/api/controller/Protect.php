@@ -595,7 +595,7 @@ class Protect extends Api
         $str = implode(',',array_column($p,'mobile'));
         var_dump($str);
 
-        $w['person'] = array("in","(".$str.")");
+        $w['person'] = array("in",$str);
         $list = model("Protect")
             ->field('sent_protect.*,sent_student.school_id,sent_school.name')
             ->join('sent_student','sent_protect.tel=sent_student.phone','left')
