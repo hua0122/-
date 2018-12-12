@@ -630,7 +630,10 @@ class Protect extends Api
             foreach ($list as $k=>$v){
                 $i = 0;//给一个变量，每次循环它就定义成0，到达下标都从0开始
                 foreach ($v as $v1){
-                    $list[$k][$i] = $v1;
+                    if(!$list[$k]['time1']){
+                        $list[$k][$i] = $v1;
+                    }
+
 
                     $i++;//双重循环内，i每次加1
                 }
