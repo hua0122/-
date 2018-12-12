@@ -631,6 +631,7 @@ class Protect extends Api
                 $i = 0;//给一个变量，每次循环它就定义成0，到达下标都从0开始
                 foreach ($v as $k1=>$v1){
                     if($k1!= "time1"){
+                        unset($list[$k][$k1]);
                         $list[$k][$i] = $v1;
                     }
 
