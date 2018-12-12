@@ -607,8 +607,8 @@ class Protect extends Api
                 var_dump($v);
                 foreach ($v as $k1=>$v1){
                     var_dump($v1);
-                    if(isset($v1)){
-                        $list[$k][$k1]['person'][] = $v1;
+                    if(isset($v1['person'])){
+                        $list[$k]['person'][] = $v1;
                     }
 
                 }
