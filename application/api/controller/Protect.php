@@ -619,7 +619,7 @@ class Protect extends Api
 
                     }
 
-                    $list[$k]['time1'] = $v['time'];
+                    $list[$k]['time'] = $v['time'];
 
                 }
 
@@ -630,7 +630,7 @@ class Protect extends Api
             foreach ($list as $k=>$v){
                 $i = 0;//给一个变量，每次循环它就定义成0，到达下标都从0开始
                 foreach ($v as $k1=>$v1){
-                    if($k1!= "time1"){
+                    if($k1!= "time"){
                         unset($list[$k][$k1]);
                         $list[$k][$i] = $v1;
                     }
