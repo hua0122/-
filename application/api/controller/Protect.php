@@ -606,7 +606,7 @@ class Protect extends Api
             $list = timeTo($list,'deal_time');
             $list = array_values($list);
 
-            /*foreach ($list as $k=>$v){
+            foreach ($list as $k=>$v){
 
                 foreach ($v as $k1=>$v1){
                     unset($list[$k][$k1]);
@@ -614,15 +614,16 @@ class Protect extends Api
                     if(isset($v1['person'])){
                         $list[$k][$v1['person']][] = $v1;
                         $list[$k][$v1['person']]['person'] = $this->get_name($v1['person']);
+                        $list[$k]['time'] = $v['time'];
                     }
 
                 }
-                $list['time'] = $v['time'];
+
                 $list = array_values($list[$k]);
 
             }
 
-           */
+
 
         }
         return success($list);
