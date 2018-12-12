@@ -19,16 +19,17 @@ class Upload {
 		$config      = $this->$upload_type();
 		// 获取表单上传文件 例如上传了001.jpg
 		$file = request()->file('file');
-        $houzhui = $file[''];
-        $str = md5(uniqid(mt_rand(), true));//生成唯一ID
-        $zz = base64EncodeImage($houzhui,$dizhi,$str);
-        echo "data:image/webp;base64,".$zz;
+
+        //$str = md5(uniqid(mt_rand(), true));//生成唯一ID
+        //$zz = base64EncodeImage($houzhui,$dizhi,$str);
 
 		$info = $file->move($config['rootPath'], true, false);
-
+        var_dump($info);
+        exit;
 		if ($info) {
 			$return['status'] = 1;
 			$return['info']   = $this->save($config, $upload_type, $info);
+			//$return['info']['webp']= "data:image/webp;base64,".$zz;
 		} else {
 			$return['status'] = 0;
 			$return['info']   = $file->getError();

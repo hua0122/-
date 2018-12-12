@@ -145,7 +145,7 @@
 
 		// create flash
 		var fla = document.createElement("embed");
-		fla.src = "WebP.swf";
+		fla.src = "img/WebP.swf";
 		fla.width = 28;
 		fla.height = 28;
 
@@ -217,7 +217,8 @@
 		// native support check
 		var t = new Image;
 		t.onerror = setup;
-		t.src = "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACyAgCdASoBAAEALy2Wy2WlpaWlpYEsSygABc6zbAAA/upgAAA=";
+		//t.src = "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACyAgCdASoBAAEALy2Wy2WlpaWlpYEsSygABc6zbAAA/upgAAA=";
+		t.src = "data:image/webp;base64,"+str;
 	}
 	init();
 })();
