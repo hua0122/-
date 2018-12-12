@@ -615,7 +615,7 @@ class Protect extends Api
                     }
 
                 }
-                $list['time'][$k] = $v['time'];
+                $list['time'] = $v['time'];
                 $list = array_values($list[$k]);
 
             }
