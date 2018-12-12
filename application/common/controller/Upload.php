@@ -19,9 +19,7 @@ class Upload {
 		$config      = $this->$upload_type();
 		// 获取表单上传文件 例如上传了001.jpg
 		$file = request()->file('file');
-		var_dump($file);
-		exit;
-
+        $houzhui = $file[''];
         $str = md5(uniqid(mt_rand(), true));//生成唯一ID
         $zz = base64EncodeImage($houzhui,$dizhi,$str);
         echo "data:image/webp;base64,".$zz;
