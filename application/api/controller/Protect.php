@@ -607,10 +607,11 @@ class Protect extends Api
 
                 foreach ($v as $k1=>$v1){
                     unset($list[$k][$k1]);
-                    $list[$k]['time'] = $v['time'];
+
                     if(isset($v1['person'])){
                         $list[$k][$v1['person']][] = $v1;
                     }
+                    $list[$k]['time'] = $v['time'];
 
                 }
 
