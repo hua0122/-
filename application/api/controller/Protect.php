@@ -614,10 +614,12 @@ class Protect extends Api
                     $list[$k]['time'] = $v['time'];
 
                 }
+                $list = array_values($list[$k]);
 
             }
 
             $list = array_values($list);
+
         }
         return success($list);
 
