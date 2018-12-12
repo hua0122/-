@@ -591,7 +591,7 @@ class Protect extends Api
 
         $d = db("Department")->where(array("phone"=>$person))->find();
         $p = db("Person")->where(array("department_id"=>$d['id']))->select();
-        $str = implode(',',array_column($p,'mobile'));
+        $str = implode(',',array_column($p,'mobile'));//团队下面所有队员的电话号码
 
         $w['person'] = array("in",$str);
         $list = model("Protect")
@@ -603,7 +603,14 @@ class Protect extends Api
 
         if($list){
             $list = timeTo($list,'deal_time');
-            $list = array_values($list);
+            foreach ($list as $k=>$v){
+                foreach ($v as $k1=>$v1){
+                    $list[$k][$k1]['person'][] = $v1;
+                }
+
+            }
+
+            //$list = array_values($list);
         }
         return success($list);
 
