@@ -609,11 +609,10 @@ class Protect extends Api
             foreach ($list as $k=>$v){
 
                 foreach ($v as $k1=>$v1){
-                    //unset($list[$k][$k1]);
+                    unset($list[$k][$k1]);
 
                     if(isset($v1['person'])){
-                        var_dump($list[$k]);
-                        exit;
+
                         $list[$k][$v1['person']][] = $v1;
                         $list[$k][$v1['person']]['person'] = $this->get_name($v1['person']);
 
