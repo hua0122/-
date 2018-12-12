@@ -24,8 +24,8 @@ class Upload {
         //$zz = base64EncodeImage($houzhui,$dizhi,$str);
 
 		$info = $file->move($config['rootPath'], true, false);
-        var_dump($info);
-        exit;
+        //var_dump($info);
+        //exit;
 		if ($info) {
 			$return['status'] = 1;
 			$return['info']   = $this->save($config, $upload_type, $info);
