@@ -604,7 +604,9 @@ class Protect extends Api
         if($list){
             $list = timeTo($list,'deal_time');
             foreach ($list as $k=>$v){
+                var_dump($v);
                 foreach ($v as $k1=>$v1){
+                    var_dump($v1);
                     if(isset($v1)){
                         $list[$k][$k1]['person'][] = $v1;
                     }
