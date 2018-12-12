@@ -591,9 +591,7 @@ class Protect extends Api
 
         $d = db("Department")->where(array("phone"=>$person))->find();
         $p = db("Person")->where(array("department_id"=>$d['id']))->select();
-        var_dump($p);
         $str = implode(',',array_column($p,'mobile'));
-        var_dump($str);
 
         $w['person'] = array("in",$str);
         $list = model("Protect")
@@ -602,7 +600,7 @@ class Protect extends Api
             ->join('sent_school','sent_school.id=sent_student.school_id','left')
             ->where($w)
             ->select();
-        var_dump(model("Protect")->getLastSql());
+
         if($list){
             $list = timeTo($list,'deal_time');
         }
