@@ -614,8 +614,9 @@ class Protect extends Api
                     if(isset($v1['person'])){
                         $list[$k][$v1['person']][] = $v1;
                         $list[$k][$v1['person']]['person'] = $this->get_name($v1['person']);
-                        $list[$k]['time'] = $v['time'];
+
                     }
+                    $list[$k]['time'] = $v['time'];
 
                 }
 
