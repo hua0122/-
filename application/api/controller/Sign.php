@@ -305,7 +305,9 @@ class Sign extends Api
 
         $wx = new \Weixin_class();
 
-        $data = input('post.');
+        $data['name'] = input('name');
+        $data['phone'] = input('phone');
+        $data['station_id'] = input('station_id');
 
         $price = input('money');
         $data['openid'] = input('openid')?input('openid'):session("openid");
@@ -313,6 +315,17 @@ class Sign extends Api
 
         if(empty($data['openid'])){
             return failMsg('请先登录');
+        }
+
+        if(empty($data['name'])){
+            return failMsg('姓名不能为空');
+        }
+
+        if(empty($data['phone'])){
+            return failMsg('电话不能为空');
+        }
+        if(empty($data['station_id'])){
+            return failMsg('体检站不能为空');
         }
 
         //查询是否报名
