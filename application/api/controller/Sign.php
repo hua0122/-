@@ -343,7 +343,9 @@ class Sign extends Api
             echo "111";
             $res = model("Apply")->save($data);
             $insert_id = model("Apply")->getLastInsID();
+            var_dump($res);
             if ($res) {
+                echo "222";
                 $sn = "tj_" . rand_string(20);//订单编号
                 $total_fee = $price * 100;
                 if (!empty($total_fee) && $total_fee > 0 && !empty($data['openid'])) {
