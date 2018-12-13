@@ -340,6 +340,7 @@ class Sign extends Api
         $is_have = model("Apply")->where(array("openid"=>$data['openid']))->find();
         var_dump($is_have);
         if($is_have){
+            echo "111";
             $res = model("Apply")->save($data);
             $insert_id = model("Apply")->getLastInsID();
             if ($res) {
