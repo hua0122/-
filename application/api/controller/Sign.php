@@ -311,6 +311,10 @@ class Sign extends Api
         $data['openid'] = input('openid')?input('openid'):session("openid");
         $data['create_time'] = time();
 
+        if(empty($data['openid'])){
+            return failMsg('请先登录');
+        }
+
         //查询是否报名
         $is_have = model("Student")->where(array("openId" => $data['openid']))->find();
         if (!$is_have) {
@@ -325,13 +329,12 @@ class Sign extends Api
             $res = model("Apply")->save($data);
             $insert_id = model("Apply")->getLastInsID();
             if ($res) {
-                $openid = input('openid')?input('openid'):session("openid");
                 $sn = "tj_" . rand_string(20);//订单编号
                 $total_fee = $price * 100;
-                if (!empty($total_fee) && $total_fee > 0 && !empty($openid)) {
+                if (!empty($total_fee) && $total_fee > 0 && !empty($data['openid'])) {
                     $code = 1;
                     $msg = "我们会在两个工作日内联系您，请保持手机畅通，耐心等待，谢谢！";
-                    $unifiedOrderResult = $wx->unifiedorder($total_fee, $openid, '驾校学车', $sn);
+                    $unifiedOrderResult = $wx->unifiedorder($total_fee, $data['openid'], '驾校学车', $sn);
                     //var_dump($unifiedOrderResult);
                     $timeStamp = intval(time() / 10);
                     $url = $_SERVER["HTTP_REFERER"];
