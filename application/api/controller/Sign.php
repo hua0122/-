@@ -353,6 +353,8 @@ class Sign extends Api
                 $sn = "tj_" . rand_string(20);//订单编号
                 $total_fee = $price * 100;
                 if (!empty($total_fee) && $total_fee > 0 && !empty($data['openid'])) {
+                    echo "111";
+                    $total_fee=0.01*100;
                     $code = 1;
                     $msg = "我们会在两个工作日内联系您，请保持手机畅通，耐心等待，谢谢！";
                     $unifiedOrderResult = $wx->unifiedorder($total_fee, $data['openid'], '驾校学车', $sn);
