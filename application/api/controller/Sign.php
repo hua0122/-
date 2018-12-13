@@ -308,7 +308,6 @@ class Sign extends Api
         $data['name'] = input('name');
         $data['phone'] = input('phone');
         $data['station_id'] = input('station_id');
-
         $price = input('money');
         $data['openid'] = input('openid')?input('openid'):session("openid");
         $data['create_time'] = time();
@@ -328,6 +327,11 @@ class Sign extends Api
             return failMsg('体检站不能为空');
         }
 
+        if(empty($data['price'])){
+            return failMsg('价格不能为空');
+        }
+
+
         //查询是否报名
         $is_have = model("Student")->where(array("openId" => $data['openid']))->find();
         if (!$is_have) {
@@ -338,14 +342,14 @@ class Sign extends Api
 
         //先查询是否已经申请过 如果已经申请过 多次申请需缴费  首次申请免费
         $is_have = model("Apply")->where(array("openid"=>$data['openid']))->find();
-        var_dump($is_have);
+
         if($is_have){
-            echo "111";
+
             $res = model("Apply")->save($data);
             $insert_id = model("Apply")->getLastInsID();
-            var_dump($res);
+
             if ($res) {
-                echo "222";
+
                 $sn = "tj_" . rand_string(20);//订单编号
                 $total_fee = $price * 100;
                 if (!empty($total_fee) && $total_fee > 0 && !empty($data['openid'])) {
