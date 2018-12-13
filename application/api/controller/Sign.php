@@ -338,6 +338,7 @@ class Sign extends Api
 
         //先查询是否已经申请过 如果已经申请过 多次申请需缴费  首次申请免费
         $is_have = model("Apply")->where(array("openid"=>$data['openid']))->find();
+        var_dump($is_have);
         if($is_have){
             $res = model("Apply")->save($data);
             $insert_id = model("Apply")->getLastInsID();
