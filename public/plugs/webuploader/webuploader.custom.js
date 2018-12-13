@@ -322,9 +322,57 @@
 					}
 				});
 
-			}
+			},
+        delFile1: function() {
+            var self = this;
+            var selecter = '';
+            if (self.options.listName) {
+                selecter = '#' + self.options.listName;
+            }
+            if (self.options.editListName) {
+                selecter += ',#' + self.options.editListName;
+            }
+            console.log(selecter);
+            $("#picker_cover_id").click( function() {
+
+            	//如果有值
+            	if($("#field_cover_id").val()){
+					var thisClose = $(".webuploader-pick-file-close");
+					var fid = parseInt(thisClose.attr('data-id'), 10);
+					var furl = $.trim(thisClose.attr('data-fileurl'));
+					var qfid = $.trim(thisClose.attr('data-queued-id')); //文件所在队列id
+					thisClose.html('<i class="loading"></i>'); //load加载标识
+					if (fid > 0) {
+						$.post(self.options.delUrl, {
+							"id": fid
+						}, function(json) {
+							if (json.status == '1') {
+								if (self.options.hiddenValType == '1') {
+									self.resetHiddenVal(fid);
+								} else {
+									self.resetHiddenVal(furl);
+								}
+								$('#' + qfid).remove();
+
+								if (qfid.substring(0, 7) == 'WU_FILE') {
+									self.BDUploader.removeFile(qfid, true);
+								}
+								self.allowNum++;
+							} else {
+								$.messager.show(json.msg, {
+									placement: 'bottom'
+								});
+								thisClose.html('<i class="close"></i>'); //load加载标识
+							}
+						}, 'json');
+					}
+                }
+
+            });
+
+        },
+
 			//重置隐藏域的值
-			,
 		resetHiddenVal: function(val) {
 				var self = this;
 				var hdnVal = self.getHiddenValue();
@@ -376,6 +424,9 @@
 		if (uploader.options.delFile == true) {
 			uploader.delFile();
 		}
+        if (uploader.options.delFile1 == true) {
+            uploader.delFile1();
+        }
 	}
 		//插件默认参数
 	$.fn[pluginName].defaults = {
@@ -474,6 +525,7 @@
 		 */
 		uploadEvents: {}, //上传事件
 		delFile: true, //文件删除是否开启，开启后上传文件显示列表有删除文件按钮，默认开启
+		delFile1: true, //文件删除是否开启，开启后上传文件显示列表有删除文件按钮，默认开启
 		hiddenName: 'fileid', //文件上传隐藏域ID
 		hiddenValType: '1', //文件上传隐藏域保存的值的类型   1=保存的是file表的文件编号ID，2=保存的是文件的实际路径
 		listName: 'fileList', //文件上传完成显示列表区域id

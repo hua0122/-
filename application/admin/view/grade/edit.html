@@ -42,8 +42,8 @@
 				<label class="col-lg-2 control-label">班别车型</label>
 				<div class="col-lg-10 col-sm-10">
 					<select class="form-control" name="type" id="type" style="width:auto;">
-						<option value="1" selected="">C1</option>
-						<option value="2">C2</option>
+						<option value="1" {if condition="$info['type'] eq 1"}selected=""{/if}>C1</option>
+						<option value="2" {if condition="$info['type'] eq 2"}selected=""{/if}>C2</option>
 					</select>
 					<div class="help-block"></div>
 				</div>
