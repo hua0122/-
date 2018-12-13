@@ -148,13 +148,13 @@
 			if (!self.options.uploadEvents.fileQueued) {
 				self.BDUploader.on('fileQueued', function(file) {
 
-					/*if (self.allowNum == 0 || self.isAllowUpload() == 0) {
+					if (self.allowNum == 0 || self.isAllowUpload() == 0) {
 						self.BDUploader.removeFile(file);
 						$.messager.show('上传文件数量超出限制,最多上传' + self.options.fileNumLimit + '个文件', {
 							placement: 'bottom'
 						});
 						return false;
-					}*/
+					}
 
 					if ($("#" + self.options.listName).length > 0) {
 						//文件上传后 列表显示效果
