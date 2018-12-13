@@ -126,7 +126,12 @@
                                             <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="cover_id" id="field_cover_id" value="{$step[0]['cover_id']|default=''}">
+                                    {if condition="$step[0]['cover_id'] eq 0"}
+                                    <input type="hidden" name="cover_id" id="field_cover_id" value="">
+                                    {else}
+                                    <input type="hidden" name="cover_id" id="field_cover_id" value="{$step[0]['cover_id']}">
+                                    {/if}
+
                                     <input type="hidden" name="one_left_id"  value="{$step[0]['id']}">
                                     <div id="fileList_cover_id" class="upload-file-list-info" style="width:200px;">
                                         {if condition="$step[0]['cover_id']"}
@@ -204,7 +209,12 @@
                                             <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="cover_id1" id="field_cover_id1" value="{$step1[0]['cover_id']|default=''}">
+                                    {if condition="$step1[0]['cover_id'] eq 0"}
+                                    <input type="hidden" name="cover_id1" id="field_cover_id1" value="">
+                                    {else}
+                                    <input type="hidden" name="cover_id1" id="field_cover_id1" value="{$step1[0]['cover_id']}">
+                                    {/if}
+
                                     <input type="hidden" name="one_right_id"  value="{$step1[0]['id']}">
                                     <div id="fileList_cover_id1" class="upload-file-list-info" style="width:200px;">
                                         {if condition="$step1[0]['cover_id']"}
@@ -283,7 +293,12 @@
                                             <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
                                         </div>
                                     </div>
+                                    {if condition="$step2[0]['cover_id'] eq 0"}
+                                    <input type="hidden" name="cover_id2" id="field_cover_id2" value="">
+                                    {else}
                                     <input type="hidden" name="cover_id2" id="field_cover_id2" value="{$step2[0]['cover_id']}">
+                                    {/if}
+
                                     <input type="hidden" name="two_left_id"  value="{$step2[0]['id']}">
                                     <div id="fileList_cover_id2" class="upload-file-list-info" style="width:200px;">
                                         {if condition="$step2[0]['cover_id']"}
@@ -327,7 +342,7 @@
                                                         allowMagnify: false,
 
                                                         // 是否允许裁剪。
-                                                        crop: true,
+                                                        crop: false,
 
                                                         // 是否保留头部meta信息。
                                                         preserveHeaders: true,
@@ -362,7 +377,12 @@
                                             <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
                                         </div>
                                     </div>
+                                    {if condition="$step3[0]['cover_id'] eq 0"}
+                                    <input type="hidden" name="cover_id3" id="field_cover_id3" value="">
+                                    {else}
                                     <input type="hidden" name="cover_id3" id="field_cover_id3" value="{$step3[0]['cover_id']}">
+                                    {/if}
+
                                     <input type="hidden" name="two_center_id"  value="{$step3[0]['id']}">
                                     <div id="fileList_cover_id3" class="upload-file-list-info" style="width:200px;">
                                         {if condition="$step3[0]['cover_id']"}
@@ -406,7 +426,7 @@
                                                         allowMagnify: false,
 
                                                         // 是否允许裁剪。
-                                                        crop: true,
+                                                        crop: false,
 
                                                         // 是否保留头部meta信息。
                                                         preserveHeaders: true,
@@ -442,7 +462,12 @@
                                             <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
                                         </div>
                                     </div>
+                                    {if condition="$step4[0]['cover_id'] eq 0"}
+                                    <input type="hidden" name="cover_id4" id="field_cover_id4" value="">
+                                    {else}
                                     <input type="hidden" name="cover_id4" id="field_cover_id4" value="{$step4[0]['cover_id']}">
+                                    {/if}
+
                                     <input type="hidden" name="two_right_id"  value="{$step4[0]['id']}">
                                     <div id="fileList_cover_id4" class="upload-file-list-info" style="width:200px;">
                                         {if condition="$step4[0]['cover_id']"}
@@ -486,7 +511,7 @@
                                                         allowMagnify: false,
 
                                                         // 是否允许裁剪。
-                                                        crop: true,
+                                                        crop: false,
 
                                                         // 是否保留头部meta信息。
                                                         preserveHeaders: true,
