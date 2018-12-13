@@ -26,6 +26,7 @@ class Student extends Admin
         $this->setMeta("学员管理");
         $map = array();
 
+        $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
         if(isset($this->schoolid)){
             $map['sent_student.school_id'] = $this->schoolid;
             //根据角色id和学校id查询是否有收款权限
@@ -34,7 +35,7 @@ class Student extends Admin
         }else{
 
             //根据角色ID查询当前学校ID
-            $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+
             $where['group_id'] = $role_id['group_id'];
             $where['rules'] = array('<>','');
             $school_default = db("AuthGroupDetail")
