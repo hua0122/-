@@ -327,7 +327,7 @@ class Sign extends Api
             return failMsg('体检站不能为空');
         }
 
-        if(empty($data['price'])){
+        if(empty($price)){
             return failMsg('价格不能为空');
         }
 
