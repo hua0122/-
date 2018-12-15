@@ -36,8 +36,9 @@ class Sign extends Api
     {
         $where = [];
         $where['school_id'] = input('school_id','','trim,intval');
+        $where['status'] = 0;
         $area = model('Area');
-        $res = $area->where(array("status" => 0))->select();
+        $res = $area->where($where)->select();
         if ($res) {
             foreach ($res as $k=>$v){
                 $res[$k]['picurl'] = get_cover($v['thumb'],"path") ;
