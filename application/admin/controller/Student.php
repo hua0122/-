@@ -168,14 +168,14 @@ class Student extends Admin
 
         //班级信息展示
         $grade_s = db('Grade')
-            ->field('sent_grade.*,sent_area.school_id,sent_area.id')
+            ->field('sent_grade.*')
             ->join('sent_area','sent_area.id=sent_grade.area_id','left')
-            ->where(array("status"=>0,"sent_area.school_id"=>$school_id))
+            ->where(array("sent_grade.status"=>0,"sent_area.school_id"=>$school_id))
             ->select();
         $grade_x = db('Grade')
-            ->field('sent_grade.*,sent_area.school_id,sent_area.id')
+            ->field('sent_grade.*')
             ->join('sent_area','sent_area.id=sent_grade.area_id','left')
-            ->where(array("status"=>1,"sent_area.school_id"=>$school_id))->select();
+            ->where(array("sent_grade.status"=>1,"sent_area.school_id"=>$school_id))->select();
         $this->assign("grade_s",$grade_s);
         $this->assign("grade_x",$grade_x);
 
