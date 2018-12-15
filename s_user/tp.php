@@ -82,7 +82,7 @@ switch($method) {
 
 
 		$timeStamp = intval(time()/10);
-		@$url = $_SERVER["HTTP_REFERER"];
+        @$url = $_SERVER["HTTP_REFERER"];
 
 		$nonceStr = $wx->getRandChar(15);
 
