@@ -170,11 +170,12 @@ class Student extends Admin
         $grade_s = db('Grade')
             ->field('sent_grade.*,sent_area.school_id,sent_area.id')
             ->join('sent_area','sent_area.id=sent_grade.area_id','left')
-            ->where(array("status"=>0,array("sent_area.school_id"=>$school_id)))->select();
+            ->where(array("status"=>0,"sent_area.school_id"=>$school_id))
+            ->select();
         $grade_x = db('Grade')
             ->field('sent_grade.*,sent_area.school_id,sent_area.id')
             ->join('sent_area','sent_area.id=sent_grade.area_id','left')
-            ->where(array("status"=>1,array("sent_area.school_id"=>$school_id)))->select();
+            ->where(array("status"=>1,"sent_area.school_id"=>$school_id))->select();
         $this->assign("grade_s",$grade_s);
         $this->assign("grade_x",$grade_x);
 
