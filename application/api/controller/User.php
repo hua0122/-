@@ -198,7 +198,6 @@ class User extends Api
     //获取微信用户信息
     public function getwxinfo()
     {
-        $school_id = input('school_id');
         if (!empty($_REQUEST['data'])) {
             $data = $_REQUEST['data'];
 
@@ -248,7 +247,6 @@ class User extends Api
     //获取微信用户信息
     public function getwxinfo_xxc()
     {
-        $school_id = input('school_id');
         if (!empty($_REQUEST['data'])) {
             $data = $_REQUEST['data'];
 
@@ -295,6 +293,10 @@ class User extends Api
         exit();
     }
 
+    
+
+
+    //----------------------------------
 
 
     //获取code  并根据回调地址获取openid 及access_token
