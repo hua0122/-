@@ -81,14 +81,21 @@ switch($method) {
 
 		$timeStamp = intval(time()/10);
 		@$url = $_SERVER["HTTP_REFERER"];
-		//echo $url;
+
 		$nonceStr = $wx->getRandChar(15);
+
 		$signature = $wx->get_js_signature($nonceStr, $timeStamp, $url);
+
 		@$package = "prepay_id=" . $unifiedOrderResult->prepay_id;
 		$data = array("timeStamp"=>$timeStamp,"nonceStr"=>$nonceStr,
 			"package"=>$package, "signType"=>"MD5", "appId"=>$appid);
 		$paySign = $wx->get_signature($data);
+<<<<<<< HEAD
 		$content = array('appId'=>$appid, 'timestamp'=>$timeStamp, 'nonceStr'=>$nonceStr, 'signature'=>$signature,'test'=>$url);
+=======
+		$content = array('appId'=>APPID, 'timestamp'=>$timeStamp, 'nonceStr'=>$nonceStr, 'signature'=>$signature,'test'=>$url);
+
+>>>>>>> bfb629fb1c5b3d9558c9d2f94b38470385e6781d
 		break;
 		
 	case "showxxds"://显示形象大使

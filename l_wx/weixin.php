@@ -555,7 +555,6 @@ class Weixin_class {
 	 //jsapi签名
 	 public function get_js_signature($nonceStr, $timestamp, $url) {
 	    $jsapiTicket = trim($this->getJsApiTicket());
-
 	    // 这里参数的顺序要按照 key 值 ASCII 码升序排序
 	    $string = "jsapi_ticket=$jsapiTicket&noncestr=$nonceStr&timestamp=$timestamp&url=$url";
 		//echo $string;
