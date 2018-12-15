@@ -91,7 +91,7 @@ switch($method) {
 		@$package = "prepay_id=" . $unifiedOrderResult->prepay_id;
 		$data = array("timeStamp"=>$timeStamp,"nonceStr"=>$nonceStr,
 			"package"=>$package, "signType"=>"MD5", "appId"=>$appid);
-		//$paySign = $wx->get_signature($data);
+		$paySign = $wx->get_signature($data);
 
 		$content = array('appId'=>$appid, 'timestamp'=>$timeStamp, 'nonceStr'=>$nonceStr, 'signature'=>$signature,'test'=>$url);
 		break;
