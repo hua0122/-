@@ -55,6 +55,30 @@ switch($method) {
 		break;
 		
 	case 'getwxpz':
+		$school_id = input("school_id");
+        if(!empty($school_id)){
+            if($school_id==1){//鼎吉驾校
+                $appid = APPID_DJ;
+
+            }elseif($school_id==2){//金西亚驾校
+                $appid = APPID_JXY;
+            }elseif($school_id==3){//城南驾校
+                $appid = APPID_CN;
+            }elseif($school_id==4){//西南驾校
+                $appid = APPID_XN;
+            }
+			elseif($school_id==5){ //秀学车
+                $appid = APPID_XXC;
+            }
+			elseif($school_id==6){ //易点学车
+                $appid = APPID;
+            }
+
+            else{
+                $appid = APPID;
+            }
+        }
+
 		$timeStamp = intval(time()/10);
 		@$url = $_SERVER["HTTP_REFERER"];
 		//echo $url;
@@ -62,23 +86,10 @@ switch($method) {
 		$signature = $wx->get_js_signature($nonceStr, $timeStamp, $url);
 		@$package = "prepay_id=" . $unifiedOrderResult->prepay_id;
 		$data = array("timeStamp"=>$timeStamp,"nonceStr"=>$nonceStr,
-			"package"=>$package, "signType"=>"MD5", "appId"=>APPID);
+			"package"=>$package, "signType"=>"MD5", "appId"=>$appid);
 		$paySign = $wx->get_signature($data);
-		$content = array('appId'=>APPID, 'timestamp'=>$timeStamp, 'nonceStr'=>$nonceStr, 'signature'=>$signature,'test'=>$url);
+		$content = array('appId'=>$appid, 'timestamp'=>$timeStamp, 'nonceStr'=>$nonceStr, 'signature'=>$signature,'test'=>$url);
 		break;
-
-    case 'getwxpz_xxc':
-        $timeStamp = intval(time()/10);
-        @$url = $_SERVER["HTTP_REFERER"];
-        //echo $url;
-        $nonceStr = $wx->getRandChar(15);
-        $signature = $wx->get_js_signature($nonceStr, $timeStamp, $url);
-        @$package = "prepay_id=" . $unifiedOrderResult->prepay_id;
-        $data = array("timeStamp"=>$timeStamp,"nonceStr"=>$nonceStr,
-            "package"=>$package, "signType"=>"MD5", "appId"=>APPID_XXC);
-        $paySign = $wx->get_signature($data);
-        $content = array('appId'=>APPID_XXC, 'timestamp'=>$timeStamp, 'nonceStr'=>$nonceStr, 'signature'=>$signature,'test'=>$url);
-        break;
 		
 	case "showxxds"://显示形象大使
 			
