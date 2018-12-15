@@ -86,7 +86,7 @@ switch($method) {
 
 		$nonceStr = $wx->getRandChar(15);
 
-		$signature = $wx->get_js_signature($nonceStr, $timeStamp, $url);
+		$signature = $wx->get_js_signature($nonceStr, $timeStamp, $url,$school_id);
 
 		@$package = "prepay_id=" . $unifiedOrderResult->prepay_id;
 		$data = array("timeStamp"=>$timeStamp,"nonceStr"=>$nonceStr,
