@@ -392,46 +392,54 @@ class Weixin_class {
         if($school_id==1){//鼎吉驾校
             $appid = APPID_DJ;
             $appsecret = APPSECRET_DJ;
+            $access_token_name = "access_token_dj";
 
         }elseif($school_id==2){//金西亚驾校
             $appid = APPID_JXY;
             $appsecret = APPSECRET_JXY;
+            $access_token_name = "access_token_jxy";
         }elseif($school_id==3){//城南驾校
             $appid = APPID_CN;
             $appsecret = APPSECRET_CN;
+            $access_token_name = "access_token_cn";
         }elseif($school_id==4){//西南驾校
             $appid = APPID_XN;
             $appsecret = APPSECRET_XN;
+            $access_token_name = "access_token_xn";
         }
         elseif($school_id==5){ //秀学车
             $appid = APPID_XXC;
             $appsecret = APPSECRET_XXC;
+            $access_token_name = "access_token_xxc";
         }
         elseif($school_id==6){ //易点学车
             $appid = APPID;
             $appsecret = APPSECRET;
+            $access_token_name = "access_token";
         }
 
         else{
             $appid = APPID;
             $appsecret = APPSECRET;
+            $access_token_name = "access_token";
         }
-		$file = fopen($_SERVER['DOCUMENT_ROOT'] . "/l_wx/access_token.txt", "r+") or die("Unable to open file!");
+
+		$file = fopen($_SERVER['DOCUMENT_ROOT'] . "/l_wx/".$access_token_name.".txt", "r+") or die("Unable to open file!");
 
 		$access_token_info = fread($file,"500");
 		$access_token_info = explode(",", $access_token_info);
 		fclose($file);
 
 		if (time() - $access_token_info[1] > 7000 ) {
-			$url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' .
-						$appid  . '&secret='. $appsecret;
+			$url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.
+						$appid.'&secret='.$appsecret;
 			//echo $url;
 			$data = file_get_contents($url);
 			$access_token = json_decode($data);
 			$access_token_info[0] = $access_token->access_token;
 			$access_token_info[1] = time();
 			$txt = $access_token_info[0] . "," . $access_token_info[1];
-			$file = fopen($_SERVER['DOCUMENT_ROOT'] . "/l_wx/access_token.txt", "w") or die("Unable to open file!");
+			$file = fopen($_SERVER['DOCUMENT_ROOT'] . "/l_wx/".$access_token_name.".txt", "w") or die("Unable to open file!");
 			fwrite($file, $txt);
 			fclose($file);
 		}
@@ -440,7 +448,7 @@ class Weixin_class {
 	}
 
 	//获取api_ticket
-	function get_api_ticket() {
+	function get_api_ticket($school_id) {
 		$file = fopen($_SERVER['DOCUMENT_ROOT'] . "/l_wx/api_ticket.txt", "r+") or die("Unable to open file!");
 		$api_ticket_info = fread($file,"500");
 		$api_ticket_info = explode(",", $api_ticket_info);
@@ -448,7 +456,7 @@ class Weixin_class {
 
 		if (time() - $api_ticket_info[1] > 7000 ) {
 
-			$access_token=$this->get_acctoken();
+			$access_token=$this->get_acctoken($school_id);
 			$access_token = $access_token[0];
 			$url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='.$access_token.'&type=wx_card';
 			$data = file_get_contents($url);
@@ -464,8 +472,29 @@ class Weixin_class {
 		return $api_ticket_info;
 	}
 	function getJsApiTicket($school_id) {
-	  	$file = fopen($_SERVER['DOCUMENT_ROOT'] . "/l_wx/api_ticket_js.txt", "r+") or die("Unable to open file!");
+        if($school_id==1){//鼎吉驾校
+            $api_ticket_js = "api_ticket_js_dj";
 
+        }elseif($school_id==2){//金西亚驾校
+            $api_ticket_js = "api_ticket_js_jxy";
+        }elseif($school_id==3){//城南驾校
+            $api_ticket_js = "api_ticket_js_cn";
+        }elseif($school_id==4){//西南驾校
+            $api_ticket_js = "api_ticket_js_xn";
+        }
+        elseif($school_id==5){ //秀学车
+            $api_ticket_js = "api_ticket_js_xxc";
+        }
+        elseif($school_id==6){ //易点学车
+            $api_ticket_js = "api_ticket_js";
+        }
+
+        else{
+            $api_ticket_js = "api_ticket_js";
+        }
+
+
+	  	$file = fopen($_SERVER['DOCUMENT_ROOT'] . "/l_wx/".$api_ticket_js.".txt", "r+") or die("Unable to open file!");
 		$api_ticket_info = fread($file,"500");
 		$api_ticket_info = explode(",", $api_ticket_info);
 		fclose($file);
@@ -480,7 +509,7 @@ class Weixin_class {
 			$api_ticket_info[0] = $api_ticket->ticket;
 			$api_ticket_info[1] = time();
 			$txt = $api_ticket_info[0] . "," . $api_ticket_info[1];
-			$file = fopen($_SERVER['DOCUMENT_ROOT'] . "/l_wx/api_ticket_js.txt", "w") or die("Unable to open file!");
+			$file = fopen($_SERVER['DOCUMENT_ROOT'] . "/l_wx/".$api_ticket_js.".txt", "w") or die("Unable to open file!");
 			fwrite($file, $txt);
 			fclose($file);
 		}
@@ -582,7 +611,7 @@ class Weixin_class {
 	 //jsapi签名
 	 public function get_js_signature($nonceStr, $timestamp, $url,$school_id) {
 	    $jsapiTicket = trim($this->getJsApiTicket($school_id));
-	    //var_dump($jsapiTicket);
+         //var_dump($url);
 	    // 这里参数的顺序要按照 key 值 ASCII 码升序排序
 	    $string = "jsapi_ticket=$jsapiTicket&noncestr=$nonceStr&timestamp=$timestamp&url=$url";
 		//echo $string;
