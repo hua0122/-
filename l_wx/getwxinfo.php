@@ -50,11 +50,14 @@ switch ($method) {//获取code
 		$data = file_get_contents($getaccessurl);
 		$data = json_decode($data, true);
 
+
 		if ($data["errcode"] == 40029 || $data['errcode'] == 41008) {//code无效重新获取
+
 			$url = "/l_wx/getwxinfo.php?method=getCode&state=".$state."&scope=snsapi_userinfo&redirect_uri=".urlencode("http://" . $_SERVER['HTTP_HOST']."/l_wx/getwxinfo.php?method=getUserInfo");
 			header("Location:" . $url);
 			exit();
 		}
+
 		$infourl = "https://api.weixin.qq.com/sns/userinfo?access_token=".$data['access_token'] . 
 			"&openid=" . $data['openid'] . "&lang=zh_CN";
 			
@@ -87,6 +90,16 @@ switch ($method) {//获取code
 				break;
             case 'djjx_api':
                 $url = "/api/user/getwxinfo?data=".$data;
+                header("Location:" . $url);
+                exit();
+                break;
+            case 'xxc_api':
+                $url = "/api/user/getwxinfo_xxc?data=".$data;
+                header("Location:" . $url);
+                exit();
+                break;
+            case 'ydxc_api':
+                $url = "/api/user/getwxinfo_ydxc?data=".$data;
                 header("Location:" . $url);
                 exit();
                 break;

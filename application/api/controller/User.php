@@ -144,8 +144,10 @@ class User extends Api
 
 
     //获取微信用户信息
-    public function getwxinfo()
+    public function getwxinfo_ydxc()
     {
+        
+
         if (!empty($_REQUEST['data'])) {
             $data = $_REQUEST['data'];
 
@@ -177,7 +179,61 @@ class User extends Api
 
             }
 
-            $url = "http://bmqdtest.yidianxueche.cn/index/index.html?openid=".$data->openid;
+
+            $url = "http://ydxc.yidianxueche.cn/index/index.html?openid=".$data->openid;
+
+
+
+            header("Location:" . $url);
+            exit;
+
+
+        }
+       
+        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=ydxc_api";
+        header("Location:" . $url);
+        exit();
+    }
+
+    //获取微信用户信息
+    public function getwxinfo()
+    {
+        $school_id = input('school_id');
+        if (!empty($_REQUEST['data'])) {
+            $data = $_REQUEST['data'];
+
+            $data = json_decode($data, JSON_UNESCAPED_UNICODE);
+            $data = json_decode($data);
+
+            if (session("openid")) {
+                session("openid", session("openid"));
+            } else {
+                session("openid", $data->openid);//这一步保存openid到session
+            }
+            $info = model('WxUser')->where(array("openid" => $data->openid))->find();
+
+
+
+            if (count($info) <= 0) {
+                $sign = array(
+                    "openid"  => $data->openid,
+                    "nickname"  => $data->nickname,
+                    'sex' => $data->sex,
+                    "city"  => $data->city,
+                    "country"  => $data->country,
+                    "province"  => $data->province,
+                    "headimgurl"  => $data->headimgurl,
+                    "subscribe_time" => time()
+                );
+
+                model('WxUser')->save($sign);
+
+            }
+
+
+            $url = "http://djjx.yidianxueche.cn/index/index.html?openid=".$data->openid;
+
+
             header("Location:" . $url);
             exit;
 
@@ -188,6 +244,57 @@ class User extends Api
         header("Location:" . $url);
         exit();
     }
+
+    //获取微信用户信息
+    public function getwxinfo_xxc()
+    {
+        $school_id = input('school_id');
+        if (!empty($_REQUEST['data'])) {
+            $data = $_REQUEST['data'];
+
+            $data = json_decode($data, JSON_UNESCAPED_UNICODE);
+            $data = json_decode($data);
+
+            if (session("openid")) {
+                session("openid", session("openid"));
+            } else {
+                session("openid", $data->openid);//这一步保存openid到session
+            }
+            $info = model('WxUser')->where(array("openid" => $data->openid))->find();
+
+
+
+            if (count($info) <= 0) {
+                $sign = array(
+                    "openid"  => $data->openid,
+                    "nickname"  => $data->nickname,
+                    'sex' => $data->sex,
+                    "city"  => $data->city,
+                    "country"  => $data->country,
+                    "province"  => $data->province,
+                    "headimgurl"  => $data->headimgurl,
+                    "subscribe_time" => time()
+                );
+
+                model('WxUser')->save($sign);
+
+            }
+
+
+            $url = "http://xxc.yidianxueche.cn/index/index.html?openid=".$data->openid;
+
+
+            header("Location:" . $url);
+            exit;
+
+
+        }
+
+        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=xxc_api";
+        header("Location:" . $url);
+        exit();
+    }
+
 
 
     //获取code  并根据回调地址获取openid 及access_token
