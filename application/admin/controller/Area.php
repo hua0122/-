@@ -65,7 +65,7 @@ class Area extends Admin {
             if(empty($data['thumb'])){
                 return $this->error("场地封面图不能为空！");
             }
-            var_dump(strlen($data['address']));
+            
             if(strlen($data['address'])>45){
                 return $this->error("地址超出了十五字数范围，请修改!");
             }
