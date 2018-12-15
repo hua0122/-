@@ -90,12 +90,8 @@ switch($method) {
 		$data = array("timeStamp"=>$timeStamp,"nonceStr"=>$nonceStr,
 			"package"=>$package, "signType"=>"MD5", "appId"=>$appid);
 		$paySign = $wx->get_signature($data);
-<<<<<<< HEAD
-		$content = array('appId'=>$appid, 'timestamp'=>$timeStamp, 'nonceStr'=>$nonceStr, 'signature'=>$signature,'test'=>$url);
-=======
-		$content = array('appId'=>APPID, 'timestamp'=>$timeStamp, 'nonceStr'=>$nonceStr, 'signature'=>$signature,'test'=>$url);
 
->>>>>>> bfb629fb1c5b3d9558c9d2f94b38470385e6781d
+		$content = array('appId'=>$appid, 'timestamp'=>$timeStamp, 'nonceStr'=>$nonceStr, 'signature'=>$signature,'test'=>$url);
 		break;
 		
 	case "showxxds"://显示形象大使
