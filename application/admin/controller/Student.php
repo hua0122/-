@@ -29,6 +29,7 @@ class Student extends Admin
         $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
         if(isset($this->schoolid)){
             $map['sent_student.school_id'] = $this->schoolid;
+            $w['school_id'] = $this->schoolid;
             //根据角色id和学校id查询是否有收款权限
             $sk = model("AuthGroupDetail")->where(array("group_id"=>$role_id['group_id'],"school_id"=>$this->schoolid))->find();
 
@@ -45,6 +46,7 @@ class Student extends Admin
 
 
             $map['sent_student.school_id'] = $school_default['school_id'];
+            $w['school_id'] = $school_default['school_id'];
 
             //根据角色id和学校id查询是否有收款权限
             $sk = model("AuthGroupDetail")->where(array("group_id"=>$role_id['group_id'],"school_id"=>$school_default['school_id']))->find();
@@ -165,17 +167,22 @@ class Student extends Admin
 
 
         //班级信息展示
-        $grade_s = db('Grade')->where(array("status"=>0))->select();
-        $grade_x = db('Grade')->where(array("status"=>1))->select();
+        $grade_s = db('Grade')
+            ->join('sent_area','sent_area.id=sent_grade.area_id','left')
+            ->where(array("status"=>0,array("sent_area.school_id"=>$w['school_id'])))->select();
+        $grade_x = db('Grade')
+            ->field('sent_grade.*')
+            ->join('sent_area','sent_area.id=sent_grade.area_id','left')
+            ->where(array("status"=>1,array("sent_area.school_id"=>$w['school_id'])))->select();
         $this->assign("grade_s",$grade_s);
         $this->assign("grade_x",$grade_x);
 
         //场地信息展示
-        $area = db("Area")->select();
+        $area = db("Area")->where($w)->select();
         $this->assign("area",$area);
 
         //活动信息展示
-        $activity = db("Activity")->select();
+        $activity = db("Activity")->where($w)->select();
         $this->assign("activity",$activity);
 
         return $this->fetch();
