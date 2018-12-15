@@ -55,7 +55,8 @@ switch($method) {
 		break;
 		
 	case 'getwxpz':
-		$school_id = input("school_id");
+
+		$school_id = $_GET['school_id'];
         if(!empty($school_id)){
             if($school_id==1){//鼎吉驾校
                 $appid = APPID_DJ;
@@ -78,6 +79,7 @@ switch($method) {
                 $appid = APPID;
             }
         }
+
 
 		$timeStamp = intval(time()/10);
 		@$url = $_SERVER["HTTP_REFERER"];

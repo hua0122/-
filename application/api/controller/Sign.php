@@ -36,7 +36,7 @@ class Sign extends Api
     {
         $where = [];
         $where['school_id'] = input('school_id','','trim,intval');
-        if(empty($school_id)){
+        if(empty(input('school_id','','trim,intval'))){
             return failIncomplete();
         }
         $where['status'] = 0;
