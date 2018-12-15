@@ -66,6 +66,19 @@ switch($method) {
 		$paySign = $wx->get_signature($data);
 		$content = array('appId'=>APPID, 'timestamp'=>$timeStamp, 'nonceStr'=>$nonceStr, 'signature'=>$signature,'test'=>$url);
 		break;
+
+    case 'getwxpz_xxc':
+        $timeStamp = intval(time()/10);
+        @$url = $_SERVER["HTTP_REFERER"];
+        //echo $url;
+        $nonceStr = $wx->getRandChar(15);
+        $signature = $wx->get_js_signature($nonceStr, $timeStamp, $url);
+        @$package = "prepay_id=" . $unifiedOrderResult->prepay_id;
+        $data = array("timeStamp"=>$timeStamp,"nonceStr"=>$nonceStr,
+            "package"=>$package, "signType"=>"MD5", "appId"=>APPID_XXC);
+        $paySign = $wx->get_signature($data);
+        $content = array('appId'=>APPID_XXC, 'timestamp'=>$timeStamp, 'nonceStr'=>$nonceStr, 'signature'=>$signature,'test'=>$url);
+        break;
 		
 	case "showxxds"://显示形象大使
 			

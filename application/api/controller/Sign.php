@@ -158,10 +158,34 @@ class Sign extends Api
     //我要报名
     public function submit_sign()
     {
+        include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/config.php';
         $openid = input('openid')?input('openid'):session("openid");
 
         if(empty($openid)){
             return failMsg('请先登录');
+        }
+
+        $school_id = input('school_id','','trim,intval');
+        if(!empty($school_id)){
+            if($school_id==1){//鼎吉驾校
+                $appid = APPID_DJ;
+            }elseif($school_id==2){//金西亚驾校
+                $appid = APPID_JXY;
+            }elseif($school_id==3){//城南驾校
+                $appid = APPID_CN;
+            }elseif($school_id==4){//西南驾校
+                $appid = APPID_XN;
+            }
+            elseif($school_id==5){ //秀学车
+                $appid = APPID_XXC;
+            }
+            elseif($school_id==6){ //易点学车
+                $appid = APPID;
+            }
+
+            else{
+                $appid = APPID;
+            }
         }
 
 
@@ -216,6 +240,7 @@ class Sign extends Api
         $data['sign_date'] = time();//报名时间
         $data['openId'] = $openid;
         $data['sn'] = "dj_" . rand_string(20);//订单编号
+
         $res = model("Student")->save($data);
         if ($res) {
             //保存姓名、电话、身份证号码到用户表
@@ -270,10 +295,10 @@ class Sign extends Api
                 //var_dump($unifiedOrderResult);exit();
                 $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
                 $data = array("timeStamp" => $timeStamp, "nonceStr" => $nonceStr,
-                    "package" => $package, "signType" => "MD5", "appId" => 'wx09e39aed7d3c3912');
+                    "package" => $package, "signType" => "MD5", "appId" => $appid);
 
                 $paySign = $wx->get_signature($data);
-                $content = array('package' => $package, 'paySign' => $paySign, 'appId' => 'wx09e39aed7d3c3912', 'timestamp' => $timeStamp, 'nonceStr' => $nonceStr, 'signature' => $signature);
+                $content = array('package' => $package, 'paySign' => $paySign, 'appId' => $appid, 'timestamp' => $timeStamp, 'nonceStr' => $nonceStr, 'signature' => $signature);
                 return success($content);
             } else {
                 return success();
@@ -306,7 +331,6 @@ class Sign extends Api
     //申请体检
     public function apply(){
         include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
-
         $wx = new \Weixin_class();
 
         $data['name'] = input('name');
@@ -334,6 +358,31 @@ class Sign extends Api
         if(empty($price)){
             return failMsg('价格不能为空');
         }
+
+
+        $school_id = input('school_id','','trim,intval');
+        if(!empty($school_id)){
+            if($school_id==1){//鼎吉驾校
+                $appid = APPID_DJ;
+            }elseif($school_id==2){//金西亚驾校
+                $appid = APPID_JXY;
+            }elseif($school_id==3){//城南驾校
+                $appid = APPID_CN;
+            }elseif($school_id==4){//西南驾校
+                $appid = APPID_XN;
+            }
+            elseif($school_id==5){ //秀学车
+                $appid = APPID_XXC;
+            }
+            elseif($school_id==6){ //易点学车
+                $appid = APPID;
+            }
+
+            else{
+                $appid = APPID;
+            }
+        }
+
 
 
         //查询是否报名
@@ -368,10 +417,10 @@ class Sign extends Api
                     //var_dump($unifiedOrderResult);exit();
                     $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
                     $data = array("timeStamp" => $timeStamp, "nonceStr" => $nonceStr,
-                        "package" => $package, "signType" => "MD5", "appId" => 'wx09e39aed7d3c3912');
+                        "package" => $package, "signType" => "MD5", "appId" => $appid);
 
                     $paySign = $wx->get_signature($data);
-                    $content = array('package' => $package, 'paySign' => $paySign, 'appId' => 'wx09e39aed7d3c3912', 'timestamp' => $timeStamp, 'nonceStr' => $nonceStr, 'signature' => $signature);
+                    $content = array('package' => $package, 'paySign' => $paySign, 'appId' => $appid, 'timestamp' => $timeStamp, 'nonceStr' => $nonceStr, 'signature' => $signature);
 
                     $sn = array("sn" => $sn);
                     $where = array("id" => $insert_id);

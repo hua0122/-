@@ -11,11 +11,33 @@ switch ($method) {//获取code
 	case "getCode":
 		$state = $_REQUEST['state']?$_REQUEST['state']:"STATE";
 		$scope = $_REQUEST['scope']?$_REQUEST['scope']:"snsapi_base";
+
+		if($state=='xxc_api'){
+		    $appid = APPID_XXC;
+        }
+        elseif ($state == "djjx_api"){
+		    $appid = APPID_DJ;
+        }
+        elseif ($state == "ydxc_api"){
+            $appid = APPID;
+        }
+        elseif ($state == "jxy_api"){
+            $appid = APPID_JXY;
+        }
+        elseif ($state == "cn_api"){
+            $appid = APPID_CN;
+        }
+        elseif ($state == "xn_api"){
+            $appid = APPID_XN;
+        }
+        else{
+		    $appid = APPID;
+        }
 		
 		$redirect_uri = urldecode($_REQUEST["redirect_uri"])?urldecode($_REQUEST["redirect_uri"]):"http://" . $_SERVER['HTTP_HOST']."/l_wx/getwxinfo.php?method=getOpenId";//urlencode
 		if (!empty($redirect_uri)) {
 			$codeurl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' .
-								APPID  . '&redirect_uri='. 
+								$appid  . '&redirect_uri='.
 								$redirect_uri .'&response_type=code&scope='.$scope.'&state=' . 
 								$state . '#wechat_redirect';
 		}
@@ -111,9 +133,37 @@ switch ($method) {//获取code
 	case "getOpenId":
 		$code = @$_REQUEST["code"];
 		$state = $_REQUEST['state']?$_REQUEST['state']:"STATE";
+        if($state=='xxc_api'){
+            $appid = APPID_XXC;
+            $appsecret = APPSECRET_XXC;
+        }
+        elseif ($state == "djjx_api"){
+            $appid = APPID_DJ;
+            $appsecret = APPSECRET_DJ;
+        }
+        elseif ($state == "ydxc_api"){
+            $appid = APPID;
+            $appsecret = APPSECRET;
+        }
+        elseif ($state == "jxy_api"){
+            $appid = APPID_JXY;
+            $appsecret = APPSECRET_JXY;
+        }
+        elseif ($state == "cn_api"){
+            $appid = APPID_CN;
+            $appsecret = APPSECRET_CN;
+        }
+        elseif ($state == "xn_api"){
+            $appid = APPID_XN;
+            $appsecret = APPSECRET_XN;
+        }
+        else{
+            $appid = APPID;
+            $appsecret = APPSECRET;
+        }
 		
 		$getaccessurl = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.
-						APPID.'&secret='.APPSECRET.'&code='.$code.'&grant_type=authorization_code';
+						$appid.'&secret='.$appsecret.'&code='.$code.'&grant_type=authorization_code';
 		//echo $getaccessurl;
 		$data = file_get_contents($getaccessurl);
 		$data = json_decode($data, true);
