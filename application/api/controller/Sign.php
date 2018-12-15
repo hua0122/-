@@ -36,6 +36,9 @@ class Sign extends Api
     {
         $where = [];
         $where['school_id'] = input('school_id','','trim,intval');
+        if(empty($school_id)){
+            return failIncomplete();
+        }
         $where['status'] = 0;
         $area = model('Area');
         $res = $area->where($where)->select();
