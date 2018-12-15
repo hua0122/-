@@ -65,16 +65,44 @@ switch ($method) {//获取code
 	case "getUserInfo":
 		$code = @$_REQUEST["code"];
 		$state = $_REQUEST['state']?$_REQUEST['state']:"STATE";
+        if($state=='xxc_api'){
+            $appid = APPID_XXC;
+            $appsecret = APPSECRET_XXC;
+        }
+        elseif ($state == "djjx_api"){
+            $appid = APPID_DJ;
+            $appsecret = APPSECRET_DJ;
+        }
+        elseif ($state == "ydxc_api"){
+            $appid = APPID;
+            $appsecret = APPSECRET;
+        }
+        elseif ($state == "jxy_api"){
+            $appid = APPID_JXY;
+            $appsecret = APPSECRET_JXY;
+        }
+        elseif ($state == "cn_api"){
+            $appid = APPID_CN;
+            $appsecret = APPSECRET_CN;
+        }
+        elseif ($state == "xn_api"){
+            $appid = APPID_XN;
+            $appsecret = APPSECRET_XN;
+        }
+        else{
+            $appid = APPID;
+            $appsecret = APPSECRET;
+        }
 
 		$getaccessurl = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.
-						APPID.'&secret='.APPSECRET.'&code='.$code.'&grant_type=authorization_code';
+						$appid.'&secret='.$appsecret.'&code='.$code.'&grant_type=authorization_code';
 		//echo $getaccessurl;
 		$data = file_get_contents($getaccessurl);
 		$data = json_decode($data, true);
 
 
 		if ($data["errcode"] == 40029 || $data['errcode'] == 41008) {//code无效重新获取
-
+            
 			$url = "/l_wx/getwxinfo.php?method=getCode&state=".$state."&scope=snsapi_userinfo&redirect_uri=".urlencode("http://" . $_SERVER['HTTP_HOST']."/l_wx/getwxinfo.php?method=getUserInfo");
 			header("Location:" . $url);
 			exit();
@@ -86,6 +114,7 @@ switch ($method) {//获取code
 		$user_info = file_get_contents($infourl);
 		$data= json_encode($user_info, JSON_UNESCAPED_UNICODE);
 		$_SESSION['user_info'] = $user_info;
+
 		
 		switch($state) {
 			case 'addStudent':
@@ -133,6 +162,7 @@ switch ($method) {//获取code
 	case "getOpenId":
 		$code = @$_REQUEST["code"];
 		$state = $_REQUEST['state']?$_REQUEST['state']:"STATE";
+
         if($state=='xxc_api'){
             $appid = APPID_XXC;
             $appsecret = APPSECRET_XXC;
