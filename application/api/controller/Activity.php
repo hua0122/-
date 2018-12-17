@@ -37,9 +37,14 @@ class Activity extends Api
 
         $is_have = model("ActivityUser")->where(array("tel"=>$tel))->find();
         if($is_have){
+            $re = model("ActivityUser")->where(array("tel"=>$tel))->setField('update_time',time());
+            if(!$re) return failMsg();
+
             return success($is_have);
         }else{
             $data['tel'] = $tel;
+            $data['add_time'] = time();
+
             $res = model("ActivityUser")->save($data);
             if($res){
                 $is_have = model("ActivityUser")->where(array("tel"=>$tel))->find();
@@ -112,6 +117,7 @@ class Activity extends Api
 
         $data['amount'] = $amount;
         $data['is_prestore'] = 1;
+        $data['prestore_time'] = time();
         $where['tel'] = $tel;
 
         $res = model("ActivityUser")->save($data,$where);
@@ -223,7 +229,8 @@ class Activity extends Api
 
 
         //存入数据库
-        model("ActivityUser")->where(array("tel"=>$tel))->setField('luck_name',$result['prize']);
+        $res = model("ActivityUser")->where(array("tel"=>$tel))->setField('luck_name',$result['prize']);
+        if(!$res) return failMsg();
 
         return success($result);
 
