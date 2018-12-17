@@ -111,6 +111,7 @@ class Activity extends Api
         }
 
         $data['amount'] = $amount;
+        $data['is_prestore'] = 1;
         $where['tel'] = $tel;
 
         $res = model("ActivityUser")->save($data,$where);
@@ -133,6 +134,7 @@ class Activity extends Api
         if(!$is_have){
             return failLogin();
         }
+
 
 
 
@@ -169,6 +171,11 @@ class Activity extends Api
         $list = model("ActivityUser")->field('name,tel')->where(array("pid"=>$is_have['id']))->select();
 
         if($list){
+            foreach ($list as $k=>$v){
+                $list[$k]['tel'] = hide_phone($v['tel']);
+
+            }
+
             return success($list);
         }else{
             return emptyResult();
@@ -190,6 +197,9 @@ class Activity extends Api
         if(!$is_have){
             return failLogin();
         }
+        if($is_have['luck_name']!=NULL){
+            return failMsg("您已经抽过奖了");
+        }
 
         $prize_arr = array(
             '0' => array('id'=>1,'min'=>55,'max'=>80,'prize'=>'欢乐秀火锅聚会套餐500元 ','v'=>1),//弧度：55°-80°范围是：“欢乐秀火锅聚会套餐500元”奖， v=10是中奖率是10%
@@ -209,6 +219,8 @@ class Activity extends Api
         $max = $res['max'];
         $result['angle'] = mt_rand($min,$max); //随机生成一个角度
         $result['prize'] = $res['prize'];
+
+
 
         //存入数据库
         model("ActivityUser")->where(array("tel"=>$tel))->setField('luck_name',$result['prize']);
