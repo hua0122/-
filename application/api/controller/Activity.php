@@ -173,8 +173,8 @@ class Activity extends Api
             return failLogin();
         }
 
-
-        $list = model("ActivityUser")->field('name,tel')->where(array("pid"=>$is_have['id']))->select();
+        //邀请的下级人员 预存并报名的列表
+        $list = model("ActivityUser")->field('name,tel')->where(array("pid"=>$is_have['id'],"is_prestore"=>1,"is_sign"=>1))->select();
 
         if($list){
             foreach ($list as $k=>$v){
