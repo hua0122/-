@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="html5,本地存储" />
+    <meta name="description" content="Helloweba演示平台，演示XHTML、CSS、jquery、PHP案例和示例" />
+    <title>幸运大转盘-jQuery+PHP实现的抽奖程序</title>
+    <style type="text/css">
+        *{ margin:0; padding:0;}
+        img { border:none;}
+        .w1000{ width:1000px; margin:0 auto;}
+        .w1000 img, .gl img{ display:block;}
+        /*中奖名单*/
+        button{padding:2px 8px;}
+        .action{text-align:center; padding:10px; border-bottom:dashed 1px #ccc;}
+        #rightDemo{width:257px; padding:10px;position:absolute; left:95px; top:90px;}
+        #rightDemo li{ color:#825a00; font-size:13px;width:257px;}
+        ul{ height:335px; overflow:hidden;}
+        ul li{line-height:30px; height:30px; overflow:hidden; list-style:none; padding:0; margin:0;}
+        /*页面样式*/
+        .box_11{ background:url(http://www.sansejin.com.cn/themes/laboci_2012/images/sales201308/box_r11_bg.jpg) no-repeat center center;}
+        .gl{ background:#F00F4B;}
+        /*转盘样式*/
+        #main{width:1000px; min-height:600px; margin:0 auto;}
+        .demo{width:1000px; height:527px; position:relative; margin:0 auto; zoom:1;}
+        #disk{width:1000px; height:527px; background:url(http://www.sansejin.com.cn/themes/laboci_2012/images/sales201308/disk.jpg) no-repeat}
+        #start{width:111px; height:212px; position:absolute; top:149px; left:605px;}
+        #start img{cursor:pointer}
+        /*转盘样式*/
+
+    </style>
+    <script type="text/javascript" src="http://www.helloweba.com/demo/js/jquery.js"></script>
+    <script type="text/javascript" src="http://www.helloweba.com/demo/lottery/jQueryRotate.2.2.js"></script>
+    <script type="text/javascript" src="http://www.helloweba.com/demo/lottery/jquery.easing.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#startbtn").click(function(){
+                lottery();
+            });
+        });
+        function lottery(){
+            $.ajax({
+                type: 'POST',
+                url: 'ceshi_activity.php',
+                dataType: 'json',
+                cache: false,
+                error: function(){
+                    alert('出错了！');
+                    return false;
+                },
+                success:function(json){
+                    $("#startbtn").unbind('click').css("cursor","default");
+                    var a = json.angle;
+                    var p = json.prize;
+                    $("#startbtn").rotate({
+                        duration:3000, //转动时间
+                        angle: 0, //默认角度
+                        animateTo:1800+a, //转动角度
+                        easing: $.easing.easeOutSine,
+                        callback: function(){
+                            alert('恭喜你，抽中'+'"'+p+'"!');
+                            $("#startbtn").rotate({angle:0}); $("#startbtn").click(function(){ lottery(); }).css("cursor","pointer");
+
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="gl">
+    <!--抽奖区域[-->
+    <div class="gl">
+        <div class="box_11">
+            <!--抽奖转盘[-->
+            <div class="demo">
+                <div id="disk"></div>
+                <div id="start"><img src="http://www.sansejin.com.cn/themes/laboci_2012/images/sales201308/start.png" alt="抽奖" id="startbtn"/></div>
+                <!--中奖名单[-->
+                <div id="rightDemo">
+                    <ul id="rightBox">
+                        <li>手机尾号为***7884的用户抽中100元现金券大礼包</li>
+                        <li>手机尾号为***7884的用户抽中100元现金券大礼包</li>
+                        <li>手机尾号为***0573的用户抽中大奖iphone5智能手机</li>
+                        <li>手机尾号为***3200的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***4520的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***2341的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***9687的用户抽中3折抢购齿白健精品套装</li>
+                        <li>手机尾号为***0931的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***1747的用户抽中3折抢购红酒木瓜丰胸靓汤</li>
+                        <li>手机尾号为***3748的用户抽中100元现金券大礼包</li>
+                        <li>手机尾号为***0125的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***0063的用户抽中3折抢购魔泥金装精品套装</li>
+                        <li>手机尾号为***7884的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***5892的用户抽中100元现金券</li>
+                        <li>手机尾号为***7884的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***7224的用户抽中3折抢购祛疤精华凝露组合二代</li>
+                        <li>手机尾号为***7910的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***2832的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***3488的用户抽中3折抢购红酒木瓜丰胸靓汤</li>
+                        <li>手机尾号为***6693的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***4787的用户抽中3折抢购齿白健精品套装</li>
+                        <li>手机尾号为***8547的用户抽中3折抢购祛疤精华凝露组合二代</li>
+                        <li>手机尾号为***7884的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***2670的用户抽中100元现金券</li>
+                        <li>手机尾号为***0811的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***5120的用户抽中3折抢购魔泥金装精品套装</li>
+                        <li>手机尾号为***9229的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***4321的用户抽中大奖ipad mini平板电脑</li>
+                        <li>手机尾号为***6693的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***8777的用户抽中100元现金券</li>
+                        <li>手机尾号为***9968的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***4699的用户抽中3折抢购祛疤精华凝露组合二代</li>
+                        <li>手机尾号为***8511的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***6665的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***5552的用户抽中3折抢购红酒木瓜丰胸靓汤</li>
+                        <li>手机尾号为***4321的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***1399的用户抽中100元现金券大礼包</li>
+                        <li>手机尾号为***8455的用户抽中3折抢购魔泥金装精品套装</li>
+                        <li>手机尾号为***8822的用户抽中300元现金券大礼包</li>
+                        <li>手机尾号为***8224的用户抽中3折抢购红酒木瓜丰胸靓汤</li>
+                        <li>手机尾号为***5023的用户抽中300元现金券大礼包</li>
+                    </ul>
+                </div>
+                <!--]end 中奖名单-->
+            </div>
+            <!--]end 抽奖转盘-->
+        </div>
+    </div>
+
+
+</body>
+</html>

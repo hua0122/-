@@ -78,7 +78,7 @@ class Protect extends Api
 
 
         if($res){
-            return sent_code($tel,"欢迎登录保护系统，您的验证码是:".$rand);
+            return send_code($tel,"欢迎登录保护系统，您的验证码是:".$rand);
         }else{
             return failMsg('发送失败');
         }
