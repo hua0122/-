@@ -13,8 +13,8 @@ define('KEY', 'yidianxueche1234yidianxueche1234');
 
 define('APPID_XXC',"wxe6c26c745aec7e3d");
 define('APPSECRET_XXC',"f4c3955c77ba25425ca13f38840ef264");
-define('MACID', "1466305402");
-define('KEY', 'yidianxueche1234yidianxueche1234');
+define('MACID_XXC', "1466305402");
+define('KEY_XXC', 'yidianxueche1234yidianxueche1234');
 
 //鼎吉驾校
 define('APPID_DJ','wx09e39aed7d3c3912');
