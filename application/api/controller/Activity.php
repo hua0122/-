@@ -122,7 +122,15 @@ class Activity extends Api
 
         $res = model("ActivityUser")->save($data,$where);
         if($res){
-            return failMsg("预存成功","200");
+            //预存100 支付
+
+            $pay = [];
+
+            //修改总的优惠金额
+            $r = model("ActivityUser")->where($where)->setInc('total_amount',300);
+            if(!$r) return failMsg();
+
+            return success($pay);
         }else{
             return failMsg('预存失败');
         }
@@ -141,11 +149,34 @@ class Activity extends Api
             return failLogin();
         }
 
-
-
+        //
+        $info = model("ActivityUser")->field('id,name,tel')->where(array("tel"=>$tel))->find();
+        if($info['is_share']==1){
+            return failMsg("已经分享过，无需重复分享！");
+        }else{
+            return success($info);
+        }
 
 
     }
+    //分享后调用
+    public function share_after(){
+        $tel = input("tel");
+        if(empty($tel)){
+            return failMsg("电话号码不能为空");
+        }
+
+        $res = model("ActivityUser")->where(array("tel"=>$tel))->setField('is_share',1);
+        //修改总的优惠金额
+        $r = model("ActivityUser")->where(array("tel"=>$tel))->setInc('total_amount',100);
+
+        if($res&&$r){
+            return success();
+        }else{
+            return failMsg();
+        }
+    }
+
     //邀请
     public function invite(){
         $tel = input("tel");
@@ -153,10 +184,12 @@ class Activity extends Api
             return failMsg("电话号码不能为空");
         }
         //查询是否已经登录
-        $is_have = model("ActivityUser")->where(array("tel"=>$tel))->find();
+        $is_have = model("ActivityUser")->field('id,name,tel')->where(array("tel"=>$tel))->find();
         if(!$is_have){
             return failLogin();
         }
+
+        return success($is_have);
 
     }
 
@@ -211,8 +244,8 @@ class Activity extends Api
             '0' => array('id'=>1,'min'=>55,'max'=>80,'prize'=>'欢乐秀火锅聚会套餐500元 ','v'=>1),//弧度：55°-80°范围是：“欢乐秀火锅聚会套餐500元”奖， v=10是中奖率是10%
             '1' => array('id'=>2,'min'=>10,'max'=>35,'prize'=>'智能天猫精灵1台','v'=>7),
             '2' => array('id'=>3,'min'=>320,'max'=>355,'prize'=>'品牌充电宝1个','v'=>21),
-            '3' => array('id'=>4,'min'=>230,'max'=>265,'prize'=>'100元报名优惠券','v'=>100),
-            '4' => array('id'=>5,'min'=>185,'max'=>215,'prize'=>'100元秀火锅现金券','v'=>70),
+            '3' => array('id'=>4,'min'=>230,'max'=>265,'prize'=>'100元秀火锅现金券','v'=>70),
+            '4' => array('id'=>5,'min'=>array(23,113,203,293,),'max'=>array(67,157,247,337),'prize'=>'很遗憾,未中奖','v'=>100),
         );
 
 
