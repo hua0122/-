@@ -291,7 +291,7 @@ class Sign extends Api
                 //echo $url;
                 $nonceStr = $wx->getRandChar(15);
                 //echo $url;
-                $signature = $wx->get_js_signature($nonceStr, $timeStamp, $url);
+                $signature = $wx->get_js_signature($nonceStr, $timeStamp, $url,$school_id);
                 //var_dump($unifiedOrderResult);exit();
                 $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
                 $data = array("timeStamp" => $timeStamp, "nonceStr" => $nonceStr,
