@@ -150,7 +150,7 @@ class Activity extends Api
         }
 
         //
-        $info = model("ActivityUser")->field('id,name,tel')->where(array("tel"=>$tel))->find();
+        $info = model("ActivityUser")->field('id,name,tel,is_share')->where(array("tel"=>$tel))->find();
         if($info['is_share']==1){
             return failMsg("已经分享过，无需重复分享！");
         }else{
