@@ -406,14 +406,14 @@ class Sign extends Api
                 $sn = "tj_" . rand_string(20);//订单编号
                 $total_fee = $price * 100;
                 if (!empty($total_fee) && $total_fee > 0 && !empty($data['openid'])) {
-                    $unifiedOrderResult = $wx->unifiedorder($total_fee, $data['openid'], '驾校学车', $sn);
+                    $unifiedOrderResult = $wx->unifiedorder($total_fee, $data['openid'], '申请体检', $sn,$school_id);
                     //var_dump($unifiedOrderResult);
                     $timeStamp = intval(time() / 10);
                     $url = $_SERVER["HTTP_REFERER"];
                     //echo $url;
                     $nonceStr = $wx->getRandChar(15);
                     //echo $url;
-                    $signature = $wx->get_js_signature($nonceStr, $timeStamp, $url);
+                    $signature = $wx->get_js_signature($nonceStr, $timeStamp, $url,$school_id);
                     //var_dump($unifiedOrderResult);exit();
                     $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
                     $data = array("timeStamp" => $timeStamp, "nonceStr" => $nonceStr,

@@ -46,3 +46,5 @@ define('APPID_HD','wx9d9e140a79e17f39');
 define('APPSECRET_HD','3c671e5c86caf21b61ca485a046eaf69');
 define('MACID_HD','1521216881');
 define('KEY_HD','djjx1234mymydjjxdjjx1234mymydjjx');
+
+define("WEBURL",'http://admin.yidianxueche.cn');

@@ -15,18 +15,23 @@ if ('SUCCESS' == $res->return_code && 'SUCCESS' == $res->trade_state) {
 	
 	if ('dj' == substr($out_trade_no, 0, 2)) {
 		//$url = "http://ydxctrue.yidianxueche.cn/index.php?do=update_order_status&sn=".$out_trade_no;
-        $url = "http://ceshi.yidianxueche.cn/enlist/update_order_status&sn=".$out_trade_no;
+        $url = WEBURL."/enlist/update_order_status&sn=".$out_trade_no;
 
 		file_get_contents($url);
 		echo "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
 		exit();
 	} else if('tj' == substr($out_trade_no, 0, 2)){
 		//$url = "http://ydxctrue.yidianxueche.cn/index.php?do=update_tjorder_status&sn=".$out_trade_no;
-        $url = "http://ceshi.yidianxueche.cn/enlist/update_tjorder_status&sn=".$out_trade_no;
+        $url = WEBURL."/enlist/update_tjorder_status&sn=".$out_trade_no;
 		file_get_contents($url);
 		echo "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
 		exit();
-	}
+	}else if('yc' == substr($out_trade_no,0,2)){
+	    $url = WEBURL."/enlist/update_ycorder_status&sn=".$out_trade_no;
+	    file_get_contents($url);
+        echo "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
+        exit();
+    }
 	
 	//处理票
 	/*include_once $_SERVER['DOCUMENT_ROOT'] . '/l_db/drive/mysql.class.php';

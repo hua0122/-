@@ -44,6 +44,7 @@ return array(
     'enlist/pay_fail'   => 'wap/enlist/pay_fail',//支付失败
     'enlist/update_order_status'   => 'wap/enlist/update_order_status',//报名信息支付成功回调函数
     'enlist/update_tjorder_status'   => 'wap/enlist/update_tjorder_status',//体检申请支付成功回调函数
+    'enlist/update_ycorder_status'   => 'wap/enlist/update_ycorder_status',//活动预存支付成功回调函数
 
     'page/index'   => 'wap/page/index',//单页详情
     'page/detail'   => 'wap/page/detail',//单页详情 返回首页发现最美鼎吉

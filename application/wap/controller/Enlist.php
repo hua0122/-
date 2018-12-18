@@ -530,5 +530,26 @@ class Enlist extends Fornt
         */
     }
 
+    //活动预存 支付成功回调函数
+    public function update_ycorder_status(){
+        $sn =$_GET['sn'];
+        if (empty($sn)) {
+            exit();
+        }
+
+        $activity = model("ActivityUser")->where(array("sn"=>$sn))->find();
+        if ($activity['is_pay'] == 1) {
+            exit();
+        }
+
+        $updt = array("is_pay"=>1,"pay_date"=>time());
+
+        $where = array("sn"=>$sn);
+
+        //修改学员报名表的支付状态
+        model("ActivityUser")->save($updt,$where);
+
+    }
+
 
 }

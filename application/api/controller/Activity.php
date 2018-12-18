@@ -122,13 +122,59 @@ class Activity extends Api
         $data['amount'] = $amount;
         $data['is_prestore'] = 1;
         $data['prestore_time'] = time();
+        $data['sn'] = "yc_" . rand_string(20);//订单编号
         $where['tel'] = $tel;
 
         $res = model("ActivityUser")->save($data,$where);
         if($res){
-            //预存100 支付
+            $school_id = $is_have['school_id'];
 
-            $pay = [];
+            if(!empty($school_id)){
+                if($school_id==1){//鼎吉驾校
+                    $appid = APPID_DJ;
+                }elseif($school_id==2){//金西亚驾校
+                    $appid = APPID_JXY;
+                }elseif($school_id==3){//城南驾校
+                    $appid = APPID_CN;
+                }elseif($school_id==4){//西南驾校
+                    $appid = APPID_XN;
+                }
+                elseif($school_id==5){ //秀学车
+                    $appid = APPID_XXC;
+                }
+                elseif($school_id==6){ //易点学车
+                    $appid = APPID;
+                }
+
+                else{
+                    $appid = APPID;
+                }
+            }
+
+            //预存100 支付
+            include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
+            $wx = new \Weixin_class();
+
+            $total_fee = $amount * 100;
+            if (!empty($total_fee) && $total_fee > 0 && !empty($data['openid'])) {
+                $unifiedOrderResult = $wx->unifiedorder($total_fee, $data['openid'], '活动预存', $sn,$school_id);
+                //var_dump($unifiedOrderResult);
+                $timeStamp = intval(time() / 10);
+                $url = $_SERVER["HTTP_REFERER"];
+                //echo $url;
+                $nonceStr = $wx->getRandChar(15);
+                //echo $url;
+                $signature = $wx->get_js_signature($nonceStr, $timeStamp, $url,$school_id);
+                //var_dump($unifiedOrderResult);exit();
+                $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
+                $data = array("timeStamp" => $timeStamp, "nonceStr" => $nonceStr,
+                    "package" => $package, "signType" => "MD5", "appId" => $appid);
+
+                $paySign = $wx->get_signature($data);
+                $content = array('package' => $package, 'paySign' => $paySign, 'appId' => $appid, 'timestamp' => $timeStamp, 'nonceStr' => $nonceStr, 'signature' => $signature);
+                return success($content);
+
+            }
 
             //修改总的优惠金额
             $r = model("ActivityUser")->where($where)->setInc('total_amount',300);
