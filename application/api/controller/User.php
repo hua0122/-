@@ -180,7 +180,8 @@ class User extends Api
             }
 
 
-            $url = "http://ydxc.yidianxueche.cn/index/index.html?openid=".$data->openid;
+            //$url = "http://ydxc.yidianxueche.cn/index/index.html?openid=".$data->openid;
+            $url = "http://ydxc.yidianxueche.cn/dingji_active/index.html?openid=".$data->openid;
 
 
 
