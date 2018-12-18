@@ -47,10 +47,36 @@ class Weixin_class {
 		return $res;
 	}
 	//统一下单
-	function unifiedorder($total_fee, $openid, $body, $out_trade_no) {
+	function unifiedorder($total_fee, $openid, $body, $out_trade_no,$school_id) {
 		$url ="https://api.mch.weixin.qq.com/pay/unifiedorder";
-		$appid = APPID;
-		$mchid = MACID;
+        if($school_id==1){//鼎吉驾校
+            $appid = APPID_DJ;
+            $mchid = MACID_DJ;
+
+        }elseif($school_id==2){//金西亚驾校
+            $appid = APPID_JXY;
+            $mchid = MACID_JXY;
+        }elseif($school_id==3){//城南驾校
+            $appid = APPID_CN;
+            $mchid = MACID_CN;
+        }elseif($school_id==4){//西南驾校
+            $appid = APPID_XN;
+            $mchid = MACID_XN;
+        }
+        elseif($school_id==5){ //秀学车
+            $appid = APPID_XXC;
+            $mchid = MACID_XXC;
+        }
+        elseif($school_id==6){ //易点学车
+            $appid = APPID;
+            $mchid = MACID;
+        }
+
+        else{
+            $appid = APPID;
+            $mchid = MACID;
+        }
+
 		$nonce_str = $this->getRandChar(15);
 		$spbill_create_ip = SPBILL_CREATE_IP;
 		$notify_url =  "http://" . $_SERVER['HTTP_HOST']."/l_wx/paycallback.php";

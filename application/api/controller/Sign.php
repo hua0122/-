@@ -284,7 +284,7 @@ class Sign extends Api
                 include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
                 $wx = new \Weixin_class();
                 //$msg = "我们会在两个工作日内联系您，请保持手机畅通，耐心等待，谢谢！";
-                $unifiedOrderResult = $wx->unifiedorder($total_fee, $openid, '驾校学车', $data['sn']);
+                $unifiedOrderResult = $wx->unifiedorder($total_fee, $openid, '驾校学车', $data['sn'],$school_id);
                 //var_dump($unifiedOrderResult);
                 $timeStamp = intval(time() / 10);
                 $url = $_SERVER["HTTP_REFERER"];
