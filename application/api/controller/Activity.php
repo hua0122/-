@@ -383,9 +383,14 @@ class Activity extends Api
 
     //中奖名单
     public  function luck_list(){
+
         $list = model("ActivityUser")->field('tel,luck_name')->where("luck_name !='' and luck_name != '很遗憾,未中奖'")->select();
 
         if($list){
+            foreach ($list as $k=>$v){
+                $list[$k]['tel'] = hide_phone($v['tel']);
+
+            }
             return success($list);
         }else{
             return emptyResult();
