@@ -270,5 +270,23 @@ class Activity extends Api
     }
 
 
+    //个人信息
+    public function info(){
+        $tel = input('tel');
+        if(empty($tel)){
+            return failMsg('电话号码不能为空');
+        }
+
+        $info = model("ActivityUser")->where(array("tel"=>$tel))->find();
+
+        if($info){
+            return success($info);
+        }else{
+            return emptyResult();
+        }
+
+    }
+
+
 
 }
