@@ -158,7 +158,7 @@ class Activity extends Api
 
 
             $total_fee = $amount * 100;
-            if (!empty($total_fee) && $total_fee > 0 && !empty($data['openid'])) {
+            if (!empty($total_fee) && $total_fee > 0 ) {
                 $unifiedOrderResult = $wx->unifiedorder($total_fee, $data['openid'], '活动预存', $data['sn'],$school_id);
                 //var_dump($unifiedOrderResult);
                 $timeStamp = intval(time() / 10);
@@ -174,15 +174,15 @@ class Activity extends Api
 
                 $paySign = $wx->get_signature($data);
                 $content = array('package' => $package, 'paySign' => $paySign, 'appId' => $appid, 'timestamp' => $timeStamp, 'nonceStr' => $nonceStr, 'signature' => $signature);
+                //修改总的优惠金额
+                $r = model("ActivityUser")->where($where)->setInc('total_amount',300);
+                if(!$r) return failMsg();
+
                 return success($content);
 
             }
 
-            //修改总的优惠金额
-            $r = model("ActivityUser")->where($where)->setInc('total_amount',300);
-            if(!$r) return failMsg();
 
-            return success($pay);
         }else{
             return failMsg('预存失败');
         }
