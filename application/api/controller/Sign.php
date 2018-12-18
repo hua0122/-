@@ -231,7 +231,7 @@ class Sign extends Api
 
 
         //查询是否报名  不能重复报名
-        $is_have = model("Student")->where(array("openId" => $openid))->find();
+        $is_have = model("Student")->where(array("openId" => $openid,"is_pay"=>"1"))->find();
         if ($is_have) {
             return failMsg("不能重复报名");
         }
