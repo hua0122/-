@@ -127,6 +127,9 @@ class Activity extends Api
 
         $res = model("ActivityUser")->save($data,$where);
         if($res){
+            include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
+            $wx = new \Weixin_class();
+
             $school_id = $is_have['school_id'];
 
             if(!empty($school_id)){
@@ -152,8 +155,7 @@ class Activity extends Api
             }
 
             //预存100 支付
-            include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
-            $wx = new \Weixin_class();
+
 
             $total_fee = $amount * 100;
             if (!empty($total_fee) && $total_fee > 0 && !empty($data['openid'])) {

@@ -371,17 +371,17 @@ class Activity extends Admin
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1','订单编号');
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1','预存时间');
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1','是否分享');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1','是否抽奖');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1','奖品名称');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1','总折扣');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M1','所在级数');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N1','一级');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O1','二级');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P1','三级');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q1','四级');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R1','五级');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S1','六级');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T1','七级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1','奖品名称');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1','总折扣');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1','所在级数');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M1','一级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N1','二级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O1','三级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P1','四级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q1','五级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R1','六级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S1','七级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T1','八级');
 
         //把数据循环写入excel中
         foreach($data as $key => $value){
@@ -391,39 +391,25 @@ class Activity extends Admin
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,$value['department_name']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$key,$value['department_tel'].=  ' ');
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$key,$value['name'].'\n\r'.$value['tel']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$key,$value['price']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,$value['area_name']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,$value['activity_name']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$key,$value['coupon_name'].$value['coupon_amount'].'('.$value['code'].')');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$key,$value['partner_name']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$key,$value['username']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$key,date("Y-m-d H:i:s",$value['sign_date']));
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$key,$value['amount']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,$value['sn']);
+            if($value['prestore_time']==null){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,'/');
+
+            }else{
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,date("Y-m-d H:i:s",$value['prestore_time']));
+
+            }
+
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$key,$value['is_share']);
+
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$key,$value['luck_name']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$key,$value['total_amount']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$key,$value['level']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$key,$value['payable']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$key,$value['payment']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$key,$value['unpaid']);
-            if($value['pay_date']==null){
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$key,'/');
 
-            }else{
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$key,date("Y-m-d H:i:s",$value['pay_date']));
-
-            }
-            if($value['pay_type']==1){
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,'线上全款支付');
-            }elseif ($value['pay_type']==2){
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,'线上定金支付');
-            }elseif ($value['pay_type']==3){
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,'线下全款支付');
-            }else{
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,'线下定金支付');
-            }
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$key,$value['payee_name']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$key,$value['remark']);
-            if($value['status']==0){
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$key,'退学');
-            }else{
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$key,'正常');
-            }
 
 
         }
