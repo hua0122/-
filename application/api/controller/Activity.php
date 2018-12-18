@@ -19,6 +19,10 @@ class Activity extends Api
         $tel = input('tel');
         $code = input('code');
 
+
+        //不是合伙人 链接也没带参数，就无法登陆 提示：请联系邀请你的人通过页面下方的邀请按钮邀请你
+
+
         if(empty($tel)){
             return failMsg('电话号码不能为空');
         }
@@ -241,7 +245,7 @@ class Activity extends Api
         }
 
         $prize_arr = array(
-            '0' => array('id'=>1,'min'=>316,'max'=>360,'prize'=>'欢乐秀火锅聚会套餐500元 ','v'=>1),//弧度：55°-80°范围是：“欢乐秀火锅聚会套餐500元”奖， v=10是中奖率是10%
+            '0' => array('id'=>1,'min'=>316,'max'=>360,'prize'=>'价值1288的小米平板4','v'=>1),//弧度：55°-80°范围是：“欢乐秀火锅聚会套餐500元”奖， v=10是中奖率是10%
             '1' => array('id'=>2,'min'=>226,'max'=>270,'prize'=>'智能天猫精灵1台','v'=>7),
             '2' => array('id'=>3,'min'=>46,'max'=>90,'prize'=>'品牌充电宝1个','v'=>21),
             '3' => array('id'=>4,'min'=>136,'max'=>180,'prize'=>'100元秀火锅现金券','v'=>70),
@@ -307,6 +311,7 @@ class Activity extends Api
         if(empty($id)){
             return failMsg("邀请人ID不能为空");
         }
+        model("ActivityUser")->where(array("id"=>$id))->setField('is_share','1');
 
         $info = model("ActivityUser")->field('tel')->find($id);
         if($info){
@@ -315,6 +320,17 @@ class Activity extends Api
         return success($info);
     }
 
+    //判断该用户是否有抽奖机会
+    public function chance(){
+        $id = input('id');
+        if(empty($id)){
+            return failMsg("用户ID不能为空");
+        }
+        $info = model("ActivityUser")->field('id,tel,is_share')->find($id);
+
+        return success($info);
+
+    }
 
 
 }
