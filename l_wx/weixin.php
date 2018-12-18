@@ -47,9 +47,9 @@ class Weixin_class {
 		return $res;
 	}
 	//统一下单
-	function unifiedorder($total_fee, $openid, $body, $out_trade_no,$school_id) {
+	function unifiedorder($total_fee, $openid, $body, $out_trade_no) {
 		$url ="https://api.mch.weixin.qq.com/pay/unifiedorder";
-        if($school_id==1){//鼎吉驾校
+        /*if($school_id==1){//鼎吉驾校
             $appid = APPID_DJ;
             $mchid = MACID_DJ;
 
@@ -75,7 +75,9 @@ class Weixin_class {
         else{
             $appid = APPID;
             $mchid = MACID;
-        }
+        }*/
+        $appid = APPID;
+        $mchid = MACID;
 
 		$nonce_str = $this->getRandChar(15);
 		$spbill_create_ip = SPBILL_CREATE_IP;
@@ -92,7 +94,7 @@ class Weixin_class {
 		    'notify_url'=>$notify_url,
 		    'trade_type'=>$trade_type,
 		    'openid'=>$openid,
-		    'spbill_create_ip'=>$spbill_create_ip
+		    'spbill_create_ip'=>$spbill_create_ip,
 	    );
 //var_dump($data);
 		$sign = $this->get_signature($data);

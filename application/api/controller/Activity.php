@@ -19,10 +19,6 @@ class Activity extends Api
         $tel = input('tel');
         $code = input('code');
 
-
-        //不是合伙人 链接也没带参数，就无法登陆 提示：请联系邀请你的人通过页面下方的邀请按钮邀请你
-
-
         if(empty($tel)){
             return failMsg('电话号码不能为空');
         }
@@ -38,6 +34,17 @@ class Activity extends Api
         if(!$code){
             return failMsg("验证码不正确");
         }
+
+
+        $id = input('id');
+
+        //不是合伙人 链接也没带参数，就无法登陆 提示：请联系邀请你的人通过页面下方的邀请按钮邀请你
+        $is_hhr = model("Department")->where(array("phone"=>$tel))->find();
+        if(!$is_hhr&&empty($id)){
+            return failMsg("请联系邀请你的人通过页面下方的邀请按钮邀请你");
+        }
+
+
 
         $is_have = model("ActivityUser")->where(array("tel"=>$tel))->find();
         if($is_have){
