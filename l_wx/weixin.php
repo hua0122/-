@@ -540,7 +540,7 @@ class Weixin_class {
                 fwrite($file, $txt);
                 fclose($file);
             }
-		    
+
         }else{
             $access_token=$this->get_acctoken($school_id);
             $access_token = $access_token[0];
