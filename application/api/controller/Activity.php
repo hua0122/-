@@ -159,7 +159,7 @@ class Activity extends Api
 
             $total_fee = $amount * 100;
             if (!empty($total_fee) && $total_fee > 0 ) {
-                $unifiedOrderResult = $wx->unifiedorder($total_fee, $data['openid'], '活动预存', $data['sn'],$school_id);
+                $unifiedOrderResult = $wx->unifiedorder($total_fee, $tel, '活动预存', $data['sn'],$school_id);
                 //var_dump($unifiedOrderResult);
                 $timeStamp = intval(time() / 10);
                 $url = $_SERVER["HTTP_REFERER"];
