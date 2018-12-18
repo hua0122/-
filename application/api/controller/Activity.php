@@ -289,7 +289,7 @@ class Activity extends Api
             return failLogin();
         }
         if($is_have['luck_name']!=NULL){
-            //return failMsg("您已经抽过奖了");
+            return failMsg("您已经抽过奖了");
         }
 
         $prize_arr = array(
