@@ -100,7 +100,7 @@ class Activity extends Api
             return failMsg("电话号码不能为空");
         }
 
-        $pid = input("pid");
+        $pid = input("id");
         if(!empty($pid)){
 
             $data['pid'] = $pid;
