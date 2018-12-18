@@ -163,6 +163,9 @@ class Activity extends Api
 
             //预存100 支付
 
+            if(empty(input('openid'))){
+                return failMsg("openid不能为空");
+            }
 
             $total_fee = $amount * 100;
             if (!empty($total_fee) && $total_fee > 0 ) {
