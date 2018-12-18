@@ -524,7 +524,7 @@ class Weixin_class {
 		$api_ticket_info = fread($file,"500");
 		$api_ticket_info = explode(",", $api_ticket_info);
 		fclose($file);
-		if(isset($api_ticket_info)){
+
             if (time() - $api_ticket_info[1] > 7000 ) {
                 $access_token=$this->get_acctoken($school_id);
                 $access_token = $access_token[0];
@@ -541,21 +541,6 @@ class Weixin_class {
                 fclose($file);
             }
 
-        }else{
-            $access_token=$this->get_acctoken($school_id);
-            $access_token = $access_token[0];
-
-            $url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token='.$access_token.'';
-            $data = file_get_contents($url);
-            $api_ticket = json_decode($data);
-            //var_dump($api_ticket);
-            $api_ticket_info[0] = $api_ticket->ticket;
-            $api_ticket_info[1] = time();
-            $txt = $api_ticket_info[0] . "," . $api_ticket_info[1];
-            $file = fopen($_SERVER['DOCUMENT_ROOT'] . "/l_wx/".$api_ticket_js.".txt", "w") or die("Unable to open file!");
-            fwrite($file, $txt);
-            fclose($file);
-        }
 
 		return $api_ticket_info[0];
 	}
