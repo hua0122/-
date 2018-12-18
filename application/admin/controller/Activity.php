@@ -341,4 +341,107 @@ class Activity extends Admin
         $this->assign("list",$res);
 
     }
+
+
+
+
+    //活动列表导出
+    public function export(){
+        date_default_timezone_set('Asia/Shanghai');
+        header("content-type:text/html;charset='utf-8'");
+        require_once(PHP_EXCEL.'PHPExcel.php');
+        require_once(PHP_EXCEL.'PHPExcel/IOFactory.php');
+        $objPHPExcel=new \PHPExcel();
+        $iofactory=new \PHPExcel_IOFactory();
+        $data  = db('ActivityUser')
+            ->field('sent_activity_user.*,sent_school.name as school_name,sent_department.title as department_name')
+            ->join('sent_school','sent_school.id=sent_activity_user.school_id','left')
+            ->join('sent_department','sent_department.phone=sent_activity_user.tel','left')
+            ->where('sent_activity_user.pid <> 0')
+            ->select();
+
+
+        //设置excel列名
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1','ID');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1','驾校');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1','合伙人');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1','电话');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1','有效人员');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1','预存金额');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1','订单编号');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1','预存时间');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1','是否分享');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1','是否抽奖');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1','奖品名称');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1','总折扣');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M1','所在级数');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N1','一级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O1','二级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P1','三级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q1','四级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R1','五级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S1','六级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T1','七级');
+
+        //把数据循环写入excel中
+        foreach($data as $key => $value){
+            $key+=2;
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$key,$value['id']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$key,$value['school_name']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,$value['department_name']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$key,$value['department_tel'].=  ' ');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$key,$value['name'].'\n\r'.$value['tel']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$key,$value['price']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,$value['area_name']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,$value['activity_name']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$key,$value['coupon_name'].$value['coupon_amount'].'('.$value['code'].')');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$key,$value['partner_name']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$key,$value['username']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$key,date("Y-m-d H:i:s",$value['sign_date']));
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$key,$value['payable']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$key,$value['payment']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$key,$value['unpaid']);
+            if($value['pay_date']==null){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$key,'/');
+
+            }else{
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$key,date("Y-m-d H:i:s",$value['pay_date']));
+
+            }
+            if($value['pay_type']==1){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,'线上全款支付');
+            }elseif ($value['pay_type']==2){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,'线上定金支付');
+            }elseif ($value['pay_type']==3){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,'线下全款支付');
+            }else{
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,'线下定金支付');
+            }
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$key,$value['payee_name']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$key,$value['remark']);
+            if($value['status']==0){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$key,'退学');
+            }else{
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$key,'正常');
+            }
+
+
+        }
+
+        //导出代码
+        $objPHPExcel->getActiveSheet() -> setTitle('学员管理');
+        $objPHPExcel-> setActiveSheetIndex(0);
+        $objWriter = $iofactory -> createWriter($objPHPExcel, 'Excel5');
+
+        $filename = date("Y-m-d H:i:s").'学员管理.xls';
+        ob_end_clean();
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        $objWriter -> save('php://output');
+
+    }
+
+
 }

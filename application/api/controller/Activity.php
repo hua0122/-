@@ -237,7 +237,7 @@ class Activity extends Api
             return failLogin();
         }
         if($is_have['luck_name']!=NULL){
-            return failMsg("您已经抽过奖了");
+            //return failMsg("您已经抽过奖了");
         }
 
         $prize_arr = array(
@@ -256,8 +256,21 @@ class Activity extends Api
         $res = $prize_arr[$rid-1]; //中奖项
         $min = $res['min'];
         $max = $res['max'];
-        $result['angle'] = mt_rand($min,$max); //随机生成一个角度
-        $result['prize'] = $res['prize'];
+
+        if($res['id']==5){ //未中奖
+            $i = mt_rand(0,3);
+            $result['angle'] = mt_rand($min[$i],$max[$i]);
+        }else{
+            $result['angle'] = mt_rand($min,$max); //随机生成一个角度
+        }
+
+        //查询奖品是否已经发放完
+        $count = model("ActivityUser")->where("luck_name <> '很遗憾,未中奖'")->count();
+        if($count<=142){
+            $result['prize'] = $res['prize'];
+        }else{
+            $result['prize'] = "很遗憾,未中奖";
+        }
 
 
 
@@ -285,6 +298,21 @@ class Activity extends Api
             return emptyResult();
         }
 
+    }
+
+
+    //根据邀请人id查询电话号码
+    public function get_tel(){
+        $id = input('id');
+        if(empty($id)){
+            return failMsg("邀请人ID不能为空");
+        }
+
+        $info = model("ActivityUser")->field('tel')->find($id);
+        if($info){
+            $info['tel'] = hide_phone($info['tel']);
+        }
+        return success($info);
     }
 
 
