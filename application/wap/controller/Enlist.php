@@ -542,11 +542,16 @@ class Enlist extends Fornt
             exit();
         }
 
+
         $updt = array("is_pay"=>1,"pay_date"=>time());
 
         $where = array("sn"=>$sn);
 
-        //修改学员报名表的支付状态
+        //修改总的优惠金额
+        $r = model("ActivityUser")->where($where)->setInc('total_amount',300);
+        //if(!$r) return failMsg();
+
+        //修改活动表的支付状态
         model("ActivityUser")->save($updt,$where);
 
     }

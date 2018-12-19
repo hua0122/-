@@ -353,73 +353,85 @@ class Activity extends Admin
         require_once(PHP_EXCEL.'PHPExcel/IOFactory.php');
         $objPHPExcel=new \PHPExcel();
         $iofactory=new \PHPExcel_IOFactory();
+
+
+        $w = [];
+        $school_id = input('school_id');
+        if($school_id){
+            $w['sent_activity_user.school_id'] = $school_id;
+        }
+        $w['is_prestore'] = 1;
+
         $data  = db('ActivityUser')
-            ->field('sent_activity_user.*,sent_school.name as school_name,sent_department.title as department_name')
+            ->field('sent_activity_user.*,sent_school.name as school_name')
             ->join('sent_school','sent_school.id=sent_activity_user.school_id','left')
-            ->join('sent_department','sent_department.phone=sent_activity_user.tel','left')
-            ->where('sent_activity_user.pid <> 0')
+            ->where($w)
             ->select();
+        if($data){
+            $data = getTree($data);
+            //var_dump($data);
+
+//            foreach($data as $value){
+//                echo str_repeat('--', $value['level']), $value['name'].'<br />';
+//            }
+
+        }
+
+        //var_dump($data);
+        //exit;
 
 
         //设置excel列名
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1','ID');
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1','驾校');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1','合伙人');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1','姓名');
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1','电话');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1','有效人员');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1','预存金额');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1','订单编号');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1','预存时间');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1','是否分享');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1','奖品名称');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1','总折扣');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1','所在级数');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M1','一级');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N1','二级');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O1','三级');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P1','四级');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q1','五级');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R1','六级');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S1','七级');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T1','八级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1','预存金额');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1','订单编号');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1','预存时间');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1','是否分享');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1','奖品名称');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1','总折扣');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1','所在级数');
 
         //把数据循环写入excel中
         foreach($data as $key => $value){
             $key+=2;
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$key,$value['id']);
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$key,$value['school_name']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,$value['department_name']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$key,$value['department_tel'].=  ' ');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$key,$value['name'].'\n\r'.$value['tel']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$key,$value['amount']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,$value['sn']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,str_repeat('--', $value['level']).$value['name']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$key,$value['tel'].=  ' ');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$key,$value['amount']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$key,$value['sn']);
             if($value['prestore_time']==null){
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,'/');
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,'/');
 
             }else{
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,date("Y-m-d H:i:s",$value['prestore_time']));
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,date("Y-m-d H:i:s",$value['prestore_time']));
 
             }
+            if($value['is_share']==0){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,'否');
+            }else{
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,'是');
+            }
 
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$key,$value['is_share']);
 
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$key,$value['luck_name']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$key,$value['total_amount']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$key,$value['level']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$key,$value['payable']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$key,$value['payment']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$key,$value['unpaid']);
+
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$key,$value['luck_name']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$key,$value['total_amount']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$key,$value['level']);
 
 
 
         }
 
         //导出代码
-        $objPHPExcel->getActiveSheet() -> setTitle('学员管理');
+        $objPHPExcel->getActiveSheet() -> setTitle('活动管理');
         $objPHPExcel-> setActiveSheetIndex(0);
         $objWriter = $iofactory -> createWriter($objPHPExcel, 'Excel5');
 
-        $filename = date("Y-m-d H:i:s").'学员管理.xls';
+        $filename = date("Y-m-d H:i:s").'活动管理.xls';
         ob_end_clean();
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Type: application/octet-stream');

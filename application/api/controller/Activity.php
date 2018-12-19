@@ -19,6 +19,8 @@ class Activity extends Api
         $tel = input('tel');
         $code = input('code');
 
+        $name = input('name');
+
         if(empty($tel)){
             return failMsg('电话号码不能为空');
         }
@@ -38,8 +40,8 @@ class Activity extends Api
 
         $id = input('id');
 
-        //不是合伙人 链接也没带参数，就无法登陆 提示：请联系邀请你的人通过页面下方的邀请按钮邀请你
-        $is_hhr = model("Department")->where(array("phone"=>$tel))->find();
+        //不是合伙人 驾校也不匹配  链接也没带参数，就无法登陆 提示：请联系邀请你的人通过页面下方的邀请按钮邀请你
+        $is_hhr = model("Department")->where(array("phone"=>$tel,"school_id"=>$school_id))->find();
         if(!$is_hhr&&empty($id)){
             return failMsg("请联系邀请你的人通过页面下方的邀请按钮邀请你");
         }
@@ -55,6 +57,10 @@ class Activity extends Api
         }else{
             $data['tel'] = $tel;
             $data['add_time'] = time();
+            $data['school_id'] = $school_id;
+            if(!empty($name)){
+                $data['name'] = $name;
+            }
 
             $res = model("ActivityUser")->save($data);
             if($res){
@@ -184,9 +190,7 @@ class Activity extends Api
 
                 $paySign = $wx->get_signature($data);
                 $content = array('package' => $package, 'paySign' => $paySign, 'appId' => $appid, 'timestamp' => $timeStamp, 'nonceStr' => $nonceStr, 'signature' => $signature);
-                //修改总的优惠金额
-                $r = model("ActivityUser")->where($where)->setInc('total_amount',300);
-                if(!$r) return failMsg();
+
 
                 return success($content);
 
@@ -327,7 +331,7 @@ class Activity extends Api
         }
 
         //查询奖品是否已经发放完
-        $count = model("ActivityUser")->where("luck_name <> '很遗憾,未中奖'")->count();
+        $count = model("ActivityUser")->where("luck_name != '很遗憾,未中奖'")->count();
         if($count<=142){
             $result['prize'] = $res['prize'];
         }else{
