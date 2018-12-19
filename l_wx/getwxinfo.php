@@ -154,6 +154,11 @@ switch ($method) {//获取code
                 header("Location:" . $url);
                 exit();
                 break;
+            case 'ydxchd_api':
+                $url = "/api/user/getwxinfo_ydxchd?data=".$data;
+                header("Location:" . $url);
+                exit();
+                break;
         }
 		
 		//var_dump($data);exit();

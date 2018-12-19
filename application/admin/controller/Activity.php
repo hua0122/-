@@ -392,35 +392,43 @@ class Activity extends Admin
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1','是否分享');
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1','奖品名称');
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1','总折扣');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1','所在级数');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1','邀请人数');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1','所在级数');
 
         //把数据循环写入excel中
         foreach($data as $key => $value){
             $key+=2;
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$key,$value['id']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$key,$value['school_name']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,str_repeat('--', $value['level']).$value['name']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$key,$value['tel'].=  ' ');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$key,$value['amount']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$key,$value['sn']);
-            if($value['prestore_time']==null){
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,'/');
+            if($value['level']!=0){
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$key,$value['id']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$key,$value['school_name']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,str_repeat('--', $value['level']).$value['name']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$key,$value['tel'].=  ' ');
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$key,$value['amount']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$key,$value['sn']);
+                if($value['prestore_time']==null){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,'/');
 
-            }else{
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,date("Y-m-d H:i:s",$value['prestore_time']));
+                }else{
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,date("Y-m-d H:i:s",$value['prestore_time']));
 
+                }
+                if($value['is_share']==0){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,'否');
+                }else{
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,'是');
+                }
+
+
+
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$key,$value['luck_name']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$key,$value['total_amount']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$key,$value['num']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$key,$value['level']);
+
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$key,$value['level']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$key,$value['level']);
             }
-            if($value['is_share']==0){
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,'否');
-            }else{
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$key,'是');
-            }
 
-
-
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$key,$value['luck_name']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$key,$value['total_amount']);
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$key,$value['level']);
 
 
 

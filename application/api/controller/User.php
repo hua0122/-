@@ -241,7 +241,7 @@ class User extends Api
 
         }
 
-        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=ydxc_api";
+        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=ydxchd_api";
         header("Location:" . $url);
         exit();
     }
