@@ -42,6 +42,7 @@ class Activity extends Api
 
         //不是合伙人 驾校也不匹配  链接也没带参数，就无法登陆 提示：请联系邀请你的人通过页面下方的邀请按钮邀请你
         $is_hhr = model("Department")->where(array("phone"=>$tel,"school_id"=>$school_id))->find();
+        var_dump($is_hhr);
         if(!$is_hhr&&empty($id)){
             return failMsg("请联系邀请你的人通过页面下方的邀请按钮邀请你");
         }
