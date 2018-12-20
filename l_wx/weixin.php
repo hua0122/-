@@ -187,7 +187,7 @@ class Weixin_class {
             'total_fee'=>$total_fee,
             'notify_url'=>$notify_url,
             'trade_type'=>$trade_type,
-            'spbill_create_ip'=>$spbill_create_ip,
+            'spbill_create_ip'=>get_client_ip(),
             'scene_info'=>$scene_info,
         );
 
