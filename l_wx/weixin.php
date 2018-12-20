@@ -95,7 +95,6 @@ class Weixin_class {
 		    'trade_type'=>$trade_type,
 		    'openid'=>$openid,
 		    'spbill_create_ip'=>$spbill_create_ip,
-            'school_id'=>$school_id,
 	    );
 //var_dump($data);
 		$sign = $this->get_signature($data);
@@ -112,7 +111,6 @@ class Weixin_class {
 			<trade_type>$trade_type</trade_type>
 			<spbill_create_ip>$spbill_create_ip</spbill_create_ip>
 			<sign>$sign</sign>
-			<school_id>$school_id</school_id>
 		</xml>";
 		$ch = curl_init();
 		// set URL and other appropriate options
