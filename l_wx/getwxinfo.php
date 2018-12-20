@@ -200,6 +200,8 @@ switch ($method) {//获取code
                 exit();
                 break;
             case 'djjxhd_api':
+                var_dump($data);
+                exit;
                 $url = "/api/user/getwxinfo_djjxhd?data=".$data;
                 header("Location:" . $url);
                 exit();
