@@ -76,7 +76,7 @@ class Weixin_class {
             $appid = APPID;
             $mchid = MACID;
         }
-
+        var_dump($school_id);
         var_dump($openid);
         var_dump($appid);
 
