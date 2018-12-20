@@ -759,6 +759,7 @@ class Weixin_class {
 
 	 //签名
 	 function get_signature($data,$school_id){
+	     var_dump($school_id);
 		//签名步骤一：按字典序排序参数
 		@ksort($data);
 		$string = $this->ToUrlParams($data);
