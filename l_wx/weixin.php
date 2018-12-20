@@ -94,9 +94,9 @@ class Weixin_class {
 		    'openid'=>$openid,
 		    'spbill_create_ip'=>$spbill_create_ip,
 	    );
-var_dump($data);
+
 		$sign = $this->get_signature($data);
-		var_dump($sign);
+
 
 		$post = "<xml>
 			<appid>$appid</appid>
@@ -111,7 +111,7 @@ var_dump($data);
 			<spbill_create_ip>$spbill_create_ip</spbill_create_ip>
 			<sign>$sign</sign>
 		</xml>";
-		var_dump($post);
+
 		$ch = curl_init();
 		// set URL and other appropriate options
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -125,7 +125,7 @@ var_dump($data);
 
 		$xml = simplexml_load_string($data);//转换post数据为simplexml对象
 		$res = "";
-
+        var_dump($xml);
 
 		foreach($xml->children() as $child) {    //遍历所有节点数据
 			$res .= ',"'.$child->getName() . '":"' . $child . '"';
