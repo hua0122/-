@@ -527,8 +527,8 @@ class Weixin_class {
             $api_ticket_js = "api_ticket_js";
         }
 
-        var_dump($school_id);
-        var_dump($api_ticket_js);
+        //var_dump($school_id);
+        //var_dump($api_ticket_js);
 
 
 	  	$file = fopen($_SERVER['DOCUMENT_ROOT'] . "/l_wx/".$api_ticket_js.".txt", "r+") or die("Unable to open file!");
