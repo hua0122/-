@@ -94,8 +94,9 @@ class Weixin_class {
 		    'openid'=>$openid,
 		    'spbill_create_ip'=>$spbill_create_ip,
 	    );
-//var_dump($data);
+var_dump($data);
 		$sign = $this->get_signature($data);
+		var_dump($sign);
 
 		$post = "<xml>
 			<appid>$appid</appid>
