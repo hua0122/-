@@ -146,6 +146,10 @@ class Activity extends Api
 
             $school_id = $is_have['school_id'];
 
+            if($school_id!=input('school_id')){
+                return failMsg("学校ID不匹配");
+            }
+
             if(!empty($school_id)){
                 if($school_id==1){//鼎吉驾校
                     $appid = APPID_DJ;
