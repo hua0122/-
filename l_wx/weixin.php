@@ -77,6 +77,9 @@ class Weixin_class {
             $mchid = MACID;
         }
 
+        var_dump($school_id);
+        exit;
+
 
 		$nonce_str = $this->getRandChar(15);
 		$spbill_create_ip = SPBILL_CREATE_IP;
@@ -110,6 +113,7 @@ class Weixin_class {
 			<trade_type>$trade_type</trade_type>
 			<spbill_create_ip>$spbill_create_ip</spbill_create_ip>
 			<sign>$sign</sign>
+			<school_id>$school_id</school_id>
 		</xml>";
 		$ch = curl_init();
 		// set URL and other appropriate options
