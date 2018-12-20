@@ -122,6 +122,8 @@ class Weixin_class {
 		$data = curl_exec($ch);
 		curl_close($ch);
 
+		var_dump($data);
+
 		$xml = simplexml_load_string($data);//转换post数据为simplexml对象
 		$res = "";
 		var_dump($xml);
