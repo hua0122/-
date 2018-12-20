@@ -140,6 +140,104 @@ class Weixin_class {
 		return $res;
 	}
 
+
+    //统一下单
+    function unifiedorder_h5($total_fee, $openid, $body, $out_trade_no,$school_id) {
+        $url ="https://api.mch.weixin.qq.com/pay/unifiedorder";
+        if($school_id==1){//鼎吉驾校
+            $appid = APPID_DJ;
+            $mchid = MACID_DJ;
+
+        }elseif($school_id==2){//金西亚驾校
+            $appid = APPID_JXY;
+            $mchid = MACID_JXY;
+        }elseif($school_id==3){//城南驾校
+            $appid = APPID_CN;
+            $mchid = MACID_CN;
+        }elseif($school_id==4){//西南驾校
+            $appid = APPID_XN;
+            $mchid = MACID_XN;
+        }
+        elseif($school_id==5){ //秀学车
+            $appid = APPID_XXC;
+            $mchid = MACID_XXC;
+        }
+        elseif($school_id==6){ //易点学车
+            $appid = APPID;
+            $mchid = MACID;
+        }
+
+        else{
+            $appid = APPID;
+            $mchid = MACID;
+        }
+
+        $nonce_str = $this->getRandChar(15);
+        $spbill_create_ip = SPBILL_CREATE_IP;
+        $notify_url =  "http://" . $_SERVER['HTTP_HOST']."/l_wx/paycallback.php";
+        $trade_type = "MWEB";
+        $scene_info='{"h5_info": {"type":"Wap","wap_url": "yidianxueche.cn","wap_name": "易点学车"}}';
+
+        $data = array(
+            'appid'=>$appid,
+            'mch_id'=>$mchid,
+            'nonce_str'=>$nonce_str,
+            'body'=>$body,
+            'out_trade_no'=>$out_trade_no,
+            'total_fee'=>$total_fee,
+            'notify_url'=>$notify_url,
+            'trade_type'=>$trade_type,
+            'openid'=>$openid,
+            'spbill_create_ip'=>$spbill_create_ip,
+            'scene_info'=>$scene_info,
+        );
+
+        $sign = $this->get_signature($data,$school_id);
+
+
+        $post = "<xml>
+			<appid>$appid</appid>
+			<mch_id>$mchid</mch_id>
+			<nonce_str>$nonce_str</nonce_str>
+			<body>$body</body>
+			<openid>$openid</openid>
+			<out_trade_no>$out_trade_no</out_trade_no>
+			<total_fee>$total_fee</total_fee>
+			<notify_url>$notify_url</notify_url>
+			<trade_type>$trade_type</trade_type>
+			<spbill_create_ip>$spbill_create_ip</spbill_create_ip>
+            <scene_info>$scene_info</scene_info>
+			<sign>$sign</sign>
+		</xml>";
+
+        $ch = curl_init();
+        // set URL and other appropriate options
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        // grab URL, and printe
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+
+        $xml = simplexml_load_string($data);//转换post数据为simplexml对象
+        $res = "";
+        //var_dump($post);
+        //var_dump($xml);
+
+        foreach($xml->children() as $child) {    //遍历所有节点数据
+            $res .= ',"'.$child->getName() . '":"' . $child . '"';
+        }
+
+        $res = substr($res,1);
+        $res = "{" . $res . "}";
+        $res = json_decode($res);
+        //var_dump($res);
+        //exit;
+        return $res;
+    }
+
 	function curl_post_ssl($url, $vars, $second=30,$aHeader=array()) {
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_VERBOSE, '1');

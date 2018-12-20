@@ -209,6 +209,109 @@ class Activity extends Api
 
     }
 
+    //预存
+    public function prestore_h5(){
+        $amount = input("amount");
+        if(empty($amount)){
+            return failMsg('预存金额不能为空');
+        }
+
+        $tel = input("tel");
+        if(empty($tel)){
+            return failMsg("电话号码不能为空");
+        }
+
+        $pid = input("id");
+        if(!empty($pid)){
+
+            $data['pid'] = $pid;
+        }
+
+        //查询是否已经预存
+        $is_have = model("ActivityUser")->where(array("tel"=>$tel))->find();
+        if(!$is_have){
+            return failLogin();
+        }
+        if($is_have['amount']!=0&&$is_have['amount']==100&&$is_have['is_pay']==1){
+            return failMsg("您已经预存过了,无需再预存");
+        }
+
+        $data['amount'] = $amount;
+        $data['is_prestore'] = 1;
+        $data['prestore_time'] = time();
+        $data['sn'] = "yc_" . rand_string(20);//订单编号
+        $where['tel'] = $tel;
+
+        $res = model("ActivityUser")->save($data,$where);
+        if($res){
+            include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
+            $wx = new \Weixin_class();
+
+            $school_id = $is_have['school_id'];
+
+            if($school_id!=input('school_id')){
+                return failMsg("学校ID不匹配");
+            }
+
+            if(!empty($school_id)){
+                if($school_id==1){//鼎吉驾校
+                    $appid = APPID_DJ;
+                }elseif($school_id==2){//金西亚驾校
+                    $appid = APPID_JXY;
+                }elseif($school_id==3){//城南驾校
+                    $appid = APPID_CN;
+                }elseif($school_id==4){//西南驾校
+                    $appid = APPID_XN;
+                }
+                elseif($school_id==5){ //秀学车
+                    $appid = APPID_XXC;
+                }
+                elseif($school_id==6){ //易点学车
+                    $appid = APPID;
+                }
+
+                else{
+                    $appid = APPID;
+                }
+            }
+
+            //预存100 支付
+
+            if(empty(input('openid'))){
+                return failMsg("openid不能为空");
+            }
+
+            $total_fee = $amount * 100;
+            if (!empty($total_fee) && $total_fee > 0 ) {
+                $total_fee=0.01*100;
+                $unifiedOrderResult = $wx->unifiedorder_h5($total_fee, input('openid'), '活动预存', $data['sn'],$school_id);
+                //var_dump($unifiedOrderResult);
+                $timeStamp = intval(time() / 10);
+                $url = $_SERVER["HTTP_REFERER"];
+                //echo $url;
+                $nonceStr = $wx->getRandChar(15);
+                //echo $url;
+                $signature = $wx->get_js_signature($nonceStr, $timeStamp, $url,$school_id);
+                //var_dump($unifiedOrderResult);exit();
+                $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
+                $data = array("timeStamp" => $timeStamp, "nonceStr" => $nonceStr,
+                    "package" => $package, "signType" => "MD5", "appId" => $appid);
+
+                $paySign = $wx->get_signature($data,$school_id);
+                $content = array('package' => $package, 'paySign' => $paySign, 'appId' => $appid, 'timestamp' => $timeStamp, 'nonceStr' => $nonceStr, 'signature' => $signature);
+
+
+                return success($content);
+
+            }
+
+
+        }else{
+            return failMsg('预存失败');
+        }
+
+    }
+
     //分享
     public function share(){
         $tel = input("tel");
