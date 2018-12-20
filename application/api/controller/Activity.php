@@ -97,7 +97,7 @@ class Activity extends Api
 
 
         if($res){
-            return send_code($tel,"正在参加活动，您的验证码是:".$rand);
+            return send_code($tel,"您正在登录，您的验证码是:".$rand);
         }else{
             return failMsg('发送失败');
         }
