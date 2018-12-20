@@ -20,7 +20,7 @@ define('KEY_XXC', 'xiuexuecheAPIkeyxiuexuecheAPIkey');
 define('APPID_DJ','wx9d9e140a79e17f39');
 define('APPSECRET_DJ','3c671e5c86caf21b61ca485a046eaf69');
 define('MACID_DJ','1521216881');
-define('KEY_DJ', 'djjx1234mymydjjxdjjx1234mymydjjx');
+define('KEY_DJ', '12345678123456781234567812345678');
 
 //金西亚
 define('APPID_JXY','wxabc0d98b3f78f07a');
