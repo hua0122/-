@@ -18,7 +18,7 @@ define('KEY_XXC', 'xiuexuecheAPIkeyxiuexuecheAPIkey');
 
 //鼎吉驾校
 define('APPID_DJ','wx9d9e140a79e17f39');
-define('APPSECRET_DJ','3c671e5c86caf21b61ca485a046eaf69');
+define('APPSECRET_DJ','be1e2a554350a777b926e9932e6cdc4c');
 define('MACID_DJ','1521216881');
 define('KEY_DJ', '12345678123456781234567812345678');
 
