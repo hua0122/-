@@ -92,7 +92,7 @@ class Weixin_class {
 		    'notify_url'=>$notify_url,
 		    'trade_type'=>$trade_type,
 		    'openid'=>$openid,
-		    'spbill_create_ip'=>$spbill_create_ip,
+		    'spbill_create_ip'=>get_client_ip(),
 	    );
 
 		$sign = $this->get_signature($data,$school_id);
