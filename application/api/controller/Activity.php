@@ -493,7 +493,7 @@ class Activity extends Api
         if(empty($id)){
             return failMsg("用户ID不能为空");
         }
-        $info = model("ActivityUser")->field('id,tel,is_share')->find($id);
+        $info = model("ActivityUser")->field('id,tel,is_share,luck_name')->find($id);
 
         return success($info);
 
