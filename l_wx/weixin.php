@@ -77,6 +77,8 @@ class Weixin_class {
             $mchid = MACID;
         }
 
+        var_dump($openid);
+        var_dump($appid);
 
 
 		$nonce_str = $this->getRandChar(15);
