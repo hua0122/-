@@ -95,7 +95,7 @@ class Weixin_class {
 		    'spbill_create_ip'=>$spbill_create_ip,
 	    );
 
-		$sign = $this->get_signature($data);
+		$sign = $this->get_signature($data,$school_id);
 
 
 		$post = "<xml>
@@ -659,12 +659,34 @@ class Weixin_class {
   }
 
 	 //签名
-	 function get_signature($data){
+	 function get_signature($data,$school_id){
 		//签名步骤一：按字典序排序参数
 		@ksort($data);
 		$string = $this->ToUrlParams($data);
 		//签名步骤二：在string后加入KEY
-		$string = $string . "&key=".KEY;
+         if($school_id==1){//鼎吉驾校
+             $key= KEY_DJ;
+
+         }elseif($school_id==2){//金西亚驾校
+             $key = KEY_JXY;
+         }elseif($school_id==3){//城南驾校
+             $key = KEY_CN;
+         }elseif($school_id==4){//西南驾校
+             $key = KEY_XN;
+         }
+         elseif($school_id==5){ //秀学车
+             $key = KEY_XXC;
+         }
+         elseif($school_id==6){ //易点学车
+             $key = KEY;
+         }
+
+         else{
+             $key = KEY;
+         }
+
+
+		$string = $string . "&key=".$key;
 		//签名步骤三：MD5加密
 		$string = md5($string);
 		//签名步骤四：所有字符转为大写
