@@ -135,8 +135,8 @@ class Weixin_class {
 		$res = substr($res,1);
 		$res = "{" . $res . "}";
 		$res = json_decode($res);
-		//var_dump($res);
-		//exit;
+		var_dump($res);
+		exit;
 		return $res;
 	}
 
