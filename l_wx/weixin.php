@@ -125,8 +125,8 @@ class Weixin_class {
 
 		$xml = simplexml_load_string($data);//转换post数据为simplexml对象
 		$res = "";
-		var_dump($post);
-        var_dump($xml);
+		//var_dump($post);
+        //var_dump($xml);
 
 		foreach($xml->children() as $child) {    //遍历所有节点数据
 			$res .= ',"'.$child->getName() . '":"' . $child . '"';
@@ -135,8 +135,8 @@ class Weixin_class {
 		$res = substr($res,1);
 		$res = "{" . $res . "}";
 		$res = json_decode($res);
-		var_dump($res);
-		exit;
+		//var_dump($res);
+		//exit;
 		return $res;
 	}
 
