@@ -1391,11 +1391,6 @@ function getTree($array, $pid =0, $level = 0){
         if ($value['pid'] == $pid){
             //父节点为根节点的节点,级别为0，也就是第一级
             $value['level'] = $level;
-            /*$p = db('ActivityUser')->where(array("id"=>$value['pid']))->find();
-            $value['department_name'] = $p['name'];
-            $value['department_tel'] = $p['tel'];*/
-
-
             //把数组放到list中
             $list[] = $value;
             //把这个节点从数组中移除,减少后续递归消耗
@@ -1407,3 +1402,26 @@ function getTree($array, $pid =0, $level = 0){
     }
     return $list;
 }
+
+
+function getNavName($id){
+    $nav = db('ActivityUser')->find($id);
+    if($nav['pid'] != 0){
+
+        return getNavName($nav['pid']);
+    }
+    return $nav['name'];
+}
+
+function get_top_parentid($cate,$id){
+    $arr=array();
+    foreach($cate as $v){
+        if($v['id']==$id){
+            $arr[]=$v;// $arr[$v['id']]=$v['name'];
+            $arr=array_merge(get_top_parentid($cate,$v['pid']),$arr);
+        }
+    }
+    return $arr;
+
+}
+

@@ -23,10 +23,10 @@ define('MACID_DJ','1466305402');
 define('KEY_DJ', 'yidianxueche1234yidianxueche1234');
 
 //金西亚
-define('APPID_JXY','wx09e39aed7d3c3912');
-define('APPSECRET_JXY','1ffb620abf20b93b82d325d2139eb39a');
-define('MACID_JXY','1466305402');
-define('KEY_JXY', 'yidianxueche1234yidianxueche1234');
+define('APPID_JXY','wxabc0d98b3f78f07a');
+define('APPSECRET_JXY','da11dcf883e9bac7c9f64b6d4f6e56f5');
+define('MACID_JXY','1510865681');
+define('KEY_JXY', 'gfaojgbhoqAFifnFINKfiikfsFfzojxy');
 
 //城南
 define('APPID_CN','wx09e39aed7d3c3912');

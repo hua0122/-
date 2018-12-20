@@ -133,12 +133,14 @@ switch ($method) {//获取code
 				$url = "/client/getinfo.php?data=".$data;
 				header("Location:" . $url);
 				exit();
-				break; 
+				break;
+
 			case 'djjx':
 				$url = "/user/getwxinfo?data=".$data;
 				header("Location:" . $url);
 				exit();
 				break;
+				//报名系统登录
             case 'djjx_api':
                 $url = "/api/user/getwxinfo?data=".$data;
                 header("Location:" . $url);
@@ -154,8 +156,51 @@ switch ($method) {//获取code
                 header("Location:" . $url);
                 exit();
                 break;
+            case 'cnjx_api':
+                $url = "/api/user/getwxinfo_cnjx?data=".$data;
+                header("Location:" . $url);
+                exit();
+                break;
+            case 'xnjx_api':
+                $url = "/api/user/getwxinfo_xnjx?data=".$data;
+                header("Location:" . $url);
+                exit();
+                break;
+            case 'jxyjx_api':
+                $url = "/api/user/getwxinfo_jxyjx?data=".$data;
+                header("Location:" . $url);
+                exit();
+                break;
+
+
+                //活动
             case 'ydxchd_api':
                 $url = "/api/user/getwxinfo_ydxchd?data=".$data;
+                header("Location:" . $url);
+                exit();
+                break;
+            case 'xxchd_api':
+                $url = "/api/user/getwxinfo_xxchd?data=".$data;
+                header("Location:" . $url);
+                exit();
+                break;
+            case 'cnjxhd_api':
+                $url = "/api/user/getwxinfo_cnjxhd?data=".$data;
+                header("Location:" . $url);
+                exit();
+                break;
+            case 'xnjxhd_api':
+                $url = "/api/user/getwxinfo_xnjxhd?data=".$data;
+                header("Location:" . $url);
+                exit();
+                break;
+            case 'jxyjxhd_api':
+                $url = "/api/user/getwxinfo_jxyjxhd?data=".$data;
+                header("Location:" . $url);
+                exit();
+                break;
+            case 'djjxhd_api':
+                $url = "/api/user/getwxinfo_djjxhd?data=".$data;
                 header("Location:" . $url);
                 exit();
                 break;

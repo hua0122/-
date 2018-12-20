@@ -362,18 +362,32 @@ class Activity extends Admin
         }
         $w['is_prestore'] = 1;
 
-        $data  = db('ActivityUser')
+        $data  = model('ActivityUser')
             ->field('sent_activity_user.*,sent_school.name as school_name')
             ->join('sent_school','sent_school.id=sent_activity_user.school_id','left')
             ->where($w)
             ->select();
-        if($data){
-            $data = getTree($data);
-            //var_dump($data);
 
-//            foreach($data as $value){
-//                echo str_repeat('--', $value['level']), $value['name'].'<br />';
-//            }
+        if($data){
+
+            $data = getTree($data);
+
+            foreach ($data as $k=>$v){
+                $zz = get_top_parentid($data,$v['id']);
+                if($zz){
+                    for($i=0;$i<count($zz);$i++){
+                        $data[$k][($i+1)."_name"]=$zz[$i]['name'];
+                    }
+                }
+
+            }
+
+          foreach ($data as $k=>$v){
+                if($v['level']==0){
+                    unset($data[$k]);
+                }
+          }
+          $data = array_values($data);
 
         }
 
@@ -394,14 +408,19 @@ class Activity extends Admin
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1','总折扣');
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1','邀请人数');
         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1','所在级数');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M1','顶级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N1','一级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O1','二级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P1','三级');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q1','四级');
 
         //把数据循环写入excel中
         foreach($data as $key => $value){
             $key+=2;
-            if($value['level']!=0){
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$key,$value['id']);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$key,$value['school_name']);
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,str_repeat('--', $value['level']).$value['name']);
+                //$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,str_repeat('--', $value['level']).$value['name']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,$value['name']);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$key,$value['tel'].=  ' ');
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$key,$value['amount']);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$key,$value['sn']);
@@ -423,12 +442,33 @@ class Activity extends Admin
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$key,$value['luck_name']);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$key,$value['total_amount']);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$key,$value['num']);
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$key,$value['level']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$key,$value["level"]);
 
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$key,$value['level']);
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$key,$value['level']);
-            }
-
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$key,$value["1_name"]);
+                if(isset($value['2_name'])){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$key,$value['2_name']);
+                }
+                if(isset($value['3_name'])){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$key,$value['3_name']);
+                }
+                if(isset($value['4_name'])){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$key,$value['4_name']);
+                }
+                if(isset($value['5_name'])){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$key,$value['5_name']);
+                }
+                if(isset($value['6_name'])){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$key,$value['6_name']);
+                }
+                if(isset($value['7_name'])){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$key,$value['7_name']);
+                }
+                if(isset($value['8_name'])){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('T'.$key,$value['8_name']);
+                }
+                if(isset($value['9_name'])){
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('U'.$key,$value['9_name']);
+                }
 
 
 

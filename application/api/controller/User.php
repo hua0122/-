@@ -229,8 +229,6 @@ class User extends Api
 
             }
 
-
-
             $url = "http://ydxc.yidianxueche.cn/dingji_active/index.html?openid=".$data->openid;
 
 
@@ -245,6 +243,263 @@ class User extends Api
         header("Location:" . $url);
         exit();
     }
+
+    //获取微信用户信息
+    public function getwxinfo_xxchd()
+    {
+
+
+        if (!empty($_REQUEST['data'])) {
+            $data = $_REQUEST['data'];
+
+            $data = json_decode($data, JSON_UNESCAPED_UNICODE);
+            $data = json_decode($data);
+
+            if (session("openid")) {
+                session("openid", session("openid"));
+            } else {
+                session("openid", $data->openid);//这一步保存openid到session
+            }
+            $info = model('WxUser')->where(array("openid" => $data->openid))->find();
+
+
+
+            if (count($info) <= 0) {
+                $sign = array(
+                    "openid"  => $data->openid,
+                    "nickname"  => $data->nickname,
+                    'sex' => $data->sex,
+                    "city"  => $data->city,
+                    "country"  => $data->country,
+                    "province"  => $data->province,
+                    "headimgurl"  => $data->headimgurl,
+                    "subscribe_time" => time()
+                );
+
+                model('WxUser')->save($sign);
+
+            }
+
+            $url = "http://xxc.yidianxueche.cn/dingji_active/index.html?openid=".$data->openid;
+
+
+
+            header("Location:" . $url);
+            exit;
+
+
+        }
+
+        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=xxchd_api";
+        header("Location:" . $url);
+        exit();
+    }
+
+
+    //获取微信用户信息
+    public function getwxinfo_djjxhd()
+    {
+
+
+        if (!empty($_REQUEST['data'])) {
+            $data = $_REQUEST['data'];
+
+            $data = json_decode($data, JSON_UNESCAPED_UNICODE);
+            $data = json_decode($data);
+
+            if (session("openid")) {
+                session("openid", session("openid"));
+            } else {
+                session("openid", $data->openid);//这一步保存openid到session
+            }
+            $info = model('WxUser')->where(array("openid" => $data->openid))->find();
+
+
+
+            if (count($info) <= 0) {
+                $sign = array(
+                    "openid"  => $data->openid,
+                    "nickname"  => $data->nickname,
+                    'sex' => $data->sex,
+                    "city"  => $data->city,
+                    "country"  => $data->country,
+                    "province"  => $data->province,
+                    "headimgurl"  => $data->headimgurl,
+                    "subscribe_time" => time()
+                );
+
+                model('WxUser')->save($sign);
+
+            }
+
+            $url = "http://djjx.yidianxueche.cn/dingji_active/index.html?openid=".$data->openid;
+
+
+
+            header("Location:" . $url);
+            exit;
+
+
+        }
+
+        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=djjxhd_api";
+        header("Location:" . $url);
+        exit();
+    }
+
+    //获取微信用户信息
+    public function getwxinfo_jxyjxhd()
+    {
+
+
+        if (!empty($_REQUEST['data'])) {
+            $data = $_REQUEST['data'];
+
+            $data = json_decode($data, JSON_UNESCAPED_UNICODE);
+            $data = json_decode($data);
+
+            if (session("openid")) {
+                session("openid", session("openid"));
+            } else {
+                session("openid", $data->openid);//这一步保存openid到session
+            }
+            $info = model('WxUser')->where(array("openid" => $data->openid))->find();
+
+
+
+            if (count($info) <= 0) {
+                $sign = array(
+                    "openid"  => $data->openid,
+                    "nickname"  => $data->nickname,
+                    'sex' => $data->sex,
+                    "city"  => $data->city,
+                    "country"  => $data->country,
+                    "province"  => $data->province,
+                    "headimgurl"  => $data->headimgurl,
+                    "subscribe_time" => time()
+                );
+
+                model('WxUser')->save($sign);
+
+            }
+
+            $url = "http://jxyjx.yidianxueche.cn/dingji_active/index.html?openid=".$data->openid;
+
+
+
+            header("Location:" . $url);
+            exit;
+
+
+        }
+
+        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=jxyjxhd_api";
+        header("Location:" . $url);
+        exit();
+    }
+
+    //获取微信用户信息
+    public function getwxinfo_cnjxhd()
+    {
+
+
+        if (!empty($_REQUEST['data'])) {
+            $data = $_REQUEST['data'];
+
+            $data = json_decode($data, JSON_UNESCAPED_UNICODE);
+            $data = json_decode($data);
+
+            if (session("openid")) {
+                session("openid", session("openid"));
+            } else {
+                session("openid", $data->openid);//这一步保存openid到session
+            }
+            $info = model('WxUser')->where(array("openid" => $data->openid))->find();
+
+
+
+            if (count($info) <= 0) {
+                $sign = array(
+                    "openid"  => $data->openid,
+                    "nickname"  => $data->nickname,
+                    'sex' => $data->sex,
+                    "city"  => $data->city,
+                    "country"  => $data->country,
+                    "province"  => $data->province,
+                    "headimgurl"  => $data->headimgurl,
+                    "subscribe_time" => time()
+                );
+
+                model('WxUser')->save($sign);
+
+            }
+
+            $url = "http://cnjx.yidianxueche.cn/dingji_active/index.html?openid=".$data->openid;
+
+
+
+            header("Location:" . $url);
+            exit;
+
+
+        }
+
+        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=cnjxhd_api";
+        header("Location:" . $url);
+        exit();
+    }
+
+    //获取微信用户信息
+    public function getwxinfo_xnjxhd()
+    {
+
+
+        if (!empty($_REQUEST['data'])) {
+            $data = $_REQUEST['data'];
+
+            $data = json_decode($data, JSON_UNESCAPED_UNICODE);
+            $data = json_decode($data);
+
+            if (session("openid")) {
+                session("openid", session("openid"));
+            } else {
+                session("openid", $data->openid);//这一步保存openid到session
+            }
+            $info = model('WxUser')->where(array("openid" => $data->openid))->find();
+
+
+
+            if (count($info) <= 0) {
+                $sign = array(
+                    "openid"  => $data->openid,
+                    "nickname"  => $data->nickname,
+                    'sex' => $data->sex,
+                    "city"  => $data->city,
+                    "country"  => $data->country,
+                    "province"  => $data->province,
+                    "headimgurl"  => $data->headimgurl,
+                    "subscribe_time" => time()
+                );
+
+                model('WxUser')->save($sign);
+
+            }
+
+            $url = "http://xnjx.yidianxueche.cn/dingji_active/index.html?openid=".$data->openid;
+
+
+
+            header("Location:" . $url);
+            exit;
+
+
+        }
+
+        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=xnjxhd_api";
+        header("Location:" . $url);
+        exit();
+    }
+
 
 
     //获取微信用户信息
@@ -290,6 +545,8 @@ class User extends Api
 
 
         }
+
+
 
         $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=djjx_api";
         header("Location:" . $url);
@@ -346,6 +603,158 @@ class User extends Api
         exit();
     }
 
+
+    //获取微信用户信息
+    public function getwxinfo_jxyjx()
+    {
+
+        if (!empty($_REQUEST['data'])) {
+            $data = $_REQUEST['data'];
+
+            $data = json_decode($data, JSON_UNESCAPED_UNICODE);
+            $data = json_decode($data);
+
+            if (session("openid")) {
+                session("openid", session("openid"));
+            } else {
+                session("openid", $data->openid);//这一步保存openid到session
+            }
+            $info = model('WxUser')->where(array("openid" => $data->openid))->find();
+
+
+
+            if (count($info) <= 0) {
+                $sign = array(
+                    "openid"  => $data->openid,
+                    "nickname"  => $data->nickname,
+                    'sex' => $data->sex,
+                    "city"  => $data->city,
+                    "country"  => $data->country,
+                    "province"  => $data->province,
+                    "headimgurl"  => $data->headimgurl,
+                    "subscribe_time" => time()
+                );
+
+                model('WxUser')->save($sign);
+
+            }
+
+
+            $url = "http://jxyjx.yidianxueche.cn/index/index.html?openid=".$data->openid;
+
+
+            header("Location:" . $url);
+            exit;
+
+
+        }
+
+        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=jxyjx_api";
+        header("Location:" . $url);
+        exit();
+    }
+
+
+    //获取微信用户信息
+    public function getwxinfo_cnjx()
+    {
+
+        if (!empty($_REQUEST['data'])) {
+            $data = $_REQUEST['data'];
+
+            $data = json_decode($data, JSON_UNESCAPED_UNICODE);
+            $data = json_decode($data);
+
+            if (session("openid")) {
+                session("openid", session("openid"));
+            } else {
+                session("openid", $data->openid);//这一步保存openid到session
+            }
+            $info = model('WxUser')->where(array("openid" => $data->openid))->find();
+
+
+
+            if (count($info) <= 0) {
+                $sign = array(
+                    "openid"  => $data->openid,
+                    "nickname"  => $data->nickname,
+                    'sex' => $data->sex,
+                    "city"  => $data->city,
+                    "country"  => $data->country,
+                    "province"  => $data->province,
+                    "headimgurl"  => $data->headimgurl,
+                    "subscribe_time" => time()
+                );
+
+                model('WxUser')->save($sign);
+
+            }
+
+
+            $url = "http://cnjx.yidianxueche.cn/index/index.html?openid=".$data->openid;
+
+
+            header("Location:" . $url);
+            exit;
+
+
+        }
+
+        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=cnjx_api";
+        header("Location:" . $url);
+        exit();
+    }
+
+
+    //获取微信用户信息
+    public function getwxinfo_xnjx()
+    {
+
+        if (!empty($_REQUEST['data'])) {
+            $data = $_REQUEST['data'];
+
+            $data = json_decode($data, JSON_UNESCAPED_UNICODE);
+            $data = json_decode($data);
+
+            if (session("openid")) {
+                session("openid", session("openid"));
+            } else {
+                session("openid", $data->openid);//这一步保存openid到session
+            }
+            $info = model('WxUser')->where(array("openid" => $data->openid))->find();
+
+
+
+            if (count($info) <= 0) {
+                $sign = array(
+                    "openid"  => $data->openid,
+                    "nickname"  => $data->nickname,
+                    'sex' => $data->sex,
+                    "city"  => $data->city,
+                    "country"  => $data->country,
+                    "province"  => $data->province,
+                    "headimgurl"  => $data->headimgurl,
+                    "subscribe_time" => time()
+                );
+
+                model('WxUser')->save($sign);
+
+            }
+
+
+            $url = "http://xnjx.yidianxueche.cn/index/index.html?openid=".$data->openid;
+
+
+            header("Location:" . $url);
+            exit;
+
+
+        }
+
+        $url = "/l_wx/getwxinfo.php?method=getUserInfo&state=xnjx_api";
+        header("Location:" . $url);
+        exit();
+    }
 
 
 
