@@ -218,27 +218,27 @@ switch ($method) {//获取code
 		$code = @$_REQUEST["code"];
 		$state = $_REQUEST['state']?$_REQUEST['state']:"STATE";
 
-        if($state=='xxc_api'){
+        if($state=='xxc_api'||$state == "xxchd_api"){
             $appid = APPID_XXC;
             $appsecret = APPSECRET_XXC;
         }
-        elseif ($state == "djjx_api"){
+        elseif ($state == "djjx_api"||$state == "djjxhd_api"){
             $appid = APPID_DJ;
             $appsecret = APPSECRET_DJ;
         }
-        elseif ($state == "ydxc_api"){
+        elseif ($state == "ydxc_api"||$state == "ydxchd_api"){
             $appid = APPID;
             $appsecret = APPSECRET;
         }
-        elseif ($state == "jxy_api"){
+        elseif ($state == "jxy_api"||$state == "jxyjxhd_api"){
             $appid = APPID_JXY;
             $appsecret = APPSECRET_JXY;
         }
-        elseif ($state == "cn_api"){
+        elseif ($state == "cn_api"||$state == "cnjxhd_api"){
             $appid = APPID_CN;
             $appsecret = APPSECRET_CN;
         }
-        elseif ($state == "xn_api"){
+        elseif ($state == "xn_api"||$state == "xnjxhd_api"){
             $appid = APPID_XN;
             $appsecret = APPSECRET_XN;
         }
