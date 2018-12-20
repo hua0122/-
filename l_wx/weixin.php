@@ -95,6 +95,7 @@ class Weixin_class {
 		    'trade_type'=>$trade_type,
 		    'openid'=>$openid,
 		    'spbill_create_ip'=>$spbill_create_ip,
+            'school_id'=>$school_id,
 	    );
 //var_dump($data);
 		$sign = $this->get_signature($data);
@@ -132,6 +133,8 @@ class Weixin_class {
 		$res = substr($res,1);
 		$res = "{" . $res . "}";
 		$res = json_decode($res);
+		var_dump($res);
+		exit;
 		return $res;
 	}
 
