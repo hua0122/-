@@ -277,14 +277,10 @@ class Activity extends Api
 
             //预存100 支付
 
-            if(empty(input('openid'))){
-                return failMsg("openid不能为空");
-            }
-
             $total_fee = $amount * 100;
             if (!empty($total_fee) && $total_fee > 0 ) {
                 $total_fee=0.01*100;
-                $unifiedOrderResult = $wx->unifiedorder_h5($total_fee, input('openid'), '活动预存', $data['sn'],$school_id);
+                $unifiedOrderResult = $wx->unifiedorder_h5($total_fee, '活动预存', $data['sn'],$school_id);
                 //var_dump($unifiedOrderResult);
                 $timeStamp = intval(time() / 10);
                 $url = $_SERVER["HTTP_REFERER"];
