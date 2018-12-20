@@ -190,7 +190,7 @@ class Activity extends Api
                 $data = array("timeStamp" => $timeStamp, "nonceStr" => $nonceStr,
                     "package" => $package, "signType" => "MD5", "appId" => $appid);
 
-                $paySign = $wx->get_signature($data);
+                $paySign = $wx->get_signature($data,$school_id);
                 $content = array('package' => $package, 'paySign' => $paySign, 'appId' => $appid, 'timestamp' => $timeStamp, 'nonceStr' => $nonceStr, 'signature' => $signature);
 
 
