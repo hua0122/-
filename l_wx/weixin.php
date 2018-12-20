@@ -111,6 +111,7 @@ var_dump($data);
 			<spbill_create_ip>$spbill_create_ip</spbill_create_ip>
 			<sign>$sign</sign>
 		</xml>";
+		var_dump($post);
 		$ch = curl_init();
 		// set URL and other appropriate options
 		curl_setopt($ch, CURLOPT_URL, $url);
