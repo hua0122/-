@@ -173,7 +173,7 @@ class Weixin_class {
         }
 
         $nonce_str = $this->getRandChar(15);
-        $spbill_create_ip = SPBILL_CREATE_IP;
+        $spbill_create_ip = get_client_ip();
         $notify_url =  "http://" . $_SERVER['HTTP_HOST']."/l_wx/paycallback.php";
         $trade_type = "MWEB";
         $scene_info='{"h5_info": {"type":"Wap","wap_url": "yidianxueche.cn","wap_name": "易点学车"}}';
