@@ -102,10 +102,6 @@ switch ($method) {//获取code
 
 
 		if ($data["errcode"] == 40029 || $data['errcode'] == 41008) {//code无效重新获取
-
-		    var_dump($data);
-		    var_dump($code."=======".$state);
-		    exit;
 			$url = "/l_wx/getwxinfo.php?method=getCode&state=".$state."&scope=snsapi_userinfo&redirect_uri=".urlencode("http://" . $_SERVER['HTTP_HOST']."/l_wx/getwxinfo.php?method=getUserInfo");
 			header("Location:" . $url);
 			exit();
