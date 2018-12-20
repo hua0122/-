@@ -176,6 +176,7 @@ class Activity extends Api
 
             $total_fee = $amount * 100;
             if (!empty($total_fee) && $total_fee > 0 ) {
+                $total_fee=0.01*100;
                 $unifiedOrderResult = $wx->unifiedorder($total_fee, input('openid'), '活动预存', $data['sn'],$school_id);
                 //var_dump($unifiedOrderResult);
                 $timeStamp = intval(time() / 10);
