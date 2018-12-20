@@ -76,10 +76,6 @@ class Weixin_class {
             $appid = APPID;
             $mchid = MACID;
         }
-        var_dump($school_id);
-        var_dump($openid);
-        var_dump($appid);
-
 
 		$nonce_str = $this->getRandChar(15);
 		$spbill_create_ip = SPBILL_CREATE_IP;
