@@ -12,22 +12,22 @@ switch ($method) {//获取code
 		$state = $_REQUEST['state']?$_REQUEST['state']:"STATE";
 		$scope = $_REQUEST['scope']?$_REQUEST['scope']:"snsapi_base";
 
-		if($state=='xxc_api'){
+		if($state=='xxc_api'||$state == "xxchd_api"){
 		    $appid = APPID_XXC;
         }
-        elseif ($state == "djjx_api"){
+        elseif ($state == "djjx_api"||$state == "djjxhd_api"){
 		    $appid = APPID_DJ;
         }
-        elseif ($state == "ydxc_api"){
+        elseif ($state == "ydxc_api"||$state == "ydxchd_api"){
             $appid = APPID;
         }
-        elseif ($state == "jxy_api"){
+        elseif ($state == "jxy_api"||$state == "jxyjxhd_api"){
             $appid = APPID_JXY;
         }
-        elseif ($state == "cn_api"){
+        elseif ($state == "cn_api"||$state == "cnjxhd_api"){
             $appid = APPID_CN;
         }
-        elseif ($state == "xn_api"){
+        elseif ($state == "xn_api"||$state == "xnjxhd_api"){
             $appid = APPID_XN;
         }
         else{
@@ -65,7 +65,7 @@ switch ($method) {//获取code
 	case "getUserInfo":
 		$code = @$_REQUEST["code"];
 		$state = $_REQUEST['state']?$_REQUEST['state']:"STATE";
-        if($state=='xxc_api'){
+        if($state=='xxc_api'||$state == "xxchd_api"){
             $appid = APPID_XXC;
             $appsecret = APPSECRET_XXC;
         }
