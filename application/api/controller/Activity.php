@@ -129,7 +129,7 @@ class Activity extends Api
         if(!$is_have){
             return failLogin();
         }
-        if($is_have['amount']!=0&&$is_have['amount']==100&&$is_have['is_pay']==1){
+        if($is_have['is_pay']==1){
             return failMsg("您已经预存过了,无需再预存");
         }
 
@@ -236,7 +236,7 @@ class Activity extends Api
         if(!$is_have){
             return failLogin();
         }
-        if($is_have['amount']!=0&&$is_have['amount']==100&&$is_have['is_pay']==1){
+        if($is_have['is_pay']==1){
             return failMsg("您已经预存过了,无需再预存");
         }
 
