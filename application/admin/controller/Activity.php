@@ -360,7 +360,7 @@ class Activity extends Admin
         if($school_id){
             $w['sent_activity_user.school_id'] = $school_id;
         }
-        $w['is_prestore'] = 1;
+        $w['is_pay'] = 1;
 
         $data  = model('ActivityUser')
             ->field('sent_activity_user.*,sent_school.name as school_name')
