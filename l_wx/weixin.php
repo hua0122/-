@@ -128,6 +128,10 @@ class Weixin_class {
 		//var_dump($post);
         //var_dump($xml);
 
+        if(!$xml){
+            return $res;
+        }
+
 		foreach($xml->children() as $child) {    //遍历所有节点数据
 			$res .= ',"'.$child->getName() . '":"' . $child . '"';
 		}
