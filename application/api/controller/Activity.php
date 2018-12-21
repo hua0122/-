@@ -296,7 +296,7 @@ class Activity extends Api
                 if(isset($unifiedOrderResult->prepay_id)){
                     $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
                 }else{
-                    return failMsg("下单交易编号为空");
+                    return failMsg("请在微信浏览器中打开");
                 }
 
                 $data = array("timeStamp" => $timeStamp, "nonceStr" => $nonceStr,
