@@ -554,6 +554,12 @@ class Enlist extends Fornt
         //修改活动表的支付状态
         model("ActivityUser")->save($updt,$where);
 
+        //修改邀请人数
+        if($activity['pid']>0){
+            model("ActivityUser")->where(array("id"=>$activity['pid']))->setInc('num',1);
+        }
+
+
     }
 
 

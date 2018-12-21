@@ -366,6 +366,7 @@ class Activity extends Admin
             ->field('sent_activity_user.*,sent_school.name as school_name')
             ->join('sent_school','sent_school.id=sent_activity_user.school_id','left')
             ->where($w)
+            ->order('prestore_time desc')
             ->select();
 
         if($data){
