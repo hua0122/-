@@ -878,8 +878,8 @@ class Weixin_class {
         $access_token=$this->get_acctoken($school_id);
         $access_token = $access_token[0];
         $url = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=".$access_token;
-        $post['industry_id1'] = "1";
-        $post['industry_id2'] = "4";
+        $post['industry_id1'] = "16";
+        $post['industry_id2'] = "17";
         $data = $this->file_get_contents_post($url,$post);
         return json_decode($data);
     }
