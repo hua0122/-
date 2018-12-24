@@ -19,7 +19,7 @@ class Sendtemplate extends Api
         include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
         $wx = new \Weixin_class();
         $school_id  = "1";
-        $wx->get_template_id($school_id);
+        return $wx->get_template_id($school_id);
 
 
     }
