@@ -26,4 +26,7 @@ class Sendtemplate extends Api
 
     }
 
+    //发送模板消息
+
+
 }

@@ -903,4 +903,40 @@ class Weixin_class {
         $data = $this->file_get_contents_post($url);
         return json_decode($data);
     }
+
+    //发送模板消息
+    function send_template_msg($school_id,$openid,$account){
+        $access_token=$this->get_acctoken($school_id);
+        $access_token = $access_token[0];
+        $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=".$access_token;
+
+        $post = [
+            "touser"=>$openid, //对方的openid，前一步获取
+            "template_id"=>"N1GYA-V5pXNIcFsPlNxMQOEn8xAf7jyrCX-ZCqa4N4s", //模板id
+            "miniprogram"=>["appid"=>"", //跳转小程序appid
+                "pagepath"=>"pages/index/index"],//跳转小程序页面
+            "data"=>[
+                "first"=>[
+                    "value"=> "恭喜你购买成功", //自定义参数
+                    "color"=> '#173177'//自定义颜色
+                ],
+                "keyword1"=>[
+                    "value"=> $account, //自定义参数
+                    "color"=> '#173177'//自定义颜色
+                ],
+                "keyword2"=>[
+                    "value"=> time(), //自定义参数
+                    "color"=> '#173177'//自定义颜色
+                ],
+                "remark"=>[
+                    "value"=> "如有疑问，请联系当地网点", //自定义参数
+                    "color"=> '#173177'//自定义颜色
+                ],
+            ]
+        ];
+
+
+        $data = $this->file_get_contents_post($url,$post);
+        return json_decode($data);
+    }
 }
