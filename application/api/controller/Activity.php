@@ -54,7 +54,7 @@ class Activity extends Api
 
             if($is_have['school_id']!=$school_id){
                 $school = model("School")->find($is_have['school_id']);
-                return failMsg("您已经在".$school['name']."参加过活动了,无法登陆本驾校");
+                return failMsg("您已经在".$school['name']."参加过活动了,无法登录本驾校");
             }
 
             $re = model("ActivityUser")->where(array("tel"=>$tel))->setField('update_time',time());
