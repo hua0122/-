@@ -873,6 +873,62 @@ class Weixin_class {
 
     /***自定义模板消息****/
 
+    //获取code  并根据回调地址获取openid 及access_token
+   function get_code($url){
+        $openid = $_SESSION['openid'];
+        $code = input('code');
+        if($code){
+            $openid = $this->get_openid($code);
+        }
+
+        if(empty($openid)){
+            $redirect_uri="http://" . $_SERVER['HTTP_HOST'].$url;
+            $scope ="snsapi_base";
+            $state = "STATE";
+            $codeurl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' .
+                APPID  . '&redirect_uri='.
+                $redirect_uri .'&response_type=code&scope='.$scope.'&state=' .
+                $state . '#wechat_redirect';
+            header("Location:" . $codeurl);
+        }else{
+            $_SESSION['openid']= $openid;
+        }
+
+        return $openid;
+
+
+    }
+
+    //根据code取openid
+  function get_openid($code){
+        $getaccessurl = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.
+            APPID.'&secret='.APPSECRET.'&code='.$code.'&grant_type=authorization_code';
+
+        $data = file_get_contents($getaccessurl);
+        $data = json_decode($data, true);
+
+        return $data;
+    }
+
+
+    //根据openid获取用户信息
+ function get_user($url){
+
+        $data = $this->get_code($url);
+
+        $infourl = "https://api.weixin.qq.com/sns/userinfo?access_token=".$data['access_token'] .
+            "&openid=" . $data['openid'] . "&lang=zh_CN";
+
+        $user_info = file_get_contents($infourl);
+        $data= json_encode($user_info, JSON_UNESCAPED_UNICODE);
+
+        return $data;
+
+   }
+
+
+
+
     //设置所属行业
     function set_industry($school_id){
         $access_token=$this->get_acctoken($school_id);
@@ -936,7 +992,7 @@ class Weixin_class {
         ];
 
 
-        $data = $this->file_get_contents_post($url,$post);
+        $data = $this->file_get_contents_post($url,json_encode($post));
         return json_decode($data);
     }
 }
