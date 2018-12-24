@@ -1330,6 +1330,19 @@ function hide_phone($str){
 }
 
 
+/**
+ * 只保留字符串首尾字符，隐藏中间用*代替（两个字符时只显示第一个）
+ * @param string $user_name 姓名
+ * @return string 格式化后的姓名
+ */
+function substr_cut($user_name){
+    $strlen     = mb_strlen($user_name, 'utf-8');
+    $firstStr     = mb_substr($user_name, 0, 1, 'utf-8');
+    $lastStr     = mb_substr($user_name, -1, 1, 'utf-8');
+    return $strlen == 2 ? $firstStr . str_repeat('*', mb_strlen($user_name, 'utf-8') - 1) : $firstStr . str_repeat("*", $strlen - 2) . $lastStr;
+}
+
+
 /*//加密字符串  token
 
 function set_token($tel){
@@ -1437,5 +1450,7 @@ function get_client_ip1() {
     }
     return preg_match ( '/[\d\.]{7,15}/', $ip, $matches ) ? $matches [0] : '';
 }
+
+
 
 

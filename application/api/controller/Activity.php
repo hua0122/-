@@ -405,6 +405,7 @@ class Activity extends Api
         if($list){
             foreach ($list as $k=>$v){
                 $list[$k]['tel'] = hide_phone($v['tel']);
+                $list[$k]['name'] = substr_cut($v['name']);
 
             }
 
