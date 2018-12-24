@@ -351,8 +351,8 @@ class Weixin_class {
 	}
 
 	//向用户发送消息
-	function send_msg($post) {
-		$access_token=$this->get_acctoken();
+	function send_msg($post,$school_id) {
+		$access_token=$this->get_acctoken($school_id);
 		$access_token = $access_token[0];
 		$url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=$access_token";
 		$data = $this->file_get_contents_post($url, $post);
@@ -362,8 +362,8 @@ class Weixin_class {
 		return $card_list;
 	}
 	//向用户发送图文消息
-	function send_msg_img($post) {
-		$access_token=$this->get_acctoken();
+	function send_msg_img($post,$school_id) {
+		$access_token=$this->get_acctoken($school_id);
 		$access_token = $access_token[0];
 		$url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=$access_token";
 		$data = $this->file_get_contents_post($url, $post);
@@ -433,8 +433,8 @@ class Weixin_class {
 	}
 
 	//获取用户openid
-	function get_user_openid() {
-		$access_token=$this->get_acctoken();
+	function get_user_openid($school_id) {
+		$access_token=$this->get_acctoken($school_id);
 		$access_token = $access_token[0];
 		$codeurl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' .
 						APPID  . '&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect';
@@ -444,8 +444,8 @@ class Weixin_class {
 	}
 
 	//获取用户信息
-	function get_user_info($openid) {
-		$access_token=$this->get_acctoken();
+	function get_user_info($openid,$school_id) {
+		$access_token=$this->get_acctoken($school_id);
 		$access_token = $access_token[0];
 		$url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=$access_token&openid=$openid&lang=zh_CN";
 		$data = file_get_contents($url);
@@ -455,8 +455,8 @@ class Weixin_class {
 	}
 
 	//获取关注用户列表
-	function get_user_list($next_openid="") {
-		$access_token=$this->get_acctoken();
+	function get_user_list($next_openid="",$school_id) {
+		$access_token=$this->get_acctoken($school_id);
 		$access_token = $access_token[0];
 		$url = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=$access_token&next_openid=$next_openid";
 
@@ -467,8 +467,8 @@ class Weixin_class {
 	}
 
 	//生成卡卷二维码
-	function create_card_qrcode($card_id) {
-		$access_token=$this->get_acctoken();
+	function create_card_qrcode($card_id,$school_id) {
+		$access_token=$this->get_acctoken($school_id);
 		$access_token = $access_token[0];
 		$url = "https://api.weixin.qq.com/card/qrcode/create?access_token=$access_token";
 		$post = null;
@@ -485,8 +485,8 @@ class Weixin_class {
 	}
 
 	//生成带参数的二维码
-	function create_qrcode_for_ticket($ticket) {
-		$access_token=$this->get_acctoken();
+	function create_qrcode_for_ticket($ticket,$school_id) {
+		$access_token=$this->get_acctoken($school_id);
 		$access_token = $access_token[0];
 		$url = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" . $ticket;
 
@@ -496,8 +496,8 @@ class Weixin_class {
 	}
 
 	//自定义菜单
-	public function createMenu() {
-		$access_token=$this->get_acctoken();
+	public function createMenu($school_id) {
+		$access_token=$this->get_acctoken($school_id);
 		$access_token = $access_token[0];
 		$url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=$access_token";
 		$post = array();
