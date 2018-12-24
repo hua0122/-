@@ -81,6 +81,7 @@ class Weixin_class {
 		$spbill_create_ip = SPBILL_CREATE_IP;
 		$notify_url =  "http://" . $_SERVER['HTTP_HOST']."/l_wx/paycallback.php";
 		$trade_type = "JSAPI";
+		//var_dump($notify_url);
 
 		$data = array(
 		    'appid'=>$appid,
@@ -98,7 +99,7 @@ class Weixin_class {
 		$sign = $this->get_signature($data,$school_id);
 
 
-		$post = "<xml>
+		$post = "<xml version='1.0' encoding='utf-8'>
 			<appid>$appid</appid>
 			<mch_id>$mchid</mch_id>
 			<nonce_str>$nonce_str</nonce_str>
@@ -112,20 +113,29 @@ class Weixin_class {
 			<sign>$sign</sign>
 		</xml>";
 
+        //var_dump($post);
+
+
 		$ch = curl_init();
 		// set URL and other appropriate options
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+
+        if(!empty($post)){
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        }
+
 		// grab URL, and printe
 		$data = curl_exec($ch);
 		curl_close($ch);
 
+		//var_dump($url);
+        //var_dump($data);
 
 		$xml = simplexml_load_string($data);//转换post数据为simplexml对象
 		$res = "";
-		//var_dump($post);
+
         //var_dump($xml);
 
         if(!$xml){
@@ -221,7 +231,6 @@ class Weixin_class {
         // grab URL, and printe
         $data = curl_exec($ch);
         curl_close($ch);
-
 
         $xml = simplexml_load_string($data);//转换post数据为simplexml对象
         $res = "";

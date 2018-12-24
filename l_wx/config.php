@@ -29,15 +29,15 @@ define('MACID_JXY','1510865681');
 define('KEY_JXY', 'gfaojgbhoqAFifnFINKfiikfsFfzojxy');
 
 //城南
-define('APPID_CN','wx09e39aed7d3c3912');
-define('APPSECRET_CN','1ffb620abf20b93b82d325d2139eb39a');
-define('MACID_CN','1466305402');
-define('KEY_CN', 'yidianxueche1234yidianxueche1234');
+define('APPID_CN','wx9d9e140a79e17f39');
+define('APPSECRET_CN','be1e2a554350a777b926e9932e6cdc4c');
+define('MACID_CN','1521216881');
+define('KEY_CN', '12345678123456781234567812345678');
 
 //西南
-define('APPID_XN','wx09e39aed7d3c3912');
-define('APPSECRET_XN','1ffb620abf20b93b82d325d2139eb39a');
-define('MACID_XN','1466305402');
-define('KEY_XN', 'yidianxueche1234yidianxueche1234');
+define('APPID_XN','wxf94b63030daa0e04');
+define('APPSECRET_XN','52bbf94427c3af2a20ff964fb31356a7');
+define('MACID_XN','1521260891');
+define('KEY_XN', 'fadfFFrfRfvghpioMefVXIrDjnm2xnjx');
 
 define("WEBURL",'http://admin.yidianxueche.cn');
