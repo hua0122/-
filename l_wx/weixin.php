@@ -894,4 +894,13 @@ class Weixin_class {
         $data = $this->file_get_contents_post($url);
         return json_decode($data);
     }
+
+    //获取模板列表
+    function template_list($school_id){
+        $access_token=$this->get_acctoken($school_id);
+        $access_token = $access_token[0];
+        $url="https://api.weixin.qq.com/cgi-bin/template/get_all_private_template?access_token=".$access_token;
+        $data = $this->file_get_contents_post($url);
+        return json_decode($data);
+    }
 }

@@ -14,12 +14,12 @@ use app\common\controller\Api;
 class Sendtemplate extends Api
 {
 
-    //获得模板消息ID
-    public function get_template_id(){
+    
+    public function get_template(){
         include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
         $wx = new \Weixin_class();
         $school_id  = "1";
-        return $wx->get_template_id($school_id);
+        return $wx->template_list($school_id);
 
 
     }
