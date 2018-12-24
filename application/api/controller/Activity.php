@@ -136,7 +136,9 @@ class Activity extends Api
         $data['amount'] = $amount;
         $data['is_prestore'] = 1;
         $data['prestore_time'] = time();
-        $data['sn'] = "yc_" . rand_string(20);//订单编号
+        $data['sn'] = "yc_" . rand_string(10,'5').time();//订单编号
+        //var_dump($data['sn']);
+        //exit;
         $where['tel'] = $tel;
 
         $res = model("ActivityUser")->save($data,$where);
@@ -193,7 +195,9 @@ class Activity extends Api
                 if(isset($unifiedOrderResult->prepay_id)){
                     $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
                 }else{
-                    return failMsg("下单交易编号为空");
+                    //var_dump($unifiedOrderResult);
+                    //exit;
+                    return failMsg("网络出错，请再试一次");
                 }
                 $data = array("timeStamp" => $timeStamp, "nonceStr" => $nonceStr,
                     "package" => $package, "signType" => "MD5", "appId" => $appid);
@@ -522,6 +526,38 @@ class Activity extends Api
             return success($list);
         }else{
             return emptyResult();
+        }
+
+
+    }
+
+    //活动预存 支付成功回调函数
+    public function update_ycorder_status(){
+        $sn =$_GET['sn'];
+        if (empty($sn)) {
+            exit();
+        }
+
+        $activity = model("ActivityUser")->where(array("sn"=>$sn))->find();
+        if ($activity['is_pay'] == 1) {
+            exit();
+        }
+
+
+        $updt = array("is_pay"=>1,"pay_date"=>time());
+
+        $where = array("sn"=>$sn);
+
+        //修改总的优惠金额
+        $r = model("ActivityUser")->where($where)->setInc('total_amount',300);
+        //if(!$r) return failMsg();
+
+        //修改活动表的支付状态
+        model("ActivityUser")->save($updt,$where);
+
+        //修改邀请人数
+        if($activity['pid']>0){
+            model("ActivityUser")->where(array("id"=>$activity['pid']))->setInc('num',1);
         }
 
 

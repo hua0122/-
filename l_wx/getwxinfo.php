@@ -12,6 +12,7 @@ switch ($method) {//获取code
 		$state = $_REQUEST['state']?$_REQUEST['state']:"STATE";
 		$scope = $_REQUEST['scope']?$_REQUEST['scope']:"snsapi_base";
 
+
 		if($state=='xxc_api'||$state == "xxchd_api"){
 		    $appid = APPID_XXC;
         }
@@ -33,6 +34,8 @@ switch ($method) {//获取code
         else{
 		    $appid = APPID;
         }
+
+
 		
 		$redirect_uri = urldecode($_REQUEST["redirect_uri"])?urldecode($_REQUEST["redirect_uri"]):"http://" . $_SERVER['HTTP_HOST']."/l_wx/getwxinfo.php?method=getOpenId";//urlencode
 		if (!empty($redirect_uri)) {
@@ -41,7 +44,7 @@ switch ($method) {//获取code
 								$redirect_uri .'&response_type=code&scope='.$scope.'&state=' . 
 								$state . '#wechat_redirect';
 		}
-//		/echo $codeurl;exit();
+		//echo $codeurl;exit();
 		header("Location:$codeurl");
 		break;
 	//根据openid获取用户信息
@@ -77,7 +80,7 @@ switch ($method) {//获取code
             $appid = APPID;
             $appsecret = APPSECRET;
         }
-        elseif ($state == "jxy_api"||$state == "jxyhd_api"){
+        elseif ($state == "jxy_api"||$state == "jxyjxhd_api"){
             $appid = APPID_JXY;
             $appsecret = APPSECRET_JXY;
         }
@@ -93,19 +96,26 @@ switch ($method) {//获取code
             $appid = APPID;
             $appsecret = APPSECRET;
         }
+        //var_dump($state);
+        //var_dump($appid);
+
 
 		$getaccessurl = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.
 						$appid.'&secret='.$appsecret.'&code='.$code.'&grant_type=authorization_code';
 		//echo $getaccessurl;
+		//exit;
 		$data = file_get_contents($getaccessurl);
 		$data = json_decode($data, true);
 
-
 		if ($data["errcode"] == 40029 || $data['errcode'] == 41008) {//code无效重新获取
+
 			$url = "/l_wx/getwxinfo.php?method=getCode&state=".$state."&scope=snsapi_userinfo&redirect_uri=".urlencode("http://" . $_SERVER['HTTP_HOST']."/l_wx/getwxinfo.php?method=getUserInfo");
 			header("Location:" . $url);
+
 			exit();
 		}
+
+
 
 		$infourl = "https://api.weixin.qq.com/sns/userinfo?access_token=".$data['access_token'] . 
 			"&openid=" . $data['openid'] . "&lang=zh_CN";
@@ -114,8 +124,11 @@ switch ($method) {//获取code
 		$data= json_encode($user_info, JSON_UNESCAPED_UNICODE);
 		$_SESSION['user_info'] = $user_info;
 
-		
-		switch($state) {
+
+
+
+
+        switch($state) {
 			case 'addStudent':
 				
 				$url = "/s_user/student.php?method=showbm&data=".$data;
