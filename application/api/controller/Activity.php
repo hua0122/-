@@ -354,10 +354,10 @@ class Activity extends Api
         }
 
         $res = model("ActivityUser")->where(array("id"=>$fenxiang_id))->setField('is_share',1);
-        //修改总的优惠金额
-        $r = model("ActivityUser")->where(array("id"=>$fenxiang_id))->setInc('total_amount',100);
 
-        if($res&&$r){
+        if($res){
+            //修改总的优惠金额
+            model("ActivityUser")->where(array("id"=>$fenxiang_id))->setInc('total_amount',100);
             return success();
         }else{
             return failMsg();
