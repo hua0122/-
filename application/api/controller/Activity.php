@@ -578,20 +578,16 @@ class Activity extends Api
 
 
         //组装发送消息内容
-        $content = '学员姓名：'.$activity['name'].' , 电话：'.$activity['tel'].'时间：'.date("Y-m-d H:i:s",$activity['pay_date']);
-        $data1 = array(
-            'touser' => 'o2l0cwqD9xFMwlNrr7BfBCmhLVv8',
-            'msgtype'=> 'text',
-            'text' 	 => array('content'=>$content)
-        );
-
-        $res1 = $wx->send_msg($data1);
+        $openid = $wx->get_code("api/sendtemplate/send_msg");
+        $wx->send_template_msg($activity['school_id'],$openid,'花花');
 
 
 
 
 
     }
+
+
 
 
 }

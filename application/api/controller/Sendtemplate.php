@@ -31,8 +31,6 @@ class Sendtemplate extends Api
     public function send_msg(){
         include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
         $wx = new \Weixin_class();
-        $school_id  = "1";
-        $openid = $wx->get_code("api/sendtemplate/send_msg");
-        return $wx->send_template_msg($school_id,$openid,'花花');
+        return $openid = $wx->get_code("api/sendtemplate/send_msg");
     }
 }
