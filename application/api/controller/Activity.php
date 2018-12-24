@@ -62,6 +62,9 @@ class Activity extends Api
             if(!empty($name)){
                 $data['name'] = $name;
             }
+            if(!empty($id)){
+                $data['pid'] = $id;
+            }
 
             $res = model("ActivityUser")->save($data);
             if($res){
@@ -345,14 +348,14 @@ class Activity extends Api
     }
     //分享后调用
     public function share_after(){
-        $tel = input("tel");
-        if(empty($tel)){
-            return failMsg("电话号码不能为空");
+        $fenxiang_id = input("fenxiang_id");
+        if(empty($fenxiang_id)){
+            return failMsg("分享id不能为空");
         }
 
-        $res = model("ActivityUser")->where(array("tel"=>$tel))->setField('is_share',1);
+        $res = model("ActivityUser")->where(array("id"=>$fenxiang_id))->setField('is_share',1);
         //修改总的优惠金额
-        $r = model("ActivityUser")->where(array("tel"=>$tel))->setInc('total_amount',100);
+        $r = model("ActivityUser")->where(array("id"=>$fenxiang_id))->setInc('total_amount',100);
 
         if($res&&$r){
             return success();
@@ -558,6 +561,9 @@ class Activity extends Api
         //修改邀请人数
         if($activity['pid']>0){
             model("ActivityUser")->where(array("id"=>$activity['pid']))->setInc('num',1);
+            //修改总的优惠金额
+            model("ActivityUser")->where(array("id"=>$activity['pid']))->setInc('total_amount',100);
+
         }
 
 
