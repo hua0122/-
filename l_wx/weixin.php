@@ -295,8 +295,8 @@ class Weixin_class {
 	}
 
 	//获取订单详情
-	function get_order_info($order_id) {
-		$access_token=$this->get_acctoken();
+	function get_order_info($order_id,$school_id) {
+		$access_token=$this->get_acctoken($school_id);
 		$access_token = $access_token[0];
 		$url = "https://api.weixin.qq.com/merchant/order/getbyid?access_token=$access_token";
 		$post = array();
@@ -308,8 +308,8 @@ class Weixin_class {
 		return $card_info;
 	}
 	//生产永久二维码
-	function create_ewm($post) {
-		$access_token=$this->get_acctoken();
+	function create_ewm($post,$school_id) {
+		$access_token=$this->get_acctoken($school_id);
 		$access_token = $access_token[0];
 		$url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=$access_token";
 		$data = $this->file_get_contents_post($url, $post);
@@ -486,10 +486,8 @@ class Weixin_class {
 
 	//生成带参数的二维码
 	function create_qrcode_for_ticket($ticket,$school_id) {
-		$access_token=$this->get_acctoken($school_id);
-		$access_token = $access_token[0];
 		$url = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" . $ticket;
-
+        $data = file_get_contents($url);
 		$card_info = json_decode($data);
 
 		return $card_info;
@@ -870,5 +868,30 @@ class Weixin_class {
         $long = sprintf("%u", ip2long($ip));
         $ip   = $long ? array($ip, $long) : array('0.0.0.0', 0);
         return $ip[$type];
+    }
+
+
+    /***自定义模板消息****/
+
+    //设置所属行业
+    function set_industry($school_id){
+        $access_token=$this->get_acctoken($school_id);
+        $access_token = $access_token[0];
+        $url = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=".$access_token;
+        $post['industry_id1'] = "1";
+        $post['industry_id2'] = "4";
+        $data = $this->file_get_contents_post($url,$post);
+        return json_decode($data);
+    }
+
+
+    //获得模板ID
+
+    function get_template_id($school_id){
+        $access_token=$this->get_acctoken($school_id);
+        $access_token = $access_token[0];
+        $url = "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=".$access_token;
+        $data = $this->file_get_contents_post($url);
+        return json_decode($data);
     }
 }
