@@ -191,7 +191,7 @@ class Activity extends Api
 
             $total_fee = $amount * 100;
             if (!empty($total_fee) && $total_fee > 0 ) {
-                $total_fee=0.01*100;
+                //$total_fee=0.01*100;
                 $unifiedOrderResult = $wx->unifiedorder($total_fee, input('openid'), '活动预存', $data['sn'],$school_id);
                 //var_dump($unifiedOrderResult);
                 $timeStamp = intval(time() / 10);
@@ -201,6 +201,7 @@ class Activity extends Api
                 //echo $url;
                 $signature = $wx->get_js_signature($nonceStr, $timeStamp, $url,$school_id);
                 //var_dump($unifiedOrderResult);exit();
+                $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
                 if(isset($unifiedOrderResult->prepay_id)){
                     $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
                 }else{
@@ -296,7 +297,7 @@ class Activity extends Api
 
             $total_fee = $amount * 100;
             if (!empty($total_fee) && $total_fee > 0 ) {
-                $total_fee=0.01*100;
+                //$total_fee=0.01*100;
                 $unifiedOrderResult = $wx->unifiedorder_h5($total_fee, '活动预存', $data['sn'],$school_id);
                 //var_dump($unifiedOrderResult);
                 $timeStamp = intval(time() / 10);
