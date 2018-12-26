@@ -380,10 +380,11 @@ class Activity extends Api
             $total_fee = $amount * 100;
             if (!empty($total_fee) && $total_fee > 0 ) {
                 //$total_fee=0.01*100;
-                require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'service/AlipayTradeService.php';
-                require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'buildermodel/AlipayTradeWapPayContentBuilder.php';
-                require dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'./../config.php';
-                if (!empty($_POST['WIDout_trade_no'])&& trim($_POST['WIDout_trade_no'])!=""){
+                include_once $_SERVER['DOCUMENT_ROOT'] .'/alipay/wappay/service/AlipayTradeService.php';
+                include_once $_SERVER['DOCUMENT_ROOT'] .'/alipay/wappay/buildermodel/AlipayTradeWapPayContentBuilder.php';
+                include_once $_SERVER['DOCUMENT_ROOT'] . '/alipay/config.php';
+
+                if (!empty($data['sn'])&& trim($data['sn'])!=""){
                     //商户订单号，商户网站订单系统中唯一订单号，必填
                     $out_trade_no = $data['sn'];
 
@@ -399,17 +400,16 @@ class Activity extends Api
                     //超时时间
                     $timeout_express="1m";
 
-                    $payRequestBuilder = new AlipayTradeWapPayContentBuilder();
+                    $payRequestBuilder = new \AlipayTradeWapPayContentBuilder();
                     $payRequestBuilder->setBody($body);
                     $payRequestBuilder->setSubject($subject);
                     $payRequestBuilder->setOutTradeNo($out_trade_no);
                     $payRequestBuilder->setTotalAmount($total_amount);
                     $payRequestBuilder->setTimeExpress($timeout_express);
-
-                    $payResponse = new AlipayTradeService($config);
+                    $payResponse = new \AlipayTradeService($config);
                     $result=$payResponse->wapPay($payRequestBuilder,$config['return_url'],$config['notify_url']);
 
-                    return ;
+                    return;
                 }
 
             }
