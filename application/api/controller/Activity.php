@@ -191,7 +191,7 @@ class Activity extends Api
 
             $total_fee = $amount * 100;
             if (!empty($total_fee) && $total_fee > 0 ) {
-                $total_fee=0.01*100;
+                //$total_fee=0.01*100;
                 $unifiedOrderResult = $wx->unifiedorder($total_fee, input('openid'), '活动预存', $data['sn'],$school_id);
                 //var_dump($unifiedOrderResult);
                 $timeStamp = intval(time() / 10);
@@ -296,7 +296,7 @@ class Activity extends Api
 
             $total_fee = $amount * 100;
             if (!empty($total_fee) && $total_fee > 0 ) {
-                $total_fee=0.01*100;
+                //$total_fee=0.01*100;
                 $unifiedOrderResult = $wx->unifiedorder_h5($total_fee, '活动预存', $data['sn'],$school_id);
                 //var_dump($unifiedOrderResult);
                 $timeStamp = intval(time() / 10);
@@ -329,6 +329,97 @@ class Activity extends Api
         }
 
     }
+
+
+    //预存
+    public function prestore_alipay(){
+        $amount = input("amount");
+        if(empty($amount)){
+            return failMsg('预存金额不能为空');
+        }
+
+        $tel = input("tel");
+        if(empty($tel)){
+            return failMsg("电话号码不能为空");
+        }
+
+        $pid = input("id");
+        if(!empty($pid)){
+
+            $data['pid'] = $pid;
+        }
+
+        //查询是否已经预存
+        $is_have = model("ActivityUser")->where(array("tel"=>$tel))->find();
+        if(!$is_have){
+            return failLogin();
+        }
+        if($is_have['is_pay']==1){
+            return failMsg("您已经预存过了,无需再预存");
+        }
+
+        $data['amount'] = $amount;
+        $data['is_prestore'] = 1;
+        $data['prestore_time'] = time();
+        $data['sn'] = "yc_" . rand_string(20);//订单编号
+        $where['tel'] = $tel;
+
+        $res = model("ActivityUser")->save($data,$where);
+        if($res){
+
+
+            $school_id = $is_have['school_id'];
+
+            if($school_id!=input('school_id')){
+                return failMsg("学校ID不匹配");
+            }
+
+            //预存100 支付
+
+            $total_fee = $amount * 100;
+            if (!empty($total_fee) && $total_fee > 0 ) {
+                //$total_fee=0.01*100;
+                require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'service/AlipayTradeService.php';
+                require_once dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'buildermodel/AlipayTradeWapPayContentBuilder.php';
+                require dirname ( __FILE__ ).DIRECTORY_SEPARATOR.'./../config.php';
+                if (!empty($_POST['WIDout_trade_no'])&& trim($_POST['WIDout_trade_no'])!=""){
+                    //商户订单号，商户网站订单系统中唯一订单号，必填
+                    $out_trade_no = $data['sn'];
+
+                    //订单名称，必填
+                    $subject = "活动预存";
+
+                    //付款金额，必填
+                    $total_amount = $total_fee;
+
+                    //商品描述，可空
+                    $body = "活动预存";
+
+                    //超时时间
+                    $timeout_express="1m";
+
+                    $payRequestBuilder = new AlipayTradeWapPayContentBuilder();
+                    $payRequestBuilder->setBody($body);
+                    $payRequestBuilder->setSubject($subject);
+                    $payRequestBuilder->setOutTradeNo($out_trade_no);
+                    $payRequestBuilder->setTotalAmount($total_amount);
+                    $payRequestBuilder->setTimeExpress($timeout_express);
+
+                    $payResponse = new AlipayTradeService($config);
+                    $result=$payResponse->wapPay($payRequestBuilder,$config['return_url'],$config['notify_url']);
+
+                    return ;
+                }
+
+            }
+
+
+        }else{
+            return failMsg('预存失败');
+        }
+
+    }
+
 
     //分享
     public function share(){
