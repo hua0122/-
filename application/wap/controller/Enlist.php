@@ -458,76 +458,16 @@ class Enlist extends Fornt
         //修改学员报名表的支付状态
         model("Student")->save($updt,$where);
 
-
-
-        /*//更新成功推荐人数
-        if(!empty($sign['inv'])){
-            $captain = $_TGLOBAL['db']->getrow("SELECT * FROM ".tname('captain')." WHERE id=".$sign['inv']);
-            if(!empty($captain)){
-                $_TGLOBAL['db']->query('UPDATE '.tname('captain')." SET success_num=success_num+1 WHERE id='".$sign['inv']."'");
-            }
-        }
-
-
-
-        if(!empty($sign['inv'])){
-            $captain = $_TGLOBAL['db']->getrow("SELECT * FROM ".tname('captain')." WHERE id=".$sign['inv']);
-
-            if(!empty($captain['cptid'])){ //如果有上级，就显示队员和队员的上级（合伙人）；否则只显示合伙人
-                $sign['duiyuan_name'] = $captain['name'];
-                $duiyuan = $_TGLOBAL['db']->getrow("SELECT * FROM ".tname('captain')." WHERE id=".$captain['cptid']);
-                $sign['captain_name'] = $duiyuan['name'];
-            } else {
-                $sign['captain_name'] = $captain['name']; //显示合伙人
-                $sign['duiyuan_name'] = '无';
-            }
-        }
-
+        //发送模板消息
         include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
-        $wx = new Weixin_class();
+        $wx = new \Weixin_class();
 
+        $content = $wx->send_template_msg($sign['school_id'],$sign['openid'],$sign['name'],$sign['payable']);
 
-        //组装发送消息内容
-        $content = '学员姓名：'.$sign['name'].' , 电话：'.$sign['mobile'].' , 身份证号：'.$sign['cardno'].
-            ' , 地址：'.$sign['area'].' , 成交合伙人：'.$sign['captain_name'].' , 成交队员：'.$sign['duiyuan_name'].
-            ' , 时间：'.date("Y-m-d H:i:s",$sign['paydate']);
-        $data1 = array(
-            'touser' => 'o2l0cwjjem5xNUH5Is9fUec_jhEE',
-            'msgtype'=> 'text',
-            'text' 	 => array('content'=>$content)
-        );
+        $file = fopen($_SERVER['DOCUMENT_ROOT'] . "/l_wx/send_template_msg.txt", "w") or die("Unable to open file!");
+        fwrite($file, $content);
+        fclose($file);
 
-        $data2 = array(
-            'touser' => 'o2l0cwj6bKfp1IlK60lL6exB-sA0',
-            'msgtype'=> 'text',
-            'text' 	 => array('content'=>$content)
-        );
-
-        $data3 = array(
-            'touser' => 'o2l0cwspBtFyXaNYxggTQEaqPFAM',
-            'msgtype'=> 'text',
-            'text' 	 => array('content'=>$content)
-        );
-
-        $data4 = array(
-            'touser' => 'o2l0cwkgaEOA7AA5yKvn7zi6cngo',
-            'msgtype'=> 'text',
-            'text' 	 => array('content'=>$content)
-        );
-
-        $data5 = array(
-            'touser' => 'o2l0cwi5RqbVJFvht-vyOIzcDCs0',
-            'msgtype'=> 'text',
-            'text' 	 => array('content'=>$content)
-        );
-
-        $res1 = $wx->send_msg($data1);
-        $res2 = $wx->send_msg($data2);
-        $res3 = $wx->send_msg($data3);
-        $res4 = $wx->send_msg($data4);
-        $res5 = $wx->send_msg($data5);
-
-        */
     }
 
     //活动预存 支付成功回调函数

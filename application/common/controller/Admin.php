@@ -16,11 +16,11 @@ class Admin extends Base {
 	public function _initialize() {
 		parent::_initialize();
 
-		if (!is_login() and !in_array($this->url, array('admin/index/login', 'admin/index/logout', 'admin/index/verify','admin/index/public_set_schoolid','admin/index/get_top_menu'))) {
+		if (!is_login() and !in_array($this->url, array('admin/index/login', 'admin/index/logout', 'admin/index/verify','admin/index/public_set_schoolid','admin/index/get_top_menu','admin/activity/export'))) {
 			$this->redirect('admin/index/login');
 		}
 
-		if (!in_array($this->url, array('admin/index/login', 'admin/index/logout', 'admin/index/verify','admin/index/public_set_schoolid','admin/index/get_top_menu'))) {
+		if (!in_array($this->url, array('admin/index/login', 'admin/index/logout', 'admin/index/verify','admin/index/public_set_schoolid','admin/index/get_top_menu','admin/activity/export'))) {
 
 			// 是否是超级管理员
 			define('IS_ROOT', is_administrator());

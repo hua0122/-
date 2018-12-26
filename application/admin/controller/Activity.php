@@ -356,22 +356,29 @@ class Activity extends Admin
 
 
         $w = [];
-        $school_id = input('school_id');
-        if($school_id){
+        $school_id = input('params');
+
+        if(!empty($school_id)){
+            $school_id = base64_decode($school_id);
             $w['sent_activity_user.school_id'] = $school_id;
         }
-        $w['is_pay'] = 1;
+        //$w['is_pay'] = 1;
+
+        $school = model("School")->find($school_id);
 
         $data  = model('ActivityUser')
             ->field('sent_activity_user.*,sent_school.name as school_name')
             ->join('sent_school','sent_school.id=sent_activity_user.school_id','left')
             ->where($w)
-            ->order('prestore_time desc')
+            ->order('pay_date desc')
             ->select();
+
+
 
         if($data){
 
             $data = getTree($data);
+
 
             foreach ($data as $k=>$v){
                 $zz = get_top_parentid($data,$v['id']);
@@ -383,11 +390,17 @@ class Activity extends Admin
 
             }
 
+
           foreach ($data as $k=>$v){
-                if($v['level']==0){
+                /*if($v['level']==0&&$v['is_pay']==0){
+                    unset($data[$k]);
+                }*/
+                if($v['is_pay']==0){
                     unset($data[$k]);
                 }
+
           }
+
           $data = array_values($data);
 
         }
@@ -418,18 +431,18 @@ class Activity extends Admin
         //把数据循环写入excel中
         foreach($data as $key => $value){
             $key+=2;
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$key,$value['id']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$key,$key-1);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$key,$value['school_name']);
                 //$objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,str_repeat('--', $value['level']).$value['name']);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$key,$value['name']);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$key,$value['tel'].=  ' ');
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$key,$value['amount']);
                 $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$key,$value['sn']);
-                if($value['prestore_time']==null){
+                if($value['pay_date']==null){
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,'/');
 
                 }else{
-                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,date("Y-m-d H:i:s",$value['prestore_time']));
+                    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$key,date("Y-m-d H:i:s",$value['pay_date']));
 
                 }
                 if($value['is_share']==0){
@@ -480,7 +493,7 @@ class Activity extends Admin
         $objPHPExcel-> setActiveSheetIndex(0);
         $objWriter = $iofactory -> createWriter($objPHPExcel, 'Excel5');
 
-        $filename = date("Y-m-d H:i:s").'活动管理.xls';
+        $filename = $school['name'].date("Y-m-d H:i:s").'活动管理.xls';
         ob_end_clean();
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Type: application/octet-stream');

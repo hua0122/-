@@ -114,6 +114,9 @@ class Weixin_class {
 		</xml>";
 
         //var_dump($post);
+        $file = fopen($_SERVER['DOCUMENT_ROOT'] . "/l_wx/callback.txt", "w") or die("Unable to open file!");
+        fwrite($file, $post);
+        fclose($file);
 
 
 		$ch = curl_init();
@@ -126,14 +129,20 @@ class Weixin_class {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
         }
 
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
 		// grab URL, and printe
 		$data = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Errno' . curl_error($ch);
+        }
 		curl_close($ch);
 
 		//var_dump($url);
         //var_dump($data);
 
-		$xml = simplexml_load_string($data);//转换post数据为simplexml对象
+		$xml = simplexml_load_string($data,'SimpleXMLElement', LIBXML_NOCDATA);//转换post数据为simplexml对象
 		$res = "";
 
         //var_dump($xml);
@@ -961,7 +970,7 @@ class Weixin_class {
     }
 
     //发送模板消息
-    function send_template_msg($school_id,$openid,$account){
+    function send_template_msg($school_id,$openid,$account,$payable){
         $access_token=$this->get_acctoken($school_id);
         $access_token = $access_token[0];
         $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=".$access_token;
@@ -981,7 +990,19 @@ class Weixin_class {
                     "color"=> '#173177'//自定义颜色
                 ],
                 "keyword2"=>[
-                    "value"=> time(), //自定义参数
+                    "value"=> $payable, //自定义参数
+                    "color"=> '#173177'//自定义颜色
+                ],
+                "keyword3"=>[
+                    "value"=> $payable, //自定义参数
+                    "color"=> '#173177'//自定义颜色
+                ],
+                "keyword4"=>[
+                    "value"=> $payable, //自定义参数
+                    "color"=> '#173177'//自定义颜色
+                ],
+                "keyword5"=>[
+                    "value"=> 0, //自定义参数
                     "color"=> '#173177'//自定义颜色
                 ],
                 "remark"=>[
@@ -992,7 +1013,8 @@ class Weixin_class {
         ];
 
 
-        $data = $this->file_get_contents_post($url,json_encode($post));
+
+        $data = $this->file_get_contents_post($url,$post);
         return json_decode($data);
     }
 }
