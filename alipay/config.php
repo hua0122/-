@@ -35,7 +35,7 @@ cAwIuLhENUO3uywKLDOeJvhTfgnbkqU4cwTE8oDzJZv2csngdiA=",
 		'notify_url' => "http://admin.yidianxueche.cn/alipay/notify_url.php",
 		
 		//同步跳转
-		'return_url' => "http://mitsein.com/alipay.trade.wap.pay-PHP-UTF-8/return_url.php",
+		'return_url' => "http://admin.yidianxueche.cn/alipay/return_url.php",
 
 		//编码格式
 		'charset' => "UTF-8",
