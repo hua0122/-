@@ -52,7 +52,7 @@ class Activity extends Api
         $is_have = model("ActivityUser")->where(array("tel"=>$tel))->find();
         if($is_have){
 
-            if($is_have['school_id']!=$school_id){
+            if($is_have['is_pay']==1&&$is_have['school_id']!=$school_id){
                 $school = model("School")->find($is_have['school_id']);
                 return failMsg("您已经在".$school['name']."参加过活动了,无法登录本驾校");
             }
@@ -377,9 +377,9 @@ class Activity extends Api
 
             //预存100 支付
 
-            $total_fee = $amount * 100;
+            $total_fee = $amount;
             if (!empty($total_fee) && $total_fee > 0 ) {
-                //$total_fee=0.01*100;
+                $total_fee=0.01;
                 include_once $_SERVER['DOCUMENT_ROOT'] .'/alipay/wappay/service/AlipayTradeService.php';
                 include_once $_SERVER['DOCUMENT_ROOT'] .'/alipay/wappay/buildermodel/AlipayTradeWapPayContentBuilder.php';
                 include_once $_SERVER['DOCUMENT_ROOT'] . '/alipay/config.php';
@@ -409,7 +409,7 @@ class Activity extends Api
                     $payResponse = new \AlipayTradeService($config);
                     $result=$payResponse->wapPay($payRequestBuilder,$config['return_url'],$config['notify_url']);
 
-                    return;
+                    return $result;
                 }
 
             }
@@ -492,7 +492,7 @@ class Activity extends Api
         }
 
         //邀请的下级人员 预存的列表
-        $list = model("ActivityUser")->field('name,tel')->where(array("pid"=>$is_have['id'],"is_prestore"=>1))->select();
+        $list = model("ActivityUser")->field('name,tel')->where(array("pid"=>$is_have['id'],"is_pay"=>1))->select();
 
         if($list){
             foreach ($list as $k=>$v){
