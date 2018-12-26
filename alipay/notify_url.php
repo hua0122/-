@@ -13,6 +13,7 @@
  */
 require_once("config.php");
 require_once 'wappay/service/AlipayTradeService.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/config.php';
 
 
 $arr=$_POST;
@@ -64,6 +65,16 @@ if($result) {//验证成功
 			//如果有做过处理，不执行商户的业务程序			
 		//注意：
 		//付款完成后，支付宝系统发送该交易状态通知
+        
+
+        if('yc' == substr($out_trade_no,0,2)){
+            $url = WEBURL."/api/activity/update_ycorder_status&sn=".$out_trade_no;
+            file_get_contents($url);
+            //echo "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
+            exit();
+        }
+
+
     }
 	//——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
         

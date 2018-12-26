@@ -12,6 +12,7 @@
  */
 require_once("config.php");
 require_once 'wappay/service/AlipayTradeService.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/config.php';
 
 
 $arr=$_GET;
@@ -39,19 +40,21 @@ if($result) {//验证成功
 
 	$trade_no = htmlspecialchars($_GET['trade_no']);
 		
-	echo "验证成功<br />外部订单号：".$out_trade_no;
+	//echo "验证成功<br />外部订单号：".$out_trade_no;
+
 
 	//——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    if('yc' == substr($out_trade_no,0,2)){
+        header("location:http://bmqdtest.yidianxueche.cn/dingji_active/index.html");
+        exit();
+    }
+
+
 }
 else {
     //验证失败
     echo "验证失败";
 }
 ?>
-<title>支付宝手机网站支付接口</title>
-	</head>
-    <body>
-    </body>
-</html>
