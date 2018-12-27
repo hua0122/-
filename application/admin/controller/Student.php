@@ -25,6 +25,7 @@ class Student extends Admin
     public function index(){
         $this->setMeta("学员管理");
         $map = array();
+        $map['sent_student.status'] = 1;
 
         $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
         if(isset($this->schoolid)){
@@ -180,15 +181,41 @@ class Student extends Admin
         $this->assign("grade_x",$grade_x);
 
         //场地信息展示
-        $area = db("Area")->where(array("school_id"=>$school_id))->select();
-        $this->assign("area",$area);
+        $area_s = db("Area")->where(array("school_id"=>$school_id,"status"=>0))->select();
+        $this->assign("area_s",$area_s);
+        $area_x = db("Area")->where(array("school_id"=>$school_id,"status"=>1))->select();
+        $this->assign("area_x",$area_x);
 
         //活动信息展示
-        $activity = db("Activity")->where(array("school_id"=>$school_id))->select();
-        $this->assign("activity",$activity);
+        //上线状态  下线时间大于当前时间
+        $map_s['downline_time'] = array('gt',time());
+        $map_s['school_id'] = $school_id;
+        $map_x['downline_time'] = array('lt',time());
+        $map_x['school_id'] = $school_id;
+
+        $activity_s = db("Activity")->where($map_s)->select();
+        $this->assign("activity_s",$activity_s);
+        $activity_x = db("Activity")->where($map_x)->select();
+        $this->assign("activity_x",$activity_x);
 
         return $this->fetch();
 
+
+    }
+
+    //根据场地id查询班别列表
+    public function ajax_grade(){
+        $area_id = input("area_id");
+
+        $grade = db('Grade')
+            ->field('sent_grade.*')
+            ->where(array("area_id"=>$area_id))
+            ->select();
+        if($grade){
+            return success($grade);
+        }else{
+            return emptyResult();
+        }
 
     }
 

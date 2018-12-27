@@ -100,28 +100,59 @@
                     </select>
                 </div>
 
+
+
+                <div class="col-sm-12 col-md-4 col-lg-3">
+                    <label>参加活动：</label>
+                    <select name="activity_id" id="activity_id" class="form-control">
+                        <option value="">请选择参加活动类型</option>
+                        <option disabled>上线</option>
+                        {volist name="activity_s" id="item"}
+                        <option value="{$item.id}" {if isset($activity_id) && $activity_id==$item['id']}selected{/if}>{$item.name}</option>
+                        {/volist}
+                        <option disabled>下线</option>
+                        {volist name="activity_x" id="item"}
+                        <option value="{$item.id}" {if isset($activity_id) && $activity_id==$item['id']}selected{/if}>{$item.name}</option>
+                        {/volist}
+
+                    </select>
+                </div>
+
+
+                <div style="clear: both"></div>
+
                 <div class="col-sm-12 col-md-4 col-lg-3">
                     <label>所属场地：</label>
                     <select name="area_id" id="area_id" class="form-control">
                         <option value="">请选择场地</option>
-                        {volist name="area" id="item"}
+                        <option disabled>启用</option>
+                        {volist name="area_s" id="item"}
+                        <option value="{$item.id}" {if isset($area_id) && $area_id==$item['id']}selected{/if}>{$item.name}</option>
+                        {/volist}
+                        <option disabled>禁用</option>
+                        {volist name="area_x" id="item"}
                         <option value="{$item.id}" {if isset($area_id) && $area_id==$item['id']}selected{/if}>{$item.name}</option>
                         {/volist}
 
                     </select>
                 </div>
 
-                <div class="col-sm-12 col-md-4 col-lg-3">
-                    <label>参加活动：</label>
-                    <select name="activity_id" id="activity_id" class="form-control">
-                        <option value="">请选择参加活动类型</option>
-                        {volist name="activity" id="item"}
-                        <option value="{$item.id}" {if isset($activity_id) && $activity_id==$item['id']}selected{/if}>{$item.name}</option>
+                <div class="col-sm-12 col-md-4 col-lg-3" style="width: 50%;float: left;">
+                    <label>班别信息：</label>
+                    <select name="grade_id" id="grade_id" class="form-control">
+                        <option value="">请选择班别</option>
+                        <!--<option disabled>上线</option>
+                        {volist name="grade_x" id="item"}
+                        <option value="{$item.id}" {if isset($grade_id) && $grade_id==$item['id']}selected{/if}>{$item.name}({$item.version})</option>
                         {/volist}
+                        <option disabled>下线</option>
+                        {volist name="grade_s" id="item"}
+                        <option value="{$item.id}" {if isset($grade_id) && $grade_id==$item['id']}selected{/if}>{$item.name}({$item.version})</option>
+                        {/volist}-->
+
                     </select>
                 </div>
-
-
+                <div style="clear: both"></div>
                 <div class="col-sm-12 col-md-4 col-lg-3" style="width: 50%;float: left">
                     <label>学费状态：</label>
                     <select name="tuition_state" id="tuition_state" class="form-control">
@@ -139,21 +170,6 @@
                 </div>
                 <div style="clear: both"></div>
 
-                <div class="col-sm-12 col-md-4 col-lg-3" style="width: 50%;float: left;">
-                    <label>班别信息：</label>
-                    <select name="grade_id" id="grade_id" class="form-control">
-                        <option value="">请选择班别</option>
-                        <option disabled>上线</option>
-                        {volist name="grade_x" id="item"}
-                        <option value="{$item.id}" {if isset($grade_id) && $grade_id==$item['id']}selected{/if}>{$item.name}({$item.version})</option>
-                        {/volist}
-                        <option disabled>下线</option>
-                        {volist name="grade_s" id="item"}
-                        <option value="{$item.id}" {if isset($grade_id) && $grade_id==$item['id']}selected{/if}>{$item.name}({$item.version})</option>
-                        {/volist}
-
-                    </select>
-                </div>
                 <div class="col-sm-12 col-md-4 col-lg-3" style="width: 50%;float: left">
                     <br/>
                     <label>价格：</label>
@@ -203,8 +219,8 @@
                     <th>缴费时间</th>
                     <th>收款人</th>
                     <!--<th>收款备注</th>-->
-                    <th>状态</th>
                     <th>操作</th>
+                    <th>状态</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -272,7 +288,7 @@
 
                     </td>
                     <td>{$item.payee_name}</td>
-                    <!--<td>{$item.remark}</td>-->
+                    <!--<td>{$item.remark}</td>
                     <td>
                         {if condition=" $item['status'] eq 0 "}
                         <span class="label label-danger">退学</span>
@@ -280,16 +296,16 @@
                         <span class="label label-primary">正常</span>
                         {/if}
                     </td>
-
+                    -->
                     <td>
 
-                        <!--<a href="{:url('edit?id='.$item['id'])}" class="btn btn-info">编辑</a>-->
+                       <!--
                         {if $item['status']}
                         <a href="{:url('status?id='.$item['id'].'&status=0')}" class="btn btn-danger ajax-get">退学</a>
                         {else/}
                         <a href="{:url('status?id='.$item['id'].'&status=1')}" class="btn btn-success ajax-get">正常</a>
                         {/if}
-
+                        -->
 
                         {if condition="$is_sk"}
 
@@ -303,6 +319,15 @@
                         {/if}
                         <!--<a href="{:url('delete?id='.$item['id'])}" class="confirm ajax-get table-link">删除</a>-->
                     </td>
+
+                    <td>
+                        {if condition=" $item['status'] eq 0 "}
+                        <a href="javascript:" onclick="set_status({$item['id']})"  class="btn btn-danger" title="设置正常">退学</a>
+                        {else /}
+                        <a href="javascript:" onclick="set_status1({$item['id']})"  class="btn btn-primary" title="设置退学">正常</a>
+                        {/if}
+                    </td>
+
                 </tr>
                 {/volist}
                 </tbody>
@@ -320,6 +345,48 @@
 
 <script type="text/javascript" src="__PUBLIC__/js/bootstrap-editable.min.js"></script>
 <script type="text/javascript">
+
+    function set_status(id){
+        if(confirm("确定修改为正常？")){
+            $.ajax({
+                type:"GET",
+                url:"status?id="+id+"&status=1",
+                dataType:"json",
+                success:function(data){
+                    location.reload();
+                },
+                error:function(e){
+
+                }
+            });
+        }else{
+            $(".btn-primary").css("color","#fff");
+            return false;
+        }
+    }
+
+    function set_status1(id){
+        if(confirm("确定修改为退学？")){
+            $.ajax({
+                type:"GET",
+                url:"status?id="+id+"&status=0",
+                dataType:"json",
+                success:function(data){
+                    location.reload();
+                },
+                error:function(e){
+
+                }
+            });
+        }else{
+            $(".btn-primary").css("color","#fff");
+            return false;
+        }
+    }
+
+
+
+
     $(function () {
         $.fn.editable.defaults.mode = 'popup';
         $.fn.editableform.buttons = '<button type="submit" class="btn btn-success editable-submit btn-mini"><i class="fa fa-check-square-o fa-white"></i></button>' +
@@ -392,6 +459,34 @@
         $('tbody tr').click(function() {
             $('tbody tr').removeClass('on');
             $(this).addClass('on');
+        });
+
+
+        $("#area_id").change(function () {
+
+            $("#grade_id").html("<option>请选择班别</option>");
+            var area_id = $(this).val();
+            //alert(area_id);
+            $.post("{:url('ajax_grade')}",{area_id:area_id},function(data){
+                console.log(data);
+
+                if(data.status=="200"){
+                    var templates = "";
+
+                    console.log(data.data);
+
+                    for(var i=0;i<data.data.length;i++)
+                    {
+                        templates += '<option value="'+data.data[i]['id']+'" >'+data.data[i]['name']+'('+data.data[i]['version']+')</option>';
+
+
+                    }
+
+
+                    $("#grade_id").html(templates);
+                }
+            });
+
         });
 
     })

@@ -177,6 +177,7 @@ class User extends Base{
 			'uid'             => $user['uid'],
 			'username'        => $user['username'],
 			'last_login_time' => $user['last_login_time'],
+            'nickname' =>$user['nickname'],
 		);
 
 		session('user_auth', $auth);
