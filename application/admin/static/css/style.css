@@ -6853,6 +6853,7 @@ to {
 .theme-whbl .btn-primary {
 	background-color:#367fa9;
 	border-color:#2980b9;
+	color:#fff;
 }
 .theme-whbl .btn-primary:hover,.theme-whbl .btn-primary:focus,.theme-whbl .btn-primary:active,.theme-whbl .btn-primary.active,.theme-whbl .open .dropdown-toggle.btn-primary {
 	/*background-color:#2980b9;
