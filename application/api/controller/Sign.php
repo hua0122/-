@@ -321,7 +321,7 @@ class Sign extends Api
     //体检站列表
     public function get_station(){
         $where = [];
-        $where['sent_outfit.school_id'] = input('school_id','','trim,intval');
+        //$where['sent_outfit.school_id'] = input('school_id','','trim,intval');
         $station = db("Station")
             ->join('sent_outfit','sent_outfit.id=sent_station.outfit_id','left')
             ->field('sent_station.*,sent_outfit.name as outfit_name')
