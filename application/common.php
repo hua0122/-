@@ -1373,7 +1373,8 @@ function getRand($proArr) {
     $proSum = array_sum($proArr);
     //概率数组循环
     foreach ($proArr as $key => $proCur) {
-        $randNum = mt_rand(1, $proSum);
+        $randNum = randomFloat(0, $proSum);
+        //var_dump($randNum);
         if ($randNum <= $proCur) {
             $result = $key;
             break;
@@ -1384,6 +1385,10 @@ function getRand($proArr) {
     unset ($proArr);
 
     return $result;
+}
+
+function randomFloat($min = 0, $max = 1) {
+    return $min + mt_rand() / mt_getrandmax() * ($max - $min);
 }
 
 
