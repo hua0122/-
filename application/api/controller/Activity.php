@@ -687,8 +687,10 @@ class Activity extends Api
         }
         model("ActivityUser")->where(array("id"=>$id))->setField('is_share','1');
 
-        $info = model("ActivityUser")->field('tel')->find($id);
+        $info = model("ActivityUser")->field('name,tel')->find($id);
         if($info){
+
+            $info['name'] = substr_cut($info['name']);
             $info['tel'] = hide_phone($info['tel']);
         }
         return success($info);
