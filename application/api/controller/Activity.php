@@ -551,7 +551,7 @@ class Activity extends Api
         }
 
         //查询奖品是否已经发放完
-        $count = model("ActivityUser")->where("luck_name != '很遗憾,未中奖' and school_id=2")->count();
+        $count = model("ActivityUser")->where("luck_name != '很遗憾,未中奖' and school_id=1")->count();
         if($count<=142){
             $result['prize'] = $res['prize'];
         }else{
