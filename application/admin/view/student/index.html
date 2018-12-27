@@ -106,13 +106,13 @@
                     <label>参加活动：</label>
                     <select name="activity_id" id="activity_id" class="form-control">
                         <option value="">请选择参加活动类型</option>
-                        <option disabled>上线</option>
+                        <option disabled style="color: #000;">上线</option>
                         {volist name="activity_s" id="item"}
-                        <option value="{$item.id}" {if isset($activity_id) && $activity_id==$item['id']}selected{/if}>{$item.name}</option>
+                        <option value="{$item.id}" {if isset($activity_id) && $activity_id==$item['id']}selected{/if}>&nbsp;&nbsp;&nbsp;{$item.name}</option>
                         {/volist}
-                        <option disabled>下线</option>
+                        <option disabled style="color: #000;">下线</option>
                         {volist name="activity_x" id="item"}
-                        <option value="{$item.id}" {if isset($activity_id) && $activity_id==$item['id']}selected{/if}>{$item.name}</option>
+                        <option value="{$item.id}" {if isset($activity_id) && $activity_id==$item['id']}selected{/if}>&nbsp;&nbsp;&nbsp;{$item.name}</option>
                         {/volist}
 
                     </select>
@@ -125,13 +125,13 @@
                     <label>所属场地：</label>
                     <select name="area_id" id="area_id" class="form-control">
                         <option value="">请选择场地</option>
-                        <option disabled>启用</option>
+                        <option disabled style="color: #000;">启用</option>
                         {volist name="area_s" id="item"}
-                        <option value="{$item.id}" {if isset($area_id) && $area_id==$item['id']}selected{/if}>{$item.name}</option>
+                        <option value="{$item.id}" {if isset($area_id) && $area_id==$item['id']}selected{/if}>&nbsp;&nbsp;&nbsp;{$item.name}</option>
                         {/volist}
-                        <option disabled>禁用</option>
+                        <option disabled style="color: #000;">禁用</option>
                         {volist name="area_x" id="item"}
-                        <option value="{$item.id}" {if isset($area_id) && $area_id==$item['id']}selected{/if}>{$item.name}</option>
+                        <option value="{$item.id}" {if isset($area_id) && $area_id==$item['id']}selected{/if}>&nbsp;&nbsp;&nbsp;{$item.name}</option>
                         {/volist}
 
                     </select>
