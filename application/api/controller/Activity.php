@@ -517,63 +517,9 @@ class Activity extends Api
             return failMsg("电话号码不能为空");
         }
 
-        //查询是否已经登录
-        $is_have = model("ActivityUser")->where(array("tel"=>$tel))->find();
-        if(!$is_have){
-            return failLogin();
-        }
-        if($is_have['luck_name']!=NULL){
-            return failMsg("您已经抽过奖了");
-        }
-
-        $prize_arr = array(
-            '0' => array('id'=>1,'min'=>316,'max'=>360,'prize'=>'价值1288的小米平板4','v'=>0.48),//弧度：55°-80°范围是：“欢乐秀火锅聚会套餐500元”奖， v=10是中奖率是10%
-            '1' => array('id'=>2,'min'=>226,'max'=>270,'prize'=>'智能天猫精灵1台','v'=>2.38),
-            '2' => array('id'=>3,'min'=>46,'max'=>90,'prize'=>'品牌充电宝1个','v'=>7.14),
-            '3' => array('id'=>4,'min'=>136,'max'=>180,'prize'=>'100元秀火锅现金券','v'=>23.80),
-            '4' => array('id'=>5,'min'=>array(1,91,181,271,),'max'=>array(45,135,225,315),'prize'=>'很遗憾,未中奖','v'=>66.2),
-        );
-
-
-        foreach ($prize_arr as $key => $val) {
-            $arr[$val['id']] = $val['v'];
-        }
-        $rid = getRand($arr); //根据概率获取奖项id
-        $res = $prize_arr[$rid-1]; //中奖项
-        $min = $res['min'];
-        $max = $res['max'];
-
-        if($res['id']==5){ //未中奖
-            $i = mt_rand(0,3);
-            $result['angle'] = mt_rand($min[$i],$max[$i]);
-        }else{
-            $result['angle'] = mt_rand($min,$max); //随机生成一个角度
-        }
-
-        //查询奖品是否已经发放完
-        $count = model("ActivityUser")->where("luck_name != '很遗憾,未中奖' and school_id=1")->count();
-        if($count<=142){
-            $result['prize'] = $res['prize'];
-        }else{
-            $result['prize'] = "很遗憾,未中奖";
-        }
-
-
-
-        //存入数据库
-        $res = model("ActivityUser")->where(array("tel"=>$tel))->setField('luck_name',$result['prize']);
-        if(!$res) return failMsg();
-
-        return success($result);
-
-    }
-
-
-    //抽奖
-    public function luck_jxy(){
-        $tel = input("tel");
-        if(empty($tel)){
-            return failMsg("电话号码不能为空");
+        $school_id = input("school_id");
+        if(empty($school_id)){
+            return failMsg("学校id不能为空");
         }
 
         //查询是否已经登录
@@ -609,10 +555,44 @@ class Activity extends Api
             $result['angle'] = mt_rand($min,$max); //随机生成一个角度
         }
 
+        $where['school_id'] = $school_id;
         //查询奖品是否已经发放完
-        $count = model("ActivityUser")->where("luck_name != '很遗憾,未中奖' and school_id=2")->count();
-        if($count<=142){
-            $result['prize'] = $res['prize'];
+        if($res['prize']=="价值1288的小米平板4"){
+            $where['luck_name'] = "价值1288的小米平板4";
+            $count = model("ActivityUser")->where($where)->count();
+            if($count>=2){
+                $result['prize'] = "很遗憾,未中奖";
+
+            }else{
+                $result['prize'] = $res['prize'];
+            }
+        }elseif($res['prize']=="智能天猫精灵1台"){
+            $where['luck_name'] = "智能天猫精灵1台";
+            $count1 = model("ActivityUser")->where($where)->count();
+            if($count1>=10){
+                $result['prize'] = "很遗憾,未中奖";
+
+            }else{
+                $result['prize'] = $res['prize'];
+            }
+        }elseif($res['prize']=="品牌充电宝1个"){
+            $where['luck_name'] = "品牌充电宝1个";
+            $count2 = model("ActivityUser")->where($where)->count();
+            if($count2>=30){
+                $result['prize'] = "很遗憾,未中奖";
+
+            }else{
+                $result['prize'] = $res['prize'];
+            }
+        }elseif ($res['prize']=="100元秀火锅现金券"){
+            $where['luck_name'] = "100元秀火锅现金券";
+            $count3 = model("ActivityUser")->where($where)->count();
+            if($count3>=100){
+                $result['prize'] = "很遗憾,未中奖";
+
+            }else{
+                $result['prize'] = $res['prize'];
+            }
         }else{
             $result['prize'] = "很遗憾,未中奖";
         }
@@ -621,245 +601,13 @@ class Activity extends Api
 
         //存入数据库
         $res = model("ActivityUser")->where(array("tel"=>$tel))->setField('luck_name',$result['prize']);
+
         if(!$res) return failMsg();
 
         return success($result);
 
     }
 
-
-    //抽奖
-    public function luck_cn(){
-        $tel = input("tel");
-        if(empty($tel)){
-            return failMsg("电话号码不能为空");
-        }
-
-        //查询是否已经登录
-        $is_have = model("ActivityUser")->where(array("tel"=>$tel))->find();
-        if(!$is_have){
-            return failLogin();
-        }
-        if($is_have['luck_name']!=NULL){
-            return failMsg("您已经抽过奖了");
-        }
-
-        $prize_arr = array(
-            '0' => array('id'=>1,'min'=>316,'max'=>360,'prize'=>'价值1288的小米平板4','v'=>0.48),//弧度：55°-80°范围是：“欢乐秀火锅聚会套餐500元”奖， v=10是中奖率是10%
-            '1' => array('id'=>2,'min'=>226,'max'=>270,'prize'=>'智能天猫精灵1台','v'=>2.38),
-            '2' => array('id'=>3,'min'=>46,'max'=>90,'prize'=>'品牌充电宝1个','v'=>7.14),
-            '3' => array('id'=>4,'min'=>136,'max'=>180,'prize'=>'100元秀火锅现金券','v'=>23.80),
-            '4' => array('id'=>5,'min'=>array(1,91,181,271,),'max'=>array(45,135,225,315),'prize'=>'很遗憾,未中奖','v'=>66.2),
-        );
-
-
-        foreach ($prize_arr as $key => $val) {
-            $arr[$val['id']] = $val['v'];
-        }
-        $rid = getRand($arr); //根据概率获取奖项id
-        $res = $prize_arr[$rid-1]; //中奖项
-        $min = $res['min'];
-        $max = $res['max'];
-
-        if($res['id']==5){ //未中奖
-            $i = mt_rand(0,3);
-            $result['angle'] = mt_rand($min[$i],$max[$i]);
-        }else{
-            $result['angle'] = mt_rand($min,$max); //随机生成一个角度
-        }
-
-        //查询奖品是否已经发放完
-        $count = model("ActivityUser")->where("luck_name != '很遗憾,未中奖' and school_id=3")->count();
-        if($count<=142){
-            $result['prize'] = $res['prize'];
-        }else{
-            $result['prize'] = "很遗憾,未中奖";
-        }
-
-
-
-        //存入数据库
-        $res = model("ActivityUser")->where(array("tel"=>$tel))->setField('luck_name',$result['prize']);
-        if(!$res) return failMsg();
-
-        return success($result);
-
-    }
-
-    //抽奖
-    public function luck_xn(){
-        $tel = input("tel");
-        if(empty($tel)){
-            return failMsg("电话号码不能为空");
-        }
-
-        //查询是否已经登录
-        $is_have = model("ActivityUser")->where(array("tel"=>$tel))->find();
-        if(!$is_have){
-            return failLogin();
-        }
-        if($is_have['luck_name']!=NULL){
-            return failMsg("您已经抽过奖了");
-        }
-
-        $prize_arr = array(
-            '0' => array('id'=>1,'min'=>316,'max'=>360,'prize'=>'价值1288的小米平板4','v'=>0.48),//弧度：55°-80°范围是：“欢乐秀火锅聚会套餐500元”奖， v=10是中奖率是10%
-            '1' => array('id'=>2,'min'=>226,'max'=>270,'prize'=>'智能天猫精灵1台','v'=>2.38),
-            '2' => array('id'=>3,'min'=>46,'max'=>90,'prize'=>'品牌充电宝1个','v'=>7.14),
-            '3' => array('id'=>4,'min'=>136,'max'=>180,'prize'=>'100元秀火锅现金券','v'=>23.80),
-            '4' => array('id'=>5,'min'=>array(1,91,181,271,),'max'=>array(45,135,225,315),'prize'=>'很遗憾,未中奖','v'=>66.2),
-        );
-
-
-        foreach ($prize_arr as $key => $val) {
-            $arr[$val['id']] = $val['v'];
-        }
-        $rid = getRand($arr); //根据概率获取奖项id
-        $res = $prize_arr[$rid-1]; //中奖项
-        $min = $res['min'];
-        $max = $res['max'];
-
-        if($res['id']==5){ //未中奖
-            $i = mt_rand(0,3);
-            $result['angle'] = mt_rand($min[$i],$max[$i]);
-        }else{
-            $result['angle'] = mt_rand($min,$max); //随机生成一个角度
-        }
-
-        //查询奖品是否已经发放完
-        $count = model("ActivityUser")->where("luck_name != '很遗憾,未中奖' and school_id=4")->count();
-        if($count<=142){
-            $result['prize'] = $res['prize'];
-        }else{
-            $result['prize'] = "很遗憾,未中奖";
-        }
-
-
-
-        //存入数据库
-        $res = model("ActivityUser")->where(array("tel"=>$tel))->setField('luck_name',$result['prize']);
-        if(!$res) return failMsg();
-
-        return success($result);
-
-    }
-
-    //抽奖
-    public function luck_xxc(){
-        $tel = input("tel");
-        if(empty($tel)){
-            return failMsg("电话号码不能为空");
-        }
-
-        //查询是否已经登录
-        $is_have = model("ActivityUser")->where(array("tel"=>$tel))->find();
-        if(!$is_have){
-            return failLogin();
-        }
-        if($is_have['luck_name']!=NULL){
-            return failMsg("您已经抽过奖了");
-        }
-
-        $prize_arr = array(
-            '0' => array('id'=>1,'min'=>316,'max'=>360,'prize'=>'价值1288的小米平板4','v'=>0.48),//弧度：55°-80°范围是：“欢乐秀火锅聚会套餐500元”奖， v=10是中奖率是10%
-            '1' => array('id'=>2,'min'=>226,'max'=>270,'prize'=>'智能天猫精灵1台','v'=>2.38),
-            '2' => array('id'=>3,'min'=>46,'max'=>90,'prize'=>'品牌充电宝1个','v'=>7.14),
-            '3' => array('id'=>4,'min'=>136,'max'=>180,'prize'=>'100元秀火锅现金券','v'=>23.80),
-            '4' => array('id'=>5,'min'=>array(1,91,181,271,),'max'=>array(45,135,225,315),'prize'=>'很遗憾,未中奖','v'=>66.2),
-        );
-
-
-        foreach ($prize_arr as $key => $val) {
-            $arr[$val['id']] = $val['v'];
-        }
-        $rid = getRand($arr); //根据概率获取奖项id
-        $res = $prize_arr[$rid-1]; //中奖项
-        $min = $res['min'];
-        $max = $res['max'];
-
-        if($res['id']==5){ //未中奖
-            $i = mt_rand(0,3);
-            $result['angle'] = mt_rand($min[$i],$max[$i]);
-        }else{
-            $result['angle'] = mt_rand($min,$max); //随机生成一个角度
-        }
-
-        //查询奖品是否已经发放完
-        $count = model("ActivityUser")->where("luck_name != '很遗憾,未中奖' and school_id=5")->count();
-        if($count<=142){
-            $result['prize'] = $res['prize'];
-        }else{
-            $result['prize'] = "很遗憾,未中奖";
-        }
-
-
-
-        //存入数据库
-        $res = model("ActivityUser")->where(array("tel"=>$tel))->setField('luck_name',$result['prize']);
-        if(!$res) return failMsg();
-
-        return success($result);
-
-    }
-
-
-    //抽奖
-    public function luck_ydxc(){
-        $tel = input("tel");
-        if(empty($tel)){
-            return failMsg("电话号码不能为空");
-        }
-
-        //查询是否已经登录
-        $is_have = model("ActivityUser")->where(array("tel"=>$tel))->find();
-        if(!$is_have){
-            return failLogin();
-        }
-        if($is_have['luck_name']!=NULL){
-            return failMsg("您已经抽过奖了");
-        }
-
-        $prize_arr = array(
-            '0' => array('id'=>1,'min'=>316,'max'=>360,'prize'=>'价值1288的小米平板4','v'=>0.48),//弧度：55°-80°范围是：“欢乐秀火锅聚会套餐500元”奖， v=10是中奖率是10%
-            '1' => array('id'=>2,'min'=>226,'max'=>270,'prize'=>'智能天猫精灵1台','v'=>2.38),
-            '2' => array('id'=>3,'min'=>46,'max'=>90,'prize'=>'品牌充电宝1个','v'=>7.14),
-            '3' => array('id'=>4,'min'=>136,'max'=>180,'prize'=>'100元秀火锅现金券','v'=>23.80),
-            '4' => array('id'=>5,'min'=>array(1,91,181,271,),'max'=>array(45,135,225,315),'prize'=>'很遗憾,未中奖','v'=>66.2),
-        );
-
-
-        foreach ($prize_arr as $key => $val) {
-            $arr[$val['id']] = $val['v'];
-        }
-        $rid = getRand($arr); //根据概率获取奖项id
-        $res = $prize_arr[$rid-1]; //中奖项
-        $min = $res['min'];
-        $max = $res['max'];
-
-        if($res['id']==5){ //未中奖
-            $i = mt_rand(0,3);
-            $result['angle'] = mt_rand($min[$i],$max[$i]);
-        }else{
-            $result['angle'] = mt_rand($min,$max); //随机生成一个角度
-        }
-
-        //查询奖品是否已经发放完
-        $count = model("ActivityUser")->where("luck_name != '很遗憾,未中奖' and school_id=6")->count();
-        if($count<=142){
-            $result['prize'] = $res['prize'];
-        }else{
-            $result['prize'] = "很遗憾,未中奖";
-        }
-
-
-
-        //存入数据库
-        $res = model("ActivityUser")->where(array("tel"=>$tel))->setField('luck_name',$result['prize']);
-        if(!$res) return failMsg();
-
-        return success($result);
-
-    }
 
 
 
