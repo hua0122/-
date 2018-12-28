@@ -301,6 +301,8 @@ class Protect extends Api
         $deactivation = model("Protect")->where($w)->select();
         if($deactivation){
             foreach ($deactivation as $k=>$v){
+                $deactivation[$k]['deactivation_time'] = date("m.d",$v['deactivation_time'])."<br/>".date("H:i",$v['deactivation_time']);
+
                 if($v['status'] == 1){
                     $deactivation[$k]['status'] = "主动";
                 }elseif($v['status']==2){
@@ -310,7 +312,6 @@ class Protect extends Api
                 }else{
                     unset($deactivation[$k]);
                 }
-                $deactivation[$k]['deactivation_time'] = date("Y-m-d",$v['deactivation_time'])."<br/>".date("H:i",$v['deactivation_time']);
 
             }
         }
