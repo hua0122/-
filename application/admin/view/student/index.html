@@ -471,19 +471,28 @@
                 console.log(data);
 
                 if(data.status=="200"){
-                    var templates = "";
+                    var templates = "<option disabled style='color: #000'>上线</option>";
+                    var templates1 = "";
+                    var templates2 = "";
+                    var templates3 = "<option disabled style='color: #000'>下线</option>";
 
                     console.log(data.data);
 
                     for(var i=0;i<data.data.length;i++)
                     {
-                        templates += '<option value="'+data.data[i]['id']+'" >'+data.data[i]['name']+'('+data.data[i]['version']+')</option>';
+                        if(data.data[i]['status']==0){
+                            templates1 += '<option value="'+data.data[i]['id']+'" >&nbsp;&nbsp;&nbsp;'+data.data[i]['name']+'('+data.data[i]['version']+')</option>';
+
+                        }else{
+                            templates2 += '<option value="'+data.data[i]['id']+'" >&nbsp;&nbsp;&nbsp;'+data.data[i]['name']+'('+data.data[i]['version']+')</option>';
+
+                        }
 
 
                     }
 
 
-                    $("#grade_id").html(templates);
+                    $("#grade_id").html(templates+templates1+templates3+templates2);
                 }
             });
 
