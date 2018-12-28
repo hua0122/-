@@ -52,11 +52,11 @@
                     <td>{$item['name']}</td>
                     <td>{$item['outfit_name']}</td>
                     <td>{$item['address']}</td>
-                    <td class="open_map">
+                    <td class="open_map" style="position: relative">
                         <img src="/public/images/map1.png"  style="cursor: pointer;width: 30px;height: 30px;">
                         <input name="lng" readonly="readonly" type="hidden" size="11" class="lng" value="{$item['lng']}" style="border: none;">
                         <input name="lat" readonly="readonly" type="hidden" size="10" class="lat" value="{$item['lat']}" style="border: none;">
-                        <div class="bd_map" style="display: none; position: absolute;width: 300px;right: 285px;top:135px;z-index:-2017">
+                        <div class="bd_map" style="display: none; position: absolute;width: 300px;left: 0px;top:50px;z-index:-2017">
                             <table style="background-color:#f6f6f6;">
                                 <tbody>
                                 <tr>
