@@ -705,6 +705,16 @@ class Protect extends Api
         //下属成交 可选
         $data['num'] = 0;
 
+        //先查询所有团队成员的电话
+        $d = db("Department")->where(array("phone"=>$person))->find();
+        $p = db("Person")->where(array("department_id"=>$d['id']))->select();
+        $str = implode(',',array_column($p,'mobile'));//团队下面所有队员的电话号码
+
+        $w['person'] = array("in",$str);
+        $w['status'] = 4;
+        $data['num'] = model("Protect")->where($w)
+            ->count();
+
         return success($data);
     }
 }
