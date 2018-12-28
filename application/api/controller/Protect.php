@@ -703,7 +703,7 @@ class Protect extends Api
         $data['total']= model("Protect")->where(array("person"=>$person,"status"=>4))->count();
 
         //下属成交 可选
-        $data['num'] ="";
+        $data['num'] = 0;
 
         return success($data);
     }
