@@ -18,7 +18,7 @@ class Weixin_class {
 	    );
 		$sign = $this->get_signature($data,$school_id);
 
-		var_dump($data);
+		//var_dump($data);
 
 		$post = "<xml version='1.0' encoding='utf-8'>
 			<appid>$appid</appid>
@@ -27,7 +27,7 @@ class Weixin_class {
 			<out_trade_no>$out_trade_no</out_trade_no>
 			<sign>$sign</sign>
 		</xml>";
-		var_dump($post);
+		//var_dump($post);
 		$ch = curl_init();
 		// set URL and other appropriate options
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -38,7 +38,7 @@ class Weixin_class {
 		$data = curl_exec($ch);
 		curl_close($ch);
 
-        var_dump($data);
+        //var_dump($data);
 
 		$xml = simplexml_load_string($data);//转换post数据为simplexml对象
 		$res = "";

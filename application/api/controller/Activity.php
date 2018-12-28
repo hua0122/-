@@ -779,7 +779,11 @@ class Activity extends Api
         //echo  date("Y-m-d H:i:s","1545921187");
         include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
         $wx = new \Weixin_class();
-        var_dump($wx->orderquery("yc_mrJcavTkVIWKIVMIkxHt",'6'));
+        $res = $wx->orderquery("yc_mrJcavTkVIWKIVMIkxHt",'6');
+
+        if($res->return_code == "SUCCESS"&&$res->result_code == "SUCCESS"){
+            echo $res->trade_state;
+        }
     }
 
 
