@@ -298,6 +298,7 @@ class Protect extends Api
 
         //已脱保名单
         $w ['status'] = array("neq","0");
+        $w['person'] = $person;
         $deactivation = model("Protect")->where($w)->select();
         if($deactivation){
             foreach ($deactivation as $k=>$v){
