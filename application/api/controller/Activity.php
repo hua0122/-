@@ -561,7 +561,7 @@ class Activity extends Api
             $where['luck_name'] = "价值1288的小米平板4";
             $count = model("ActivityUser")->where($where)->count();
             if($count>=2){
-                $result['prize'] = "很遗憾,未中奖";
+                $result['prize'] = "很遗憾,该奖品已发放完";
 
             }else{
                 $result['prize'] = $res['prize'];
@@ -570,7 +570,7 @@ class Activity extends Api
             $where['luck_name'] = "智能天猫精灵1台";
             $count1 = model("ActivityUser")->where($where)->count();
             if($count1>=10){
-                $result['prize'] = "很遗憾,未中奖";
+                $result['prize'] = "很遗憾,该奖品已发放完";
 
             }else{
                 $result['prize'] = $res['prize'];
@@ -579,7 +579,7 @@ class Activity extends Api
             $where['luck_name'] = "品牌充电宝1个";
             $count2 = model("ActivityUser")->where($where)->count();
             if($count2>=30){
-                $result['prize'] = "很遗憾,未中奖";
+                $result['prize'] = "很遗憾,该奖品已发放完";
 
             }else{
                 $result['prize'] = $res['prize'];
@@ -588,7 +588,7 @@ class Activity extends Api
             $where['luck_name'] = "100元秀火锅现金券";
             $count3 = model("ActivityUser")->where($where)->count();
             if($count3>=100){
-                $result['prize'] = "很遗憾,未中奖";
+                $result['prize'] = "很遗憾,该奖品已发放完";
 
             }else{
                 $result['prize'] = $res['prize'];

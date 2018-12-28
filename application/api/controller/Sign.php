@@ -301,7 +301,12 @@ class Sign extends Api
                 //echo $url;
                 $signature = $wx->get_js_signature($nonceStr, $timeStamp, $url,$school_id);
                 //var_dump($unifiedOrderResult);exit();
-                $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
+                //$package = "prepay_id=" . $unifiedOrderResult->prepay_id;
+                if(isset($unifiedOrderResult->prepay_id)){
+                    $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
+                }else{
+                    return failMsg("网络出错，请再试一次");
+                }
                 $data = array("timeStamp" => $timeStamp, "nonceStr" => $nonceStr,
                     "package" => $package, "signType" => "MD5", "appId" => $appid);
 
@@ -423,7 +428,12 @@ class Sign extends Api
                     //echo $url;
                     $signature = $wx->get_js_signature($nonceStr, $timeStamp, $url,$school_id);
                     //var_dump($unifiedOrderResult);exit();
-                    $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
+                    if(isset($unifiedOrderResult->prepay_id)){
+                        $package = "prepay_id=" . $unifiedOrderResult->prepay_id;
+                    }else{
+                        return failMsg("网络出错，请再试一次");
+                    }
+                    //$package = "prepay_id=" . $unifiedOrderResult->prepay_id;
                     $data = array("timeStamp" => $timeStamp, "nonceStr" => $nonceStr,
                         "package" => $package, "signType" => "MD5", "appId" => $appid);
 
