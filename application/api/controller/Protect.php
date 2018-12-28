@@ -666,7 +666,7 @@ class Protect extends Api
         }
 
         //已保护
-        $data['total'] = model("Protect")->where(array("person"=>$person))->count();
+        $data['total'] = model("Protect")->where(array("person"=>$person,"status"=>0))->count();
         //即将过期 36小时内过期
         $sql = "select count(*) as num from sent_protect where person =".$person." and deactivation_time >NOW()-INTERVAL 36 HOUR";
         $res = Db::query($sql);
