@@ -774,6 +774,15 @@ class Activity extends Api
     }
 
 
+    public function ceshi(){
+
+        //echo  date("Y-m-d H:i:s","1545921187");
+        include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
+        $wx = new \Weixin_class();
+        var_dump($wx->orderquery("yc_mrJcavTkVIWKIVMIkxHt",'6'));
+    }
+
+
 
 
 }

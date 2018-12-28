@@ -4,7 +4,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/config.php';
 //微信信息
 class Weixin_class {
 	//查询订单
-	function orderquery($out_trade_no) {
+	function orderquery($out_trade_no,$school_id) {
 		$url ="https://api.mch.weixin.qq.com/pay/orderquery";
 		$appid = APPID;
 		$mchid = MACID;
@@ -16,15 +16,18 @@ class Weixin_class {
 		    'nonce_str'=>$nonce_str,
 		    'out_trade_no'=>$out_trade_no,
 	    );
-		$sign = $this->get_signature($data);
+		$sign = $this->get_signature($data,$school_id);
 
-		$post = "<xml>
+		var_dump($data);
+
+		$post = "<xml version='1.0' encoding='utf-8'>
 			<appid>$appid</appid>
 			<mch_id>$mchid</mch_id>
 			<nonce_str>$nonce_str</nonce_str>
 			<out_trade_no>$out_trade_no</out_trade_no>
 			<sign>$sign</sign>
 		</xml>";
+		var_dump($post);
 		$ch = curl_init();
 		// set URL and other appropriate options
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -34,6 +37,8 @@ class Weixin_class {
 		// grab URL, and printe
 		$data = curl_exec($ch);
 		curl_close($ch);
+
+        var_dump($data);
 
 		$xml = simplexml_load_string($data);//转换post数据为simplexml对象
 		$res = "";
