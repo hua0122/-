@@ -302,14 +302,15 @@ class Protect extends Api
         if($deactivation){
             foreach ($deactivation as $k=>$v){
                 if($v['status'] == 1){
-                    $deactivation[$k]['status'] = "主动脱保";
+                    $deactivation[$k]['status'] = "主动";
                 }elseif($v['status']==2){
-                    $deactivation[$k]['status'] = "超时脱保";
+                    $deactivation[$k]['status'] = "超时";
                 }elseif($v['status']==3){
-                    $deactivation[$k]['status'] = "助攻脱保";
+                    $deactivation[$k]['status'] = "助攻";
                 }else{
                     unset($deactivation[$k]);
                 }
+                $deactivation[$k]['deactivation_time'] = date("Y-m-d",$v['deactivation_time'])."<br/>".date("H:i",$v['deactivation_time']);
 
             }
         }
