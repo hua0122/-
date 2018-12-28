@@ -169,6 +169,8 @@ class Protect extends Api
         $is_have = model("Protect")->where(array("tel"=>$tel))->find();
 
         if($is_have){
+            $is_have['protect_time'] = date("Y-m-d H:i:s",$is_have['protect_time']);
+            $is_have['deactivation_time'] = date("Y-m-d H:i:s",$is_have['deactivation_time']);
 
             return fail($is_have,"学员已经被保护");
         }else{
