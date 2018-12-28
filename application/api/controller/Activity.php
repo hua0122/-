@@ -764,8 +764,8 @@ class Activity extends Api
 
 
         //组装发送消息内容
-        $openid = $wx->get_code("api/sendtemplate/send_msg");
-        $wx->send_template_msg($activity['school_id'],$openid,'花花');
+        //$openid = $wx->get_code("api/sendtemplate/send_msg");
+        //$wx->send_template_msg($activity['school_id'],$openid,'花花');
 
 
 
