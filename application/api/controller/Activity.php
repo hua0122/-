@@ -532,11 +532,11 @@ class Activity extends Api
         }
 
         $prize_arr = array(
-            '0' => array('id'=>1,'min'=>316,'max'=>360,'prize'=>'价值1288的小米平板4','v'=>0.48),//弧度：55°-80°范围是：“欢乐秀火锅聚会套餐500元”奖， v=10是中奖率是10%
-            '1' => array('id'=>2,'min'=>226,'max'=>270,'prize'=>'智能天猫精灵1台','v'=>2.38),
-            '2' => array('id'=>3,'min'=>46,'max'=>90,'prize'=>'品牌充电宝1个','v'=>7.14),
-            '3' => array('id'=>4,'min'=>136,'max'=>180,'prize'=>'100元秀火锅现金券','v'=>23.80),
-            '4' => array('id'=>5,'min'=>array(1,91,181,271,),'max'=>array(45,135,225,315),'prize'=>'很遗憾,未中奖','v'=>66.2),
+            '0' => array('id'=>1,'min'=>316,'max'=>360,'prize'=>'价值1288的小米平板4','v'=>0.36),//弧度：55°-80°范围是：“欢乐秀火锅聚会套餐500元”奖， v=10是中奖率是10%
+            '1' => array('id'=>2,'min'=>226,'max'=>270,'prize'=>'智能天猫精灵1台','v'=>1.8),
+            '2' => array('id'=>3,'min'=>46,'max'=>90,'prize'=>'品牌充电宝1个','v'=>5.5),
+            '3' => array('id'=>4,'min'=>136,'max'=>180,'prize'=>'100元秀火锅现金券','v'=>18.2),
+            '4' => array('id'=>5,'min'=>array(1,91,181,271,),'max'=>array(45,135,225,315),'prize'=>'很遗憾,未中奖','v'=>74.14),
         );
 
 
@@ -647,13 +647,50 @@ class Activity extends Api
 
     }
 
+
+    public function ceshi_luck1(){
+        header("content-type:text/html;charset='utf-8'");
+        $prize_arr = array(
+            '0' => array('id'=>1,'min'=>316,'max'=>360,'prize'=>'价值1288的小米平板4','v'=>0.36),//弧度：55°-80°范围是：“欢乐秀火锅聚会套餐500元”奖， v=10是中奖率是10%
+            '1' => array('id'=>2,'min'=>226,'max'=>270,'prize'=>'智能天猫精灵1台','v'=>1.8),
+            '2' => array('id'=>3,'min'=>46,'max'=>90,'prize'=>'品牌充电宝1个','v'=>5.5),
+            '3' => array('id'=>4,'min'=>136,'max'=>180,'prize'=>'100元秀火锅现金券','v'=>18.2),
+            '4' => array('id'=>5,'min'=>array(1,91,181,271,),'max'=>array(45,135,225,315),'prize'=>'很遗憾,未中奖','v'=>74.14),
+        );
+
+
+        foreach ($prize_arr as $key => $val) {
+            $arr[$val['id']] = $val['v'];
+        }
+
+
+
+        $rid = getRand($arr); //根据概率获取奖项id
+        $res = $prize_arr[$rid-1]; //中奖项
+        $min = $res['min'];
+        $max = $res['max'];
+        //var_dump($rid);
+
+        if($res['id']==5){ //未中奖
+            $i = mt_rand(0,3);
+            $result['angle'] = mt_rand($min[$i],$max[$i]);
+        }else{
+            $result['angle'] = mt_rand($min,$max); //随机生成一个角度
+        }
+
+
+        return  $res['prize'];
+
+
+    }
+
     public function ceshi_100(){
         $count = input('num');
         if(empty(input('num'))){
             $count = 100;
         }
         for ($i=0;$i<$count;$i++){
-            $arr[]=$this->ceshi_luck();
+            $arr[]=$this->ceshi_luck1();
             echo $this->ceshi_luck()."<br/>";
         }
         var_dump(array_count_values($arr));
