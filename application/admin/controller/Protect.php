@@ -40,7 +40,7 @@ class Protect extends Admin
         $order = "id desc";
 
         $list  = db('Protect')
-            ->where($map)->order($order)->paginate(10);
+            ->where($map)->order($order)->paginate(10,false,['query'=>request()->param()]);
         $data = $list->all();
 
         if($data){
@@ -104,7 +104,7 @@ class Protect extends Admin
 
 
         $order = "id desc";
-        $list  = db('Develop')->where($map)->order($order)->paginate(10);
+        $list  = db('Develop')->where($map)->order($order)->paginate(10,false,['query'=>request()->param()]);
         $data = $list->all();
 
         if($data){

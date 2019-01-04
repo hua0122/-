@@ -37,7 +37,7 @@ class Code extends Admin
         $list  = db('Test')
             ->join('sent_outfit','sent_outfit.id=sent_test.outfit_id','left')
             ->field('sent_test.*,sent_outfit.name as outfit_name')
-            ->where($map)->order($order)->paginate(10);
+            ->where($map)->order($order)->paginate(10,false,['query'=>request()->param()]);
 
         $data = array(
             'list' => $list,
@@ -230,7 +230,7 @@ class Code extends Admin
         $map = array();
 
         $order = "id desc";
-        $list  = db('Outfit')->where($map)->order($order)->paginate(10);
+        $list  = db('Outfit')->where($map)->order($order)->paginate(10,false,['query'=>request()->param()]);
 
         $data = array(
             'list' => $list,
@@ -345,7 +345,7 @@ class Code extends Admin
         $list  = db('Station')
             ->join('sent_outfit','sent_outfit.id=sent_station.outfit_id','left')
             ->field('sent_station.*,sent_outfit.name as outfit_name')
-            ->where($map)->order($order)->paginate(10);
+            ->where($map)->order($order)->paginate(10,false,['query'=>request()->param()]);
 
         $data = array(
             'list' => $list,
