@@ -385,6 +385,7 @@ class Protect extends Api
 
         $data['deactivation_time'] = time();
         $data['status'] = 1;
+
         $res = model("Protect")->save($data,array("id"=>$id));
         if($res){
             return success();
@@ -433,8 +434,8 @@ class Protect extends Api
 
         $data['deactivation_time'] = time()+$deactivation_time;
 
+        $res = model("Protect")->save(array("status"=>"1","deactivation_time"=>time()),array("id"=>$id));
 
-        $res = model("Protect")->where(array("id"=>$id))->setField('status','1');
         if($res){
 
             $result = model("Protect")->save($data);
