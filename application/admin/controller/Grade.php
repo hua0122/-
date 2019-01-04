@@ -25,8 +25,22 @@ class Grade extends Admin {
     public function index() {
         $map = array();
 
+
         if(isset($this->schoolid)){
             $map['school_id'] = $this->schoolid;
+        }else{
+
+            //根据角色ID查询当前学校ID
+            $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+            $where['group_id'] = $role_id['group_id'];
+            $where['rules'] = array('<>','');
+            $school_default = db("AuthGroupDetail")
+                ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                ->field('sent_auth_group_detail.*,sent_school.name')
+                ->where($where)->find();
+
+
+            $map['school_id'] = $school_default['school_id'];
         }
 
 
