@@ -167,7 +167,7 @@ class Protect extends Api
         $num = intval(30-$total);
 
         //查询学员是否已经被保护
-        $is_have = model("Protect")->where(array("tel"=>$tel))->find();
+        $is_have = model("Protect")->where(array("tel"=>$tel,"status"=>0))->find();
 
         if($is_have){
 
