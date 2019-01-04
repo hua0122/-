@@ -16,9 +16,24 @@ class Protect extends Admin
         $map = array();
         $keyword = input('keyword','', 'htmlspecialchars,trim');
         if(!empty($keyword)){
-            $map['person|tel|name'] = array('like', '%' .$keyword . '%');
+
+            $d_where['title'] = array('like', '%' .$keyword . '%');
+            $department = model("Department")->where($d_where)->find();
+
+            $p_where['username'] = array('like', '%' .$keyword . '%');
+            $person = model("Person")->where($p_where)->find();
+
+            if($department){
+                $map['person'] = $department['phone'];
+            }elseif($person){
+                $map['person'] = $person['mobile'];
+            }else{
+                $map['person|tel|name'] = array('like', '%' .$keyword . '%');
+
+            }
 
         }
+
 
         $order = "id desc";
 
@@ -65,7 +80,20 @@ class Protect extends Admin
 
         $keyword = input('keyword','', 'htmlspecialchars,trim');
         if(!empty($keyword)){
-            $map['person|tel|name'] = array('like', '%' .$keyword . '%');
+            $d_where['title'] = array('like', '%' .$keyword . '%');
+            $department = model("Department")->where($d_where)->find();
+
+            $p_where['username'] = array('like', '%' .$keyword . '%');
+            $person = model("Person")->where($p_where)->find();
+
+            if($department){
+                $map['person'] = $department['phone'];
+            }elseif($person){
+                $map['person'] = $person['mobile'];
+            }else{
+                $map['person|tel|name'] = array('like', '%' .$keyword . '%');
+
+            }
 
         }
 
