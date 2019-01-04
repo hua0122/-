@@ -200,9 +200,9 @@ class Protect extends Api
 
             if(date("Y-m-d",$is_have['deactivation_time'])==$str_today){
                 $is_have['deactivation_time'] = "今天".date("H:i:s",$is_have['deactivation_time']);
-            }elseif(date("Y-m-d",$is_have['protect_time'])==$str_tomorrow){
+            }elseif(date("Y-m-d",$is_have['deactivation_time'])==$str_tomorrow){
                 $is_have['deactivation_time'] = "明天".date("H:i:s",$is_have['deactivation_time']);
-            }elseif(date("Y-m-d",$is_have['protect_time'])==$str_afftertomorrow){
+            }elseif(date("Y-m-d",$is_have['deactivation_time'])==$str_afftertomorrow){
                 $is_have['deactivation_time'] = "后天".date("H:i:s",$is_have['deactivation_time']);
             }else{
                 $is_have['deactivation_time'] = date("Y-m-d H:i:s",$is_have['deactivation_time']);
