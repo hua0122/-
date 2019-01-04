@@ -163,14 +163,52 @@ class Protect extends Api
 
         $total = model("Protect")->where(array("person"=>$person,"status"=>0))->count();
 
+
         $num = intval(30-$total);
 
         //查询学员是否已经被保护
         $is_have = model("Protect")->where(array("tel"=>$tel))->find();
 
         if($is_have){
-            $is_have['protect_time'] = date("Y-m-d H:i:s",$is_have['protect_time']);
-            $is_have['deactivation_time'] = date("Y-m-d H:i:s",$is_have['deactivation_time']);
+
+            $str_today = date('Y-m-d'); //获取今天的日期 字符串 
+            $ux_today = strtotime($str_today); //将今天的日期字符串转换为 时间戳
+
+            $ux_tomorrow = $ux_today+3600*24;// 获取明天的时间戳
+            $str_tomorrow = date('Y-m-d',$ux_tomorrow);//获取明天的日期 字符串
+
+            $ux_afftertomorrow = $ux_today+3600*24*2;// 获取后天的时间戳
+            $str_afftertomorrow = date('Y-m-d',$ux_afftertomorrow);//获取后天的日期 字符串
+
+            //获取昨天的时间戳
+            $ux_yesterday = $ux_today-3600*24;
+            $str_yesterday = date("Y-m-d",$ux_yesterday);//获取昨天的日期 字符串
+
+            //获取前天的时间戳
+            $ux_beforeyesterday = $ux_today-3600*24*2;
+            $str_beforeyesterday = date("Y-m-d",$ux_beforeyesterday);//获取前天的日期 字符串
+
+            if(date("Y-m-d",$is_have['protect_time'])==$str_today){
+                $is_have['protect_time'] = "今天".date("H:i:s",$is_have['protect_time']);
+            }elseif(date("Y-m-d",$is_have['protect_time'])==$str_yesterday){
+                $is_have['protect_time'] = "昨天".date("H:i:s",$is_have['protect_time']);
+            }elseif(date("Y-m-d",$is_have['protect_time'])==$str_beforeyesterday){
+                $is_have['protect_time'] = "前天".date("H:i:s",$is_have['protect_time']);
+            }else{
+                $is_have['protect_time'] = date("Y-m-d H:i:s",$is_have['protect_time']);
+            }
+
+            if(date("Y-m-d",$is_have['deactivation_time'])==$str_today){
+                $is_have['deactivation_time'] = "今天".date("H:i:s",$is_have['deactivation_time']);
+            }elseif(date("Y-m-d",$is_have['protect_time'])==$str_tomorrow){
+                $is_have['deactivation_time'] = "明天".date("H:i:s",$is_have['deactivation_time']);
+            }elseif(date("Y-m-d",$is_have['protect_time'])==$str_afftertomorrow){
+                $is_have['deactivation_time'] = "后天".date("H:i:s",$is_have['deactivation_time']);
+            }else{
+                $is_have['deactivation_time'] = date("Y-m-d H:i:s",$is_have['deactivation_time']);
+            }
+
+
 
             return fail($is_have,"学员已经被保护");
         }else{
@@ -210,6 +248,7 @@ class Protect extends Api
         }
 
         $data['deactivation_time'] = time()+$deactivation_time;
+
         $res = model("Protect")->save($data);
         if($res){
             return success($data);
