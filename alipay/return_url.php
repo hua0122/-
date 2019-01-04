@@ -47,7 +47,10 @@ if($result) {//验证成功
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if('yc' == substr($out_trade_no,0,2)){
-        header("location:http://bmqdtest.yidianxueche.cn/dingji_active/index.html");
+        $url = WEBURL."/api/activity/alipay_success&sn=".$out_trade_no;
+        header("location:".$url);
+        //file_get_contents($url);
+        //echo "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
         exit();
     }
 

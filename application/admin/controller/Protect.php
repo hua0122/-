@@ -14,7 +14,11 @@ class Protect extends Admin
 
     public function index() {
         $map = array();
+        $keyword = input('keyword','', 'htmlspecialchars,trim');
+        if(!empty($keyword)){
+            $map['person|tel|name'] = array('like', '%' .$keyword . '%');
 
+        }
 
         $order = "id desc";
 
@@ -59,6 +63,12 @@ class Protect extends Admin
 
         $map = array();
 
+        $keyword = input('keyword','', 'htmlspecialchars,trim');
+        if(!empty($keyword)){
+            $map['person|tel|name'] = array('like', '%' .$keyword . '%');
+
+        }
+
 
         $order = "id desc";
         $list  = db('Develop')->where($map)->order($order)->paginate(10);
@@ -67,7 +77,9 @@ class Protect extends Admin
         if($data){
             foreach ($data as $k=>$v){
                 //先查询电话号码是合伙人还是队员
-                $d = model("Department")->where(array("phone"=>$v['person']))->find();
+                $w['phone'] = $v['person'];
+
+                $d = model("Department")->where($w)->find();
 
                 if($d){
                     $data[$k]['department'] = $d['title'];

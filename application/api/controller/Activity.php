@@ -821,6 +821,40 @@ class Activity extends Api
         if($res->return_code == "SUCCESS"&&$res->result_code == "SUCCESS"){
             echo $res->trade_state;
         }
+
+    }
+
+
+    //支付宝支付成功跳转页面
+    public function alipay_success(){
+        $sn =$_GET['sn'];
+        if (empty($sn)) {
+            exit();
+        }
+
+        $activity = model("ActivityUser")->where(array("sn"=>$sn))->find();
+        if($activity['school_id']==1){
+            header("location:http://aldjjx.yidianxueche.cn/dingji_active/index.html");
+            exit();
+        }elseif($activity['school_id']==2) {
+            header("location:http://aljxyjx.yidianxueche.cn/dingji_active/index.html");
+            exit();
+        }elseif($activity['school_id']==3) {
+            header("location:http://alcnjx.yidianxueche.cn/dingji_active/index.html");
+            exit();
+        }elseif($activity['school_id']==4) {
+            header("location:http://alxnjx.yidianxueche.cn/dingji_active/index.html");
+            exit();
+        }elseif($activity['school_id']==5) {
+            header("location:http://alxxc.yidianxueche.cn/dingji_active/index.html");
+            exit();
+        }elseif($activity['school_id']==6) {
+            header("location:http://alydxc.yidianxueche.cn/dingji_active/index.html");
+            exit();
+        }else{
+            header("location:http://ydxc.yidianxueche.cn/dingji_active/index.html");
+            exit();
+        }
     }
 
 
