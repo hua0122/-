@@ -161,7 +161,7 @@ class Protect extends Api
             return failLogin();
         }
 
-        $total = model("Protect")->where(array("person"=>$person))->count();
+        $total = model("Protect")->where(array("person"=>$person,"status"=>0))->count();
 
         $num = intval(30-$total);
 
