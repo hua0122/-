@@ -18,20 +18,22 @@ class Protect extends Admin
         if(!empty($keyword)){
 
             $d_where['title'] = array('like', '%' .$keyword . '%');
-            $department = model("Department")->where($d_where)->find();
+            $department = db("Department")->where($d_where)->select();
 
             $p_where['username'] = array('like', '%' .$keyword . '%');
-            $person = model("Person")->where($p_where)->find();
+            $person = db("Person")->where($p_where)->select();
 
             if($department){
-                $map['person'] = $department['phone'];
+                $str = implode(',',array_column($department,'phone'));
+                $map['person'] = array("in",$str);
             }elseif($person){
-                $map['person'] = $person['mobile'];
+                $str1 = implode(',',array_column($person,'mobile'));
+
+                $map['person'] = array("in",$str1);
             }else{
                 $map['person|tel|name'] = array('like', '%' .$keyword . '%');
 
             }
-
         }
 
 
@@ -80,21 +82,24 @@ class Protect extends Admin
 
         $keyword = input('keyword','', 'htmlspecialchars,trim');
         if(!empty($keyword)){
+
             $d_where['title'] = array('like', '%' .$keyword . '%');
-            $department = model("Department")->where($d_where)->find();
+            $department = db("Department")->where($d_where)->select();
 
             $p_where['username'] = array('like', '%' .$keyword . '%');
-            $person = model("Person")->where($p_where)->find();
+            $person = db("Person")->where($p_where)->select();
 
             if($department){
-                $map['person'] = $department['phone'];
+                $str = implode(',',array_column($department,'phone'));
+                $map['person'] = array("in",$str);
             }elseif($person){
-                $map['person'] = $person['mobile'];
+                $str1 = implode(',',array_column($person,'mobile'));
+
+                $map['person'] = array("in",$str1);
             }else{
                 $map['person|tel|name'] = array('like', '%' .$keyword . '%');
 
             }
-
         }
 
 
