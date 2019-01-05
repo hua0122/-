@@ -269,7 +269,7 @@ class Protect extends Api
         //根据时间分组排序 今天  明天  后天  最长五天就脱保了
         $where['status'] = '0';
         $where['person'] = $person;
-        $list = model("Protect")->where($where)->order("deactivation_time desc")->select();
+        $list = model("Protect")->where($where)->order("deactivation_time asc")->select();
         if($list){
             $str_today = date('Y-m-d'); //获取今天的日期 字符串 
             $ux_today = strtotime($str_today); //将今天的日期字符串转换为 时间戳
@@ -339,10 +339,33 @@ class Protect extends Api
         //已脱保名单
         $w ['status'] = array("neq","0");
         $w['person'] = $person;
-        $deactivation = model("Protect")->where($w)->select();
+        $deactivation = model("Protect")->where($w)->order("deactivation_time desc")->select();
         if($deactivation){
+            $str_today = date('Y-m-d'); //获取今天的日期 字符串 
+            $ux_today = strtotime($str_today); //将今天的日期字符串转换为 时间戳
+
+            //获取昨天的时间戳
+            $ux_yesterday = $ux_today-3600*24;
+            $str_yesterday = date("Y-m-d",$ux_yesterday);//获取昨天的日期 字符串
+
+            //获取前天的时间戳
+            $ux_beforeyesterday = $ux_today-3600*24*2;
+            $str_beforeyesterday = date("Y-m-d",$ux_beforeyesterday);//获取前天的日期 字符串
+
             foreach ($deactivation as $k=>$v){
-                $deactivation[$k]['deactivation_time'] = date("m.d",$v['deactivation_time'])."&nbsp;".date("H:i",$v['deactivation_time']);
+                if(date("Y-m-d",$v['deactivation_time'])==$str_today){
+                    $deactivation[$k]['deactivation_time'] = "今天"."&nbsp;".date("H:i",$v['deactivation_time']);
+
+                }elseif(date("Y-m-d",$v['deactivation_time'])==$str_yesterday){
+                    $deactivation[$k]['deactivation_time'] = "昨天"."&nbsp;".date("H:i",$v['deactivation_time']);
+
+                }elseif(date("Y-m-d",$v['deactivation_time'])==$str_beforeyesterday){
+                    $deactivation[$k]['deactivation_time'] = "前天"."&nbsp;".date("H:i",$v['deactivation_time']);
+
+                }else{
+                    $deactivation[$k]['deactivation_time'] = date("m.d",$v['deactivation_time'])."&nbsp;".date("H:i",$v['deactivation_time']);
+                }
+
 
                 if($v['status'] == 1){
                     $deactivation[$k]['status'] = "主动";

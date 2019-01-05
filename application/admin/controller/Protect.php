@@ -8,9 +8,15 @@
 
 namespace app\admin\controller;
 use app\common\controller\Admin;
+use think\Request;
 
 class Protect extends Admin
 {
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->schoolid = cookie("schoolid");
+    }
 
     public function index() {
         $map = array();
@@ -42,6 +48,23 @@ class Protect extends Admin
         $list  = db('Protect')
             ->where($map)->order($order)->paginate(10,false,['query'=>request()->param()]);
         $data = $list->all();
+
+        if(isset($this->schoolid)){
+            $map['school_id'] = $this->schoolid;
+        }else{
+
+            //根据角色ID查询当前学校ID
+            $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+            $where['group_id'] = $role_id['group_id'];
+            $where['rules'] = array('<>','');
+            $school_default = db("AuthGroupDetail")
+                ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                ->field('sent_auth_group_detail.*,sent_school.name')
+                ->where($where)->find();
+
+
+            $map['school_id'] = $school_default['school_id'];
+        }
 
         if($data){
             foreach ($data as $k=>$v){
