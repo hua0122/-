@@ -269,7 +269,7 @@ class Protect extends Api
         //根据时间分组排序 今天  明天  后天  最长五天就脱保了
         $where['status'] = '0';
         $where['person'] = $person;
-        $list = model("Protect")->where($where)->select();
+        $list = model("Protect")->where($where)->order("deactivation_time desc")->select();
         if($list){
             $str_today = date('Y-m-d'); //获取今天的日期 字符串 
             $ux_today = strtotime($str_today); //将今天的日期字符串转换为 时间戳
@@ -302,10 +302,11 @@ class Protect extends Api
                     $list['afftertomorrow'][] = $v;
                     $list['afftertomorrow']['time'] = "后天";
                 }else{
-                    //echo "星期".$weekarray[date("w",strtotime($v['deactivation_time']))];
 
-                    $list["星期".$weekarray[date("w",strtotime($v['deactivation_time']))]][] = $v;
-                    $list["星期".$weekarray[date("w",strtotime($v['deactivation_time']))]]['time'] = "星期".$weekarray[date("w",strtotime($v['deactivation_time']))];
+                    //echo "星期".$weekarray[date("w",strtotime($v['deactivation_time']))].date("Y-m-d",$v['deactivation_time']);
+
+                    $list["星期".$weekarray[date("w",$v['deactivation_time'])]][] = $v;
+                    $list["星期".$weekarray[date("w",$v['deactivation_time'])]]['time'] = "星期".$weekarray[date("w",$v['deactivation_time'])];
 
 
                 }
@@ -341,7 +342,7 @@ class Protect extends Api
         $deactivation = model("Protect")->where($w)->select();
         if($deactivation){
             foreach ($deactivation as $k=>$v){
-                $deactivation[$k]['deactivation_time'] = date("m.d",$v['deactivation_time'])."<br/>".date("H:i",$v['deactivation_time']);
+                $deactivation[$k]['deactivation_time'] = date("m.d",$v['deactivation_time'])."&nbsp;&nbsp;&nbsp;".date("H:i",$v['deactivation_time']);
 
                 if($v['status'] == 1){
                     $deactivation[$k]['status'] = "主动";
