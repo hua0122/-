@@ -622,7 +622,7 @@ class Protect extends Api
         if($res){
             return success($data);
         }else{
-            return  failMsg('失败');
+            return  failMsg('请做出修改');
         }
     }
 
