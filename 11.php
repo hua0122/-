@@ -1,9 +1,4 @@
 <?php
-//include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/config.php';
-//$url = WEBURL."/api/protect/crontab";
-//header("location:".$url);
-
-
 $con = new MySQLi("localhost","root","root","admin.yidianxueche.cn");
 //判断是否有错误
 
