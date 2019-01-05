@@ -12,7 +12,7 @@ if(mysqli_connect_error()){
 
 //写SQL语句
 
-$sql = "update sent_protect set status=2 where deactivation_time < unix_timestamp(now())";
+$sql = "update sent_protect set status=2 where deactivation_time < unix_timestamp(now()) and status=0";
 echo $sql;
 //执行SQL语句，返回结果集
 
