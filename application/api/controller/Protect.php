@@ -269,7 +269,7 @@ class Protect extends Api
         //根据时间分组排序 今天  明天  后天  最长五天就脱保了
         $where['status'] = '0';
         $where['person'] = $person;
-        $list = model("Protect")->where($where)->order("deactivation_time asc")->select();
+        $list = model("Protect")->where($where)->order("deactivation_time desc")->select();
         if($list){
             $str_today = date('Y-m-d'); //获取今天的日期 字符串 
             $ux_today = strtotime($str_today); //将今天的日期字符串转换为 时间戳
