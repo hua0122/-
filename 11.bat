@@ -1,0 +1,1 @@
+E:\hua\phpStudy\php\php-5.5.38\php.exe -q E:\hua\phpStudy\WWW\sentcms\11.php

@@ -781,4 +781,11 @@ class Protect extends Api
 
         return success($data);
     }
+
+
+    //crontab
+    public function crontab(){
+        $where['deactivation_time'] = array("lt",time());
+        model("Protect")->where($where)->setField('status','2');
+    }
 }
