@@ -535,7 +535,7 @@ class Protect extends Api
         }
 
         $map['person']= $person;
-        $list = model("Develop")->where($map)->select();
+        $list = model("Develop")->where($map)->order("develop_time desc")->select();
         if($list){
 
             $list = timeTo($list,'develop_time');

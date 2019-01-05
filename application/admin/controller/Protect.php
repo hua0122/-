@@ -19,38 +19,8 @@ class Protect extends Admin
     }
 
     public function index() {
-        $map = array();
-        $keyword = input('keyword','', 'htmlspecialchars,trim');
-        if(!empty($keyword)){
-
-            $d_where['title'] = array('like', '%' .$keyword . '%');
-            $department = db("Department")->where($d_where)->select();
-
-            $p_where['username'] = array('like', '%' .$keyword . '%');
-            $person = db("Person")->where($p_where)->select();
-
-            if($department){
-                $str = implode(',',array_column($department,'phone'));
-                $map['person'] = array("in",$str);
-            }elseif($person){
-                $str1 = implode(',',array_column($person,'mobile'));
-
-                $map['person'] = array("in",$str1);
-            }else{
-                $map['person|tel|name'] = array('like', '%' .$keyword . '%');
-
-            }
-        }
-
-
-        $order = "id desc";
-
-        $list  = db('Protect')
-            ->where($map)->order($order)->paginate(10,false,['query'=>request()->param()]);
-        $data = $list->all();
-
         if(isset($this->schoolid)){
-            $map['school_id'] = $this->schoolid;
+            $school_id = $this->schoolid;
         }else{
 
             //根据角色ID查询当前学校ID
@@ -63,8 +33,76 @@ class Protect extends Admin
                 ->where($where)->find();
 
 
-            $map['school_id'] = $school_default['school_id'];
+            $school_id = $school_default['school_id'];
         }
+
+
+        $map = array();
+        $keyword = input('keyword','', 'htmlspecialchars,trim');
+        if(!empty($keyword)){
+
+            $d_where['title'] = array('like', '%' .$keyword . '%');
+            $d_where['school_id'] = $school_id;
+            $department = db("Department")->where($d_where)->select();
+
+            $p_where['username'] = array('like', '%' .$keyword . '%');
+            $person = db("Person")->where($p_where)->select();
+
+            if($department){
+                $str = implode(',',array_column($department,'phone'));
+                $map['person'] = array("in",$str);
+            }elseif($person){
+                $str_ids = implode(',',array_column($person,'department_id'));//队员所属的所有合伙人id
+                $w['id'] = array("in",$str_ids);
+                $w['school_id'] = $school_id;
+                $department = db("Department")->where($w)->select(); //根据学校id查询到的合伙人id
+                $d_ids = implode(',',array_column($department,'id'));
+
+                $p_where['department_id'] = array("in",$d_ids);
+                $person = db("Person")->where($p_where)->select();
+
+                $str1 = implode(',',array_column($person,'mobile'));
+
+                $map['person'] = array("in",$str1);
+            }else{
+                $map['person|tel|name'] = array('like', '%' .$keyword . '%');
+
+            }
+        }
+
+
+
+        if($school_id){
+            $d_where['school_id'] = $school_id;
+            $department = db("Department")->where($d_where)->select();
+
+            if($department){
+                $str = implode(',',array_column($department,'phone'));//合伙人的电话
+
+                $d_ids = implode(',',array_column($department,'id'));
+
+                $p_where['department_id'] = array("in",$d_ids);
+                $person = db("Person")->where($p_where)->select();
+
+                $str1 = implode(',',array_column($person,'mobile'));//队员的电话
+
+
+
+                $map['person'] = array("in",$str.','.$str1);
+
+            }
+        }
+
+
+
+
+        $order = "id desc";
+
+        $list  = db('Protect')
+            ->where($map)->order($order)->paginate(10,false,['query'=>request()->param()]);
+        $data = $list->all();
+
+
 
         if($data){
             foreach ($data as $k=>$v){
@@ -86,7 +124,10 @@ class Protect extends Admin
                     }
                 }
             }
+
         }
+
+
 
         $data = array(
             'list' => $data,
@@ -100,6 +141,23 @@ class Protect extends Admin
 
     //开发记录
     public function develop(){
+        if(isset($this->schoolid)){
+            $school_id = $this->schoolid;
+        }else{
+
+            //根据角色ID查询当前学校ID
+            $role_id = db('AuthGroupAccess')->where(array("uid"=>session("user_auth.uid")))->find();
+            $where['group_id'] = $role_id['group_id'];
+            $where['rules'] = array('<>','');
+            $school_default = db("AuthGroupDetail")
+                ->join('sent_school','sent_school.id=sent_auth_group_detail.school_id','left')
+                ->field('sent_auth_group_detail.*,sent_school.name')
+                ->where($where)->find();
+
+
+            $school_id = $school_default['school_id'];
+        }
+
 
         $map = array();
 
@@ -107,6 +165,7 @@ class Protect extends Admin
         if(!empty($keyword)){
 
             $d_where['title'] = array('like', '%' .$keyword . '%');
+            $d_where['school_id'] = $school_id;
             $department = db("Department")->where($d_where)->select();
 
             $p_where['username'] = array('like', '%' .$keyword . '%');
@@ -116,11 +175,43 @@ class Protect extends Admin
                 $str = implode(',',array_column($department,'phone'));
                 $map['person'] = array("in",$str);
             }elseif($person){
+                $str_ids = implode(',',array_column($person,'department_id'));//队员所属的所有合伙人id
+                $w['id'] = array("in",$str_ids);
+                $w['school_id'] = $school_id;
+                $department = db("Department")->where($w)->select(); //根据学校id查询到的合伙人id
+                $d_ids = implode(',',array_column($department,'id'));
+
+                $p_where['department_id'] = array("in",$d_ids);
+                $person = db("Person")->where($p_where)->select();
+
                 $str1 = implode(',',array_column($person,'mobile'));
 
                 $map['person'] = array("in",$str1);
             }else{
                 $map['person|tel|name'] = array('like', '%' .$keyword . '%');
+
+            }
+        }
+
+
+
+        if($school_id){
+            $d_where['school_id'] = $school_id;
+            $department = db("Department")->where($d_where)->select();
+
+            if($department){
+                $str = implode(',',array_column($department,'phone'));//合伙人的电话
+
+                $d_ids = implode(',',array_column($department,'id'));
+
+                $p_where['department_id'] = array("in",$d_ids);
+                $person = db("Person")->where($p_where)->select();
+
+                $str1 = implode(',',array_column($person,'mobile'));//队员的电话
+
+
+
+                $map['person'] = array("in",$str.','.$str1);
 
             }
         }
