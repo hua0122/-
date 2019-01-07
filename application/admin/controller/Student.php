@@ -146,15 +146,33 @@ class Student extends Admin
             ->join('sent_grade','sent_grade.id=sent_student.grade_id','left')
             ->join('sent_area','sent_area.id=sent_student.area_id','left')
             ->join('sent_activity','sent_activity.id=sent_student.activity_id','left')
-
-            //->join('sent_person','sent_person.id=sent_student.inviter','left')
-            ->join('sent_department','sent_department.id=sent_student.inviter','left')
-
             ->join('sent_code','sent_code.id=sent_student.coupon','left')
             ->join('sent_coupon','sent_coupon.id=sent_code.coupon_id','left')
             ->join('sent_member','sent_member.uid=sent_student.payee','left')
-            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name,sent_activity.name as activity_name,sent_activity.gift,sent_activity.amount as activity_amount,sent_department.title as partner_name,sent_code.code,sent_coupon.name as coupon_name,sent_coupon.amount as coupon_amount,sent_member.nickname as payee_name')
+            ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name,sent_activity.name as activity_name,sent_activity.gift,sent_activity.amount as activity_amount,sent_code.code,sent_coupon.name as coupon_name,sent_coupon.amount as coupon_amount,sent_member.nickname as payee_name')
             ->where($map)->order($order)->paginate(5);
+            if($list){
+                foreach ($list as $k=>$v){
+                    if($v['inviter']){
+                        $d = db("Department")->find($v['inviter']);
+                        if($d){
+                            $list[$k]['partner_name'] = $d['title'];
+                            $list[$k]['username'] = '';
+                        }else{
+                            $p = db("Person")->find($v['inviter']);
+                            if($p){
+                                $d = db("Department")->find($p['department_id']);
+                                $list[$k]['partner_name'] = $d['title'];;
+                                $list[$k]['username'] = $p['username'];
+                            }
+
+                        }
+
+                    }
+
+                }
+            }
+
 
         $data = array(
             'list' => $list,
