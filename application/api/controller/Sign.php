@@ -231,17 +231,29 @@ class Sign extends Api
 
 
         //查询是否报名  不能重复报名
-        $is_have = model("Student")->where(array("openId" => $openid,"is_pay"=>"1"))->find();
+        $is_have = model("Student")->where(array("openId" => $openid))->find();
         if ($is_have) {
-            return failMsg("不能重复报名");
+            if($is_have['is_pay']==1||$is_have['pay_type']==3||$is_have['pay_type']==4){
+                return failMsg("不能重复报名");
+            }
+
+            $data['sign_date'] = time();//报名时间
+            //$data['openId'] = $openid;
+            $data['sn'] = "dj_" . rand_string(20);//订单编号
+
+            $res = model("Student")->save($data,array("openid"=>$openid));
+
+
+        }else{
+            $data['sign_date'] = time();//报名时间
+            $data['openId'] = $openid;
+            $data['sn'] = "dj_" . rand_string(20);//订单编号
+
+            $res = model("Student")->save($data);
         }
 
 
-        $data['sign_date'] = time();//报名时间
-        $data['openId'] = $openid;
-        $data['sn'] = "dj_" . rand_string(20);//订单编号
 
-        $res = model("Student")->save($data);
         if ($res) {
             //保存姓名、电话、身份证号码到用户表
             $data_user['name'] = $data['name'];
