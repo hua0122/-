@@ -148,7 +148,7 @@ class Student extends Admin
             ->join('sent_activity','sent_activity.id=sent_student.activity_id','left')
 
             //->join('sent_person','sent_person.id=sent_student.inviter','left')
-            ->join('sent_department','sent_department.id=sent_person.department_id','left')
+            ->join('sent_department','sent_department.id=sent_student.inviter','left')
 
             ->join('sent_code','sent_code.id=sent_student.coupon','left')
             ->join('sent_coupon','sent_coupon.id=sent_code.coupon_id','left')
