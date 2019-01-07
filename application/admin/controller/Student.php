@@ -171,9 +171,6 @@ class Student extends Admin
 
                     }
 
-                    if($v['pay_type']==1||$v['pay_type']==2&&$v['is_pay']==0){
-                        unset($data[$k]);
-                    }
 
                 }
             }
