@@ -147,7 +147,7 @@ class Student extends Admin
             ->join('sent_area','sent_area.id=sent_student.area_id','left')
             ->join('sent_activity','sent_activity.id=sent_student.activity_id','left')
 
-            ->join('sent_person','sent_person.id=sent_student.inviter','left')
+            //->join('sent_person','sent_person.id=sent_student.inviter','left')
             ->join('sent_department','sent_department.id=sent_person.department_id','left')
 
             ->join('sent_code','sent_code.id=sent_student.coupon','left')
@@ -161,7 +161,6 @@ class Student extends Admin
             'page' => $list->render(),
         );
 
-        var_dump($list);
 
         $this->assign($data);
         $this->assign('status',$status);
