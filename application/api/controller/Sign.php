@@ -90,7 +90,7 @@ class Sign extends Api
         $where = [];
         $where['downline_time'] = array('gt',time());
         $where['school_id'] = input('school_id','','trim,intval');
-        $res = db('Activity')->where($where)->limit(0, 3)->select();
+        $res = db('Activity')->where($where)->select();
         if($res){
             foreach($res as $k=>$v){
                 $res[$k]['picurl'] = get_cover($v['icon'],"path") ;
@@ -298,8 +298,6 @@ class Sign extends Api
                 //发送模板消息
                 include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
                 $wx = new \Weixin_class();
-
-                //$content = $wx->send_template_msg($sign['school_id'],$sign['openid'],$sign['name'],$sign['payable']);
                 $content = $wx->send_template_msg($school_id,$openid,$data['name'],$data['payable']);
 
 
@@ -330,9 +328,6 @@ class Sign extends Api
                     }
 
                 }
-
-
-
 
 
             }
@@ -528,6 +523,11 @@ class Sign extends Api
                 model('Test')->save($is_use,$where);
                 //赋值体检申请表里面的体检码
                 model("Apply")->where(array("id"=>$insert_id))->setField('code_id',$code_id);
+
+                //发送模板消息
+                include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
+                $wx = new \Weixin_class();
+                $content = $wx->send_template_msg($school_id,$data['openid'],$data['name'],$code_info[0]['verify']);
 
 
                 return json( ['status' => '2000', 'msg' => '申请成功'] );
