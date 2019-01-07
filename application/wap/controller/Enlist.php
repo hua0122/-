@@ -459,17 +459,77 @@ class Enlist extends Fornt
         model("Student")->save($updt,$where);
 
 
+        //增加活动报名人数
+        if(isset($sign['activity_id'])){
+            model("Activity")->where(array("id"=>$sign['activity_id']))->setInc('number',1);
+        }
+
+        //增加团队招生数
+        if(isset($sign['inviter'])){
+            $res = db("Department")->find($sign['inviter']);
+            if($res){
+                model("Department")->where(array("id"=>$sign['inviter']))->setInc('number',1);
+                model("Department")->where(array("id"=>$sign['inviter']))->setInc('total',1);
+            }else{
+                $person = db("Person")->find($sign['inviter']);
+                if($person){
+                    model("Person")->where(array("id"=>$sign['inviter']))->setInc('number',1);
+                    model("Department")->where(array("id"=>$person['department_id']))->setInc('total',1);
+                }
+
+            }
+        }
+
+        //修改优惠券使用状态
+        if(isset($sign['coupon'])){
+            model("Code")->where(array("id"=>$sign['coupon']))->setField('status','1');
+        }
+
+
+        //查询保护系统学员 如果该学员存在  修改其状态
+        $p = db("Protect")->where(array("tel"=>$sign['phone']))->find();
+
+        if($p){
+
+            if(isset($sign['inviter'])){
+                $d = db("Department")->find($sign['inviter']);
+                if($d){
+                    if($d['phone']==$p['person']){//如果报名时填写的推荐人号码和添加保护人的号码相同就是直接成交
+                        db("Protect")->where(array("tel"=>$sign['phone']))->setField('status','4');//已成交
+                    }else{
+                        db("Protect")->where(array("tel"=>$sign['phone']))->setField('status','3'); //助攻
+                    }
+                }else{
+                    $person = db("Person")->find($sign['inviter']);
+                    if($person){
+                        if($person['mobile']==$p['person']){
+                            db("Protect")->where(array("tel"=>$sign['phone']))->setField('status','4');//已成交
+                        }else{
+                            db("Protect")->where(array("tel"=>$sign['phone']))->setField('status','3'); //助攻
+                        }
+                    }
+
+                }
+            }
+
+        }
+
+
+
+
         //发送模板消息
         include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
         $wx = new \Weixin_class();
         $content = $wx->send_template_msg($sign['school_id'],$sign['openid'],$sign['name'],$sign['payable']);
 
-
-
-
         $file = fopen($_SERVER['DOCUMENT_ROOT'] . "/l_wx/send_template_msg.txt", "w") or die("Unable to open file!");
         fwrite($file, $content);
         fclose($file);
+
+
+
+
+
 
     }
 
