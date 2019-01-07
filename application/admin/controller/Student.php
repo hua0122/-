@@ -161,6 +161,8 @@ class Student extends Admin
             'page' => $list->render(),
         );
 
+        var_dump($list);
+
         $this->assign($data);
         $this->assign('status',$status);
         $this->assign('grade_id',$grade_id);
