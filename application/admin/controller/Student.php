@@ -54,11 +54,17 @@ class Student extends Admin
 
         }
 
-        //根据角色id和学校id查询是否有收款权限
-        if(strstr($sk['rules'],'69')){
-            $is_sk = true;
+        if (!IS_ROOT) {
+
+            //根据角色id和学校id查询是否有收款权限
+            if(strstr($sk['rules'],'69')){
+                $is_sk = true;
+            }else{
+                $is_sk = false;
+            }
+
         }else{
-            $is_sk = false;
+            $is_sk = true;
         }
         $this->assign("is_sk",$is_sk);
 
