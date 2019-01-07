@@ -89,6 +89,7 @@ class Sign extends Api
     {
         $where = [];
         $where['downline_time'] = array('gt',time());
+        $where['online_time'] = array('lt',time());
         $where['school_id'] = input('school_id','','trim,intval');
         $res = db('Activity')->where($where)->select();
         if($res){
