@@ -125,12 +125,14 @@ class Sign extends Api
             $res = model("Code")
                 ->join("sent_coupon",'sent_coupon.id=sent_code.coupon_id','left')
                 ->field('sent_code.*,sent_coupon.name')
-                ->where(array("code" => $code,"status"=>0))->find();
+                ->where(array("code" => $code,"sent_code.status"=>0))->find();
             if ($res) {
                 return success($res);
             } else {
                 return emptyResult('无效');
             }
+        }else{
+            return failMsg("参数错误");
         }
 
 
