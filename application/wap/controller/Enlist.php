@@ -458,11 +458,14 @@ class Enlist extends Fornt
         //修改学员报名表的支付状态
         model("Student")->save($updt,$where);
 
+
         //发送模板消息
         include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
         $wx = new \Weixin_class();
-
         $content = $wx->send_template_msg($sign['school_id'],$sign['openid'],$sign['name'],$sign['payable']);
+
+
+
 
         $file = fopen($_SERVER['DOCUMENT_ROOT'] . "/l_wx/send_template_msg.txt", "w") or die("Unable to open file!");
         fwrite($file, $content);
