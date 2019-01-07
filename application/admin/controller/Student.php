@@ -152,6 +152,7 @@ class Student extends Admin
             ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name,sent_activity.name as activity_name,sent_activity.gift,sent_activity.amount as activity_amount,sent_code.code,sent_coupon.name as coupon_name,sent_coupon.amount as coupon_amount,sent_member.nickname as payee_name')
             ->where($map)->order($order)->paginate(5);
             if($list){
+                $list = $list->all();
                 foreach ($list as $k=>$v){
                     if($v['inviter']){
                         $d = db("Department")->find($v['inviter']);
