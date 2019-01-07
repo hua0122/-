@@ -57,7 +57,7 @@
                                     {/if}
 
                                     <div id="fileList_cover_id" class="upload-file-list-info" style="width:280px;">
-
+                                        {if condition="$info['cover_id']"}
                                         <li class="affix-list-item" id="WU_FILE_0">
                                             <div class="upload-file-info">
                                                 <span class="webuploader-pick-file-close" data-queued-id="WU_FILE_0" data-id="{$info.cover_id}" data-fileurl="/uploads/picture/20181027/e608f82bb1fc064d4a6dabc5cbfaaae5.jpg"><i class="close"></i></span>
@@ -69,6 +69,7 @@
                                                 <img src="{:get_cover($info.cover_id,'path')}" class="img-responsive">
                                             </div>
                                         </li>
+                                        {/if}
 
                                     </div>
                                 </div>
