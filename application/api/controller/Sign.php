@@ -124,7 +124,7 @@ class Sign extends Api
         if (!empty($code)) {
             $res = model("Code")
                 ->join("sent_coupon",'sent_coupon.id=sent_code.coupon_id','left')
-                ->field('sent_code.*,sent_coupon..name')
+                ->field('sent_code.*,sent_coupon.name')
                 ->where(array("code" => $code,"status"=>0))->find();
             if ($res) {
                 return success($res);
