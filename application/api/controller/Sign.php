@@ -261,38 +261,77 @@ class Sign extends Api
             $data_user['card_id'] = $data['card'];
             $where['openid'] = $openid;
             model("WxUser")->save($data_user, $where);
-            //增加活动报名人数
-            if(isset($data['activity_id'])){
-                model("Activity")->where(array("id"=>$data['activity_id']))->setInc('number',1);
-            }
 
-            //增加团队招生数
-            if(isset($data['inviter'])){
-                $res = db("Department")->find($data['inviter']);
-                if($res){
-                    model("Department")->where(array("id"=>$data['inviter']))->setInc('number',1);
-                    model("Department")->where(array("id"=>$data['inviter']))->setInc('total',1);
-                }else{
-                    $person = db("Person")->find($data['inviter']);
-                    if($person){
-                        model("Person")->where(array("id"=>$data['inviter']))->setInc('number',1);
-                        model("Department")->where(array("id"=>$person['department_id']))->setInc('total',1);
+            //线下支付报名的直接增加   线上支付的 要支付回调成功之后再增加
+            if($data['pay_type']==3||$data['pay_type']==4){
+                //增加活动报名人数
+                if(isset($data['activity_id'])){
+                    model("Activity")->where(array("id"=>$data['activity_id']))->setInc('number',1);
+                }
+
+                //增加团队招生数
+                if(isset($data['inviter'])){
+                    $res = db("Department")->find($data['inviter']);
+                    if($res){
+                        model("Department")->where(array("id"=>$data['inviter']))->setInc('number',1);
+                        model("Department")->where(array("id"=>$data['inviter']))->setInc('total',1);
+                    }else{
+                        $person = db("Person")->find($data['inviter']);
+                        if($person){
+                            model("Person")->where(array("id"=>$data['inviter']))->setInc('number',1);
+                            model("Department")->where(array("id"=>$person['department_id']))->setInc('total',1);
+                        }
+
+                    }
+                }
+
+                //修改优惠券使用状态
+                if(isset($data['coupon'])){
+                    model("Code")->where(array("id"=>$data['coupon']))->setField('status','1');
+                }
+
+                //发送模板消息
+                include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
+                $wx = new \Weixin_class();
+
+                //$content = $wx->send_template_msg($sign['school_id'],$sign['openid'],$sign['name'],$sign['payable']);
+                $content = $wx->send_template_msg($school_id,$openid,$data['name'],$data['payable']);
+
+
+                //查询保护系统学员 如果该学员存在  修改其状态
+                $p = db("Protect")->where(array("tel"=>$data['phone']))->find();
+
+                if($p){
+
+                    if(isset($data['inviter'])){
+                        $d = db("Department")->find($data['inviter']);
+                        if($d){
+                            if($d['phone']==$p['person']){//如果报名时填写的推荐人号码和添加保护人的号码相同就是直接成交
+                                db("Protect")->where(array("tel"=>$data['phone']))->setField('status','4');//已成交
+                            }else{
+                                db("Protect")->where(array("tel"=>$data['phone']))->setField('status','3'); //助攻
+                            }
+                        }else{
+                            $person = db("Person")->find($data['inviter']);
+                            if($person){
+                                if($person['mobile']==$p['person']){
+                                    db("Protect")->where(array("tel"=>$data['phone']))->setField('status','4');//已成交
+                                }else{
+                                    db("Protect")->where(array("tel"=>$data['phone']))->setField('status','3'); //助攻
+                                }
+                            }
+
+                        }
                     }
 
                 }
+
+
+
+
+
             }
 
-            //修改优惠券使用状态
-            if(isset($data['coupon'])){
-                model("Code")->where(array("id"=>$data['coupon']))->setField('status','1');
-            }
-
-            //发送模板消息
-            include_once $_SERVER['DOCUMENT_ROOT'] . '/l_wx/weixin.php';
-            $wx = new \Weixin_class();
-
-            //$content = $wx->send_template_msg($sign['school_id'],$sign['openid'],$sign['name'],$sign['payable']);
-            $content = $wx->send_template_msg($school_id,$openid,$data['name'],$data['payable']);
 
 
 
