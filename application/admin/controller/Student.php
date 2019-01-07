@@ -152,19 +152,19 @@ class Student extends Admin
             ->field('sent_student.*,sent_grade.name as grade_name,sent_grade.price,sent_area.name as area_name,sent_activity.name as activity_name,sent_activity.gift,sent_activity.amount as activity_amount,sent_code.code,sent_coupon.name as coupon_name,sent_coupon.amount as coupon_amount,sent_member.nickname as payee_name')
             ->where($map)->order($order)->paginate(5);
             if($list){
-                $list = $list->all();
-                foreach ($list as $k=>$v){
+                $data = $list->all();
+                foreach ($data as $k=>$v){
                     if($v['inviter']){
                         $d = db("Department")->find($v['inviter']);
                         if($d){
-                            $list[$k]['partner_name'] = $d['title'];
-                            $list[$k]['username'] = '';
+                            $data[$k]['partner_name'] = $d['title'];
+                            $data[$k]['username'] = '';
                         }else{
                             $p = db("Person")->find($v['inviter']);
                             if($p){
                                 $d = db("Department")->find($p['department_id']);
-                                $list[$k]['partner_name'] = $d['title'];;
-                                $list[$k]['username'] = $p['username'];
+                                $data[$k]['partner_name'] = $d['title'];;
+                                $data[$k]['username'] = $p['username'];
                             }
 
                         }
@@ -176,7 +176,7 @@ class Student extends Admin
 
 
         $data = array(
-            'list' => $list,
+            'list' => $data,
             'page' => $list->render(),
         );
 
