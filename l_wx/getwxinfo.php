@@ -22,13 +22,13 @@ switch ($method) {//获取code
         elseif ($state == "ydxc_api"||$state == "ydxchd_api"){
             $appid = APPID;
         }
-        elseif ($state == "jxy_api"||$state == "jxyjxhd_api"){
+        elseif ($state == "jxyjx_api"||$state == "jxyjxhd_api"){
             $appid = APPID_JXY;
         }
-        elseif ($state == "cn_api"||$state == "cnjxhd_api"){
+        elseif ($state == "cnjx_api"||$state == "cnjxhd_api"){
             $appid = APPID_CN;
         }
-        elseif ($state == "xn_api"||$state == "xnjxhd_api"){
+        elseif ($state == "xnjx_api"||$state == "xnjxhd_api"){
             $appid = APPID_XN;
         }
         else{
@@ -80,15 +80,15 @@ switch ($method) {//获取code
             $appid = APPID;
             $appsecret = APPSECRET;
         }
-        elseif ($state == "jxy_api"||$state == "jxyjxhd_api"){
+        elseif ($state == "jxyjx_api"||$state == "jxyjxhd_api"){
             $appid = APPID_JXY;
             $appsecret = APPSECRET_JXY;
         }
-        elseif ($state == "cn_api"||$state == "cnjxhd_api"){
+        elseif ($state == "cnjx_api"||$state == "cnjxhd_api"){
             $appid = APPID_CN;
             $appsecret = APPSECRET_CN;
         }
-        elseif ($state == "xn_api"||$state == "xnjxhd_api"){
+        elseif ($state == "xnjx_api"||$state == "xnjxhd_api"){
             $appid = APPID_XN;
             $appsecret = APPSECRET_XN;
         }
@@ -237,15 +237,15 @@ switch ($method) {//获取code
             $appid = APPID;
             $appsecret = APPSECRET;
         }
-        elseif ($state == "jxy_api"||$state == "jxyjxhd_api"){
+        elseif ($state == "jxyjx_api"||$state == "jxyjxhd_api"){
             $appid = APPID_JXY;
             $appsecret = APPSECRET_JXY;
         }
-        elseif ($state == "cn_api"||$state == "cnjxhd_api"){
+        elseif ($state == "cnjx_api"||$state == "cnjxhd_api"){
             $appid = APPID_CN;
             $appsecret = APPSECRET_CN;
         }
-        elseif ($state == "xn_api"||$state == "xnjxhd_api"){
+        elseif ($state == "xnjx_api"||$state == "xnjxhd_api"){
             $appid = APPID_XN;
             $appsecret = APPSECRET_XN;
         }
